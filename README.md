@@ -5,8 +5,8 @@ I've built this project using Trystan's tutorial and asciipanel, more of which c
 
 ### Overview
 
-Explore procedurally generated rooms and caves while fighting Mutants, Droids and Rogues. You don't know where you are, you don't know 
-where you're going but you know you have to get out and find some answers. 
+[Explore](https://www.youtube.com/watch?v=YyoJRne0Knc) procedurally generated rooms and caves while fighting Mutants, Droids and Rogues. You don't know where you are, you don't know 
+where you're going but you know you have to get out and find some answers.
 
 ### The Plan
 

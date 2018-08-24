@@ -29,29 +29,35 @@ public class Message
 		ArrayList<String> choppedMsg = new ArrayList<>();
 		int wordCount = 0;
 		
-		Math.round(numLines);
+		Math.round(nl);
 		
-		// This loops fills up a string with words until it's at max length
+		System.out.println(numLines + " This is the num lines \n");
+		
+		// This loops fills up a line with words until it's at max length
 		for(int j = 0; j < numLines; j++)
 		{
 			String line = "";
 			int charCount = 0;
-			//This loops adds words to a string one by one until the next word wil exced the maxlnegth
-			while(charCount < ml -2 && wordCount < split.length)
+			//This loops adds words to a line one by one until the next word will exceed the maxlnegth
+			while(charCount < ml && wordCount < split.length)
 			{
 				String word = split[wordCount++];
 				word += " ";
-				charCount += word.length();
-				
-				line += word;
-				// This will add the line to a list once line is full or end of msg
-				if(charCount > ml - 2 || wordCount == split.length)
+				if(charCount + word.length() < ml)
 				{
-					System.out.println(line);
+					charCount += word.length();
+					line += word;
+				} // checks next word for length and if exceeds adds line
+				else if(wordCount < split.length && charCount + split[wordCount].length() > ml ) 
+				{
 					choppedMsg.add(line);
-					line = ""; // redundant clearing
+					charCount = ml;
+					--wordCount;
 				}
+				if(split.length == wordCount) // no more words
+					choppedMsg.add(line);
 			}
+			System.out.println(j);
 		}
 		
 		return choppedMsg;
@@ -59,6 +65,10 @@ public class Message
 	public String getFullMessage()
 	{
 		return msg;
+	}
+	public int maxLength()
+	{
+		return ml;
 	}
 	public int charCount()
 	{
@@ -71,5 +81,11 @@ public class Message
 	public ArrayList<String> getLines()
 	{
 		return lineList;
+	}
+	@Override
+	public String toString()
+	{
+		return msg;
+		
 	}
 }

@@ -20,6 +20,7 @@ import WorldBuilding.WorldBuilder;
 import asciiPanel.AsciiPanel;
 import items.Item;
 import items.ItemFactory;
+import javafx.scene.shape.Line;
 
 public class PlayScreen implements Screen 
 {
@@ -67,8 +68,9 @@ public class PlayScreen implements Screen
         introMessages.add("The ground is wet, and the air smells of metal.");
         introMessages.add("Your lungs burn from the fumes giving you a reason to wake.");
         introMessages.add("They were likely the reason you were out in the first place.");
-        introMessages.add("You recall last being tossed here, stolen of most of your possesions");
-        introMessages.add("and forced to start again. 'Not like that again', you think to yourself.");
+        introMessages.add("You recall last being tossed here, stolen of most of your possesions"
+        		+ "and forced to start again. 'Not like that again', you think to yourself.");
+        introMessages.add("'Hurry now', you think to yourself. 'Before they get me again'...");
         
         messages = new ArrayList<String>();
         if(messages.size() == 0)
@@ -163,59 +165,48 @@ public class PlayScreen implements Screen
 		// Loads toDisplay w/ lines to display
 		// lastIndex is the message counter
 		// j in the loop is incremented if multi line message
-		int lastIndex = msgList.size()-1; 
-		for(int dd = 0; dd < 10; dd++)
-		{
-			toDisplay.add(dd, "...");
-		}
-		for(int j = 0; j < 10; j++)
-		{
-
-			if(lastIndex >= 0)
-			{
-				if(msgList.get(lastIndex).numLines() < 1) // if single line msg
-					toDisplay.add(j, msgList.get(lastIndex).getFullMessage());
-				else // multi line message
-				{
-					ArrayList<String> lines = msgList.get(lastIndex).getLines();
-					for(int q = lines.size() - 1; q > -1; q--)
-					{
-						toDisplay.add(j, lines.get(q));
-						j++; // skips outer loop b/c line added
-					}
-				}
-			}
-			lastIndex--;
-		}
-		
-		
-		// toDisplay = msgMan.updateToDisplay(messages, screenWidth - xo); // maxlength
-		//messages = msgMan.returnUpdatedMessages();
-		System.out.println(toDisplay.size() + " size");
-		
-		for(String s : toDisplay)
-			System.out.println(s + "\n");
+		int lastIndex = msgList.size()-1;
 		
 		for (int i = 0; i < 10; i++)
 		{
-			if(toDisplay.get(i) != null)
+			if(lastIndex > -1)
 			{
-				int xi = 0;
-				
-				if(i == 0) // writes newest message in white
-				{
-					if(toDisplay.get(i).length() + xo < screenWidth)
-						terminal.write(toDisplay.get(i), xo, screenHeight+1);
+				if(i == 0)
+				{	
+					if(msgList.get(lastIndex).numLines() == 1)
+						terminal.write(msgList.get(lastIndex).toString(), xo, screenHeight+i+1, Color.WHITE);	
+					else
+					{
+						ArrayList<String> lines = msgList.get(lastIndex).getLines();
+
+						for(int q = 0; q < lines.size(); q++)
+						{
+							terminal.write(lines.get(q), xo, screenHeight + (i) + 1, Color.WHITE);
+							if(q != lines.size()-1)
+								i += 1;
+						}
+					}
+					lastIndex--;
 				}
 				else
 				{
-					if(toDisplay.get(i).length() + xo < screenWidth)
-						terminal.write(toDisplay.get(i), xo, i + screenHeight+1, Color.DARK_GRAY);
-					
+					if(msgList.get(lastIndex).numLines() == 1)
+						terminal.write(msgList.get(lastIndex).toString(), xo, screenHeight+i+1, Color.DARK_GRAY);	
+					else
+					{
+						ArrayList<String> lines = msgList.get(lastIndex).getLines();
+
+						for(int q = 0; q < lines.size(); q++)
+						{
+							terminal.write(lines.get(q), xo, screenHeight + (i) + 1, Color.DARK_GRAY);
+							if(q != lines.size()-1)
+								i += 1;
+						}
+					}
+					lastIndex--;
 				}
 			}
 		}
-	
 	}
 	public void splitIntoMoreLines(String s, int j, int xo)
 	{
@@ -430,7 +421,7 @@ public class PlayScreen implements Screen
 	@Override
 	public Screen respondToUserInput(KeyEvent key) 
 	{	
-		if(screenTicks < 5)
+		if(screenTicks < introMessages.size())
 		{
 			messages.add(introMessages.get(screenTicks++));
 			return this;

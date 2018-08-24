@@ -179,6 +179,7 @@ public class Entity implements Serializable
     			p = new Projectile(direction, new Point(x, y, z), Tile.Y_SMALL);
     			world.queueProjectile(p);
     			notify("Die suckers!");
+    			System.out.println(direction + " direction");
     		}
     }
     // Attacking, modifying HP, messages

@@ -1,4 +1,4 @@
-package Screens;
+package screens;
 
 import java.io.Serializable;
 import java.util.ArrayList;

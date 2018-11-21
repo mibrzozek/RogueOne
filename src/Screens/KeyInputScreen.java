@@ -1,13 +1,13 @@
-package Screens;
+package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import WorldBuilding.Palette;
-import WorldBuilding.Tile;
-import _Structures.TileEngine;
 import asciiPanel.AsciiPanel;
+import structures.TileEngine;
+import wolrdbuilding.Palette;
+import wolrdbuilding.Tile;
 
 public class KeyInputScreen implements Screen
 {

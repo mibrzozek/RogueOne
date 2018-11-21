@@ -1,13 +1,13 @@
-package Screens;
+package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
-import Character.Entity;
-import WorldBuilding.Palette;
-import WorldBuilding.TileSet;
-import _Structures.TileEngine;
 import asciiPanel.AsciiPanel;
+import entities.Entity;
+import structures.TileEngine;
+import wolrdbuilding.Palette;
+import wolrdbuilding.TileSet;
 
 public class CharacterSheet implements Screen
 {

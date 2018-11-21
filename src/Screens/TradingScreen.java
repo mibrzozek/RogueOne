@@ -1,7 +1,7 @@
-package Screens;
+package screens;
 
-import Character.Entity;
 import asciiPanel.AsciiPanel;
+import entities.Entity;
 import items.Item;
 
 import java.awt.Color;

@@ -1,14 +1,14 @@
-package Screens;
+package screens;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import Character.Entity;
-import WorldBuilding.Palette;
-import WorldBuilding.TilePoint;
-import WorldBuilding.TileSet;
-import _Structures.TileEngine;
 import asciiPanel.AsciiPanel;
+import entities.Entity;
+import structures.TileEngine;
+import wolrdbuilding.Palette;
+import wolrdbuilding.TilePoint;
+import wolrdbuilding.TileSet;
 
 public class LoseScreen implements Screen 
 {

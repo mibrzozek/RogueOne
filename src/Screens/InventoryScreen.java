@@ -1,4 +1,4 @@
-package Screens;
+package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import Character.Entity;
-import WorldBuilding.Tile;
 import asciiPanel.AsciiPanel;
+import entities.Entity;
 import items.Item;
+import wolrdbuilding.Tile;
 
 public class InventoryScreen extends ScrollingBasedScreen
 {

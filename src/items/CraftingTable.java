@@ -2,7 +2,7 @@ package items;
 
 import java.util.ArrayList;
 
-import Character.Entity;
+import entities.Entity;
 
 public class CraftingTable
 {

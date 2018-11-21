@@ -1,4 +1,4 @@
-package Screens;
+package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -7,10 +7,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-import WorldBuilding.Tile;
-import WorldBuilding.TileSet;
-import _Structures.TileEngine;
 import asciiPanel.AsciiPanel;
+import structures.TileEngine;
+import wolrdbuilding.Tile;
+import wolrdbuilding.TileSet;
 
 public class StartScreen implements Screen
 {

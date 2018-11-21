@@ -1,4 +1,4 @@
-package Screens;
+package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -6,9 +6,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
-import WorldBuilding.Tile;
 import asciiPanel.AsciiPanel;
 import items.Item;
+import wolrdbuilding.Tile;
 
 
 

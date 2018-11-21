@@ -1,11 +1,11 @@
-package Screens;
+package screens;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-import Character.Entity;
-import WorldBuilding.Palette;
 import asciiPanel.AsciiPanel;
+import entities.Entity;
+import wolrdbuilding.Palette;
 
 public class EscapeScreen extends singleListScrollingBasedScreen
 {

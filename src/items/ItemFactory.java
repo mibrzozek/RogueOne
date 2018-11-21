@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.util.Random;
 
-import WorldBuilding.World;
 import asciiPanel.AsciiPanel;
 import items.Item.Type;
+import wolrdbuilding.World;
 
 public class ItemFactory implements Serializable
 {

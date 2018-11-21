@@ -3,7 +3,7 @@ package items;
 import java.awt.Color;
 import java.io.Serializable;
 
-import Character.Entity;
+import entities.Entity;
 
 public class Item implements Serializable
 {

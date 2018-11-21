@@ -1,10 +1,10 @@
-package Screens;
+package screens;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
-import Character.Entity;
 import asciiPanel.AsciiPanel;
+import entities.Entity;
 import items.Item;
 import jdk.internal.org.objectweb.asm.tree.analysis.Value;
 

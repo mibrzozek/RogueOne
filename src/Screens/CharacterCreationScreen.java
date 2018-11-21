@@ -1,4 +1,4 @@
-package Screens;
+package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -6,18 +6,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import Character.Entity;
-import Character.EntityFactory;
-import Character.FieldOfView;
-import Character.Statistics;
-import WorldBuilding.Palette;
-import WorldBuilding.TilePoint;
-import WorldBuilding.TileSet;
-import WorldBuilding.World;
-import WorldBuilding.WorldBuilder;
-import _Structures.TileEngine;
 import asciiPanel.AsciiPanel;
+import entities.Entity;
+import entities.EntityFactory;
+import entities.FieldOfView;
+import entities.Statistics;
 import items.ItemFactory;
+import structures.TileEngine;
+import wolrdbuilding.Palette;
+import wolrdbuilding.TilePoint;
+import wolrdbuilding.TileSet;
+import wolrdbuilding.World;
+import wolrdbuilding.WorldBuilder;
 
 public class CharacterCreationScreen implements Screen
 {

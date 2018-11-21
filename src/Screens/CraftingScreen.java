@@ -1,13 +1,13 @@
-package Screens;
+package screens;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Character.Entity;
-import WorldBuilding.Tile;
 import asciiPanel.AsciiPanel;
+import entities.Entity;
 import items.Item;
+import wolrdbuilding.Tile;
 
 public class CraftingScreen extends ScrollingBasedScreen
 {

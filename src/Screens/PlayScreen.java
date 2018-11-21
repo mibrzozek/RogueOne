@@ -1,4 +1,4 @@
-package Screens;
+package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -10,22 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import Character.Entity;
-import Character.EntityFactory;
-import Character.FieldOfView;
-import Character.Statistics;
-import WorldBuilding.Palette;
-import WorldBuilding.PlanetPrinter;
-import WorldBuilding.Point;
-import WorldBuilding.Projectile;
-import WorldBuilding.Tile;
-import WorldBuilding.World;
-import WorldBuilding.WorldBuilder;
-import _Structures.TileEngine;
 import asciiPanel.AsciiPanel;
+import entities.Entity;
+import entities.EntityFactory;
+import entities.FieldOfView;
+import entities.Statistics;
 import items.Item;
 import items.ItemFactory;
 import javafx.scene.shape.Line;
+import structures.TileEngine;
+import wolrdbuilding.Palette;
+import wolrdbuilding.PlanetPrinter;
+import wolrdbuilding.Point;
+import wolrdbuilding.Projectile;
+import wolrdbuilding.Tile;
+import wolrdbuilding.World;
+import wolrdbuilding.WorldBuilder;
 
 public class PlayScreen implements Screen 
 {

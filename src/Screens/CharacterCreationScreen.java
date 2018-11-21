@@ -21,7 +21,7 @@ import wolrdbuilding.WorldBuilder;
 
 public class CharacterCreationScreen implements Screen
 {
-	private static final String DEFAULT_NAME = "Killing Smokes";
+	private static final String DEFAULT_NAME = "aKilling Smokes";
 	private static final String DEFAULT_ROLE = "Naysayer";
 	private transient AsciiPanel terminal;
 	private Screen subScreen;

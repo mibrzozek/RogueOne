@@ -17,10 +17,10 @@ public abstract class singleListScrollingBasedScreen implements Screen
     protected Screen OptionScreen = null;
     private Random r = new Random();
     
-    protected int index;
+    protected static int index = 0;
     
-    protected int scrollX;
-    protected int scrollY;
+    protected static int scrollX;
+    protected static int scrollY;
     
 	private int armXMax = 10;
 	private int armYMax = 10;
@@ -29,11 +29,18 @@ public abstract class singleListScrollingBasedScreen implements Screen
 	protected int boxWidth = 45;
 	protected int boxHeight = 20;
 	
-	protected int rx;
-	protected int ry;
+	protected static int rx;
+	protected static int ry;
 	
 	private boolean reRoll = true;
     protected boolean isSelected = false;
+	public singleListScrollingBasedScreen(Entity player, AsciiPanel terminal, int bw, int bh)
+	{
+    	this.player = player;
+    	this.other = other;
+    	this.boxWidth = bw;
+    	this.boxHeight = bh;
+	}
 	public singleListScrollingBasedScreen(Entity player, Entity other)
 	{
     	this.player = player;
@@ -49,7 +56,6 @@ public abstract class singleListScrollingBasedScreen implements Screen
 	public void displayOutput(AsciiPanel terminal)
 	{
 		renderArmAndBox(terminal);
-
 	}
 	public void renderArmAndBox(AsciiPanel terminal)
 	{	
@@ -97,21 +103,24 @@ public abstract class singleListScrollingBasedScreen implements Screen
     }
     public void scrollDown()
     {	
-
-    	if(ry - scrollY + 1 == 20)
-    		scrollY = ry;
+    	if(index == boxHeight - 3)
+    		scrollY = ry+1;
     	else
     		scrollY++;
     	index = scrollY-ry- 1;
     }
     public void scrollUp()
-    {	
-   
-    	if(scrollY - 1 == -1)
-    		scrollY = ry+19;
+    {
+    	if(index - 1 == -1)
+    		scrollY = ry+boxHeight -2 ;
     	else
     		scrollY--;
     	index = scrollY-ry -1;
+    }
+    @Override
+    public Screen returnScreen(Screen screen)
+    {
+    	 return null;
     }
     public void selectItem()
     {
@@ -128,7 +137,7 @@ public abstract class singleListScrollingBasedScreen implements Screen
         else
         {
         
-        	if (key.getKeyCode() == KeyEvent.VK_R)
+        	if (key.getKeyCode() == KeyEvent.VK_R ||key.getKeyCode() == KeyEvent.VK_ESCAPE )
         		return null;
         	else if(key.getKeyCode() == KeyEvent.VK_DOWN)
         	{	
@@ -153,7 +162,6 @@ public abstract class singleListScrollingBasedScreen implements Screen
         		
         			return this;
         		}
-       
         	}
         	else if(key.getKeyCode() == KeyEvent.VK_RIGHT)
         	{

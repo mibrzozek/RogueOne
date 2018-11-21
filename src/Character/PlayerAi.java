@@ -18,7 +18,12 @@ public class PlayerAi extends EntityAi
     	this.entity.setVisionRadius(12);
     	this.messages = messages;
     	this.fov = fov;
+    	
+    	this.entity.tagged = Tile.TAGGED_PLAYER;
     }
+    
+    public void setFOV(FieldOfView fov) 	{	this.fov = fov;	};
+    
     public void onEnter(int x, int y, int z, Tile tile)
     {
     	entity.setTradeMode(false);

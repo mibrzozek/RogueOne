@@ -137,6 +137,18 @@ public class CraftingScreen extends ScrollingBasedScreen
     	
     	terminal.write("Craft", rx+1, ry-1);
 	}
+	@Override
+	public Screen returnScreen(Screen screen)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void animate()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

@@ -149,5 +149,17 @@ public class InspectScreen implements Screen
     		
 		}
 		return this;
+	}
+	@Override
+	public Screen returnScreen(Screen screen)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void animate()
+	{
+		// TODO Auto-generated method stub
+		
 	}	
 }

@@ -2,17 +2,21 @@ package items;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.Random;
 
 import WorldBuilding.World;
 import asciiPanel.AsciiPanel;
+import items.Item.Type;
 
 public class ItemFactory implements Serializable
 {
 	private World world;
+	public Random r;
 	
 	public ItemFactory(World world)
 	{
 		this.world = world;
+		this.r = new Random();
 	}
 	public ItemFactory()
 	{
@@ -21,9 +25,60 @@ public class ItemFactory implements Serializable
 	// Weapons // Viles // Devices // Base
 	// Weapons //
 	// glyph, color, name, description, attack, defense, value relative to weapon type
+	
+	// Armoor
+	//Head
+	public Item newRuggedCap()
+	{
+		Item ruggedCap = new Item((char)131, AsciiPanel.brightBlue, Type.HEAD ,
+				"Rugged Cap", 
+				"It's like wearing a rug on your head!",
+				0, 200
+				, 250);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), ruggedCap);
+		return ruggedCap;
+	}
+	//TORSOO
+	public Item newLoinCloth()
+	{
+		Item loinCloth = new Item((char)131, AsciiPanel.brightBlue, Type.TORSO ,
+				"Loin Cloth", 
+				"It's better than being naked!",
+				0, 200
+				, 250);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), loinCloth);
+		return loinCloth;
+	}
+	//Arms
+	public Item newRacingGloves()
+	{
+		Item racingGloves = new Item((char)131, AsciiPanel.brightBlue, Type.ARMS,
+				"Racing Gloves", 
+				"It's like wearing a rug on your head!",
+				0, 200
+				, 250);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), racingGloves);
+		return racingGloves;
+	}
+	//LEGS
+	public Item newDankBoots()
+	{
+		Item dankBoots = new Item((char)131, AsciiPanel.brightBlue, Type.LEGS ,
+				"Dank Boots", 
+				"It's like wearing a rug on your head!",
+				0, 200
+				, 250);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), dankBoots);
+		return dankBoots;
+	}
+	
 	public Item newMusketGun()
 	{
-		Item musketGun = new Item((char)131, AsciiPanel.brightBlue, "gun" ,
+		Item musketGun = new Item((char)131, AsciiPanel.brightBlue, Type.GUN ,
 				"Musket Gun", 
 				"Another revistited classic, the musket is slow to shoot, and slow to kill."
 				+ "It's slow and small rounds don't even damage the loot your soon to be slain enemy"
@@ -32,12 +87,12 @@ public class ItemFactory implements Serializable
 				200, 0
 				, 250);
 		if(world != null)
-			world.spawnInside(musketGun);
+			world.spawnInside(r.nextInt(5), musketGun);
 		return musketGun;
 	}
 	public Item newScopedRifle()
 	{
-		Item scopedRifle = new Item((char)131, AsciiPanel.brightBlue, "gun" ,
+		Item scopedRifle = new Item((char)131, AsciiPanel.brightBlue, Type.GUN ,
 				"Scoped Rifle", 
 				"A classic hunting rifle, with a proper 8x scope, quick bullet travel and "
 				+ "deals absolutely massive damage. Hard to use, but quite the reward when you make the shot."
@@ -47,12 +102,12 @@ public class ItemFactory implements Serializable
 				200, 0
 				, 250);
 		if(world != null)
-			world.spawnInside(scopedRifle);
+			world.spawnInside(r.nextInt(5), scopedRifle);
 		return scopedRifle;
 	}
 	public Item newMacroUzi()
 	{
-		Item macroUzi = new Item((char)131, AsciiPanel.brightBlue, "gun" ,
+		Item macroUzi = new Item((char)131, AsciiPanel.brightBlue, Type.GUN ,
 				"Macro Uzi", 
 				"The sucessor of the beloved micro, the macro is everthing that the micrco was, "
 				+ "but in a completely macro way. Macro stock, macro compensator, and macro skins."
@@ -62,12 +117,12 @@ public class ItemFactory implements Serializable
 				100, 0
 				, 250);
 		if(world != null)
-			world.spawnInside(macroUzi);
+			world.spawnInside(r.nextInt(5), macroUzi);
 		return macroUzi;
 	}
 	public Item newSmartSword()
 	{
-		Item smartSword = new Item('\\', AsciiPanel.brightBlue, "gun" ,
+		Item smartSword = new Item('\\', AsciiPanel.brightBlue, Type.GUN ,
 				"Smart Sword", 
 				"You've come across a 5th generation smart sword, equipped with auto beheading algorithms"
 				+ " and boomerang functionality, this smart sword is good for close quarters combat along with"
@@ -75,12 +130,12 @@ public class ItemFactory implements Serializable
 				100, 100
 				,250);
 		if(world != null)
-			world.spawnInside(smartSword);
+			world.spawnInside(r.nextInt(5), smartSword);
 		return smartSword;
 	}
 	public Item newDevSword()
 	{
-		Item devSword = new Item('|', AsciiPanel.brightBlue, "gun" ,
+		Item devSword = new Item('|', AsciiPanel.brightBlue, Type.GUN ,
 				"Dev Sword", 
 				"This is the almighty and powerfull, totally not overpowerd, completely super easy to find and weild Developemental tool."
 				+ "It is said thay many men fear anyone who wields this beast. They will pee there pants as they see you and will still be"
@@ -92,7 +147,7 @@ public class ItemFactory implements Serializable
 	}
 	public Item newWinchester2194()
 	{
-		Item winchester2194 = new Item('+', Color.white, "gun" ,
+		Item winchester2194 = new Item('+', Color.white, Type.GUN ,
 				"Winchester 2194", 
 				"The 300 year annivesary edition of a classic, the Winchester Model 1894 hunting rifle."
 				+ " You can see this particular one if quite old, beat up, and in need of some cleaning."
@@ -100,14 +155,14 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 1000);
 		if(world != null)
-			world.spawnInside(winchester2194);
+			world.spawnInside(r.nextInt(5), winchester2194);
 		
 		return winchester2194;
 	}
 	// Viles //
 	public Item newVileOfNanobots()
 	{
-		Item vileOfNanobots = new Item('v', Color.white, "vile" ,
+		Item vileOfNanobots = new Item('v', Color.white, Type.GUN ,
 				"Vile Of Nanobots", 
 				"A small diamond vile filled with a healthy dose of little nano critters."
 				+ " Be cautious about breaking one of these; who knows what some loose nanobots can"
@@ -115,14 +170,14 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 1000);
 		if(world != null)
-			world.spawnInside(vileOfNanobots);
+			world.spawnInside(r.nextInt(5), vileOfNanobots);
 		
 		return vileOfNanobots;
 		
 	}
 	public Item newNeuralVile()
 	{
-		Item neuralVile = new Item('`', Color.white, "vile" ,
+		Item neuralVile = new Item('`', Color.white, Type.GUN ,
 				"Neural Vile", 
 				"Filled with dopamines, sugars, vitamins, minerals and stem matter for a boost to nyour vitals."
 				+ " Be carefull about taking too much or you might be able to develope a dependency. These aren't too "
@@ -130,14 +185,27 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 200);
 		if(world != null)
-			world.spawnInside(neuralVile);
+			world.spawnInside(r.nextInt(5), neuralVile);
 		
 		return neuralVile;
 	}
 	// Devices // Used to gain an edge in playing
+	public Item newWallBomb()
+	{
+		Item wallBomb = new Item('*', Color.cyan, Type.GUN ,
+				"Wall Bomb", 
+				"Stuck in a room with no doors? Grab this handy"
+				+ "  wall bomb and place it oewhere. It will digg aa tunnel for you!",
+				0, 0
+				, 200);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), wallBomb);
+		
+		return wallBomb;
+	}
 	public Item newEnergySiphon()
 	{
-		Item energySiphon = new Item('`', Color.white, "device" ,
+		Item energySiphon = new Item('`', Color.white, Type.GUN ,
 				"Energy Siphon", 
 				"A device which allows you to siphon energy form the area around you."
 				+ " When properly integrated, the siphon, using energy transmitted through the air, "
@@ -145,13 +213,13 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 200);
 		if(world != null)
-			world.spawnInside(energySiphon);
+			world.spawnInside(r.nextInt(5), energySiphon);
 		
 		return energySiphon;
 	}
 	public Item newTemporalScanner()
 	{
-		Item temporalScanner = new Item('~', Color.YELLOW,  "device" ,
+		Item temporalScanner = new Item('~', Color.YELLOW,  Type.GUN ,
 				"Temporal Scanner", 
 				"This high fidelity device scans the time and space around you, allowing for an acurate"
 				+ " read out of your surrondings. This unit drains energy quickly so you'll have to "
@@ -159,7 +227,7 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 1000);
 		if(world != null)
-			world.spawnInside(temporalScanner);
+			world.spawnInside(r.nextInt(5), temporalScanner);
 		
 		return temporalScanner;
 		
@@ -167,13 +235,13 @@ public class ItemFactory implements Serializable
 
 	public Item newMiningBeam()
 	{
-		Item miningBeam = new Item('=', Color.GRAY,  "device" ,
+		Item miningBeam = new Item('=', Color.GRAY,  Type.GUN ,
 				"Mining Beam", 
 				"Standard issue industrial mining beam. Good for cutting rocks.",
 				0, 0
 				, 20);
 		if(world != null)
-			world.spawnInside(miningBeam);
+			world.spawnInside(r.nextInt(5), miningBeam);
 		
 		return miningBeam;
 	}
@@ -181,7 +249,7 @@ public class ItemFactory implements Serializable
 
 	public Item newVileOfBioReactant()
 	{
-		Item bioReactant = new Item((char)239, Color.BLUE,  "vile" ,
+		Item bioReactant = new Item((char)239, Color.BLUE,  Type.GUN ,
 				"Bio Chemical Reactant", 
 				"You've scored a vile of bio chemical mutant reactant which means you'll"
 				+ " be able to  mutate yourself. This stuff is addictive, like tatoos, or heroin, "
@@ -189,14 +257,14 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 500);
 		if(world != null)
-			world.spawnInside(bioReactant);
+			world.spawnInside(r.nextInt(5), bioReactant);
 		
 		return bioReactant;
 		
 	}
 	public Item newHeatShieldShard()
 	{
-		Item heatShieldShard = new Item((char)239, Color.BLUE,  "rare" ,
+		Item heatShieldShard = new Item((char)239, Color.BLUE,  Type.GUN ,
 				"Heat Shield Shard", 
 				"A shard of shield which must have fallen off a scaled industrial heat shield."
 				+ " These things are rare so hold on to it. Be careful, you might be in trouble "
@@ -205,14 +273,14 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 500);
 		if(world != null)
-			world.spawnInside(heatShieldShard);
+			world.spawnInside(r.nextInt(5), heatShieldShard);
 		
 		return heatShieldShard;
 		
 	}
 	public Item newStickOfRam()
 	{
-		Item stickOfRam = new Item((char)95, Color.BLUE,  "base" ,
+		Item stickOfRam = new Item((char)95, Color.BLUE,  Type.GUN ,
 				"Stick of RAM", 
 				"A good ole, standard size, 1 TB stick of ram."
 				+ "This stck happens to have a stylized red casing, with rgb light hooks, and "
@@ -220,14 +288,14 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 500);
 		if(world != null)
-			world.spawnInside(stickOfRam);
+			world.spawnInside(r.nextInt(5), stickOfRam);
 		
 		return stickOfRam;
 		
 	}
 	public Item newPlasmaPack()
 	{
-		Item plasmaPack = new Item((char)253, Color.CYAN,  "aplasma" ,
+		Item plasmaPack = new Item((char)253, Color.CYAN,  Type.APLASMA ,
 				"Plasma Pack", 
 				"A pack of plasma pods, precisely six, good for cracking with the boys"
 				+ " on a hunger starved night when nothing else is around. "
@@ -235,14 +303,14 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 500);
 		if(world != null)
-			world.spawnInside(plasmaPack);
+			world.spawnInside(r.nextInt(5), plasmaPack);
 		
 		return plasmaPack;
 		
 	}
 	public Item newPlasmaPod()
 	{
-		Item plasmaPod = new Item((char)249, Color.CYAN, "aplasma" ,
+		Item plasmaPod = new Item((char)249, Color.CYAN, Type.APLASMA ,
 				"Plasma Pod", 
 				"A small plasma pod which will hold your plasma nicely podded up."
 				+ " Completely not likely to leak in your bag, so don't worry if you're afraid of breaking it."
@@ -250,14 +318,14 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 500);
 		if(world != null)
-			world.spawnInside(plasmaPod);
+			world.spawnInside(r.nextInt(5), plasmaPod);
 		
 		return plasmaPod;
 		
 	}
 	public Item newPlasmaJuice()
 	{
-		Item plasmaJuice = new Item((char)5, Color.CYAN, "plasma" ,
+		Item plasmaJuice = new Item((char)5, Color.CYAN, Type.PLASMA ,
 				"Temporal Plasma Pack", 
 				"This nifty item squeezes a shit ton of plasma into a tiny little fucking box."
 				+ " Technically it doesn't do that, but it allows you acess to plasma from different points in the "
@@ -265,14 +333,14 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 500);
 		if(world != null)
-			world.spawnInside(plasmaJuice);
+			world.spawnInside(r.nextInt(5), plasmaJuice);
 		
 		return plasmaJuice;
 		
 	}
 	public Item newAnimatronicSkeleton()
 	{
-		Item animatronicSkeleton = new Item('#', Color.GRAY, "base",
+		Item animatronicSkeleton = new Item('#', Color.GRAY, Type.GUN,
 				"Animatronic Skeleton", 
 				"A carefully crafted, all purpose skeleton used for making makeshift robots of all sizes and shaped."
 				+ " The center core seems to need some type of fluid to make the skeleton move."
@@ -280,14 +348,14 @@ public class ItemFactory implements Serializable
 				0, 0
 				, 500);
 		if(world != null)
-			world.spawnInside(animatronicSkeleton);
+			world.spawnInside(r.nextInt(5), animatronicSkeleton);
 		
 		return animatronicSkeleton;
 		
 	}
 	public Item newVictoryItem(int depth)
 	{
-        Item item = new Item('*', AsciiPanel.brightWhite, "victory",
+        Item item = new Item('*', AsciiPanel.brightWhite, Type.APLASMA,
         		"Teddy Bear",
         		"This is the one thing you need to win the game. Walk to the rrd staircase and you win.", 
         		0, 0

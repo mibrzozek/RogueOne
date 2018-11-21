@@ -23,15 +23,9 @@ public class Message
 	public ArrayList<String> makeLines()
 	{
 		Math.round(numLines);
-		
-		double nl = (msg.length()/ml);
 		String[] split = msg.split(" ");
 		ArrayList<String> choppedMsg = new ArrayList<>();
 		int wordCount = 0;
-		
-		Math.round(nl);
-		
-		System.out.println(numLines + " This is the num lines \n");
 		
 		// This loops fills up a line with words until it's at max length
 		for(int j = 0; j < numLines; j++)
@@ -57,7 +51,6 @@ public class Message
 				if(split.length == wordCount) // no more words
 					choppedMsg.add(line);
 			}
-			System.out.println(j);
 		}
 		
 		return choppedMsg;

@@ -37,4 +37,16 @@ public class DropScreen extends InventoryBasedScreen
         // player.drop(item, );
         return null;
 	}
+	@Override
+	public Screen returnScreen(Screen screen)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void animate()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

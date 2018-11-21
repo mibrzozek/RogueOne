@@ -3,17 +3,23 @@ package Character;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
+import WorldBuilding.Direction;
 import WorldBuilding.Point;
 import WorldBuilding.Projectile;
 import WorldBuilding.Tile;
 import WorldBuilding.World;
 import items.Inventory;
+import items.Inventory.EquipementSlot;
 import items.Item;
 import items.ItemFactory;
+import items.Item.Type;
 
 public class Entity implements Serializable
 {
+	//public enum Direction()
+	
 	// Context Variables
 	private World world;
     public int x;
@@ -21,10 +27,12 @@ public class Entity implements Serializable
     public int z;
     
     public int direction = 0;
+    public Direction cardinal = Direction.NORTH;
+    
     // Describers   
+    public Tile tagged = Tile.TAGGED;
     private String name;
-    private char glyph;
-    private Color color;
+    private Tile tile;
     private int visionRadius;
     // Abstract
     private EntityAi ai;
@@ -32,6 +40,7 @@ public class Entity implements Serializable
     private boolean equiped = false;
     private boolean tradeMode = false;
     // Stats
+    public Statistics stats;
     private int maxHP;
     private int hp;
     
@@ -39,48 +48,69 @@ public class Entity implements Serializable
     private int defenseValue;
     private int plasmaValue = 0;
     private int shieldValue = 100;
- 
     private int crypto;
+    
     private Point tradersPosition;
     private Point enemyPosition;
     public Entity lastTargetedEnemy = null;
     
     private ArrayList<Projectile> projectiles;
     
-    public Entity(String name, World world, char glyph, Color color, int maxHP)
+    private Random r = new Random();
+    
+    public Entity(Statistics stats, World world, Tile tile)
     {
+    	this.stats = stats;
+    	this.world = world;
+    	this.tile = tile;
+    	
+        this.projectiles = null;
+        this.inventory = new Inventory(20);
+        this.crypto = 1000;
+    }
+    
+    public Entity(String name, World world, Tile tile, int maxHP)
+    {
+    	
     	this.name = name;
         this.world = world;
-        this.glyph = glyph;
-        this.color = color;
+        this.tile = tile;
         this.maxHP = maxHP;
         this.hp = maxHP;
         this.attackValue = 0;
         this.defenseValue = 500;
         this.visionRadius = 9;
         
+        this.stats = new Statistics();
+        stats.setName(name);
+        
         this.projectiles = null;
         this.inventory = new Inventory(20);
         this.crypto = 1000;
     }
 
-    public Entity(String name, World world, char glyph, Color color, int maxHP, int attack, int defense)
+    public Entity(String name, World world, Tile tile, int maxHP, int attack, int defense)
     {
     	this.name = name;
         this.world = world;
-        this.glyph = glyph;
-        this.color = color;
+        this.tile = tile;
         this.maxHP = maxHP;
         this.hp = maxHP;
         this.attackValue = attack;
         this.defenseValue = defense;
         this.visionRadius = 9;
         
+        this.stats = new Statistics();
+        stats.setName(name);
+        
         this.projectiles = null;
         this.inventory = new Inventory(20);
         this.crypto = 100;
     }
     
+    public void setTile(Tile t)					{ 	this.tile = tile;	}						
+    public void addFOV(FieldOfView fov)			{   ((PlayerAi)ai).setFOV(fov); }
+    public void addWorld(World world)			{   this.world = world; }
     public void setTarget(Entity other)			{   this.lastTargetedEnemy = other; }
     public void setTradeMode(boolean truth) 	{	this.tradeMode = truth; }
 	public void setEntityAi(EntityAi ai) 		{	this.ai = ai; }		
@@ -90,6 +120,7 @@ public class Entity implements Serializable
     public void modifyAttack(int amount) 		{	attackValue += amount; }
     public void modifyDefense(int amount) 		{ 	defenseValue += amount;	}
     public void modidyShield(int amount) 		{	shieldValue += amount; }
+    public Tile hitTile()						{   return Tile.TAGGED;			}
 	
 	public int hp() 				{ return hp; }
 	
@@ -100,11 +131,12 @@ public class Entity implements Serializable
 	
 	public int crypto()				{ return crypto; }
     public int visionRadius() 		{ return visionRadius; }
+    
+    public Direction getCardinal()	{ return cardinal;	}
    
+    public Tile tile()				{ return tile;	}
     public int maxHP() 				{ return maxHP; }
-    public char glyph() 			{ return glyph; }
     public String name() 			{ return name; }
-    public Color color() 			{ return color; }
     public Inventory inventory()	{ return inventory; }
     public EntityAi getEntityAi() 	{ return ai; }
     public boolean tradeMode()		{ return tradeMode; }
@@ -137,13 +169,18 @@ public class Entity implements Serializable
     }
     public ArrayList<Projectile> getProjectiles()
     {
-    	
     	if(projectiles != null)
     		return projectiles;
     	else
     		return null;
     }
-    
+    public void useDevice()
+    {
+    	notify("Device out!");
+    	
+    	world.tunnelExplosion(this.direction);
+    	
+    }
     public void useWeapon()
     {
     		Projectile p;
@@ -186,7 +223,7 @@ public class Entity implements Serializable
     public void attack(Entity other)
     {
     	tradeMode=false;
-        int amount = Math.max(0, attackValue() - other.defenseValue());
+        int amount = Math.max(0, attackValue());
     
         amount = (int)(Math.random() * amount) + 1;
         
@@ -195,7 +232,7 @@ public class Entity implements Serializable
         notify("You deal '%s' damage to the enemy", amount);
         
         if(other.ai instanceof PlayerAi)
-        	other.dealDamage(-amount);
+        	other.dealDamage(-100);
         else
         	other.modifyHp(-amount);
         	
@@ -203,11 +240,76 @@ public class Entity implements Serializable
     
     public void dealDamage(int amount)
     {
+    	/*
     	if (shieldValue > 10)
     		shieldValue += amount /2.0;
     	else
     		modifyHp(amount);
-
+		*/
+    	double damage = amount;
+    	EquipementSlot slot = null;
+    	
+    	while(slot == null)
+    	{
+    		int bodyPart = r.nextInt(4)+ 1;
+    		
+    		if(bodyPart == 1)
+    		{
+    			if(stats.getHead() > 0)
+    				slot = EquipementSlot.HEAD;
+    		}
+    		if(bodyPart == 2)
+    		{
+    			if(stats.getTorso() > 0)
+    				slot = EquipementSlot.TORSO;
+    		}
+    		if(bodyPart == 3)
+    		{
+    			if(stats.getlHand() + stats.getrHand() > 0)
+    				slot = EquipementSlot.ARMS;
+    		}
+    		if(bodyPart == 4)
+    		{
+    			if(stats.getlLeg() + stats.getrLeg() > 0)
+    				slot = EquipementSlot.LEGS;
+    		}
+    	}
+    	System.out.println(" "+ stats.getHead() 
+    			+ " "+ stats.getTorso() + " " 
+    			+ (stats.getlHand() + stats.getrHand()) + " "     					
+    			+ " "+ (stats.getlLeg() + stats.getrLeg()));
+    	System.out.println("This is the slot "+ slot.toString());
+    	// The following modify damage dealt based on armor and attributes
+    	damage = inventory.getArmorNumber(slot, damage);
+    	// check attributes, negate or cause more damage
+    	modifyLimbHealth(slot, damage);
+    	
+    }
+    public void modifyLimbHealth(EquipementSlot slot, double damage)
+    {
+    	System.out.println(damage + " initial damage.");
+    	
+    	if(slot == EquipementSlot.HEAD)
+    		stats.setHead(stats.getHead() + damage);
+    	else if(slot == EquipementSlot.TORSO)
+    		stats.setTorso(stats.getTorso() + damage);
+    	else if(slot == EquipementSlot.ARMS)
+    	{
+    		if((r.nextInt(1) +1) == 1 && stats.getlHand() > 0)
+    			stats.setlHand(stats.getlHand() + damage);
+    		else
+    			stats.setrHand(stats.getrHand() + damage);
+    	}
+    	else if(slot == EquipementSlot.LEGS)
+    	{
+    		if((r.nextInt(1) +1) == 1 && stats.getlLeg() > 0)
+    			stats.setlLeg(stats.getlLeg() + damage);
+    		else
+    			stats.setrLeg(stats.getrLeg() + damage);
+    	}
+    	
+    	System.out.println(damage + " damage is dealt to the " + slot.toString());
+    	
     }
     public void modifyHp(int amount) 
     {
@@ -285,7 +387,9 @@ public class Entity implements Serializable
 	public void setDirection(int direction)
 	{
 		this.direction = direction;
+		cardinal = Direction.fromIntToString(direction);
 	}
+	
 	public void rotateCounterClockwise()
 	{
 		if(direction == 0)
@@ -304,6 +408,8 @@ public class Entity implements Serializable
 			direction = 1;
 		else if(direction ==1)
 			direction = 0;
+		
+		cardinal = Direction.fromIntToString(direction);
 	}
 	public void rotateClockwise()
 	{
@@ -323,6 +429,8 @@ public class Entity implements Serializable
 			direction = 0;
 		else if(direction == 0)
 			direction = 1;
+		
+		cardinal = Direction.fromIntToString(direction);
 	}
 	
 	public void moveBy(int mx, int my, int mz)
@@ -365,7 +473,7 @@ public class Entity implements Serializable
 		if (other == null)
 		{	
 			if(item != null
-					&& item.type().equals("aplasma")
+					&& item.type() == Type.APLASMA
 					&& !item.usable())
 			{	
 				if(item.name().equals("Plasma Pod"))
@@ -386,7 +494,7 @@ public class Entity implements Serializable
 		}
 		else if(other.equals( new EntityFactory().newTrader()) 
 				&& other != null
-				&& this.name().toString().equals(new EntityFactory().newPlayer(null).name().toString()))
+				&& this.ai instanceof PlayerAi)
 		{
 			tradeMode = true;
 			tradersPosition = new Point(x+mx, y+my,z+mz);
@@ -437,6 +545,10 @@ public class Entity implements Serializable
 			
 		}
     }
+	public void setName(String name)
+	{
+		this.name = name;
+	}
 	public boolean equals(Object obj)
 	{
 
@@ -447,10 +559,10 @@ public class Entity implements Serializable
 		
 		// If this name and other name are Trader, return true
 		// else if those names aren't Traders  but have the same hash code, return true
-		if(entity != null && entity.name().equals(this.name())
-				&& entity.name().equals("Trader"))
+		if(entity != null && entity.stats.getName().equals(this.stats.getName())
+				&& entity.stats.getName().equals("Trader"))
 			return true;
-		else if(entity != null && entity.name().toString().equals(this.name().toString())
+		else if(entity != null && entity.stats.getName().toString().equals(this.stats.getName().toString())
 				&& entity.hashCode() == this.hashCode())
 			return true;
 		else

@@ -9,6 +9,7 @@ import java.util.Random;
 
 import Character.Entity;
 import Character.Mech;
+import Character.PlayerAi;
 import items.Item;
 
 public class World implements Serializable
@@ -52,6 +53,16 @@ public class World implements Serializable
 		
 		this.insideSpawns = spawns;
 	}
+    public void animate()
+    {
+    	for(int x = 0; x < width; x++)
+    	{
+    		for(int y = 0; y < height; y++)
+    		{
+    			tiles[x][y][player.z].animate();
+    		}
+    	}
+    }
     // Returns the tiles at give point; Used for checking type of tile
 	public Tile tile(int x, int y, int z)
 	{
@@ -94,6 +105,85 @@ public class World implements Serializable
 		if (tile(x, y, z).isDiggable())
 			tiles[x][y][z] = Tile.FLOOR;
 	}
+	public void tunnelExplosion(int direction)
+	{
+		int mx = 0, my= 0;
+		
+		if(direction == 0)
+		{
+			System.out.println(direction +  " direction 0");
+			my = -1;
+		}
+		else if(direction == 1)
+		{
+			my =-1;
+			mx = 1;
+		}
+		else if(direction == 2)
+		{
+			mx = 1;
+		}
+		else if(direction == 3)
+		{
+			mx = 1;
+			my = 1;
+		}
+		else if(direction == 4)
+		{
+			my =1;
+		}
+		else if(direction == 5)
+		{
+			System.out.println(direction +  " direction 5");
+			mx =-1;
+			my = 1;
+		}
+		else if(direction == 6)
+		{
+			mx =-1;
+		}
+		else if(direction == 7)
+		{
+			mx =-1;
+			my =-1;
+		}
+		
+		for(int i = 0; i < 10;i++)
+		{
+			System.out.println(direction + " direction " + mx + " mx " +  my + " my");
+			
+			if(!tiles[player.x +mx][player.y + my][player.z].isFloor())
+			{
+				blastTerrain(player.x + mx, player.y + my, player.z);
+				if(my < 0)
+					--my;
+				else if(my > 0)
+					++my;
+				
+				if(mx < 0)
+					--mx;
+				else if(mx > 0)
+					++mx;
+			}
+			else
+				i = 10;
+			
+			System.out.println(mx + " mx and my " +  my);
+			System.out.println(player.x + mx + " mx and my " + (player.y + my));
+		}
+	}
+	public void blastTerrain(int x, int y, int z)
+	{
+		if(x < 0 || x >= width ||y < 0|| y >= height || z < 0 || z >= depth)
+		{
+			player.notify("We're digging througha nother dimmmension!");
+			System.out.println("x : " + x + "y : " + y +"z : " + z);
+		}
+		else
+		{
+			tiles[x][y][z] = Tile.BLASTED_TERRAIN;
+		}
+	}
     // Removes specified entity from EntityList 
     public void remove(Entity other) 
     {
@@ -113,7 +203,7 @@ public class World implements Serializable
         if(p != null)
         	return p.glyph();
         if (entity != null)
-            return entity.glyph();
+            return entity.tile().glyph();
         if (item(x,y,z) != null)
             return item(x,y,z).glyph();
         
@@ -130,15 +220,29 @@ public class World implements Serializable
     	if(p != null)
         	return p.color();
         if (entity != null)
-            return entity.color();
+            return entity.tile().color();
         if (item(x,y,z) != null)
             return item(x,y,z).color();
         
         return tile(x, y, z).color();
     }
+    public Color backColor(int x, int y, int z)
+    {
+        Entity entity = entity(x, y, z);
+        Projectile p = projectile(x, y, z);
+        
+    	if(p != null)
+        	return Palette.darkestGray;
+        if (entity != null)
+            return entity.tile().backColor();
+        if (item(x,y,z) != null)
+            return Palette.darkestGray;
+        
+        return tile(x, y, z).backColor();
+    }
     public void addPlayer(Entity player)
     {
-    	this.player= player;
+    	this.player = player;
     }
     // Updates entity list; Used for when things are killed
     public void update()
@@ -168,13 +272,19 @@ public class World implements Serializable
     }
     public Tile processCollision(Entity e, Projectile p)
     {
-    	if(e != null && !e.name().equals("Trader")
-    			&& !e.name().equals("Killing Smokes"))
-    		player.setTarget(e);
-    	e.modifyHp(-100);
-    	e.doAction("suffers from death by bullet");
-    	
-    	return Tile.TAGGED;
+    	if(e != null && !e.stats.getName().equals("Trader")
+    			&& !e.stats.getName().equals(e.stats.getName()))
+    	{
+    		int dmg = 0;
+    		if(p.glyph() == Tile.Y_SMALL.glyph())
+    			dmg = 100;
+    		player.setTarget(e); 
+    		e.modifyHp(-99);
+    	}
+    	if(!e.stats.getName().equals(e.stats.getName()))
+    		return Tile.TAGGED;
+    	else
+    		return e.tagged;
     }
     public void queueProjectile(Projectile p)
     {
@@ -184,33 +294,52 @@ public class World implements Serializable
     }
     
     // Adds entities
-    public void spawnInside(Object ...args)
+    
+    public void spawnInside(int depth, Object ...args)
     {
     	Random r = new Random();
     	Point p;
 		if(args[0] instanceof Entity)
 		{
 			Entity entity = (Entity) args[0];
-			do 
+			/*
+			Integer depth = null;
+			if(entity.getEntityAi() instanceof PlayerAi)
 			{
-				p = insideSpawns.get(r.nextInt(insideSpawns.size()));
-			} while (!tile(p.x,p.y,p.z).isGround() || entity(p.x,p.y,p.z) != null);
-			
-			entity.x = p.x;
-			entity.y = p.y;
-			entity.z = p.z;
-			entities.add(entity);
+				depth = 0; 
+				System.out.println(entity.name());
+			}
+			else
+				depth = null;
+			*/				
+			if(insideSpawns.size() > 0)
+			{
+				do 
+				{
+					p = insideSpawns.get(r.nextInt(insideSpawns.size()));
+				} while (!tile(p.x,p.y,p.z).isGround() || entity(p.x,p.y,p.z) != null
+						||  p.z != depth);
+				
+				entity.x = p.x;
+				entity.y = p.y;
+				entity.z = p.z;
+				
+				entities.add(entity);
+			}
 		}
 		else if(args[0] instanceof Item)
 		{
 			Item item = (Item) args[0];
-			do 
+			if(insideSpawns.size() > 0)
 			{
-				p = insideSpawns.get(r.nextInt(insideSpawns.size()));
-			} while (!tile(p.x,p.y,p.z).isGround() || entity(p.x,p.y,p.z) != null);
-			
-			itemMap[p.x][p.y][p.z] = item;
-			
+				do 
+				{
+					p = insideSpawns.get(r.nextInt(insideSpawns.size()));
+				} while (!tile(p.x,p.y,p.z).isGround() || entity(p.x,p.y,p.z) != null
+						|| p.z != depth);
+				
+				itemMap[p.x][p.y][p.z] = item;
+			}
 		}
     }
     public void addMech(Mech mech)
@@ -266,8 +395,6 @@ public class World implements Serializable
 					z = (int)(Math.random() * height);
 			} while (!tile(x,y,z).isGround() || entity(x,y,z) != null);
 			
-			
-			
 			itemMap[x][y][z] = item;
 			
 		}
@@ -311,4 +438,5 @@ public class World implements Serializable
             }
         }
     }
+
 }

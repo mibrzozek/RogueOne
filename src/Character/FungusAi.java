@@ -26,7 +26,7 @@ public class FungusAi extends EntityAi
         int z = entity.z;
   
         if (!entity.canEnter(x, y, z))
-            return;
+            return;	
         
         entity.x = x;
         entity.y = y;

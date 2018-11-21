@@ -7,11 +7,13 @@ import Character.Entity;
 
 public class Item implements Serializable
 {
+	
+	public enum Type{ PLASMA, APLASMA, HEAD, ARMS, TORSO, LEGS, GUN};
 
     private char glyph;
     private Color color;
     
-    private String type;
+    private Type type;
     private String name;
     private String description;
     
@@ -22,7 +24,7 @@ public class Item implements Serializable
     private boolean usable = false;
     private boolean equiped = false;
    
-    public Item(char glyph, Color color, String type,  String name, String description, int attack, int defense, int value)
+    public Item(char glyph, Color color, Type type,  String name, String description, int attack, int defense, int value)
     {
         this.glyph = glyph;
         this.color = color;
@@ -36,7 +38,7 @@ public class Item implements Serializable
         	this.usable = true; 
     }
     
-    public String type() 			{ return type; }
+    public Type type() 			{ return type; }
     public String name() 			{ return name; }
     public Color color() 			{ return color; }
     public char glyph() 			{ return glyph; }
@@ -52,7 +54,7 @@ public class Item implements Serializable
     
     public void useItemOn(Entity other)
     {
-    	if(this.type.equals("plasma"))
+    	if(this.type == Type.PLASMA)
     	{
     		other.modifyPlasma(1000);
     		other.notify("Mmmm, wow, so much plasma...");

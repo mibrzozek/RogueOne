@@ -36,26 +36,29 @@ public class HitmanAi extends EntityAi
       int my = points.get(0).y - entity.y;
       
       if(mx > 0 || my > 0)
-    	  entity.setDirection(3);
+    	  entity.setDirection(5);
+      else if(mx < 0 || my < 0)
+    	  entity.setDirection(7);
+      
       else if(mx == 0 || my > 0)
-    	  entity.setDirection(2);
-      else if(mx > 0 || my == 0)
-    	  entity.setDirection(6);
-      else if(mx < 0 || my < 0)
     	  entity.setDirection(4);
+      else if(mx > 0 || my == 0)
+    	  entity.setDirection(2);
+
       else if(mx < 0 || my == 0)
-    	  entity.setDirection(1);
-      else if(mx < 0 || my < 0)
-    	  entity.setDirection(0);
+    	  entity.setDirection(6);
       else if(mx == 0 || my < 0)
+    	  entity.setDirection(0);
+      
+      else if(mx < 0 || my > 0)
     	  entity.setDirection(5);
       else if(mx > 0 || my < 0)
-    	  entity.setDirection(2);
+    	  entity.setDirection(1);
       
       entity.useWeapon();
       
       entity.moveBy(mx, my, 0);   
      
-      System.out.println("mx: " +  mx + "my: " + my);
+      System.out.println("mx: " +  mx + " my: " + my);
   }
 }

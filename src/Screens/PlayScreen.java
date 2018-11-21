@@ -8,15 +8,20 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import Character.Entity;
 import Character.EntityFactory;
 import Character.FieldOfView;
+import Character.Statistics;
+import WorldBuilding.Palette;
+import WorldBuilding.PlanetPrinter;
 import WorldBuilding.Point;
 import WorldBuilding.Projectile;
 import WorldBuilding.Tile;
 import WorldBuilding.World;
 import WorldBuilding.WorldBuilder;
+import _Structures.TileEngine;
 import asciiPanel.AsciiPanel;
 import items.Item;
 import items.ItemFactory;
@@ -25,86 +30,104 @@ import javafx.scene.shape.Line;
 public class PlayScreen implements Screen 
 {
 	private World world;
-	
-    private int centerX;
+	private int centerX;
     private int centerY;
-    
     private int screenWidth;
     private int screenHeight;
-    
     private int screenTicks = 0;;
     
-    private Entity player;
+    Entity player;
     private Entity trader;
-    
     private FieldOfView fov;
     
     private Screen subScreen;
     private Screen tradeScreen;
     
     static boolean inventoryMode = false;
-    
+    private static boolean exitGame = false;
     
     private List<String> introMessages;
     private List<String> messages;
     private List<String> mLog;
     private List<Projectile> projectiles;
     
-    private MessageManager msgMan;
-    
+    private Random r = new Random();
+
     private transient AsciiPanel terminal;
-    
     /**
      * This screen is responsible for keeping track of all objects related to playing the game. 
      * The PlayScreen is the only objects which needs to be saved and loaded, making the saving
      * system easier to implement than expected.
      */
+    public PlayScreen(World world, Entity player, FieldOfView fov)
+    {
+        screenWidth = 85;
+        screenHeight = 50;
+        
+        introMessages = new ArrayList<String>();
+        introMessages.add("You wake from a deep slumber.");
+        introMessages.add("The ground is wet, and the air smells of metal. You hear a sound and are startled.");
+        messages = new ArrayList<String>();
+        
+        this.terminal = new AsciiPanel(100, 100);
+        
+    	this.player = player;
+    	this.world = world;
+    	this.fov = fov;
+    	
+        EntityFactory entityFactory = new EntityFactory(this.world, this.fov);
+        ItemFactory itemFactory = new ItemFactory(this.world);
+        
+        createEntities(entityFactory, itemFactory);
+        createItems(itemFactory); 
+    }
+    public PlayScreen(Statistics stats)
+    {
+        screenWidth = 85;
+        screenHeight = 50;
+        
+        introMessages = new ArrayList<String>();
+        introMessages.add("You wake from a deep slumber.");
+        introMessages.add("The ground is wet, and the air smells of metal. You hear a sound and are startled.");
+        messages = new ArrayList<String>();
+       
+        this.terminal = new AsciiPanel(100, 100);
+        terminal.setDefaultForegroundColor(Color.WHITE);
+      
+        createWorld();
+    
+        fov = new FieldOfView(world);
+        EntityFactory entityFactory = new EntityFactory(world, fov);
+        ItemFactory itemFactory = new ItemFactory(world);
+        player = entityFactory.newPlayer(messages, stats);
+        world.addPlayer(player);
+
+        createEntities(entityFactory, itemFactory);
+        createItems(itemFactory);     
+    }
     public PlayScreen()
     {
         screenWidth = 85;
         screenHeight = 50;
         
         introMessages = new ArrayList<String>();
-        introMessages.add("The ground is wet, and the air smells of metal.");
-        introMessages.add("Your lungs burn from the fumes giving you a reason to wake.");
-        introMessages.add("They were likely the reason you were out in the first place.");
-        introMessages.add("You recall last being tossed here, stolen of most of your possesions"
-        		+ "and forced to start again. 'Not like that again', you think to yourself.");
-        introMessages.add("'Hurry now', you think to yourself. 'Before they get me again'...");
-        
+        introMessages.add("You wake from a deep slumber.");
+        introMessages.add("The ground is wet, and the air smells of metal. You hear a sound and are startled.");
         messages = new ArrayList<String>();
-        if(messages.size() == 0)
-        {
-        	messages.add("You wake from a deep slumber.");
-        }
-        
+       
         this.terminal = new AsciiPanel(100, 100);
-        
-        msgMan = new MessageManager(messages);
-        
+        terminal.setDefaultForegroundColor(Color.WHITE);
+      
         createWorld();
-        
+    
         fov = new FieldOfView(world);
         EntityFactory entityFactory = new EntityFactory(world, fov);
         ItemFactory itemFactory = new ItemFactory(world);
-        player = entityFactory.newPlayer(messages);
+        player = entityFactory.newPlayer(messages, null);
         world.addPlayer(player);
 
         createEntities(entityFactory, itemFactory);
-        createItems(itemFactory);
-        
-        
-        
-    }
-    public PlayScreen(AsciiPanel terminal)
-    {
-    	super();
-    	this.terminal = terminal;
-    }
-
-    public PlayScreen(World world)
-    {
-    	 new PlayScreen();
+        createItems(itemFactory);     
     }
     private void createItems(ItemFactory itemFactory) 
     {
@@ -115,7 +138,6 @@ public class PlayScreen implements Screen
             	itemFactory.newPlasmaPod();
             }
         }
-        
         itemFactory.newVictoryItem(1);
     }
 	private void createEntities(EntityFactory entityFactory, ItemFactory itemFactory)
@@ -139,105 +161,10 @@ public class PlayScreen implements Screen
     {
     	// Sets World size
     	// Makes caves, castles, loot and enemies
-        world = new WorldBuilder(200 ,200 , 5, player)
-        			.makeCaves()
-        			.makeRandoRooms()
+        world = new PlanetPrinter(200 ,200 , 5, player)
+        			.makeDungeons()
         			.build();
-       
-        			//.makeCastle
-        			//.makeVillage
-        			//.spawnTreasure
-        			
     }
-	private void displayMessages(AsciiPanel terminal, List<String> messages) 
-	{
-		int top = screenHeight - messages.size();
-		int msgSpace = 10;
-		int xo = 31;
-		
-		ArrayList<String> toDisplay = new ArrayList<>(10);
-		ArrayList<Message> msgList = new ArrayList<>();
-		
-		for(String s : messages)
-		{
-			msgList.add(new Message(s, screenWidth - xo));
-		}
-		// Loads toDisplay w/ lines to display
-		// lastIndex is the message counter
-		// j in the loop is incremented if multi line message
-		int lastIndex = msgList.size()-1;
-		
-		for (int i = 0; i < 10; i++)
-		{
-			if(lastIndex > -1)
-			{
-				if(i == 0)
-				{	
-					if(msgList.get(lastIndex).numLines() == 1)
-						terminal.write(msgList.get(lastIndex).toString(), xo, screenHeight+i+1, Color.WHITE);	
-					else
-					{
-						ArrayList<String> lines = msgList.get(lastIndex).getLines();
-
-						for(int q = 0; q < lines.size(); q++)
-						{
-							terminal.write(lines.get(q), xo, screenHeight + (i) + 1, Color.WHITE);
-							if(q != lines.size()-1)
-								i += 1;
-						}
-					}
-					lastIndex--;
-				}
-				else
-				{
-					if(msgList.get(lastIndex).numLines() == 1)
-						terminal.write(msgList.get(lastIndex).toString(), xo, screenHeight+i+1, Color.DARK_GRAY);	
-					else
-					{
-						ArrayList<String> lines = msgList.get(lastIndex).getLines();
-
-						for(int q = 0; q < lines.size(); q++)
-						{
-							terminal.write(lines.get(q), xo, screenHeight + (i) + 1, Color.DARK_GRAY);
-							if(q != lines.size()-1)
-								i += 1;
-						}
-					}
-					lastIndex--;
-				}
-			}
-		}
-	}
-	public void splitIntoMoreLines(String s, int j, int xo)
-	{
-		String[] split = s.split(" ");
-		int count = 0;
-	
-		for (int y = screenHeight+1; y < 100; y++)
-		{	
-			int charCount= 0;
-			int cx = 31;
-			String line = "";
-		
-			while(charCount < 30  && count < split.length)
-			{
-				String word = split[count++];
-				
-				word += " ";
-				charCount += word.length();
-				//terminal.write(word, cx, y);
-				cx += word.length();
-				line += word;
-				
-				System.out.println(line.length() + " size");
-				if(charCount + xo > screenWidth || count + 1 == split.length)
-				{
-					System.out.println(word.length() + "adding line");
-					messages.add(j,  line);
-				}
-			}
-		}	
-	}
 	private void displayTiles(AsciiPanel terminal, int left, int top)
 	{
 		fov.update(player.x, player.y, player.z, player.visionRadius());
@@ -250,7 +177,10 @@ public class PlayScreen implements Screen
 				int wy = y + top;
 				
 	            if (player.canSee(wx, wy, player.z))
-	                terminal.write(world.glyph(wx, wy, player.z), x, y, world.color(wx, wy, player.z));
+	            {
+	                terminal.write(world.glyph(wx, wy, player.z), x, y,
+	                		world.color(wx, wy, player.z), world.backColor(wx, wy, player.z));
+	            }
 	            else
 	                terminal.write(fov.tile(wx, wy, player.z).glyph(), x, y, Color.darkGray);	
 			}
@@ -264,8 +194,8 @@ public class PlayScreen implements Screen
 	     
 	     
 	     displayTiles(terminal, left, top);
-	     renderStats(terminal);
-	     renderTarget(terminal);
+	     TileEngine.renderStats(terminal, screenWidth, screenHeight, 0, 0, player);
+	     TileEngine.renderTarget(terminal, screenWidth, screenHeight, player);
 	   
 	     if(subScreen instanceof CraftingScreen)
 	    	 ((CraftingScreen) subScreen).write(terminal);
@@ -273,8 +203,12 @@ public class PlayScreen implements Screen
 	     if(subScreen instanceof TradeScreen)
 	     {
 	    	 ((TradeScreen) subScreen).displayOutput(terminal);
-	    	 ((TradeScreen) subScreen).write(terminal);
-	    	 
+	    	 ((TradeScreen) subScreen).write(terminal); 
+	     }
+	     if(subScreen instanceof EscapeScreen)
+	     {
+	    	 ((EscapeScreen) subScreen).displayOutput(terminal);
+	    	 ((EscapeScreen) subScreen).write(terminal); 
 	     }
 	     if (subScreen instanceof InventoryScreen)
 	     {
@@ -283,101 +217,15 @@ public class PlayScreen implements Screen
 	     }
 	     if(subScreen instanceof InspectScreen)
 	    	 ((InspectScreen) subScreen).displayOutput(terminal);
-	    	    
+	     if(subScreen instanceof KeyInputScreen)
+	    	 ((KeyInputScreen) subScreen).displayOutput(terminal);
+	     if(subScreen instanceof CharacterSheet)
+	    	 ((CharacterSheet) subScreen).displayOutput(terminal);
+	     if(subScreen instanceof AnimationScreen)
+	    	 ((AnimationScreen) subScreen).displayOutput(terminal);
 	     
-	     displayMessages(terminal, messages);
+	     TileEngine.displayMessages(terminal, messages, screenWidth, screenHeight);
 	}
-    public void renderStats(AsciiPanel terminal)
-    {
-    	int statsW = screenWidth;
-    	int statsH = 12;
-    	
-    	for(int x = 0; x < statsW; x++)
-    	{
-    		for(int y = 0; y < statsH; y++)
-    		{
-    			
-    			if(x == 0 || x == statsW-1)
-    				terminal.write(Tile.lrWall.glyph(), x, y+screenHeight, Color.DARK_GRAY);
-				else if (y == 0 || y == statsH-1)
-					terminal.write(Tile.tbWall.glyph(), x, y+screenHeight,  Color.DARK_GRAY);
-				else
-					terminal.write(' ', x, y+screenHeight,  Color.WHITE);
-    		}
-    	}
-    	terminal.write(Tile.tlCorner.glyph(), 0, screenHeight);
-    	terminal.write(Tile.trCorner.glyph(), screenWidth-1, screenHeight);
-    	terminal.write(Tile.brCorner.glyph(), screenWidth-1, statsH+screenHeight-1);
-    	terminal.write(Tile.blCorner.glyph(), 0, statsH+screenHeight-1);
-    	
-    	terminal.write("Shield [", 1, screenHeight+ 1);
-    		renderPercentBlocks(terminal, Color.GREEN, 9, screenHeight+1, player.shield(), 100);
-    	terminal.write("Vitals [", 1, screenHeight+ 2);
-    		renderPercentBlocks(terminal, Color.PINK, 9, screenHeight+2, player.hp(), 100);
-    	terminal.write("Plasma [", 1, screenHeight+ 3);
-    		renderPercentBlocks(terminal, Color.CYAN, 9, screenHeight+3, player.plasma(), 10000);
-    	terminal.write("Crypto [" + player.crypto(), 1, screenHeight+ 5);
-
-    	
-    	renderLogScreenArea(terminal);
-    	
-    }
-    public void renderLogScreenArea(AsciiPanel terminal)
-    {
-    	// Produces divider
-    	int ox = 30;
-    	
-    	for (int i = 0; i < 12; i++)
-    		terminal.write((char)186, ox, screenHeight + i, Color.DARK_GRAY);
-
-    	terminal.write((char)203, ox, screenHeight , Color.DARK_GRAY);
-    	terminal.write((char)202, ox, screenHeight+11, Color.DARK_GRAY );
-    	// Updates display array
-
-    		
-    }
-    public void renderPercentBlocks(AsciiPanel terminal, Color color, int x, int y, int value, int max)
-    {
-    	double percent = 10 * ((double)value/max);
-    	double xi;
-
-    	
-    	for(int i = 0; i < percent; i++)
-    	{
-    		terminal.write((char) 223, x+i, y, color);
-    		xi=i;
-    	}
-    	terminal.write(" "+ String.format("%.2f",percent*10) + " %", color);
-    }
-    public void renderTarget(AsciiPanel terminal)
-    {
-    	if(player.lastTargetedEnemy != null && player.lastTargetedEnemy.hp() > 0)
-    	{
-        	for(int x = 0; x < 25; x++)
-        	{
-        		for(int y = screenHeight-5; y < screenHeight-2; y++)
-        		{
-        			
-        			if(x == 0 || x == 25-1)
-        				terminal.write(Tile.lrWall.glyph(), x, y, Color.DARK_GRAY);
-    				else if (y == screenHeight-5 || y == screenHeight-2-1)
-    					terminal.write(Tile.tbWall.glyph(), x, y,  Color.DARK_GRAY);
-    				else
-    					terminal.write(' ', x, y,  Color.WHITE);
-        		}
-        	}
-        	
-        	terminal.write("Target /", 1, screenHeight-4);
-        	terminal.write(player.lastTargetedEnemy.name(), player.lastTargetedEnemy.color());
-        	terminal.write("/ " +player.lastTargetedEnemy.hp() + " hp");
-        	
-        	
-        	terminal.write(Tile.tlCorner.glyph(), 0, screenHeight-5);
-        	terminal.write(Tile.trCorner.glyph(), 24, screenHeight-5);
-        	terminal.write(Tile.brCorner.glyph(), 24, -2+screenHeight-1);
-        	terminal.write(Tile.blCorner.glyph(), 0, -2+screenHeight-1);
-    	}
-    }
     public int getScrollX() 
     {
         return Math.max(0, Math.min(player.x - screenWidth / 2, world.width() - screenWidth));
@@ -411,40 +259,60 @@ public class PlayScreen implements Screen
     		fos.close();
     		
     		messages.add("Save succesfull");
-        } catch (IOException e) 
+        } 
+    	catch (IOException e) 
     	{
         	e.printStackTrace();
         	messages.add("Save failed");
         }
-       
+    	subScreen = null;
+    }
+    public void setSubScreenNull()
+    {
+    	subScreen = null;
+    }
+    public void returnStartScreen()
+    {
+    	exitGame = true;
     }
 	@Override
 	public Screen respondToUserInput(KeyEvent key) 
 	{	
 		if(screenTicks < introMessages.size())
 		{
+			player.notify("The level is " + player.z);
+		
 			messages.add(introMessages.get(screenTicks++));
 			return this;
 		}
 		else 
 		{
-			if(subScreen!= null)
+			if(subScreen != null)
 			{
 				subScreen = subScreen.respondToUserInput(key);
-			}
-			else
-			{
-				switch (key.getKeyCode())
+				if(subScreen instanceof EscapeScreen)
+				{
+					if(((EscapeScreen)subScreen).exit == true)
+					{
+						subScreen = null;
+						((EscapeScreen)subScreen).exit = false;
+					}
+				}
+			}	else
+			{	switch (key.getKeyCode())
 				{
 				// Special Keys
-        		case KeyEvent.VK_ESCAPE: saveGame(); break;
+				case KeyEvent.VK_SHIFT: subScreen = new CharacterSheet(player); 
+					break;
+				case KeyEvent.VK_L: subScreen = new KeyInputScreen(terminal,this, 20, 15, 8); break;
+        		case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(player,terminal, this); break;
         		case KeyEvent.VK_ENTER: return new WinScreen();
         		case KeyEvent.VK_F: player.pickup(); break;
         		case KeyEvent.VK_E: player.rotateClockwise(); break;
         		case KeyEvent.VK_Q: player.rotateCounterClockwise(); break;
-        		case KeyEvent.VK_SPACE: player.useWeapon(); break;
-        		case KeyEvent.VK_T: subScreen = new CraftingScreen(player, terminal, true); break;
-        		case KeyEvent.VK_C: // Inspect item
+        		case KeyEvent.VK_SPACE: player.useWeapon(); world.update();	 break;
+        		case KeyEvent.VK_G: player.useDevice(); break;
+        		case KeyEvent.VK_C: // Inspect item`
         		{	
         			if(world.item(player.x, player.y, player.z) != null)
         				subScreen = new InspectScreen(world.item(player.x, player.y, player.z)); break;
@@ -461,22 +329,31 @@ public class PlayScreen implements Screen
         			else
         				subScreen = new InventoryScreen(player, terminal, true); break;
         		}
+        		case KeyEvent.VK_1: subScreen = new AnimationScreen(); break;
         		// Planar Scrolling
+        		case KeyEvent.VK_NUMPAD4:
         		case KeyEvent.VK_LEFT:
-        		case KeyEvent.VK_A: player.moveBy(-1, 0, 0); break;
+        		case KeyEvent.VK_A: player.moveBy(-1, 0, 0);world.update(); break;
+        		case KeyEvent.VK_NUMPAD6:
         		case KeyEvent.VK_RIGHT:
-        		case KeyEvent.VK_D: player.moveBy( 1, 0, 0); break;
+        		case KeyEvent.VK_D: player.moveBy( 1, 0, 0);world.update(); break;
+        		case KeyEvent.VK_NUMPAD8:
         		case KeyEvent.VK_UP:
-        		case KeyEvent.VK_W: player.moveBy( 0,-1, 0); break;
+        		case KeyEvent.VK_W: player.moveBy( 0,-1, 0);world.update(); break;
         		case KeyEvent.VK_DOWN:
-        		case KeyEvent.VK_S: player.moveBy( 0, 1, 0); break;
+        		case KeyEvent.VK_S: player.moveBy( 0, 1, 0);world.update(); break;
         			
         		// Diagonal scrolling
-        		case KeyEvent.VK_J: player.moveBy( 0, 1, 0); break;
-        		case KeyEvent.VK_Y: player.moveBy(-1,-1, 0); break;
-        		case KeyEvent.VK_U: player.moveBy( 1,-1, 0); break;
-        		case KeyEvent.VK_B: player.moveBy(-1, 1, 0); break;
-        		case KeyEvent.VK_N: player.moveBy( 1, 1, 0); break;
+        		case KeyEvent.VK_NUMPAD2:
+        		case KeyEvent.VK_J: player.moveBy( 0, 1, 0);world.update(); break;
+        		case KeyEvent.VK_NUMPAD7:
+        		case KeyEvent.VK_Y: player.moveBy(-1,-1, 0);world.update(); break;
+        		case KeyEvent.VK_NUMPAD9:
+        		case KeyEvent.VK_U: player.moveBy( 1,-1, 0);world.update(); break;
+        		case KeyEvent.VK_NUMPAD1:
+        		case KeyEvent.VK_B: player.moveBy(-1, 1, 0);world.update(); break;
+        		case KeyEvent.VK_NUMPAD3:
+        		case KeyEvent.VK_N: player.moveBy( 1, 1, 0);world.update(); break;
         		
 
 				}
@@ -493,12 +370,25 @@ public class PlayScreen implements Screen
 				}
 			}
 		}
-		if(subScreen == null)
-			world.update();
-	
-		if (player.hp() < 1)
+		if (player.stats.getVitals() < 1)
 		    return new LoseScreen();
 		
+		if(exitGame)
+		{
+			exitGame = false;
+			return new StartScreen();
+		}
 		return this;	
+	}
+	@Override
+	public Screen returnScreen(Screen screen)
+	{
+		return null;
+	}
+	@Override
+	public void animate()
+	{
+		world.animate();
+		
 	}
 }

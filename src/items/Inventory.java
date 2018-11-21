@@ -3,13 +3,17 @@ package items;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Inventory implements Serializable
 {
-
+	public enum EquipementSlot{HEAD, TORSO, ARMS, LEGS};
+	
     private Item[] items;
     private Item[] equiped;
     private boolean fullyEquiped = false;
+    
+    private Random r = new Random();
 
     public Inventory(int max)
     {
@@ -29,6 +33,47 @@ public class Inventory implements Serializable
     			return items[index];
     	else
     		return null;
+    }
+    public ArrayList<Item> get(EquipementSlot slot)
+    {
+    	ArrayList<Item> specifiedItems =  new ArrayList<>();
+    	
+    	for(int i = 0; i < equiped.length; i++)
+    	{
+    		if(equiped[i] != null && equiped[i].type().	toString().equals(slot.toString()))
+    			specifiedItems.add(equiped[i]);
+    	}
+    	
+    	return specifiedItems;
+    }
+    public double getArmorNumber(EquipementSlot slot, double damage)
+    {
+    	double d = damage;
+    	
+    	System.out.println(d + " before filters applied.");
+    	
+    	if(slot == EquipementSlot.HEAD)
+    		d = reduceDamage(get(slot), damage);
+    	else if(slot == EquipementSlot.TORSO)
+    		d = reduceDamage(get(slot), damage);
+    	else if(slot == EquipementSlot.ARMS)
+    		d = reduceDamage(get(slot), damage);
+    	else if(slot == EquipementSlot.LEGS)
+    		d = reduceDamage(get(slot), damage);
+    	
+    	System.out.println(d + " after filters applied..");
+    	
+    	return d;
+    }
+    public double reduceDamage(ArrayList<Item> slotItems, double damage)
+    {
+    	double d = damage;
+    	for(Item i : slotItems)
+    	{
+    		d = (d +  ((i.defense()/(r.nextInt(3) +5))));
+    		System.out.println(i.name() + " this is the item name" +  i.type().toString() + "is the slot");
+    	}
+    	return d;
     }
     public boolean isItemEquiped(Item item)
     {

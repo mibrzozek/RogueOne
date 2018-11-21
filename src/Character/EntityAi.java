@@ -24,7 +24,7 @@ public class EntityAi implements Serializable
         
         Entity other = entity.entity(entity.x + mx, entity.y + my, entity.z);
         
-        if(other != null && other.glyph() == entity.glyph())
+        if(other != null && other.tile().glyph() == entity.tile().glyph())
         	return;
         else
         	entity.moveBy(mx, my, 0);

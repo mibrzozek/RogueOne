@@ -46,7 +46,6 @@ public class WorldBuilder implements Serializable
     // in playScreen.createWorld
     public WorldBuilder makeCaves() 
     {
-    	
         return randomizeTiles()
         		.smooth(12)
         		.createRegions()
@@ -54,7 +53,6 @@ public class WorldBuilder implements Serializable
         		.makeRandoRooms()
         		.addExitStairs()
         		.addExitStairs();
-        
     }
    
     // WORLD BUILDING TOOLS // SMOOTH
@@ -75,9 +73,9 @@ public class WorldBuilder implements Serializable
 	private WorldBuilder smooth(int times) 
 	{
 		Tile[][][] tiles2 = new Tile[width][height][depth];
+		
 		for (int time = 0; time < times; time++) 
 		{
-
 			for (int x = 0; x < width; x++) 
 			{
 				for (int y = 0; y < height; y++) 
@@ -109,23 +107,7 @@ public class WorldBuilder implements Serializable
 		}
 		return this;
 	}
-    // Average getters//setters
-    public int getWidth() 
-    {
-		return width;
-	}
-	public void setWidth(int width) 
-	{
-		this.width = width;
-	}
-	public int getHeight() 
-	{
-		return height;
-	}
-	public void setHeight(int height) 
-	{
-		this.height = height;
-	}
+   
 	public WorldBuilder makeRandoRooms()
 	{
 		Point largestRegion = findLargestRegion();
@@ -365,4 +347,9 @@ public class WorldBuilder implements Serializable
         tiles[x][y][0] = Tile.STAIRS_EXIT;
         return this;
     }
+	 // Average getters//setters
+    public int getWidth()		{	return width;	}
+	public void setWidth(int width){	this.width = width;		}
+	public int getHeight() 	{	return height;	}
+	public void setHeight(int height) {	this.height = height;}
 }

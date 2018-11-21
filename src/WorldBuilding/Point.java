@@ -4,18 +4,37 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class Point implements Serializable
 {
+	Random r = new Random();
+	
     public int x;
     public int y;
     public int z;
+    
+    public int w = 0;
+    public int h = 0;
 
     public Point(int x, int y, int z)
     {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+    public void addWidth(int w)
+    {
+    	this.w = w;
+    }
+    public void addHeight(int h)
+    {
+    	this.h = h;
+    }
+    
+    public Point point()
+    {
+    	return this;
     }
     @Override
     public int hashCode() 

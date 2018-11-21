@@ -218,4 +218,11 @@ public class TradeScreen extends singleListScrollingBasedScreen
 
     	}
     }
+
+	@Override
+	public void animate()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

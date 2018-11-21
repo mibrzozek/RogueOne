@@ -2,7 +2,9 @@ package Character;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Random;
 
+import WorldBuilding.Tile;
 import WorldBuilding.World;
 import asciiPanel.AsciiPanel;
 import items.ItemFactory;
@@ -12,11 +14,13 @@ public class EntityFactory implements Serializable
     private World world;
     private FieldOfView fov;
     private ItemFactory nullFactory = new ItemFactory();
+	private Random r;
     
     public EntityFactory()
     {
         this.world = null;
         this.fov = null;
+        this.r = new Random();
     }
     public EntityFactory(World world, FieldOfView fov)
     {
@@ -27,7 +31,7 @@ public class EntityFactory implements Serializable
     
     public Entity newHitman(int depth, Entity player)
     {
-        Entity hitman = new Entity("Hitman", world, 'H', AsciiPanel.white, 600, 10, 10);
+        Entity hitman = new Entity("Hitman", world, Tile.HITMAN, 600, 10, 10);
         
         if(world!= null)
         	world.addAtEmptyLocation(1, hitman);
@@ -36,7 +40,7 @@ public class EntityFactory implements Serializable
     }
 	public Entity newMutant()
 	{
-	    Entity mutant = new Entity("Mutant", world, 'M' , AsciiPanel.green , 300, 100, 0);
+	    Entity mutant = new Entity("Mutant", world, Tile.MUTANT, 300, 100, 0);
 	    
 	    if(world!= null)
 	    	world.addAtEmptyLocation(1, mutant);
@@ -49,7 +53,7 @@ public class EntityFactory implements Serializable
 	}
 	public Entity newDroid()
 	{
-	    Entity droid = new Entity("Droid", world, (char)225	, Color.orange , 300, 100, 0);
+	    Entity droid = new Entity("Droid", world, Tile.DROID , 300, 100, 0);
 	    
 	    if(world!= null)
 	    	world.addAtEmptyLocation(1, droid);
@@ -62,7 +66,7 @@ public class EntityFactory implements Serializable
 	}
 	public Entity newRogue()
 	{
-	    Entity rogue = new Entity("Rogue", world, (char)146	, AsciiPanel.brightRed, 300, 100, 0);
+	    Entity rogue = new Entity("Rogue", world, Tile.ROGUE, 300, 100, 0);
 	    
 	    if(world!= null)
 	    	world.addAtEmptyLocation(1, rogue);
@@ -74,28 +78,39 @@ public class EntityFactory implements Serializable
 	    
 	    return rogue;
 	}
-	public Entity newPlayer(List<String> messages)
+	public Entity newPlayer(List<String> messages, Statistics stats)
 	{
-		Entity player = new Entity("Killing Smokes", world, '@', AsciiPanel.brightWhite, 100, 20, 5);
+		Entity player = new Entity(stats, world, Tile.PLAYER);
 		if(world!= null)
-			world.addAtEmptyLocation(0, player);
+			world.spawnInside(0, player);
 		player.setEntityAi(new PlayerAi(player, messages, fov));
 		player.modifyPlasma(200);
 		player.modifyCrypto(1000);
+		
 		player.inventory().add(new ItemFactory().newMiningBeam());
 		player.inventory().add(new ItemFactory().newDevSword());
-		player.inventory().add(new ItemFactory().newPlasmaJuice());
 		
+		player.inventory().add(new ItemFactory().newRuggedCap());		
+		player.inventory().add(new ItemFactory().newLoinCloth());
+		player.inventory().add(new ItemFactory().newDankBoots());
+		player.inventory().add(new ItemFactory().newRacingGloves());
+		player.inventory().add(new ItemFactory().newWallBomb());
 		
+
+		player.inventory().moveToEquiped(5);
+		player.inventory().moveToEquiped(4);
+		player.inventory().moveToEquiped(3);
+		player.inventory().moveToEquiped(2);
+		player.inventory().moveToEquiped(1);
 		
 		return player;
 	}
 	public Entity newFungus(int depth)
 	{
-	    Entity fungus = new Entity("Fungus", world, 'f', AsciiPanel.green, 100, 20, 5);
+	    Entity fungus = new Entity("Fungus", world, Tile.FUNGUS, 100, 20, 5);
 	    
 	    if(world!= null)
-	    	world.spawnInside(fungus);
+	    	world.addAtEmptyLocation(5, fungus);
 	    new FungusAi(fungus, this);
 	    fungus.inventory().add(nullFactory.newPlasmaPod());
 	    fungus.inventory().add(nullFactory.newPlasmaPod());
@@ -105,7 +120,7 @@ public class EntityFactory implements Serializable
 	}
 	public Entity newTrader()
 	{
-	    Entity trader = new Entity("Trader", world, 'T', AsciiPanel.yellow, 10, 0, 0);
+	    Entity trader = new Entity("Trader", world, Tile.TRADER, 10, 0, 0);
 	    
 	    if(world!= null)
 	    	world.addAtEmptyLocation(5, trader);
@@ -116,7 +131,7 @@ public class EntityFactory implements Serializable
 	}
 	public Entity newMech()
 	{
-	    Entity mech = new Mech("Mech", world, '#', AsciiPanel.yellow, 500);
+	    Entity mech = new Mech("Mech", world, Tile.MECH, 500);
 	    
 	    if(world!= null)
 	    	world.addMech((Mech)mech);

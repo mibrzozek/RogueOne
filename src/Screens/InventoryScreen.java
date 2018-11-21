@@ -260,5 +260,17 @@ public class InventoryScreen extends ScrollingBasedScreen
         }
         return lines;
     }
+	@Override
+	public Screen returnScreen(Screen screen)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void animate()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

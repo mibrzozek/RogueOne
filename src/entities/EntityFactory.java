@@ -95,13 +95,17 @@ public class EntityFactory implements Serializable
 		player.inventory().add(new ItemFactory().newDankBoots());
 		player.inventory().add(new ItemFactory().newRacingGloves());
 		player.inventory().add(new ItemFactory().newWallBomb());
+		player.inventory().add(new ItemFactory().newInvisibilityCloak());
+		player.inventory().add(new ItemFactory().newInvisibilityChaps());
 		
-
+		player.inventory().moveToEquiped(6);
 		player.inventory().moveToEquiped(5);
 		player.inventory().moveToEquiped(4);
 		player.inventory().moveToEquiped(3);
 		player.inventory().moveToEquiped(2);
 		player.inventory().moveToEquiped(1);
+		
+		player.stats.setStealth(player.inventory().getStealthNumber());
 		
 		return player;
 	}

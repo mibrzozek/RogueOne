@@ -1,9 +1,9 @@
 package zunused;
 
+import allscreen.Screen;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import items.Item;
-import screens.Screen;
 
 public class DropScreen extends InventoryBasedScreen 
 {

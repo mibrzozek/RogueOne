@@ -2,7 +2,7 @@ package structures;
 
 import java.util.ArrayList;
 
-import screens.Message;
+import allscreen.Message;
 
 public class MessageTester
 {

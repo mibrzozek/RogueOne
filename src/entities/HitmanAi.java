@@ -55,9 +55,12 @@ public class HitmanAi extends EntityAi
       else if(mx > 0 || my < 0)
     	  entity.setDirection(1);
       
-      entity.useWeapon();
       
-      entity.moveBy(mx, my, 0);   
+      if(target.getStealth() < 99)
+      {
+    	  entity.useWeapon();
+    	  entity.moveBy(mx, my, 0);
+      }
      
       System.out.println("mx: " +  mx + " my: " + my);
   }

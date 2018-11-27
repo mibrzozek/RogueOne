@@ -8,7 +8,7 @@ import entities.Entity;
 public class Item implements Serializable
 {
 	
-	public enum Type{ PLASMA, APLASMA, HEAD, ARMS, TORSO, LEGS, GUN};
+	public enum Type{ PLASMA, APLASMA, HEAD, ARMS, TORSO, LEGS, GUN, STEALTH};
 
     private char glyph;
     private Color color;

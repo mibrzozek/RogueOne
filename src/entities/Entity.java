@@ -16,6 +16,18 @@ import wolrdbuilding.Projectile;
 import wolrdbuilding.Tile;
 import wolrdbuilding.World;
 
+/*
+ *  Damage :
+ *  	Look for dealDamage()
+ * 		Randomly choose a limb
+ * 		Filters  damage dealt by the armor thats on the limb
+ * 		Modifies limb health
+ * 	Attack :
+ * 		Undecided
+ * 	Inventory
+ * 			
+ */
+
 public class Entity implements Serializable
 {
 	//public enum Direction()
@@ -142,6 +154,7 @@ public class Entity implements Serializable
     public boolean tradeMode()		{ return tradeMode; }
     public Point tradersPosition()  { return tradersPosition; }
     public Entity lastTargeted()	{ return lastTargetedEnemy;}
+    public double getStealth()		{ return inventory.getStealthNumber();}
     
 	public Tile tile(int wx, int wy, int wz) 
 	{
@@ -176,9 +189,11 @@ public class Entity implements Serializable
     }
     public void useDevice()
     {
-    	notify("Device out!");
     	
-    	world.tunnelExplosion(this.direction);
+    	notify("Device out!");
+    	//if(inventory.getDevice().getType().equals(Item.EXPLOTION))
+    		//world.tunnelExplosion(this.direction, inventory.getDevice().diggingLength());
+    	//else if()
     	
     }
     public void useWeapon()
@@ -272,6 +287,10 @@ public class Entity implements Serializable
     		{
     			if(stats.getlLeg() + stats.getrLeg() > 0)
     				slot = EquipementSlot.LEGS;
+    		}
+    		if(stats.getVitals() <= 0)
+    		{
+    			slot = EquipementSlot.HEAD;
     		}
     	}
     	System.out.println(" "+ stats.getHead() 

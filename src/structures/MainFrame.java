@@ -16,11 +16,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import allscreen.InventoryScreen;
+import allscreen.Screen;
+import allscreen.StartScreen;
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
-import screens.InventoryScreen;
-import screens.Screen;
-import screens.StartScreen;
 import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
 import wolrdbuilding.World;

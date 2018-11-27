@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import allscreen.Message;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
-import screens.Message;
 import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
 import wolrdbuilding.TilePoint;
@@ -302,6 +302,8 @@ public class TileEngine
     		renderPercentBlocks(terminal, Color.CYAN, 9, screenHeight+3, player.plasma(), 10000);
     	terminal.write("Crypto [" + player.crypto(), 1, screenHeight+ 4);
     	terminal.write("Directn[" + player.getCardinal().getDirection(), 1, screenHeight+ 5);
+    	terminal.write("Stealth[" + player.getStealth(), 1, screenHeight+ 6);
+    	
     	
     	// Write the player name at bottom
     	terminal.write((char)187, 13, screenHeight + 11, Palette.darkGray);

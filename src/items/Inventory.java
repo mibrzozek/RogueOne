@@ -7,10 +7,12 @@ import java.util.Random;
 
 public class Inventory implements Serializable
 {
-	public enum EquipementSlot{HEAD, TORSO, ARMS, LEGS};
+	public enum EquipementSlot{HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO};
 	
     private Item[] items;
     private Item[] equiped;
+    
+    
     private boolean fullyEquiped = false;
     
     private Random r = new Random();
@@ -40,11 +42,22 @@ public class Inventory implements Serializable
     	
     	for(int i = 0; i < equiped.length; i++)
     	{
-    		if(equiped[i] != null && equiped[i].type().	toString().equals(slot.toString()))
+    		if(equiped[i] != null && equiped[i].type().toString().equals(slot.toString()))
     			specifiedItems.add(equiped[i]);
     	}
     	
     	return specifiedItems;
+    }
+    public double getStealthNumber()
+    {
+    	double stealth = 0;
+    	for(int i = 0; i < equiped.length; i++)
+    	{
+    		if(equiped[i] != null && equiped[i].type() == Item.Type.STEALTH)
+    			stealth += equiped[i].value();
+    	}
+    	
+    	return stealth;
     }
     public double getArmorNumber(EquipementSlot slot, double damage)
     {

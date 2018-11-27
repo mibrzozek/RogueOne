@@ -24,8 +24,32 @@ public class ItemFactory implements Serializable
 	}
 	// Weapons // Viles // Devices // Base
 	// Weapons //
-	// glyph, color, name, description, attack, defense, value relative to weapon type
+	// glyph, color, name, description, type, attack, defense, value relative to weapon type
 	
+	
+	// Stealth
+	public Item newInvisibilityCloak()
+	{
+		Item cloak = new Item((char)131, AsciiPanel.brightBlue, Type.STEALTH ,
+				"Loin Cloak", 
+				"It's better than being seen!",
+				0, 200
+				, 50);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), cloak);
+		return cloak;
+	}
+	public Item newInvisibilityChaps()
+	{
+		Item cloak = new Item((char)131, AsciiPanel.brightBlue, Type.STEALTH ,
+				"Loin Chaps", 
+				"It's better than being seen!",
+				0, 200
+				, 50);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), cloak);
+		return cloak;
+	}
 	// Armoor
 	//Head
 	public Item newRuggedCap()

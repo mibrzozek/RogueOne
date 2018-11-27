@@ -3,7 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import screens.KeyInputScreen;
+import allscreen.KeyInputScreen;
 
 public class Statistics implements Serializable
 {
@@ -35,6 +35,8 @@ public class Statistics implements Serializable
 	private double lLeg;
 	private double rLeg;
 	
+	private double stealth;
+	
 	private ArrayList<String> traits;	
 	private ArrayList<String> effects;	
 	private ArrayList<String> skills;
@@ -49,6 +51,8 @@ public class Statistics implements Serializable
 		this.rHand = 100;
 		this.lLeg = 100;
 		this.rLeg = 100;
+		
+		this.stealth = 0;
 		
 		this.vitals = head + torso + lHand + rHand + lLeg + rLeg;
 	}
@@ -93,6 +97,7 @@ public class Statistics implements Serializable
 	public void setrHand(double rHand){	this.rHand = checkForNegative(rHand);}
 	public void setlLeg(double lLeg){this.lLeg = checkForNegative(lLeg);}
 	public void setrLeg(double rLeg){this.rLeg = checkForNegative(rLeg);}
+	public void setStealth(double stealth){this.stealth = stealth;}
 	public void setTraits(ArrayList<String> traits){	this.traits = traits;}
 	public void setEffects(ArrayList<String> effects)	{	this.effects = effects;	}
 	public void setSkills(ArrayList<String> skills)		{	this.skills = skills;	}	
@@ -116,6 +121,7 @@ public class Statistics implements Serializable
 	public double getrHand(){return rHand;}
 	public double getlLeg(){return lLeg;}
 	public double getrLeg(){return rLeg;}
+	public double getStealth(){return stealth;}
 	public ArrayList<String> getTraits(){return traits;}
 	public ArrayList<String> getEffects()	{return effects;	}
 	public ArrayList<String> getSkills()	{	return skills;	}
@@ -128,71 +134,103 @@ public class Statistics implements Serializable
 			return 0.0;
 	}
 	// Allows to add attributes iteratively
-	
-		public void setAttribute(int index, String s)
-		{	
-			if(index == 0)
-	    	{
-	    		this.name = s;
-	    	}
-	    	else if(index == 1)
-	    	{
-	    		this.role = s;
-	    	}
-	    	else if(index == 2)
-	    	{
-	    		if(Integer.parseInt(s) <= MAX_POINTS)
-	    		{
-	    			points += strength;
-	    			this.strength = Integer.parseInt(s);
-	    			points -= Integer.parseInt(s);
-	    		}
-	    		if(Integer.parseInt(s) < 0)
-	    			points += -(Integer.parseInt(s));
-	    		
-	    		System.out.println(Math.abs(Integer.parseInt(s)));
-	    	}
-	    	else if(index == 3)
-	    	{
-	    		if(Integer.parseInt(s) <= MAX_POINTS)
-	    		{
-	    			points += dexterity;
-	    			this.dexterity = Integer.parseInt(s);
-	    			points -= Integer.parseInt(s);
-	    		}
-	    		if(Integer.parseInt(s) < 0)
-	    			points += Math.abs(Integer.parseInt(s));
-	    	}
-	    	else if(index == 4)
-	    	{
-	    		if(Integer.parseInt(s) <= MAX_POINTS)
-	    		{
-	    			points += inteligence;
-	    			this.inteligence = Integer.parseInt(s);
-	    			points -= Integer.parseInt(s);
-	    		}
-	    		if(Integer.parseInt(s) < 0)
-	    			points += Math.abs(Integer.parseInt(s));
-	    	}
-	    	else if(index == 5)
-	    	{
-	    		if(Integer.parseInt(s) <= MAX_POINTS)
-	    		{
-	    			points += charisma;
-	    			this.charisma = Integer.parseInt(s);
-	    			points -= Integer.parseInt(s);
-	    		}
-	    		if(Integer.parseInt(s) < 0)
-	    			points += Math.abs(Integer.parseInt(s));
-	    	}
-	    	else if(index == 6)
-	    	{
-	    		
-	    	}
-	    	else if(index == 7)
-	    	{
-	    		
-	    	}
-		}	
+	// in the character creation screen
+	// Th index
+	public void setAttribute(int index, String s)
+	{	
+		Integer parsed = 0;
+		try {
+			parsed = Integer.parseInt(s);
+		}
+		catch(Exception NumberFormartException)
+		{
+			
+		}
+		
+		if(index == 0)
+	   	{
+	   		this.name = s;
+	    }
+	   	else if(index == 1)
+	    {
+	   		this.role = s;
+	   	}
+	   	else if(index == 2)
+	   	{
+	   		if(parsed <= MAX_POINTS				// Do i have enough to spend?
+	   				&& points - parsed >= 0)	// Can i afford it?
+	   		{
+	   			if(parsed < 0) // Subtracting points
+	   			{
+	   				points -= parsed;
+	   				strength += parsed;
+	   			}
+	   			else if(parsed > 0) // Adding points
+	   			{
+	   				points -= parsed;
+	   				strength += parsed;
+	   			}
+	   		}
+	    }
+	    else if(index == 3)
+	    {
+	   		if(parsed <= MAX_POINTS				
+	   				&& points - parsed >= 0)	
+	   		{
+	   			if(parsed < 0) 
+	   			{
+	   				points -= parsed;
+	   				dexterity += parsed;
+	   			}
+	   			else if(parsed > 0)
+	   			{
+	   				points -= parsed;
+	   				dexterity += parsed;
+	   			}
+	   		}
+	   	}
+	    else if(index == 4)
+	    {
+	   		if(parsed <= MAX_POINTS				
+	   				&& points - parsed >= 0)	
+	   		{
+	   			if(parsed < 0) 
+	   			{
+	   				points -= parsed;
+	   				inteligence += parsed;
+	   			}
+	   			else if(parsed > 0)
+	   			{
+	   				points -= parsed;
+	   				inteligence += parsed;
+	   			}
+	   		}
+	    }
+	    else if(index == 5)
+	    {
+	   		if(parsed <= MAX_POINTS				
+	   				&& points - parsed >= 0)	
+	   		{
+	   			if(parsed < 0) 
+	   			{
+	   				points -= parsed;
+	   				charisma += parsed;
+	   			}
+	   			else if(parsed > 0)
+	   			{
+	   				points -= parsed;
+	   				charisma += parsed;
+	   			}
+	   		}
+	    }
+	    else if(index == 6)
+	    {
+	    	
+	    }
+	    else if(index == 7)
+	    {
+	    	
+	    }
+	}	
 	
 }

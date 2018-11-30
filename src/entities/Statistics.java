@@ -3,7 +3,7 @@ package entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import allscreen.KeyInputScreen;
+import screens.KeyInputScreen;
 
 public class Statistics implements Serializable
 {

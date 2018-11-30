@@ -6,6 +6,7 @@ import java.util.Random;
 
 import asciiPanel.AsciiPanel;
 import items.Item.Type;
+import wolrdbuilding.Palette;
 import wolrdbuilding.World;
 
 public class ItemFactory implements Serializable
@@ -30,7 +31,7 @@ public class ItemFactory implements Serializable
 	// Stealth
 	public Item newInvisibilityCloak()
 	{
-		Item cloak = new Item((char)131, AsciiPanel.brightBlue, Type.STEALTH ,
+		Item cloak = new Item((char)131, Palette.blue, Type.STEALTH ,
 				"Loin Cloak", 
 				"It's better than being seen!",
 				0, 200

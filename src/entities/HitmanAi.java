@@ -22,7 +22,7 @@ public class HitmanAi extends EntityAi
       if (Math.random() < 0.2)
           return;
   
-      if (entity.canSee(player.x, player.y, player.z))
+      if (entity.canSee(player.x, player.y, player.z) && player.getStealth() < 100)
           hunt(player);
       else
           wander();
@@ -56,11 +56,10 @@ public class HitmanAi extends EntityAi
     	  entity.setDirection(1);
       
       
-      if(target.getStealth() < 99)
-      {
-    	  entity.useWeapon();
-    	  entity.moveBy(mx, my, 0);
-      }
+   
+      entity.useWeapon();
+      entity.moveBy(mx, my, 0);
+     
      
       System.out.println("mx: " +  mx + " my: " + my);
   }

@@ -6,11 +6,11 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import allscreen.OptionsScreen;
-import allscreen.Screen;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import items.Item;
+import screens.OptionsScreen;
+import screens.Screen;
 
 public abstract class InventoryBasedScreen implements Screen 
 {

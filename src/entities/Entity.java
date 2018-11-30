@@ -37,7 +37,7 @@ public class Entity implements Serializable
     public int x;
     public int y;
     public int z;
-    
+    	
     public int direction = 0;
     public Direction cardinal = Direction.NORTH;
     
@@ -193,7 +193,7 @@ public class Entity implements Serializable
     	notify("Device out!");
     	//if(inventory.getDevice().getType().equals(Item.EXPLOTION))
     		//world.tunnelExplosion(this.direction, inventory.getDevice().diggingLength());
-    	//else if()
+    	//else if()					
     	
     }
     public void useWeapon()
@@ -251,6 +251,10 @@ public class Entity implements Serializable
         else
         	other.modifyHp(-amount);
         	
+    }
+    public void testMethod()
+    {
+    	System.out.println("testing");
     }
     
     public void dealDamage(int amount)

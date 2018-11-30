@@ -23,12 +23,76 @@ public class ItemFactory implements Serializable
 	{
 		this.world = null;
 	}
-	// Weapons // Viles // Devices // Base
-	// Weapons //
-	// glyph, color, name, description, type, attack, defense, value relative to weapon type
-	
-	
-	// Stealth
+
+	public Item newReflectiveShall()
+	{
+		Item reflectiveShall = new Item((char)121, AsciiPanel.brightBlue, Type.STEALTH,
+				"Reflective Shall", 
+				"A loose shall which drapes over your neck and reflects all the light the hits it.",
+				0, 0
+				, 25);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), reflectiveShall);
+		return reflectiveShall;
+	}
+	public Item newSparklingBoots()
+	{
+		Item sparklingBoots = new Item((char)121, AsciiPanel.brightBlue, Type.STEALTH,
+				"Sparkling Boots", 
+				"Some glittery sparkling boots have found you, and now it's time to find yourself!",
+				0, 0
+				, 10);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), sparklingBoots);
+		return sparklingBoots;
+	}
+	public Item newTunnelAxe()
+	{
+		Item tunnelAxe = new Item((char)121, AsciiPanel.brightBlue, Type.DEVICE,
+				"Tunneling Axe", 
+				"It sports a nice grip, and an even nicer blade. It's sharp so be carefull. It will cut metal, wood, dirt, enemies, allies, and anything else that gets in its way. It's a damn sharp thing, and it's a force to be reckoned with.",
+				10, 10
+				, 0);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), tunnelAxe);
+		return tunnelAxe;
+	}
+	public Item newDiscoBall()
+	{
+		Item discoBall = new Item((char)121, AsciiPanel.brightBlue, Type.WEAPON,
+				"Disco Ball", 
+				"An egg shaped disco ball. Some groovy bird must've given birth to this thing, groovy.",
+				30, 0
+				, 0);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), discoBall);
+		return discoBall;
+	}
+	public Item newNanoSword()
+	{
+		Item nanoSword = new Item((char)121, AsciiPanel.brightBlue, Type.WEAPON,
+				"Nano Sword", 
+				"A sword made of nano bots! It slices, it shoots, and it's pretty smart.",
+				30, 0
+				, 30);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), nanoSword);
+		return nanoSword;
+	}
+	public Item newBioLard()
+	{
+		Item bioLard = new Item((char)121, AsciiPanel.brightBlue, Type.CONSUMABLE,
+				"Bio Lard", 
+				"Some kind of lab grown fat. It's more like lard than butter. Akin to coconut oil but clearer and denser. It tastes like you're drinking water and brushing your teeth, in a good way.",
+				0, 0
+				, 15);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), bioLard);
+		return bioLard;
+	}
+	/*
+	 *		Stealth Items --------------------------------------------
+	 */
 	public Item newInvisibilityCloak()
 	{
 		Item cloak = new Item((char)131, Palette.blue, Type.STEALTH ,
@@ -44,15 +108,17 @@ public class ItemFactory implements Serializable
 	{
 		Item cloak = new Item((char)131, AsciiPanel.brightBlue, Type.STEALTH ,
 				"Loin Chaps", 
-				"It's better than being seen!",
+				"Good for a late night dance party, or when running with the wolves.",
 				0, 200
 				, 50);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), cloak);
 		return cloak;
 	}
-	// Armoor
-	//Head
+	
+	/*
+	 *		Head Items --------------------------------------------
+	 */
 	public Item newRuggedCap()
 	{
 		Item ruggedCap = new Item((char)131, AsciiPanel.brightBlue, Type.HEAD ,
@@ -64,7 +130,9 @@ public class ItemFactory implements Serializable
 			world.spawnInside(r.nextInt(5), ruggedCap);
 		return ruggedCap;
 	}
-	//TORSOO
+	/*
+	 *		Torso Items --------------------------------------------
+	 */
 	public Item newLoinCloth()
 	{
 		Item loinCloth = new Item((char)131, AsciiPanel.brightBlue, Type.TORSO ,
@@ -76,7 +144,9 @@ public class ItemFactory implements Serializable
 			world.spawnInside(r.nextInt(5), loinCloth);
 		return loinCloth;
 	}
-	//Arms
+	/*
+	 *		Arm Items --------------------------------------------
+	 */
 	public Item newRacingGloves()
 	{
 		Item racingGloves = new Item((char)131, AsciiPanel.brightBlue, Type.ARMS,
@@ -88,7 +158,9 @@ public class ItemFactory implements Serializable
 			world.spawnInside(r.nextInt(5), racingGloves);
 		return racingGloves;
 	}
-	//LEGS
+	/*
+	 *		Leg Items --------------------------------------------
+	 */
 	public Item newDankBoots()
 	{
 		Item dankBoots = new Item((char)131, AsciiPanel.brightBlue, Type.LEGS ,
@@ -100,7 +172,9 @@ public class ItemFactory implements Serializable
 			world.spawnInside(r.nextInt(5), dankBoots);
 		return dankBoots;
 	}
-	
+	/*
+	 *		GUN Items --------------------------------------------
+	 */
 	public Item newMusketGun()
 	{
 		Item musketGun = new Item((char)131, AsciiPanel.brightBlue, Type.GUN ,
@@ -217,7 +291,7 @@ public class ItemFactory implements Serializable
 	// Devices // Used to gain an edge in playing
 	public Item newWallBomb()
 	{
-		Item wallBomb = new Item('*', Color.cyan, Type.GUN ,
+		Item wallBomb = new Item('*', Color.cyan, Type.DEVICE ,
 				"Wall Bomb", 
 				"Stuck in a room with no doors? Grab this handy"
 				+ "  wall bomb and place it oewhere. It will digg aa tunnel for you!",
@@ -270,54 +344,10 @@ public class ItemFactory implements Serializable
 		
 		return miningBeam;
 	}
-	// Base Items // Used for crafting
-
-	public Item newVileOfBioReactant()
-	{
-		Item bioReactant = new Item((char)239, Color.BLUE,  Type.GUN ,
-				"Bio Chemical Reactant", 
-				"You've scored a vile of bio chemical mutant reactant which means you'll"
-				+ " be able to  mutate yourself. This stuff is addictive, like tatoos, or heroin, "
-				+ " so make sure you don't mutate yourself to the grave.",
-				0, 0
-				, 500);
-		if(world != null)
-			world.spawnInside(r.nextInt(5), bioReactant);
-		
-		return bioReactant;
-		
-	}
-	public Item newHeatShieldShard()
-	{
-		Item heatShieldShard = new Item((char)239, Color.BLUE,  Type.GUN ,
-				"Heat Shield Shard", 
-				"A shard of shield which must have fallen off a scaled industrial heat shield."
-				+ " These things are rare so hold on to it. Be careful, you might be in trouble "
-				+ "if you get caught with one of those out in the open."
-				+" With enough of these you'd be able to make yourself a proper heat shield.",
-				0, 0
-				, 500);
-		if(world != null)
-			world.spawnInside(r.nextInt(5), heatShieldShard);
-		
-		return heatShieldShard;
-		
-	}
-	public Item newStickOfRam()
-	{
-		Item stickOfRam = new Item((char)95, Color.BLUE,  Type.GUN ,
-				"Stick of RAM", 
-				"A good ole, standard size, 1 TB stick of ram."
-				+ "This stck happens to have a stylized red casing, with rgb light hooks, and "
-				+ "various other party mode features. Works well in parellel with another stick of ram.",
-				0, 0
-				, 500);
-		if(world != null)
-			world.spawnInside(r.nextInt(5), stickOfRam);
-		
-		return stickOfRam;
-		
-	}
+	
+	/*
+	 *		Auto Plasma Items --------------------------------------------
+	 */
 	public Item newPlasmaPack()
 	{
 		Item plasmaPack = new Item((char)253, Color.CYAN,  Type.APLASMA ,
@@ -329,9 +359,7 @@ public class ItemFactory implements Serializable
 				, 500);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), plasmaPack);
-		
 		return plasmaPack;
-		
 	}
 	public Item newPlasmaPod()
 	{
@@ -344,39 +372,7 @@ public class ItemFactory implements Serializable
 				, 500);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), plasmaPod);
-		
 		return plasmaPod;
-		
-	}
-	public Item newPlasmaJuice()
-	{
-		Item plasmaJuice = new Item((char)5, Color.CYAN, Type.PLASMA ,
-				"Temporal Plasma Pack", 
-				"This nifty item squeezes a shit ton of plasma into a tiny little fucking box."
-				+ " Technically it doesn't do that, but it allows you acess to plasma from different points in the "
-				+ "expnsion of the universe. A nifty little device, hold onto it.",
-				0, 0
-				, 500);
-		if(world != null)
-			world.spawnInside(r.nextInt(5), plasmaJuice);
-		
-		return plasmaJuice;
-		
-	}
-	public Item newAnimatronicSkeleton()
-	{
-		Item animatronicSkeleton = new Item('#', Color.GRAY, Type.GUN,
-				"Animatronic Skeleton", 
-				"A carefully crafted, all purpose skeleton used for making makeshift robots of all sizes and shaped."
-				+ " The center core seems to need some type of fluid to make the skeleton move."
-				+ " A small slit is visible on teh underside next to the Noki Core logo.",
-				0, 0
-				, 500);
-		if(world != null)
-			world.spawnInside(r.nextInt(5), animatronicSkeleton);
-		
-		return animatronicSkeleton;
-		
 	}
 	public Item newVictoryItem(int depth)
 	{
@@ -390,4 +386,78 @@ public class ItemFactory implements Serializable
         	world.addAtEmptyLocation(depth, item);
         return item;
     }
+	/*
+	 *		Plasma Items --------------------------------------------------
+	 */
+	public Item newPlasmaJuice()
+	{
+		Item plasmaJuice = new Item((char)5, Color.CYAN, Type.PLASMA ,
+				"Temporal Plasma Pack", 
+				"This nifty item squeezes a shit ton of plasma into a tiny little fucking box."
+				+ " Technically it doesn't do that, but it allows you acess to plasma from different points in the "
+				+ "expnsion of the universe. A nifty little device, hold onto it.",
+				0, 0
+				, 500);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), plasmaJuice);
+		
+		return plasmaJuice;
+	}
+	/*
+	 *		Part Items --------------------------------------------------
+	 */
+	public Item newAnimatronicSkeleton()
+	{
+		Item animatronicSkeleton = new Item('#', Color.GRAY, Type.PART,
+				"Animatronic Skeleton", 
+				"A carefully crafted, all purpose skeleton used for making makeshift robots of all sizes and shaped."
+				+ " The center core seems to need some type of fluid to make the skeleton move."
+				+ " A small slit is visible on teh underside next to the Noki Core logo.",
+				0, 0
+				, 500);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), animatronicSkeleton);
+		
+		return animatronicSkeleton;
+	}
+	public Item newVileOfBioReactant()
+	{
+		Item bioReactant = new Item((char)239, Color.BLUE,  Type.PART,
+				"Bio Chemical Reactant", 
+				"You've scored a vile of bio chemical mutant reactant which means you'll"
+				+ " be able to  mutate yourself. This stuff is addictive, like tatoos, or heroin, "
+				+ " so make sure you don't mutate yourself to the grave.",
+				0, 0
+				, 500);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), bioReactant);
+		return bioReactant;
+	}
+	public Item newHeatShieldShard()
+	{
+		Item heatShieldShard = new Item((char)239, Color.BLUE,  Type.PART,
+				"Heat Shield Shard", 
+				"A shard of shield which must have fallen off a scaled industrial heat shield."
+				+ " These things are rare so hold on to it. Be careful, you might be in trouble "
+				+ "if you get caught with one of those out in the open."
+				+" With enough of these you'd be able to make yourself a proper heat shield.",
+				0, 0
+				, 500);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), heatShieldShard);
+		return heatShieldShard;
+	}
+	public Item newStickOfRam()
+	{
+		Item stickOfRam = new Item((char)95, Color.BLUE,  Type.PART ,
+				"Stick of RAM", 
+				"A good ole, standard size, 1 TB stick of ram."
+				+ "This stck happens to have a stylized red casing, with rgb light hooks, and "
+				+ "various other party mode features. Works well in parellel with another stick of ram.",
+				0, 0
+				, 500);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), stickOfRam);
+		return stickOfRam;
+	}
 }

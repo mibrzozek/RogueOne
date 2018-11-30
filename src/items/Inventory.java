@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
+
+import items.Item.Type;
 
 public class Inventory implements Serializable
 {
@@ -12,6 +15,8 @@ public class Inventory implements Serializable
     private Item[] items;
     private Item[] equiped;
     
+    private List<Item> devices;
+    private int deviceIndex = -1;
     
     private boolean fullyEquiped = false;
     
@@ -36,20 +41,48 @@ public class Inventory implements Serializable
     	else
     		return null;
     }
-    public ArrayList<Item> get(EquipementSlot slot)
+    public void cycleDevice()
+    {
+    	if(devices.isEmpty())
+    		return;
+    	else
+    	{
+    		if(deviceIndex + 1 == devices.size() || deviceIndex < 0)
+    			deviceIndex = 0;
+    		else
+    			deviceIndex++;
+    	}
+    	
+    }
+    public Item getDevice()
+    {
+    	devices = get(Item.Type.DEVICE);
+    	deviceIndex = 0;
+    	
+    	if(devices.isEmpty())
+    		return null;
+    	else
+    	{
+    		return devices.get(deviceIndex);
+    	}
+    }
+    public ArrayList<Item> get(Type type)
     {
     	ArrayList<Item> specifiedItems =  new ArrayList<>();
     	
     	for(int i = 0; i < equiped.length; i++)
     	{
-    		if(equiped[i] != null && equiped[i].type().toString().equals(slot.toString()))
+    		if(equiped[i] != null && equiped[i].type().equals(type))
     			specifiedItems.add(equiped[i]);
     	}
+    	System.out.println(specifiedItems.size() + " items on " + type.toString());
     	
     	return specifiedItems;
     }
     public double getStealthNumber()
     {
+    	Stream str = get(Item.Type.STEALTH).stream();
+    	
     	double stealth = 0;
     	for(int i = 0; i < equiped.length; i++)
     	{
@@ -66,13 +99,13 @@ public class Inventory implements Serializable
     	System.out.println(d + " before filters applied.");
     	
     	if(slot == EquipementSlot.HEAD)
-    		d = reduceDamage(get(slot), damage);
+    		d = reduceDamage(get(Item.Type.HEAD), damage);
     	else if(slot == EquipementSlot.TORSO)
-    		d = reduceDamage(get(slot), damage);
+    		d = reduceDamage(get(Item.Type.TORSO), damage);
     	else if(slot == EquipementSlot.ARMS)
-    		d = reduceDamage(get(slot), damage);
+    		d = reduceDamage(get(Item.Type.ARMS), damage);
     	else if(slot == EquipementSlot.LEGS)
-    		d = reduceDamage(get(slot), damage);
+    		d = reduceDamage(get(Item.Type.LEGS), damage);
     	
     	System.out.println(d + " after filters applied..");
     	

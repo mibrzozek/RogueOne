@@ -8,7 +8,11 @@ import entities.Entity;
 public class Item implements Serializable
 {
 	
-	public enum Type{ PLASMA, APLASMA, HEAD, ARMS, TORSO, LEGS, GUN, STEALTH, DEVICE};
+	public enum Type{ PLASMA, APLASMA, 
+		HEAD, ARMS, TORSO, LEGS, 
+		GUN, DEVICE, WEAPON, PART, 
+		CONSUMABLE,
+		STEALTH};
 
     private char glyph;
     private Color color;
@@ -37,7 +41,6 @@ public class Item implements Serializable
         if(this.type.equals("plasma"))
         	this.usable = true; 
     }
-    
     public Type type() 			{ return type; }
     public String name() 			{ return name; }
     public Color color() 			{ return color; }
@@ -54,14 +57,17 @@ public class Item implements Serializable
     
     public void useItemOn(Entity other)
     {
-    	if(this.type == Type.PLASMA)
+    	if(this.type == Type.APLASMA)
     	{
     		other.modifyPlasma(1000);
     		other.notify("Mmmm, wow, so much plasma...");
+    		System.out.println("Insisde use");
+    	}
+    	else if(this.type == Type.CONSUMABLE)
+    	{
+    		other.notify("Mmmmm, i love bio food!");
     	}
     }
-    
-    
     @Override
     public boolean equals(Object obj)
     {
@@ -75,8 +81,4 @@ public class Item implements Serializable
     	else	
     		return false;
     }
-    
-    
-    
-    
 }

@@ -189,12 +189,15 @@ public class Entity implements Serializable
     }
     public void useDevice()
     {
-    	
     	notify("Device out!");
-    	//if(inventory.getDevice().getType().equals(Item.EXPLOTION))
-    		//world.tunnelExplosion(this.direction, inventory.getDevice().diggingLength());
-    	//else if()					
     	
+    	if(inventory.getDevice() != null 
+    			&& inventory.getDevice().type().equals(Item.Type.DEVICE))
+    	{
+    		//inventory.removeEquiped(inventory.getDevice());
+    		
+    		world.tunnelExplosion(this.direction);	
+    	}
     }
     public void useWeapon()
     {
@@ -297,6 +300,10 @@ public class Entity implements Serializable
     			slot = EquipementSlot.HEAD;
     		}
     	}
+    	
+    	System.out.println(EquipementSlot.HEAD + " " + Item.Type.HEAD);
+    	
+    	
     	System.out.println(" "+ stats.getHead() 
     			+ " "+ stats.getTorso() + " " 
     			+ (stats.getlHand() + stats.getrHand()) + " "     					

@@ -2,7 +2,9 @@ package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -49,7 +51,9 @@ public class InventoryScreen extends ScrollingBasedScreen
         renderItemList(terminal);
         renderEquipementList(terminal);
          
-        System.out.println("sccrollY " + (scrollY) + "ry: " + ry);
+        System.out.println(
+        		Arrays.asList(player.inventory().getEquiped())
+        		);
         
         
         terminal.write(""+ (char) 16, scrollX, scrollY, AsciiPanel.brightGreen);

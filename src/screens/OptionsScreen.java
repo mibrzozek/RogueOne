@@ -29,7 +29,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 	private Screen inspectScreen = null;
 	
 	private boolean selectingFromInventory;
-	private List list;
+	private List optionList;
 	// option for inventory, one entity, scrollPoint, itemIndex, terminal
 	// options for trading
 	// options for crafting
@@ -51,21 +51,25 @@ public class OptionsScreen extends ScrollingBasedScreen
 	    equiped = player.inventory().getEquiped();
 	    tradersItems = null;
 		
-	    list = new ArrayList<String>();
-		list.add("Inspect");
-		list.add("Use");
-		list.add("Drop");
-		list.add("Craft");
+	    optionList = new ArrayList<String>();
+		optionList.add("Inspect");
+		optionList.add("equipUnequip");
+		optionList.add("Drop");
+		optionList.add("Craft");
 
 		if(selectingFromInventory)
 		{
-			if(items[itemIndex].usable())
-				list.add("Use");
+			if(items[itemIndex].type().equals(Item.Type.APLASMA))
+				optionList.add("Use");
+			else if(items[itemIndex].type().equals(Item.Type.CONSUMABLE))
+				optionList.add("Eat");
 		}
 		else
 		{
-			if(equiped[itemIndex].usable())
-				list.add("Use");
+			if(equiped[itemIndex].type().equals(Item.Type.APLASMA))
+				optionList.add("Use");
+			else if(equiped[itemIndex].type().equals(Item.Type.CONSUMABLE))
+				optionList.add("Eat");
 		}
 	}
 	// Trading Options Constructor
@@ -83,10 +87,10 @@ public class OptionsScreen extends ScrollingBasedScreen
 	    items = player.inventory().getItems();
 	    tradersItems = other.inventory().getItems();
 	    
-		list = new ArrayList<String>();
-		list.add("Inspect");
-		list.add("Buy");
-		list.add("Trade");
+		optionList = new ArrayList<String>();
+		optionList.add("Inspect");
+		optionList.add("Buy");
+		optionList.add("Trade");
 	}
 	// Crafting Options Screen Constructor
 	public OptionsScreen(Entity player, int scrollX, int scrollY, int itemIndex, String s, AsciiPanel terminal)
@@ -100,10 +104,10 @@ public class OptionsScreen extends ScrollingBasedScreen
 		renderY = scrollY;
 		
 	    items = player.inventory().getItems();
-		list = new ArrayList<String>();
-		list.add("Inspect");
-		list.add("Craft");
-		list.add("Modify");
+		optionList = new ArrayList<String>();
+		optionList.add("Inspect");
+		optionList.add("Craft");
+		optionList.add("Modify");
 	}
 	public void renderBackground(AsciiPanel terminal)
 	{
@@ -118,28 +122,25 @@ public class OptionsScreen extends ScrollingBasedScreen
 			}
 		}
 	}
-
 	public void displayOutput(AsciiPanel terminal)
 	{
 		int x = renderX+1;
 		int y = renderY+1;
 	
 		renderBox(terminal);
-		if(list.get(1).equals("Use"))
-		{
-			if(selectingFromInventory)
-				list.set(1, "Equip");
-			else
-				list.set(1, "Unequip");
-		}
+
+		if(selectingFromInventory)
+			optionList.set(1, "Equip");
+		else
+			optionList.set(1, "Unequip");
+
 		
 		//renderBackground(terminal);
 		
-		for(int i = 0; i < list.size(); i++)
+		for(int i = 0; i < optionList.size(); i++)
 		{
-				terminal.write(""+ list.get(i), x+1, y++ );
+				terminal.write(""+ optionList.get(i), x+1, y++ );
 		}
-		
 		terminal.write((char)16 + "" +  index , scrollX+1, scrollY+1, AsciiPanel.brightGreen);
 		
 		if(inspectScreen != null)
@@ -209,8 +210,8 @@ public class OptionsScreen extends ScrollingBasedScreen
 	}
 	public void useItem()
 	{
-		if(equiped[itemIndex]!= null)
-			System.out.println(equiped[itemIndex].type());
+		//if(equiped[itemIndex]!= null)
+			//System.out.println(equiped[itemIndex].type());
 		
 		if(selectingFromInventory)
 		{
@@ -226,8 +227,6 @@ public class OptionsScreen extends ScrollingBasedScreen
 	}
 	public void equipUnequip()
 	{
-		System.out.println(""+ (scrollY -3));
-		System.out.println(selectingFromInventory);
 		if(selectingFromInventory)
 		{
 			player.equipItem(items[itemIndex]);
@@ -321,12 +320,18 @@ public class OptionsScreen extends ScrollingBasedScreen
 					
 					return null;	
 				}
-				else if(index == 4 && list.get(index).equals("Use"))
+				else if(index == 4 && index < optionList.size())
 				{
 					if(tradersItems == null)
-						useItem();
-					
-					
+					{	
+						if(optionList.get(index).equals("Use")
+							|| optionList.get(index).equals("Eat"))	
+						{
+							useItem();
+							System.out.println("Insisde use");
+						}
+						
+					}
 					return null;
 				}
 				else 

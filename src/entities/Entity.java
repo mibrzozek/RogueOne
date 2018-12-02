@@ -194,9 +194,10 @@ public class Entity implements Serializable
     	if(inventory.getDevice() != null 
     			&& inventory.getDevice().type().equals(Item.Type.DEVICE))
     	{
-    		//inventory.removeEquiped(inventory.getDevice());
+    		//inventory.removeEquiped(inventory.getDevice())
     		
-    		world.tunnelExplosion(this.direction);	
+    		System.out.println(inventory.getDevice().name());
+    		world.tunnelExplosion(this.direction, inventory.getDevice().value());	
     	}
     }
     public void useWeapon()

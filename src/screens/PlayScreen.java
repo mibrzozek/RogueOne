@@ -136,6 +136,7 @@ public class PlayScreen implements Screen
             for (int i = 0; i < world.width() * world.height() / 200; i++)
             {
             	itemFactory.newPlasmaPod();
+            	world.addAtEmptyLocation(0 , itemFactory.getRandomItem());
             }
         }
         itemFactory.newVictoryItem(1);

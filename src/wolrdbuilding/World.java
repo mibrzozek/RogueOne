@@ -105,7 +105,7 @@ public class World implements Serializable
 		if (tile(x, y, z).isDiggable())
 			tiles[x][y][z] = Tile.FLOOR;
 	}
-	public void tunnelExplosion(int direction)
+	public void tunnelExplosion(int direction, int distance)
 	{
 		int mx = 0, my= 0;
 		
@@ -148,9 +148,9 @@ public class World implements Serializable
 			my =-1;
 		}
 		
-		for(int i = 0; i < 10;i++)
+		for(int i = 0; i < distance; i++)
 		{
-			System.out.println(direction + " direction " + mx + " mx " +  my + " my");
+			System.out.println(direction + " direction " + mx + " mx " +  my + " my " + distance + " distance");
 			
 			if(!tiles[player.x +mx][player.y + my][player.z].isFloor())
 			{
@@ -166,7 +166,7 @@ public class World implements Serializable
 					++mx;
 			}
 			else
-				i = 10;
+				i = distance;
 			
 			System.out.println(mx + " mx and my " +  my);
 			System.out.println(player.x + mx + " mx and my " + (player.y + my));

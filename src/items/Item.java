@@ -12,6 +12,7 @@ public class Item implements Serializable
 		HEAD, ARMS, TORSO, LEGS, 
 		GUN, DEVICE, WEAPON, PART, 
 		CONSUMABLE,
+		VILE,
 		STEALTH};
 
     private char glyph;
@@ -28,7 +29,7 @@ public class Item implements Serializable
     private boolean usable = false;
     private boolean equiped = false;
    
-    public Item(char glyph, Color color, Type type,  String name, String description, int attack, int defense, int value)
+    public Item(char glyph, Color color, Type type, String name, String description, int attack, int defense, int value)
     {
         this.glyph = glyph;
         this.color = color;
@@ -67,6 +68,11 @@ public class Item implements Serializable
     	{
     		other.notify("Mmmmm, i love bio food!");
     	}
+    }
+    @Override
+    public String toString()
+    {
+    	return name;
     }
     @Override
     public boolean equals(Object obj)

@@ -2,6 +2,8 @@ package items;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import asciiPanel.AsciiPanel;
@@ -13,17 +15,37 @@ public class ItemFactory implements Serializable
 {
 	private World world;
 	public Random r;
+	private List<Item> itemList;
 	
 	public ItemFactory(World world)
 	{
 		this.world = world;
 		this.r = new Random();
+		initItemList();
 	}
 	public ItemFactory()
 	{
 		this.world = null;
+		initItemList();
 	}
-
+	public Item getRandomItem()
+	{
+		return itemList.get(r.nextInt(itemList.size()));
+	}
+	public void initItemList()
+	{
+		itemList = new ArrayList<Item>();
+		//`
+		itemList.add(newPlasmaAxe());
+		itemList.add(newRoseBerkinstocks());
+		itemList.add(newBioLard());
+		itemList.add(newNanoSword());
+		itemList.add(newDiscoBall());
+		itemList.add(newTunnelAxe());
+		itemList.add(newSparklingBoots());
+		itemList.add(newReflectiveShall());
+		itemList.add(newMiningBeam());
+	}
 	public Item newReflectiveShall()
 	{
 		Item reflectiveShall = new Item((char)121, AsciiPanel.brightBlue, Type.STEALTH,
@@ -52,7 +74,7 @@ public class ItemFactory implements Serializable
 				"Tunneling Axe", 
 				"It sports a nice grip, and an even nicer blade. It's sharp so be carefull. It will cut metal, wood, dirt, enemies, allies, and anything else that gets in its way. It's a damn sharp thing, and it's a force to be reckoned with.",
 				10, 10
-				, 0);
+				, 1);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), tunnelAxe);
 		return tunnelAxe;
@@ -89,6 +111,28 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), bioLard);
 		return bioLard;
+	}
+	public Item newRoseBerkinstocks()
+	{
+		Item roseBerkinstocks = new Item((char)121, AsciiPanel.brightBlue, Type.LEGS,
+				"Rose Berkinstocks", 
+				"Some fine rose colored birkenstocks. They have a mustard stain near the zipper.",
+				0, 0
+				, 15);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), roseBerkinstocks);
+		return roseBerkinstocks;
+	}
+	public Item newPlasmaAxe()
+	{
+		Item plasmaAxe = new Item((char)121, AsciiPanel.brightBlue, Type.DEVICE,
+				"Plasma Axe", 
+				"A nifty tool. Cuts through rocks pretty damn good. Fueled by plasma and a quest for a better future.",
+				0, 0
+				, 3);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), plasmaAxe);
+		return plasmaAxe;
 	}
 	/*
 	 *		Stealth Items --------------------------------------------
@@ -296,7 +340,7 @@ public class ItemFactory implements Serializable
 				"Stuck in a room with no doors? Grab this handy"
 				+ "  wall bomb and place it oewhere. It will digg aa tunnel for you!",
 				0, 0
-				, 200);
+				, 10);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), wallBomb);
 		

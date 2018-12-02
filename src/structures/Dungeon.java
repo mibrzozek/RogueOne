@@ -60,6 +60,7 @@ public class Dungeon
 		for(int i = 0; i < 120; i++)
 		{	
 			for(int j = 0; j < depth; j++)
+				
 			{
 				p = getFirstRoomPoint(j);
 				Direction d = chooseDirectionClosestToBorder(p);
@@ -262,7 +263,6 @@ public class Dungeon
 				}
 			}
 		}
-		
 	}
 	public static Direction chooseDirectionClosestToBorder(Point p)
 	{

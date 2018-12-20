@@ -8,6 +8,7 @@ import java.util.List;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import items.Item;
+import items.Type;
 import wolrdbuilding.Tile;
 
 public class OptionsScreen extends ScrollingBasedScreen
@@ -59,17 +60,21 @@ public class OptionsScreen extends ScrollingBasedScreen
 
 		if(selectingFromInventory)
 		{
-			if(items[itemIndex].type().equals(Item.Type.APLASMA))
+			if(items[itemIndex].type().equals(Type.APLASMA))
 				optionList.add("Use");
-			else if(items[itemIndex].type().equals(Item.Type.CONSUMABLE))
+			else if(items[itemIndex].type().equals(Type.CONSUMABLE))
 				optionList.add("Eat");
+			else if(items[itemIndex].type().equals(Type.VILE))
+				optionList.add("Drink");
 		}
 		else
 		{
-			if(equiped[itemIndex].type().equals(Item.Type.APLASMA))
+			if(equiped[itemIndex].type().equals(Type.APLASMA))
 				optionList.add("Use");
-			else if(equiped[itemIndex].type().equals(Item.Type.CONSUMABLE))
+			else if(equiped[itemIndex].type().equals(Type.CONSUMABLE))
 				optionList.add("Eat");
+			else if(equiped[itemIndex].type().equals(Type.VILE))
+				optionList.add("Drink");
 		}
 	}
 	// Trading Options Constructor

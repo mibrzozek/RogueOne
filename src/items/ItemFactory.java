@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 
 import asciiPanel.AsciiPanel;
-import items.Item.Type;
 import wolrdbuilding.Palette;
 import wolrdbuilding.World;
 

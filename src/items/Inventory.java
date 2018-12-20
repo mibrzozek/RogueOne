@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
-import items.Item.Type;
-
 public class Inventory implements Serializable
 {
 	public enum EquipementSlot{HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO};
@@ -56,7 +54,7 @@ public class Inventory implements Serializable
     }
     public Item getDevice()
     {
-    	devices = get(Item.Type.DEVICE);
+    	devices = get(Type.DEVICE);
     	deviceIndex = 0;
     	
     	if(devices.isEmpty())
@@ -75,18 +73,18 @@ public class Inventory implements Serializable
     		if(equiped[i] != null && equiped[i].type().equals(type))
     			specifiedItems.add(equiped[i]);
     	}
-    	System.out.println(specifiedItems.size() + " items on " + type.toString());
+    	//System.out.println(specifiedItems.size() + " items on " + type.toString());
     	
     	return specifiedItems;
     }
     public double getStealthNumber()
     {
-    	Stream str = get(Item.Type.STEALTH).stream();
+    	Stream str = get(Type.STEALTH).stream();
     	
     	double stealth = 0;
     	for(int i = 0; i < equiped.length; i++)
     	{
-    		if(equiped[i] != null && equiped[i].type() == Item.Type.STEALTH)
+    		if(equiped[i] != null && equiped[i].type() == Type.STEALTH)
     			stealth += equiped[i].value();
     	}
     	
@@ -99,13 +97,13 @@ public class Inventory implements Serializable
     	System.out.println(d + " before filters applied.");
     	
     	if(slot == EquipementSlot.HEAD)
-    		d = reduceDamage(get(Item.Type.HEAD), damage);
+    		d = reduceDamage(get(Type.HEAD), damage);
     	else if(slot == EquipementSlot.TORSO)
-    		d = reduceDamage(get(Item.Type.TORSO), damage);
+    		d = reduceDamage(get(Type.TORSO), damage);
     	else if(slot == EquipementSlot.ARMS)
-    		d = reduceDamage(get(Item.Type.ARMS), damage);
+    		d = reduceDamage(get(Type.ARMS), damage);
     	else if(slot == EquipementSlot.LEGS)
-    		d = reduceDamage(get(Item.Type.LEGS), damage);
+    		d = reduceDamage(get(Type.LEGS), damage);
     	
     	System.out.println(d + " after filters applied..");
     	

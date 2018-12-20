@@ -6,6 +6,7 @@ import java.util.Random;
 
 public class Palette
 {
+	public static Color purple = new Color(148,0,211);
 	public static Color white = new Color(255,255,255);
 	public static Color paleWhite = new Color(222,222,222);
 	public static Color black = new Color(0,0,0);

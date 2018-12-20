@@ -15,6 +15,7 @@ public enum Tile
     FLOOR((char)250, Palette.randomNewColor()),
     INSIDE_FLOOR((char)250, Palette.gray),
     BLASTED_TERRAIN((char)176, Palette.brown),
+    WHITE_TERRAIN((char)176, Palette.white),
     
     WALL((char)177, Palette.randomColor()),
     RED_WALL((char)177, Palette.black),
@@ -24,6 +25,11 @@ public enum Tile
     BOUNDS('X', Palette.black),
     //
     CURSOR('x', AsciiPanel.brightBlack),
+    
+    // Obstacles
+    UP_DOWN_LASER((char)186, Color.red),
+    LEFT_RIGHT_LASER((char)205, Color.red),
+    
     //Projectiles
     DEAD('X', AsciiPanel.red),
     TAGGED('x', AsciiPanel.red),
@@ -119,9 +125,18 @@ public enum Tile
     {
     	return this == Tile.INSIDE_FLOOR;
     }
+    public boolean isRoom()
+    {
+        return this == Tile.simpleBLC || this == Tile.simpleBRC
+        		|| this == Tile.simpleLRW || this == Tile.simpleTBW
+        		|| this == Tile.simpleTLC || this == Tile.simpleTRC;
+    }
     public boolean isWall() 
     {
-        return this == Tile.WALL || this == Tile.RED_WALL;
+        return this == Tile.WALL || this == Tile.RED_WALL; 
+        		//|| this == Tile.simpleBLC || this == Tile.simpleBRC
+        		//|| this == Tile.simpleLRW || this == Tile.simpleTBW
+        		//|| this == Tile.simpleTLC || this == Tile.simpleTRC;
     }
     public boolean isSwapable()
     {
@@ -164,5 +179,6 @@ public enum Tile
     	else
     		swapable = false;
     }
+
 
 }

@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
+import asciiPanel.TileTransformer;
 import screens.InventoryScreen;
 import screens.Screen;
 import screens.StartScreen;

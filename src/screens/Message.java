@@ -75,6 +75,10 @@ public class Message
 	{
 		return lineList;
 	}
+	public int getMsgLineCount()
+	{
+		return lineList.size();
+	}
 	@Override
 	public String toString()
 	{

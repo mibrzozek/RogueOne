@@ -8,6 +8,7 @@ import java.util.List;
 
 import asciiPanel.AsciiPanel;
 import items.Item;
+import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
 
 
@@ -75,8 +76,8 @@ public class InspectScreen implements Screen
 			title = item.name();
 			description = item.description();
 			
-			terminal.write(title, rx+1, ry+1, AsciiPanel.brightGreen);
-		
+			terminal.write(title, rx+1, ry+1, Palette.black, Palette.white);
+			terminal.write(" " + item.type().toString() + " : " + item.value(), Palette.white, item.type().setColor());
 		
 			String[] split = description.split(" ");
 			int count = 0;
@@ -85,14 +86,14 @@ public class InspectScreen implements Screen
 			{	
 				int charCount= 0;
 				int cx = rx+2;
-			
+		
 				while(charCount < 38  && count < split.length)
 				{
 					String word = split[count++];
 					word += " ";
 					charCount += word.length();
-					terminal.write(word, cx, y);
-				
+					terminal.write(word, cx, y, Color.BLACK, Color.WHITE);
+					
 					cx += word.length();
 				}
 			}	
@@ -100,16 +101,28 @@ public class InspectScreen implements Screen
 	}
 	public void renderGrayBackground(AsciiPanel terminal)
 	{
-		for(int y = ry+1; y < ry+21; y++)
+		Message msg;
+		int gx = 0 , gy = 0;
+		if(item != null)
 		{
-			for(int x = rx+1; x < rx+47; x++)
+			msg = new Message(item.description(), 39);
+			gx = 0;
+			gy = msg.getMsgLineCount() + 3;
+		
+			for(int y = ry+1; y < ry+gy; y++)
 			{
-				if(x == rx+1 || x == rx + 47-1)
-    				terminal.write((char) 179, x, y, Color.green);
-				else if (y == ry+1 || y == ry+21-1)
-					terminal.write((char) 196, x, y,  Color.green);
-				else
-					terminal.write(' ', x, y,  Color.WHITE);
+				for(int x = rx+1; x < rx+47; x++)
+				{
+					if(x == rx+1)
+	    				terminal.write((char) 179, x, y, Palette.white, Palette.darkGray);
+					else if (y == ry+1 || y == ry+21-1)
+						terminal.write((char) 196, x, y, Palette.white, Palette.darkGray);
+					else
+						terminal.write(Tile.WHITE_TERRAIN.glyph(), x, y,  Color.WHITE, Color.WHITE);
+					/*
+					 
+					 */
+				}
 			}
 		}
 	}

@@ -74,8 +74,146 @@ public class Dungeon
 		fillDungeonWithWall(TileSet.SIMPLE);
 		//addExitStairs();
 		makeStairsDown();
+		makeLaserTraps();
 		
 	}
+	private void makeLaserTraps()
+	{
+		//find random inside point nextr to a wall
+		// see if corridor
+		// connect
+		boolean isCorridor = false;
+		int nx, ny, nz;
+		for(int i = 0; i < 7; i++)
+		{
+			Point p = getPointFromLevel(0);
+			System.out.println(tiles[p.x-1][p.y][p.z].toString() + " " +
+					tiles[p.x][p.y][p.z].toString() + " " +
+					tiles[p.x+1][p.y][p.z].toString() + " ");
+			
+			Direction direction = Direction.NORTH;
+			
+			if(tiles[p.x+1][p.y][p.z].isRoom())
+				direction = Direction.WEST;
+			else if(tiles[p.x-1][p.y][p.z].isRoom())
+				direction = direction.EAST;
+			else if(tiles[p.x][p.y-1][p.z].isRoom())
+				direction = direction.SOUTH;
+			
+			System.out.println(direction);
+			
+			makeLine(p, direction);
+		}
+		System.out.println("checking");
+	}
+	public Point getPointFromLevel(int z)
+	{
+		Point p = null;
+		
+		do
+		{
+			p = spawnPoints.get(r.nextInt(spawnPoints.size()));
+			
+			System.out.println("checking " + " " + p.toString() + "\n"
+					+ tiles[p.x + 1][p.y][p.z].isRoom() + "\n"
+					+ isCorridor(p));						
+		}while(p.z != 0 || !bound(p) || !isCorridor(p));
+		return p;
+	}
+	public boolean bound(Point p)
+	{
+		int bound = 30;
+		
+		if(p.x < bound || p.x > width - bound || p.y < bound || p.y > width - bound)
+			return false;
+		else
+			return true;
+	}
+	public boolean isNextToWall(Point p)
+	{
+		if(tiles[p.x + 1][p.y][p.z].isRoom() 
+			|| tiles[p.x - 1][p.y][p.z].isRoom()
+			|| tiles[p.x][p.y + 1][p.z].isRoom()
+			|| tiles[p.x][p.y - 1][p.z].isRoom())
+			return true;
+		else
+			return false;
+	}
+	private void makeLine(Point p, Direction d)
+	{
+		int movement = 1, corridor = 7;
+		
+		if(d.equals(Direction.WEST) || d.equals(Direction.NORTH))
+			movement = -1;
+		
+		for(int i = 0; i < 10; i++)
+		{
+			if(d.equals(Direction.WEST) || d.equals(Direction.EAST))
+			{	
+				if(tiles[p.x][p.y][p.z].isFloor())
+					tiles[p.x][p.y][p.z] = Tile.LEFT_RIGHT_LASER;
+				p.x += movement;
+			}
+			else 
+			{
+				if(tiles[p.x][p.y][p.z].isFloor())
+					tiles[p.x][p.y][p.z] = Tile.UP_DOWN_LASER;
+				p.y += movement;
+			}
+		}
+	}
+	private boolean isCorridor(Point p)
+	{
+		int movement = 1;
+		boolean corridor = false;
+		
+		if(isNextToWall(p))
+		{	
+			if(tiles[p.x + 1][p.y][p.z].isRoom())
+				movement = -1;
+			System.out.println(tiles[p.x + 1][p.y][p.z] + " ************ movement : " + movement);
+			int i, nx = p.x;
+			for(i = 0; i < 7; i++)
+			{
+				if(i == 0 && tiles[nx][p.y][p.z].isFloor())	
+					nx += movement;
+				else if(i > 0 && tiles[nx][p.y][p.z].isRoom())
+				{	
+					corridor = true;
+					break;
+				}
+				if(nx + movement > 0 && nx + movement < 198)
+					nx += movement;
+			
+				System.out.println("x : " + p.x + "movement : " + movement
+						+"\n" + tiles[p.x][p.y][p.z]);
+			}
+		}
+		else
+		{
+			System.out.println("Not next to wall");
+		}
+		/*
+		if(tiles[p.x + 1][p.y][p.z].isRoom())
+			movement = -1;
+		
+		System.out.println("x : " + p.x + "movement : " + movement);
+		
+		p.x += movement;
+		for(int i = 1; i < 10; i++);
+		{
+			
+			if(tiles[p.x][p.y][p.z].isRoom())
+				corridor = true;
+			
+			p.x += movement;
+		}
+		
+		*/
+		System.out.println("Is it a corridor? " + corridor);
+		return corridor;
+	}
+	
 	private void makeStairsDown()
 	{
 		ArrayList<Point> allRegionPoints = new ArrayList<>();

@@ -84,5 +84,9 @@ public class Point implements Serializable
         Collections.shuffle(points);
         return points;
     }
-    
+    @Override
+    public String toString()
+    {
+    	return "x : " + x + " y : " + y + " z : " + z;
+    }
 }

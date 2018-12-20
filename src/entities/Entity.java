@@ -9,7 +9,7 @@ import items.Inventory;
 import items.Inventory.EquipementSlot;
 import items.Item;
 import items.ItemFactory;
-import items.Item.Type;
+import items.Type;
 import wolrdbuilding.Direction;
 import wolrdbuilding.Point;
 import wolrdbuilding.Projectile;
@@ -192,7 +192,7 @@ public class Entity implements Serializable
     	notify("Device out!");
     	
     	if(inventory.getDevice() != null 
-    			&& inventory.getDevice().type().equals(Item.Type.DEVICE))
+    			&& inventory.getDevice().type().equals(Type.DEVICE))
     	{
     		//inventory.removeEquiped(inventory.getDevice())
     		
@@ -302,7 +302,7 @@ public class Entity implements Serializable
     		}
     	}
     	
-    	System.out.println(EquipementSlot.HEAD + " " + Item.Type.HEAD);
+    	System.out.println(EquipementSlot.HEAD + " " + Type.HEAD);
     	
     	
     	System.out.println(" "+ stats.getHead() 
@@ -466,6 +466,8 @@ public class Entity implements Serializable
 	
 	public void moveBy(int mx, int my, int mz)
 	{
+		if(this.ai instanceof PlayerAi)
+			System.out.println("Player coordinates x : "+  this.x + " y : " + this.y);
 		if (mx == 0 && my == 0 && mz == 0)
 		    return;
 		if(shieldValue + 5 < 80)

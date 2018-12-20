@@ -11,6 +11,7 @@ import java.util.Random;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import items.Item;
+import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
 
 public class InventoryScreen extends ScrollingBasedScreen
@@ -189,6 +190,7 @@ public class InventoryScreen extends ScrollingBasedScreen
     public void renderEquipementList(AsciiPanel terminal)
     {
     	ArrayList<String> lines = getList(player.inventory().getEquiped());
+    	List<Item> equippedItems = Arrays.asList(player.inventory().getEquiped());
     	
         int x = rx+ eo;
         int y = ry+ 1;
@@ -197,10 +199,20 @@ public class InventoryScreen extends ScrollingBasedScreen
         if (lines.size() > 0)
             terminal.clear(' ', x, y, 20, lines.size());
     
-        for (String line : lines)
+        System.out.println("Arrays as list size : " + equippedItems.size());
+        for(Item i : equippedItems)
         {
-            terminal.write(line, x, y++);
+        	if(i != null)
+        	{
+        		terminal.write(i.name(), x, y++, Palette.white, i.type().setColor());
+        	}
+        	else
+        	{
+        		terminal.write("+", x, y++, Palette.white, Palette.black);
+        	}
         }
+        
+        
         terminal.write("Equipment", rx + eo, ry-1);
     }
     public void renderItemList(AsciiPanel terminal)

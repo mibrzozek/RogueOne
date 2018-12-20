@@ -133,7 +133,7 @@ public class PlayScreen implements Screen
     {
         for (int z = 0; z < world.depth(); z++)
         {
-            for (int i = 0; i < world.width() * world.height() / 200; i++)
+            for (int i = 0; i < world.width() * world.height() / 20000; i++)
             {
             	itemFactory.newPlasmaPod();
             	world.addAtEmptyLocation(0 , itemFactory.getRandomItem());

@@ -83,7 +83,6 @@ public class Entity implements Serializable
     
     public Entity(String name, World world, Tile tile, int maxHP)
     {
-    	
     	this.name = name;
         this.world = world;
         this.tile = tile;
@@ -155,6 +154,11 @@ public class Entity implements Serializable
     public Point tradersPosition()  { return tradersPosition; }
     public Entity lastTargeted()	{ return lastTargetedEnemy;}
     public double getStealth()		{ return inventory.getStealthNumber();}
+    public FieldOfView fov()		{ if( ai instanceof PlayerAi)
+    										return ((PlayerAi) ai).getFOV();
+    									else return null;
+    								}
+   
     
 	public Tile tile(int wx, int wy, int wz) 
 	{

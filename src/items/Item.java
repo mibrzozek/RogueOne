@@ -35,7 +35,7 @@ public class Item implements Serializable
         if(this.type.equals("plasma"))
         	this.usable = true; 
     }
-    public Type type() 			{ return type; }
+    public Type type() 				{ return type; }
     public String name() 			{ return name; }
     public Color color() 			{ return color; }
     public char glyph() 			{ return glyph; }

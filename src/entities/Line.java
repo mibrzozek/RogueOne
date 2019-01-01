@@ -42,7 +42,6 @@ public class Line implements Iterable<Point>
             }
         }
     }
-
 	@Override
 	public Iterator<Point> iterator()
 	{

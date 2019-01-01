@@ -204,7 +204,9 @@ public class InventoryScreen extends ScrollingBasedScreen
         {
         	if(i != null)
         	{
-        		terminal.write(i.name(), x, y++, Palette.white, i.type().setColor());
+        		terminal.write(i.glyph(), x, y, Palette.black, i.type().setColor());
+        		terminal.write(i.name());
+        		y++;
         	}
         	else
         	{

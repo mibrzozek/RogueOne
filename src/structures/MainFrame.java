@@ -30,7 +30,7 @@ import wolrdbuilding.World;
 public class MainFrame extends JFrame implements KeyListener 
 {
 	
-	protected static final String Filepath = "D:\\06 SOURCE\\01 JAVA PROJECTS\\Rogue One\\resources\\icon.png";
+	protected static final String FILE_PATH = "D:\\06 SOURCE\\01 JAVA PROJECTS\\Rogue One\\resources\\icon.png";
 	
 	private static final Color DEFAULT_BACK = Palette.darkestGray;
 	private static final Color DEFAULT_FORE = Palette.paleWhite;
@@ -56,7 +56,7 @@ public class MainFrame extends JFrame implements KeyListener
 	 			MainFrame KillingSmokesFrame = new MainFrame();
 	 			KillingSmokesFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	 			KillingSmokesFrame.setVisible(true);
-	 			ImageIcon img = new ImageIcon(Filepath);
+	 			ImageIcon img = new ImageIcon(FILE_PATH);
 	 			KillingSmokesFrame.setIconImage((Image)img.getImage());
 	 			
 	 			//Timer timer = new Timer();

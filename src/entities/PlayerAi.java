@@ -1,5 +1,6 @@
 package entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import items.Item;
@@ -11,6 +12,8 @@ public class PlayerAi extends EntityAi
 	private List<String> messages;
 	private FieldOfView fov;
 	private boolean canMine = false;
+	
+	private List<String> attacks;
 	 
     public PlayerAi(Entity entity, List<String> messages, FieldOfView fov) 
     {
@@ -18,11 +21,21 @@ public class PlayerAi extends EntityAi
     	this.entity.setVisionRadius(12);
     	this.messages = messages;
     	this.fov = fov;
+    	attacks = new ArrayList<String>();
+    	
+    	attacks.add("Taunt");
+    	attacks.add("Shoot");
+    	attacks.add("Melee");
     	
     	this.entity.tagged = Tile.TAGGED_PLAYER;
     }
+    public ArrayList<String> getAttacks()
+    {
+    	return (ArrayList<String>) attacks;
+    }
     
-    public void setFOV(FieldOfView fov) 	{	this.fov = fov;	};
+    public void setFOV(FieldOfView fov) 	{	this.fov = fov;	}
+    public FieldOfView getFOV()				{	return fov;     }
     
     public void onEnter(int x, int y, int z, Tile tile)
     {

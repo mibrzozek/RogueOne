@@ -170,22 +170,23 @@ public class PlayScreen implements Screen
 	{
 		fov.update(player.x, player.y, player.z, player.visionRadius());
 		
-		for (int x = 0; x < screenWidth; x++)
+		for(int x = 0; x < screenWidth; x++)
 		{
 			for (int y = 0; y < screenHeight; y++)
 			{
 				int wx = x + left;
 				int wy = y + top;
 				
-	            if (player.canSee(wx, wy, player.z))
+	            if(player.canSee(wx, wy, player.z))
 	            {
 	                terminal.write(world.glyph(wx, wy, player.z), x, y,
 	                		world.color(wx, wy, player.z), world.backColor(wx, wy, player.z));
 	            }
 	            else
-	                terminal.write(fov.tile(wx, wy, player.z).glyph(), x, y, Color.darkGray);	
+	                terminal.write(fov.tile(wx, wy, player.z).glyph(), x, y, Color.darkGray);
 			}
 		}
+		System.out.println(fov.getEntites());
 	}
     @Override
 	public void displayOutput(AsciiPanel terminal) 
@@ -222,6 +223,8 @@ public class PlayScreen implements Screen
 	    	 ((KeyInputScreen) subScreen).displayOutput(terminal);
 	     if(subScreen instanceof CharacterSheet)
 	    	 ((CharacterSheet) subScreen).displayOutput(terminal);
+	     if(subScreen instanceof TargetingScreen)
+	    	 ((TargetingScreen) subScreen).displayOutput(terminal);
 	     if(subScreen instanceof AnimationScreen)
 	    	 ((AnimationScreen) subScreen).displayOutput(terminal);
 	     
@@ -303,8 +306,8 @@ public class PlayScreen implements Screen
 			{	switch (key.getKeyCode())
 				{
 				// Special Keys
-				case KeyEvent.VK_SHIFT: subScreen = new CharacterSheet(player); 
-					break;
+				case KeyEvent.VK_SHIFT: subScreen = new CharacterSheet(player); break;
+				case KeyEvent.VK_T: subScreen = new TargetingScreen(player); break;
 				case KeyEvent.VK_L: subScreen = new KeyInputScreen(terminal,this, 20, 15, 8); break;
         		case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(player,terminal, this); break;
         		case KeyEvent.VK_ENTER: return new WinScreen();

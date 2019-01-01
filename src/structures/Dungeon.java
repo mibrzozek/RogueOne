@@ -53,6 +53,12 @@ public class Dungeon
 		randomApproachToDungeons();
 		return tiles;
 	}
+	public void proceduralDungeons()
+	{
+		
+	}
+	
+	
 	public void randomApproachToDungeons()
 	{
 		Point p =  null;
@@ -60,13 +66,11 @@ public class Dungeon
 		for(int i = 0; i < 120; i++)
 		{	
 			for(int j = 0; j < depth; j++)
-				
 			{
 				p = getFirstRoomPoint(j);
 				Direction d = chooseDirectionClosestToBorder(p);
 				RoomPoint rp = new RoomPoint(p, p.w, p.h, d);
-				buildRoom(rp, 
-						TileSet.ALL_GROUND_ROOM);
+				buildRoom(rp, TileSet.ALL_GROUND_ROOM);
 			}
 		}
 		

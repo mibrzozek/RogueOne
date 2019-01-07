@@ -74,7 +74,14 @@ public class FieldOfView implements Serializable
                     if(world.entity(p.x, p.y, wz) != null)
                     {
                     	Entity inFOV = world.entity(p.x, p.y, wz);
-                    	if(!visibleEntities.contains(inFOV))
+                    	EntityAi ai = inFOV.getEntityAi();
+                    	if(ai instanceof PlayerAi)
+                    	{
+                    		System.out.println("Omitting self");
+                    		inFOV = null;
+                    	}
+                    	
+                    	if(inFOV != null && !visibleEntities.contains(inFOV))
                     		visibleEntities.add(inFOV);
                     }
                     if (!tile.isGround())

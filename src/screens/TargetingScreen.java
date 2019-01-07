@@ -6,6 +6,7 @@ import java.util.List;
 
 import asciiPanel.AsciiPanel;
 import entities.Entity;
+import entities.PlayerAi;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
@@ -42,9 +43,9 @@ public class TargetingScreen implements Screen
 	public void renderEnemyList(AsciiPanel terminal)
 	{
 		int x = 0;
-		int y = 49 - inView.size();
+		int y = 49 - inView.size() -1;
 		
-		TileEngine.renderBox(terminal, 31, inView.size() + 1 ,x, y,  TileSet.SIMPLE);
+		TileEngine.renderBox(terminal, 31, inView.size() + 2 ,x, y,  TileSet.SIMPLE);
 		
 		y += 1;
 		for(Entity e : inView)
@@ -55,7 +56,10 @@ public class TargetingScreen implements Screen
 	}
 	public void select()
 	{
-		subScreen = new AttackBox(player, 31, inView.size() + 1, 31, 49 - inView.size() );
+		PlayerAi  ai = (PlayerAi)player.getEntityAi();
+		Entity enemy = inView.get(index);
+		
+		subScreen = new AttackBox(player, 31, ai.getAttacks().size() + 2, 31, 49 - ai.getAttacks().size() - 1, enemy);
 	}
 	public void scrollUp()
 	{

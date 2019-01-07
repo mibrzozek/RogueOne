@@ -20,7 +20,9 @@ public class UIScreen implements Screen
 	private Entity player;
 	protected List<String> itemList;
 	
-	private int index, scrollY, scrollX;
+	protected int index;
+	private int scrollY;
+	private int scrollX;
 	protected int bw;
 	protected int bh;
 	protected int bx;
@@ -34,6 +36,8 @@ public class UIScreen implements Screen
 		this.index = 0;
 		this.scrollX = 0;
 		this.scrollY = 0;
+		
+		this.ts = TileSet.SIMPLE;
 	}
 	public void setList(ArrayList<String> list)
 	{
@@ -45,7 +49,6 @@ public class UIScreen implements Screen
 		this.bh = bh;
 		this.bx = bx;
 		this.by = by;
-		this.ts = TileSet.SIMPLE;
 	}
 	public void setScrollX(int x)
 	{
@@ -73,7 +76,7 @@ public class UIScreen implements Screen
 	}
 	public void scrollUp()
 	{
-		if(scrollY == (49 - itemList.size() + 1 ))
+		if(scrollY == (49 - itemList.size()))
 			scrollY = scrollY;
 		else
 		{

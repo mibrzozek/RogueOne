@@ -28,16 +28,13 @@ import wolrdbuilding.World;
 
 
 public class MainFrame extends JFrame implements KeyListener 
-{
-	
+{	
 	protected static final String FILE_PATH = "D:\\06 SOURCE\\01 JAVA PROJECTS\\Rogue One\\resources\\icon.png";
 	
 	private static final Color DEFAULT_BACK = Palette.darkestGray;
 	private static final Color DEFAULT_FORE = Palette.paleWhite;
 	
 	private AsciiPanel terminal;
-	private AsciiPanel terminal2;
-	
 	private JPanel ControlPanel;
 	
 	private Container contentPane;

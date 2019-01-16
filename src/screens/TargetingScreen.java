@@ -14,6 +14,7 @@ import wolrdbuilding.TileSet;
 public class TargetingScreen implements Screen
 {
 	private Screen subScreen;
+	private PlayScreen ps;
 	private boolean exitGame;
 	private AsciiPanel terminal;
 	
@@ -22,20 +23,21 @@ public class TargetingScreen implements Screen
 	
 	private int index, scrollY, scrollX;
 	
-	public TargetingScreen(Entity player)
+	public TargetingScreen(Entity player, PlayScreen ps)
 	{
+		this.ps = ps;
 		this.player = player;
 		inView = player.fov().getEntites();
 		this.index = 0;
 		this.scrollX = 0;
-		this.scrollY = 49 - inView.size() + 1; 
+		this.scrollY = 48 - inView.size() + 1;
 	}
 	
 	@Override
 	public void displayOutput(AsciiPanel terminal)
 	{		
 		renderEnemyList(terminal);
-		terminal.write((char) 16, scrollX, scrollY);
+		terminal.write((char) 16 + "" + index, scrollX, scrollY);
 		
 		if(subScreen instanceof AttackBox)
 			((AttackBox) subScreen).displayOutput(terminal);
@@ -59,11 +61,11 @@ public class TargetingScreen implements Screen
 		PlayerAi  ai = (PlayerAi)player.getEntityAi();
 		Entity enemy = inView.get(index);
 		
-		subScreen = new AttackBox(player, 31, ai.getAttacks().size() + 2, 31, 49 - ai.getAttacks().size() - 1, enemy);
+		subScreen = new AttackBox(player, 31, ai.getAttacks().size() + 2, 31, 49 - ai.getAttacks().size() - 1, enemy, ps);
 	}
 	public void scrollUp()
 	{
-		if(scrollY == (49 - inView.size() +1 ))
+		if(scrollY == (48 - inView.size() +1 ))
 			scrollY = scrollY;
 		else
 		{
@@ -81,9 +83,14 @@ public class TargetingScreen implements Screen
 			index++;
 		}	
 	}
+	public void exitScreen()
+	{
+		ps.setSubScreenNull();
+	}
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
-	{
+	{	if(inView.size() < 1)
+			return null;
 		if(subScreen != null)
 		{
 			subScreen = subScreen.respondToUserInput(key);

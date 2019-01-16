@@ -14,7 +14,9 @@ import wolrdbuilding.TileSet;
 public class UIScreen implements Screen
 {
 	private Screen subScreen;
+	protected PlayScreen ps;
 	private boolean exitGame;
+	private boolean exitSubScreen;
 	private AsciiPanel terminal;
 	
 	private Entity player;
@@ -30,8 +32,9 @@ public class UIScreen implements Screen
 	
 	private TileSet ts;
 	
-	public UIScreen(Entity player)
+	public UIScreen(Entity player, PlayScreen ps)
 	{
+		this.ps = ps;
 		this.player = player;
 		this.index = 0;
 		this.scrollX = 0;
@@ -94,9 +97,19 @@ public class UIScreen implements Screen
 			index++;
 		}	
 	}
+	public void setNull()
+	{
+		exitSubScreen =  true;
+		ps.setSubScreenNull();
+
+	}
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
 	{
+		if(exitSubScreen)
+		{
+			return null;
+		}
 		if(subScreen != null)
 		{
 			subScreen = subScreen.respondToUserInput(key);

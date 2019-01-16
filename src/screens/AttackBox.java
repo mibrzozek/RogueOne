@@ -1,5 +1,6 @@
 package screens;
 
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import asciiPanel.AsciiPanel;
@@ -11,9 +12,9 @@ public class AttackBox extends UIScreen
 {
 	private Entity enemy;
 	
-	public AttackBox(Entity player, int bw, int bh, int bx, int by, Entity enemy)
+	public AttackBox(Entity player, int bw, int bh, int bx, int by, Entity enemy, PlayScreen ps)
 	{
-		super(player);
+		super(player, ps);
 		
 		this.bw = bw;
 		this.bx = bx;
@@ -34,6 +35,7 @@ public class AttackBox extends UIScreen
 		{
 			enemy.modifyHp(-100);
 			System.out.println("Shooting");
+			ps.setSubScreenNull();
 		}
 	}
 	@Override

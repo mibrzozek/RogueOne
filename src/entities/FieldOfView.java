@@ -77,7 +77,6 @@ public class FieldOfView implements Serializable
                     	EntityAi ai = inFOV.getEntityAi();
                     	if(ai instanceof PlayerAi)
                     	{
-                    		System.out.println("Omitting self");
                     		inFOV = null;
                     	}
                     	

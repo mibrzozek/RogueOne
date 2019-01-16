@@ -186,7 +186,6 @@ public class PlayScreen implements Screen
 	                terminal.write(fov.tile(wx, wy, player.z).glyph(), x, y, Color.darkGray);
 			}
 		}
-		System.out.println(fov.getEntites());
 	}
     @Override
 	public void displayOutput(AsciiPanel terminal) 
@@ -271,14 +270,8 @@ public class PlayScreen implements Screen
         }
     	subScreen = null;
     }
-    public void setSubScreenNull()
-    {
-    	subScreen = null;
-    }
-    public void returnStartScreen()
-    {
-    	exitGame = true;
-    }
+    public void setSubScreenNull() 		{ subScreen = null; world.update();}
+    public void returnStartScreen()     { exitGame = true; 	}
 	@Override
 	public Screen respondToUserInput(KeyEvent key) 
 	{	
@@ -302,13 +295,19 @@ public class PlayScreen implements Screen
 						((EscapeScreen)subScreen).exit = false;
 					}
 				}
-			}	else
+			}
+			else
 			{	switch (key.getKeyCode())
 				{
 				// Special Keys
 				case KeyEvent.VK_SHIFT: subScreen = new CharacterSheet(player); break;
-				case KeyEvent.VK_T: subScreen = new TargetingScreen(player); break;
-				case KeyEvent.VK_L: subScreen = new KeyInputScreen(terminal,this, 20, 15, 8); break;
+				case KeyEvent.VK_T:
+				{
+					System.out.println(player.fov().getEntites().size());
+					if(player.fov().getEntites().size() > 0)
+						subScreen = new TargetingScreen(player, this);
+					break;
+				}case KeyEvent.VK_L: subScreen = new KeyInputScreen(terminal,this, 20, 15, 8); break;
         		case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(player,terminal, this); break;
         		case KeyEvent.VK_ENTER: return new WinScreen();
         		case KeyEvent.VK_F: player.pickup(); break;

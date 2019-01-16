@@ -34,9 +34,11 @@ public class PlayScreen implements Screen
     private int centerY;
     private int screenWidth;
     private int screenHeight;
-    private int screenTicks = 0;;
+    private int screenTicks = 0;
+
+    private int leftOffset,  topOffset;
     
-    Entity player;
+    private Entity player;
     private Entity trader;
     private FieldOfView fov;
     
@@ -174,9 +176,10 @@ public class PlayScreen implements Screen
 		{
 			for (int y = 0; y < screenHeight; y++)
 			{
+
 				int wx = x + left;
 				int wy = y + top;
-				
+
 	            if(player.canSee(wx, wy, player.z))
 	            {
 	                terminal.write(world.glyph(wx, wy, player.z), x, y,
@@ -190,11 +193,11 @@ public class PlayScreen implements Screen
     @Override
 	public void displayOutput(AsciiPanel terminal) 
 	{
-	     int left = getScrollX();
-	     int top = getScrollY();	
+	     leftOffset = getScrollX();
+	     topOffset = getScrollY();
+
 	     
-	     
-	     displayTiles(terminal, left, top);
+	     displayTiles(terminal, leftOffset, topOffset);
 	     TileEngine.renderStats(terminal, screenWidth, screenHeight, 0, 0, player);
 	     TileEngine.renderTarget(terminal, screenWidth, screenHeight, player);
 	   
@@ -229,14 +232,13 @@ public class PlayScreen implements Screen
 	     
 	     TileEngine.displayMessages(terminal, messages, screenWidth, screenHeight);
 	}
+	public int getLeftOffset() { return leftOffset;}
+	public int getTopOffset() { return topOffset;}
     public int getScrollX() 
     {
         return Math.max(0, Math.min(player.x - screenWidth / 2, world.width() - screenWidth));
     }
-    public int getScrollY() 
-    {
-        return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight));
-    }
+    public int getScrollY() { return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight)); }
     private boolean userIsTryingToExit()
     {
         return player.z == 0 && world.tile(player.x, player.y, player.z) == Tile.STAIRS_EXIT;
@@ -261,7 +263,7 @@ public class PlayScreen implements Screen
     		oos.close();
     		fos.close();
     		
-    		messages.add("Save succesfull");
+    		messages.add("Save successful ;)");
         } 
     	catch (IOException e) 
     	{
@@ -270,7 +272,7 @@ public class PlayScreen implements Screen
         }
     	subScreen = null;
     }
-    public void setSubScreenNull() 		{ subScreen = null; world.update();}
+    public void updateWorld() 			{ world.update();}
     public void returnStartScreen()     { exitGame = true; 	}
 	@Override
 	public Screen respondToUserInput(KeyEvent key) 

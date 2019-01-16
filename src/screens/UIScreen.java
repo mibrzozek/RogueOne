@@ -1,6 +1,5 @@
 package screens;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +7,6 @@ import java.util.List;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import structures.TileEngine;
-import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
 
 public class UIScreen implements Screen
@@ -100,7 +98,7 @@ public class UIScreen implements Screen
 	public void setNull()
 	{
 		exitSubScreen =  true;
-		ps.setSubScreenNull();
+		ps.updateWorld();
 
 	}
 	@Override

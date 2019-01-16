@@ -1,12 +1,8 @@
 package screens;
 
-import java.awt.event.KeyEvent;
-import java.util.List;
-
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import entities.PlayerAi;
-import wolrdbuilding.TileSet;
 
 public class AttackBox extends UIScreen 
 {
@@ -35,7 +31,7 @@ public class AttackBox extends UIScreen
 		{
 			enemy.modifyHp(-100);
 			System.out.println("Shooting");
-			ps.setSubScreenNull();
+			ps.updateWorld();
 		}
 	}
 	@Override

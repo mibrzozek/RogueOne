@@ -1,6 +1,5 @@
 package screens;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
@@ -21,23 +20,28 @@ public class TargetingScreen implements Screen
 	private Entity player;
 	private List<Entity> inView;
 	
-	private int index, scrollY, scrollX;
+	private int index, lastIndex, scrollY, scrollX;
 	
 	public TargetingScreen(Entity player, PlayScreen ps)
 	{
 		this.ps = ps;
 		this.player = player;
 		inView = player.fov().getEntites();
-		this.index = 0;
 		this.scrollX = 0;
 		this.scrollY = 48 - inView.size() + 1;
 	}
 	
 	@Override
 	public void displayOutput(AsciiPanel terminal)
-	{		
+	{
+		if(inView.isEmpty())
+			return;
+		Entity enemy = inView.get(index);
 		renderEnemyList(terminal);
 		terminal.write((char) 16 + "" + index, scrollX, scrollY);
+
+		// Render target selection
+		terminal.write(enemy.tile().glyph(), enemy.x-ps.getLeftOffset(), enemy.y - ps.getTopOffset(), Palette.white, Palette.darkRed);
 		
 		if(subScreen instanceof AttackBox)
 			((AttackBox) subScreen).displayOutput(terminal);
@@ -71,7 +75,7 @@ public class TargetingScreen implements Screen
 		{
 			scrollY--;
 			index--;
-		}		
+		}
 	}
 	public void scrollDown()
 	{
@@ -85,7 +89,7 @@ public class TargetingScreen implements Screen
 	}
 	public void exitScreen()
 	{
-		ps.setSubScreenNull();
+		ps.updateWorld();
 	}
 	@Override
 	public Screen respondToUserInput(KeyEvent key)

@@ -84,7 +84,8 @@ public enum Tile
 	private Color backColor = Palette.darkestGray;
 	private Color tempColor;
 	private char glyph;
-	
+    private boolean targetted =  false;
+
     Tile(char glyph, Color color)
     {
     	this.swapable = true;
@@ -100,12 +101,9 @@ public enum Tile
         this.backColor = backColor;
         this.tempColor = backColor;
     }
-    Tile(char glyph, Color color, Boolean swapable)
+    public void target()
     {
-    	this.swapable = swapable;
-        this.glyph = glyph;
-        this.color = color;
-        this.backColor = Palette.darkestGray;
+        this.targetted = true;
     }
     public void animate()
     {
@@ -138,10 +136,6 @@ public enum Tile
         		//|| this == Tile.simpleLRW || this == Tile.simpleTBW
         		//|| this == Tile.simpleTLC || this == Tile.simpleTRC;
     }
-    public boolean isSwapable()
-    {
-    	return swapable;
-    }
     public char glyph() 
     {
     	return glyph; 
@@ -152,6 +146,11 @@ public enum Tile
     }
     public Color backColor() 
     {
+        if(targetted)
+            return backColor;
+        else
+            return Palette.darkestGray;
+        /*
     	if(backColor == Palette.darkestGray)
     	{	
     		backColor = tempColor;
@@ -162,6 +161,8 @@ public enum Tile
     		backColor = Palette.darkestGray;
     		return backColor;
     	}
+    	*/
+
     }
     public void setColor(Color color)
     {
@@ -172,13 +173,4 @@ public enum Tile
     	int pick = new Random().nextInt(Tile.values().length);
     	return Tile.values()[pick];
     }
-    public void setSwapable(Boolean truth)
-    {
-    	if(truth = true)
-    		swapable = true;
-    	else
-    		swapable = false;
-    }
-
-
 }

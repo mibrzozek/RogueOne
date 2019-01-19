@@ -1,3 +1,7 @@
+A small demo of how the game looks :
+
+![text](https://i.imgur.com/CnhQfLr.gif)
+
 ### Update 11/21/2018
 
 I've replaced the WorldBuilder from Trystans tutorial with PlanetPrinter; my own way of dealing with map generation. After trying to make non linear procedurally generated dungeons, i decided to use the brute force method of building a bunch of rooms on top of eachother. It works, and if it works don't fix it! The maps have large open areas and smaller rooms scattered throughout. I think i'm going to roll with this for now until i have an idea of what type of sophisticated proc dungeons i actually want to make in the future.

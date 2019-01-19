@@ -14,35 +14,57 @@ public class TargetingScreen implements Screen
 {
 	private Screen subScreen;
 	private PlayScreen ps;
-	private boolean exitGame;
+	private boolean exitGame, exitScreen;
 	private AsciiPanel terminal;
 	
 	private Entity player;
 	private List<Entity> inView;
 	
-	private int index, lastIndex, scrollY, scrollX;
+	private int index, lastSize, scrollY, scrollX;
 	
 	public TargetingScreen(Entity player, PlayScreen ps)
 	{
 		this.ps = ps;
 		this.player = player;
 		inView = player.fov().getEntites();
+		this.lastSize = inView.size();
 		this.scrollX = 0;
 		this.scrollY = 48 - inView.size() + 1;
+		this.exitScreen = false;
 	}
-	
+	public void refresh()
+	{
+		inView = player.fov().getEntites();
+		this.lastSize = inView.size();
+		this.scrollX = 0;
+		this.scrollY = 48 - inView.size() + 1;
+		this.index = 0;
+	}
 	@Override
 	public void displayOutput(AsciiPanel terminal)
 	{
 		if(inView.isEmpty())
 			return;
-		Entity enemy = inView.get(index);
-		renderEnemyList(terminal);
-		terminal.write((char) 16 + "" + index, scrollX, scrollY);
+		if(inView.size() < lastSize && subScreen != null)
+		{
+			refresh();
+			exitScreen = true;
+		}
+		Entity enemy;
+		if(subScreen == null){
+			enemy = inView.get(index);
+			renderEnemyList(terminal);
+			terminal.write((char) 16 + "", scrollX, scrollY);
+			System.out.print("Hello fomr targetting");
+		}
+		else
+		{
+			enemy = ((AttackBox) subScreen).getEntity();
+			renderEnemyList(terminal);
+		}
 
-		// Render target selection
 		terminal.write(enemy.tile().glyph(), enemy.x-ps.getLeftOffset(), enemy.y - ps.getTopOffset(), Palette.white, Palette.darkRed);
-		
+
 		if(subScreen instanceof AttackBox)
 			((AttackBox) subScreen).displayOutput(terminal);
 	}
@@ -57,14 +79,15 @@ public class TargetingScreen implements Screen
 		for(Entity e : inView)
 		{	
 			if(e.name() != null)
-				terminal.write(e.name(), 1, y++);
+				terminal.write(e.name(), 1, y);
+				TileEngine.renderPercentBlocks(terminal, Palette.green, e.name().length() + 2, y++, e.hp(), e.maxHP());
 		}
 	}
 	public void select()
 	{
 		PlayerAi  ai = (PlayerAi)player.getEntityAi();
 		Entity enemy = inView.get(index);
-		
+
 		subScreen = new AttackBox(player, 31, ai.getAttacks().size() + 2, 31, 49 - ai.getAttacks().size() - 1, enemy, ps);
 	}
 	public void scrollUp()
@@ -93,7 +116,7 @@ public class TargetingScreen implements Screen
 	}
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
-	{	if(inView.size() < 1)
+	{	if(inView.size() < 1 || exitScreen == true)
 			return null;
 		if(subScreen != null)
 		{

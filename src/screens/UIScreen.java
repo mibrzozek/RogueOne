@@ -62,6 +62,9 @@ public class UIScreen implements Screen
 	@Override
 	public void displayOutput(AsciiPanel terminal)
 	{
+		if(exitSubScreen ==  true)
+			return;
+
 		TileEngine.renderBox(terminal, bw, bh, bx, by, ts);
 		terminal.write((char) 16, scrollX, scrollY);
 		

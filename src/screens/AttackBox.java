@@ -24,14 +24,21 @@ public class AttackBox extends UIScreen
 		setScrollX(bx);
 		setScrollY(by +1 );
 	}
+	public Entity getEntity()
+	{
+		return enemy;
+	}
+
 	@Override
 	public void select()
 	{
 		if(itemList.get(index).equals("Shoot"))
 		{
-			enemy.modifyHp(-100);
+			enemy.modifyHp(-10);
 			System.out.println("Shooting");
 			ps.updateWorld();
+			if(enemy.hp() < 0)
+				setNull();
 		}
 	}
 	@Override
@@ -43,5 +50,6 @@ public class AttackBox extends UIScreen
 		for(String i : itemList)
 			terminal.write(i,x, y++ );
 	}
+
 
 }

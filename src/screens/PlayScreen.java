@@ -151,12 +151,24 @@ public class PlayScreen implements Screen
 		{
 			for (int i = 0; i < 8; i++)
 			{
+				/*
 				entityFactory.newFungus(z);
 				entityFactory.newRogue();
 				entityFactory.newDroid();
 				entityFactory.newMutant();
 				/// entityFactory.newMech();
+				*/
 				entityFactory.newHitman(0, player);
+				entityFactory.newHitman(0, player);
+				entityFactory.newHitman(0, player);
+				entityFactory.newHitman(0, player);
+				entityFactory.newHitman(0, player);
+				entityFactory.newHitman(0, player);
+				entityFactory.newHitman(0, player);
+				entityFactory.newHitman(0, player);
+				entityFactory.newHitman(0, player);
+				entityFactory.newHitman(0, player);
+
 			}
 		}
 	}
@@ -272,6 +284,11 @@ public class PlayScreen implements Screen
         }
     	subScreen = null;
     }
+    public void setSubScreen(Screen screen)
+	{
+		this.subScreen = screen;
+
+	}
     public void updateWorld() 			{ world.update();}
     public void returnStartScreen()     { exitGame = true; 	}
 	@Override

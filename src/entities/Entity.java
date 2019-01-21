@@ -346,7 +346,7 @@ public class Entity implements Serializable
     	System.out.println(damage + " damage is dealt to the " + slot.toString());
     	
     }
-    public void modifyHp(int amount) 
+    public void modifyHp(double amount)
     {
         hp += amount;
     

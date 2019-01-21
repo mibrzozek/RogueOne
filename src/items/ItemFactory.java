@@ -34,7 +34,7 @@ public class ItemFactory implements Serializable
 	public void initItemList()
 	{
 		itemList = new ArrayList<Item>();
-		//`
+		itemList.add(newPeaShooter());
 		itemList.add(newPlasmaAxe());
 		itemList.add(newRoseBerkinstocks());
 		itemList.add(newBioLard());
@@ -132,6 +132,17 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), plasmaAxe);
 		return plasmaAxe;
+	}
+	public Item newPeaShooter()
+	{
+		Item peaShooter = new Item((char)121, AsciiPanel.cyan, Type.GUN,
+				"Pea Shooter", 
+				"A nice little pocket gun. It shoots peas, as expected. It doesn't do a lot of damage but it might feed your opponent!",
+				0, 0
+				, 5);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), peaShooter);
+		return peaShooter;
 	}
 	/*
 	 *		Stealth Items --------------------------------------------

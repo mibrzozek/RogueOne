@@ -30,10 +30,8 @@ public class StartScreen implements Screen
 		TileEngine.renderBox(terminal, sw, sh, 0, 0,  TileSet.SIMPLE);
 		TileEngine.renderBox(terminal, 45, 22, 20, 10,  TileSet.SIMPLE);
 		
-		terminal.writeCenter("Surface Dwellers United", 13);
-		terminal.writeCenter(" -The night of the great borg!-", 15);
-		
-		
+		terminal.writeCenter("_Abandoned_Project_" + Tile.dblTLC.glyph(), 13);
+		terminal.writeCenter("- a quest for answers -", 15);
 		
 		terminal.writeCenter("PLAY [enter]", 19);
 		terminal.writeCenter("LOAD [space]", 20);

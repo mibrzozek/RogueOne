@@ -1,19 +1,14 @@
 package structures;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 import wolrdbuilding.Direction;
-import wolrdbuilding.PlanetPrinter;
 import wolrdbuilding.Point;
 import wolrdbuilding.RoomPoint;
 import wolrdbuilding.Tile;
 import wolrdbuilding.TileSet;
-import wolrdbuilding.WorldBuilder;
 
 public class Dungeon
 {
@@ -22,6 +17,7 @@ public class Dungeon
 	private static int[][][] regions;
 	
 	private static ArrayList<Point> spawnPoints;
+	private static ArrayList<Point> startingPoints;
 	private ArrayList<Point> occupiedPoints;
 	private List<List> regionList;
 	
@@ -53,12 +49,6 @@ public class Dungeon
 		randomApproachToDungeons();
 		return tiles;
 	}
-	public void proceduralDungeons()
-	{
-		
-	}
-	
-	
 	public void randomApproachToDungeons()
 	{
 		Point p =  null;
@@ -79,7 +69,48 @@ public class Dungeon
 		//addExitStairs();
 		makeStairsDown();
 		makeLaserTraps();
+		makeStartingRoom();
 		
+	}
+	public void makeStartingRoom()
+	{
+		int w = 15, h = 15;
+		Point p;
+		do {
+			p = getSpawnPointFromLevel(0);
+		}while(!isValidPoint(p, w, h));
+
+		RoomPoint rp = new RoomPoint(p, 15, 15);
+		buildRoom(rp, TileSet.DOUBLE);
+
+
+
+		startingPoints = getOpenPointFromRegion(rp.point(), 15, 15);
+	}
+	public ArrayList<Point> getOpenPointFromRegion(Point p, int w, int h)
+	{
+		ArrayList<Point> available = new ArrayList<>();
+		for(int i = p.x; i < p.x + w; i++)
+		{
+			for(int j = p.y; j < p.y+h; j++)
+			{
+				if(tiles[i][j][p.z].isGround())
+					available.add(new Point(i, j, p.z));
+			}
+		}
+
+
+		return available;
+	}
+	public Point getSpawnPointFromLevel(int level)
+	{
+		Point p = null;
+		do
+		{
+			p = spawnPoints.get(r.nextInt(spawnPoints.size()));
+		} while(p.z != level);
+
+		return p;
 	}
 	private void makeLaserTraps()
 	{
@@ -532,9 +563,8 @@ public class Dungeon
 		return occupiedPoints;
 	}
 
-			
-	
-	
-	
-	
+
+	public ArrayList<Point> getStartingPoints() {
+		return startingPoints;
+	}
 }

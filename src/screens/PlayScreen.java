@@ -208,10 +208,8 @@ public class PlayScreen implements Screen
 	     leftOffset = getScrollX();
 	     topOffset = getScrollY();
 
-	     
 	     displayTiles(terminal, leftOffset, topOffset);
 	     TileEngine.renderStats(terminal, screenWidth, screenHeight, 0, 0, player);
-	     TileEngine.renderTarget(terminal, screenWidth, screenHeight, player);
 	   
 	     if(subScreen instanceof CraftingScreen)
 	    	 ((CraftingScreen) subScreen).write(terminal);

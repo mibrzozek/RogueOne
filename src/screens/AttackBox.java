@@ -3,6 +3,7 @@ package screens;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import entities.PlayerAi;
+import items.Type;
 
 public class AttackBox extends UIScreen 
 {
@@ -34,11 +35,22 @@ public class AttackBox extends UIScreen
 	{
 		if(itemList.get(index).equals("Shoot"))
 		{
-			enemy.modifyHp(-10);
-			System.out.println("Shooting");
+			if (!player.inventory().get(Type.GUN).isEmpty())
+			{
+				double dmg = player.inventory().getGunDamage();
+
+				System.out.println(dmg);
+
+				enemy.modifyHp(-dmg);
+				System.out.println("Shooting");
+				if (enemy.hp() < 0)
+					setNull();
+			}
+			else
+			{
+				player.notify("You try shooting but don't seem to have a gun!");
+			}
 			ps.updateWorld();
-			if(enemy.hp() < 0)
-				setNull();
 		}
 	}
 	@Override

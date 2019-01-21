@@ -25,6 +25,7 @@ public class World implements Serializable
 	private Projectile[][][] projectileMap;
 	
 	private ArrayList<Point> insideSpawns;
+	private ArrayList<Point> startingPoints;
     
     private int width;
     public int width() { return width; }
@@ -36,7 +37,7 @@ public class World implements Serializable
 	public int depth() { return depth; }
     
     // Constructor
-	public World(Tile[][][] tiles, ArrayList<Point> spawns, Entity player)
+	public World(Tile[][][] tiles, ArrayList<Point> spawns, ArrayList<Point> startingPoints, Entity player)
 	{
 		this.tiles = tiles;
 		this.player = player;
@@ -52,6 +53,8 @@ public class World implements Serializable
 		this.projectileMap = new Projectile[width][height][depth];
 		
 		this.insideSpawns = spawns;
+		this.startingPoints = startingPoints;
+		System.out.println(startingPoints.size());
 	}
     public void animate()
     {
@@ -294,10 +297,21 @@ public class World implements Serializable
     }
     
     // Adds entities
-    
+    public void spawnPlayer(Entity player)
+	{
+		Random r = new Random();
+		System.out.println(startingPoints.size() + " world s pints spawn");
+		Point p = startingPoints.get(r.nextInt(startingPoints.size()));
+
+		player.x = p.x;
+		player.y = p.y;
+		player.z = 0;
+
+		entities.add(player);
+	}
     public void spawnInside(int depth, Object ...args)
     {
-    	Random r = new Random();
+		Random r = new Random();
     	Point p;
 		if(args[0] instanceof Entity)
 		{

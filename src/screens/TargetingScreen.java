@@ -44,23 +44,28 @@ public class TargetingScreen implements Screen
 	public void displayOutput(AsciiPanel terminal)
 	{
 		if(inView.isEmpty())
-			return;
-		if(inView.size() < lastSize && subScreen != null)
 		{
-			refresh();
+			System.out.println("InView empty");
 			exitScreen = true;
+			return;
 		}
+
+
+		//System.out.println("screen null size change");
+
 		Entity enemy;
 		if(subScreen == null){
 			enemy = inView.get(index);
 			renderEnemyList(terminal);
 			terminal.write((char) 16 + "", scrollX, scrollY);
-			System.out.print("Hello fomr targetting");
+			System.out.println("Hello fomr targeting");
 		}
 		else
 		{
+			refresh();
 			enemy = ((AttackBox) subScreen).getEntity();
 			renderEnemyList(terminal);
+
 		}
 
 		terminal.write(enemy.tile().glyph(), enemy.x-ps.getLeftOffset(), enemy.y - ps.getTopOffset(), Palette.white, Palette.darkRed);

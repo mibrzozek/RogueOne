@@ -17,7 +17,7 @@ public class UIScreen implements Screen
 	private boolean exitSubScreen;
 	private AsciiPanel terminal;
 	
-	private Entity player;
+	protected Entity player;
 	protected List<String> itemList;
 	
 	protected int index;

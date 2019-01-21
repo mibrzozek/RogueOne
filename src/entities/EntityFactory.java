@@ -82,7 +82,7 @@ public class EntityFactory implements Serializable
 	{
 		Entity player = new Entity(stats, world, Tile.PLAYER);
 		if(world!= null)
-			world.spawnInside(0, player);
+			world.spawnPlayer(player);
 		player.setEntityAi(new PlayerAi(player, messages, fov));
 		player.modifyPlasma(200);
 		player.modifyCrypto(1000);
@@ -97,6 +97,7 @@ public class EntityFactory implements Serializable
 		player.inventory().add(new ItemFactory().newRacingGloves());
 		player.inventory().add(new ItemFactory().newRuggedCap());
 		player.inventory().add(new ItemFactory().newBioLard());
+		player.inventory().add(new ItemFactory().newPeaShooter());
 		
 		
 		player.inventory().moveToEquiped(6);

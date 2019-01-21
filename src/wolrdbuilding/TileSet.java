@@ -2,8 +2,12 @@ package wolrdbuilding;
 
 public enum TileSet 
 {
+	DOUBLE(Tile.dblTLC, Tile.dblTRC, Tile.dblBLC
+			, Tile.dblBRC, Tile.dblTBW, Tile.dblLRW),
+
 	SIMPLE(Tile.simpleTLC, Tile.simpleTRC, Tile.simpleBLC
 			, Tile.simpleBRC, Tile.simpleTBW, Tile.simpleLRW),
+
 	INSIDE_TILE(Tile.INSIDE_FLOOR),
 	
 	UP_DOWN_TUNNEL_S(Tile.simpleTRC, Tile.simpleTLC, Tile.simpleBRC,
@@ -25,6 +29,7 @@ public enum TileSet
 	public boolean isRoom;
 	
 
+
 	TileSet(Tile t)
 	{
 		this.tlc = t;
@@ -36,7 +41,7 @@ public enum TileSet
 		
 		this.isRoom = false;
 	}
-	TileSet(Tile tlc, Tile trc,Tile blc ,Tile brc ,Tile tbw , Tile lrw)
+	TileSet(Tile tlc, Tile trc, Tile blc ,Tile brc ,Tile tbw , Tile lrw)
 	{
 		this.tlc = tlc;
 		this.trc = trc;

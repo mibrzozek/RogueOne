@@ -40,7 +40,7 @@ public class WorldBuilder implements Serializable
     
     public World build() 
     {
-        return new World(tiles, spawnPoints, player);
+        return new World(tiles, spawnPoints, null, player);
     }
     // Makes random rooms twice, once in makeCaves, and called again 
     // in playScreen.createWorld

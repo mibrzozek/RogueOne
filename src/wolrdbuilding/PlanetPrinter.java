@@ -18,6 +18,7 @@ public class PlanetPrinter
 
 	private ArrayList<Point> spawnPoints;
 	private static ArrayList<Point> occupiedPoints;
+	private static ArrayList<Point> startingPoints;
 	private Random r;
 	
 	private Point lastPoint;
@@ -46,7 +47,7 @@ public class PlanetPrinter
 	}
 	public World build()
 	{
-		return new World(tiles, spawnPoints, player);
+		return new World(tiles, spawnPoints, startingPoints, player);
 	}
 	static boolean isValidPoint(Point p, int w, int h)
 	{
@@ -130,6 +131,10 @@ public class PlanetPrinter
 		// Done after dungeon is done
 		spawnPoints = d.getSpawnPoints();
 		occupiedPoints = d.getOccupiedPoints();
+		startingPoints = d.getStartingPoints();
+
+		System.out.println(startingPoints.size() + " starting points");
+
 		/*
 		Direction d = null;
 		

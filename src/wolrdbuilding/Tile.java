@@ -43,8 +43,20 @@ public enum Tile
     
     R_MED((char) 248, AsciiPanel.brightRed),
     G_SMALL((char) 4, AsciiPanel.brightGreen),
-    
+
+
+
+
+
     // Room material
+
+    dblTLC((char)201, Palette.paleWhite),
+    dblTRC((char)187, Palette.paleWhite),
+    dblBLC((char)200, Palette.paleWhite),
+    dblBRC((char)188, Palette.paleWhite),
+    dblLRW((char)186, Palette.paleWhite),
+    dblTBW((char)205, Palette.paleWhite),
+
     DOOR((char)240, AsciiPanel.red),
     
 	lrWall((char)186, Color.white),
@@ -67,7 +79,6 @@ public enum Tile
 	
 	// Entity Tiles
 	PLAYER('@', Palette.paleWhite, Palette.darkGray),
-	
 	FUNGUS('f', Palette.green, Palette.lightRed),
 	HITMAN('h', Palette.paleWhite, Palette.lightRed),
 	TRADER('T', Palette.yellow, Palette.lightRed),

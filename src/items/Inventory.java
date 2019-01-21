@@ -50,7 +50,6 @@ public class Inventory implements Serializable
     		else
     			deviceIndex++;
     	}
-    	
     }
     public Item getDevice()
     {
@@ -77,6 +76,16 @@ public class Inventory implements Serializable
     	
     	return specifiedItems;
     }
+    public double getGunDamage()
+	{
+		double dmg = 0;
+		for(int i = 0; i < equiped.length; i++)
+		{
+			if(equiped[i] != null && equiped[i].type() == Type.GUN)
+				dmg += equiped[i].value();
+		}
+		return dmg;
+	}
     public double getStealthNumber()
     {
     	Stream str = get(Type.STEALTH).stream();

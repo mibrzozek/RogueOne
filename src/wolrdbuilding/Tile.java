@@ -16,16 +16,13 @@ public enum Tile
     INSIDE_FLOOR((char)250, Palette.gray),
     BLASTED_TERRAIN((char)176, Palette.brown),
     WHITE_TERRAIN((char)176, Palette.white),
-    
     WALL((char)177, Palette.randomColor()),
     RED_WALL((char)177, Palette.black),
     BROWN_WALL((char)177, Palette.randomColor()),
     SILVER_WALL((char)177, Palette.randomColor()),
-    
     BOUNDS('X', Palette.black),
-    //
     CURSOR('x', AsciiPanel.brightBlack),
-    
+
     // Obstacles
     UP_DOWN_LASER((char)186, Color.red),
     LEFT_RIGHT_LASER((char)205, Color.red),
@@ -44,12 +41,25 @@ public enum Tile
     R_MED((char) 248, AsciiPanel.brightRed),
     G_SMALL((char) 4, AsciiPanel.brightGreen),
 
+    // Visible structures
+    PLASMA_CANISTER((char)15, Palette.blue, true),
+    INTERFACE((char)216, Palette.paleWhite, true),
 
+    simpleTLCS((char)218, Color.white, true),
+    simpleTRCS((char)191, Color.white, true),
+    simpleBLCS((char)192, Color.white, true),
+    simpleBRCS((char)217, Color.white, true),
+    simpleTBWS((char)196, Color.white, true),
+    simpleLRWS((char)179, Color.white, true),
 
-
+    dblTLCS((char)201, Palette.paleWhite, true),
+    dblTRCS((char)187, Palette.paleWhite, true),
+    dblBLCS((char)200, Palette.paleWhite, true),
+    dblBRCS((char)188, Palette.paleWhite, true),
+    dblLRWS((char)186, Palette.paleWhite, true),
+    dblTBWS((char)205, Palette.paleWhite, true),
 
     // Room material
-
     dblTLC((char)201, Palette.paleWhite),
     dblTRC((char)187, Palette.paleWhite),
     dblBLC((char)200, Palette.paleWhite),
@@ -96,6 +106,17 @@ public enum Tile
 	private Color tempColor;
 	private char glyph;
     private boolean targetted =  false;
+    private boolean isStructure = false;
+
+    Tile(char glyph, Color color, boolean isStructure)
+    {
+        this.swapable = true;
+        this.glyph = glyph;
+        this.color = color;
+        this.backColor = Palette.darkestGray;
+
+        this.isStructure = isStructure;
+    }
 
     Tile(char glyph, Color color)
     {
@@ -120,6 +141,10 @@ public enum Tile
     {
 
     	
+    }
+    public boolean isStructure()
+    {
+        return isStructure;
     }
     public boolean isGround() {
         return this ==  Tile.FLOOR || this ==  Tile.INSIDE_FLOOR

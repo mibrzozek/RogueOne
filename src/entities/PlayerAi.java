@@ -5,6 +5,7 @@ import java.util.List;
 
 import items.Item;
 import items.ItemFactory;
+import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
 
 public class PlayerAi extends EntityAi
@@ -66,14 +67,25 @@ public class PlayerAi extends EntityAi
     {
     	messages.add(message);
     }
-	public boolean canSee(int wx, int wy, int wz) 
+    @Override
+	public boolean canSee(int wx, int wy, int wz)
 	{
 		ItemFactory iF = new ItemFactory();
-		
+
 		if(entity.inventory().isItemEquiped(iF.newDevSword()))
 			return true;
-		else
-			return fov.isVisible(wx, wy, wz);
+		if (entity.z != wz)
+			return false;
+		if ((entity.x-wx)*(entity.x-wx) + (entity.y-wy)*(entity.y-wy) > entity.visionRadius()*entity.visionRadius())
+			return false;
+		for (Point p : new Line(entity.x, entity.y, wx, wy))
+		{
+			if (entity.tile(p.x, p.y, wz).isGround() || entity.tile(p.x, p.y, wz).isStructure() || p.x == wx && p.y == wy)
+				continue;
+
+			return false;
+		}
+		return true;
 	}
 	public boolean canMine()
 	{

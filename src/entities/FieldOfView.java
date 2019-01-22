@@ -44,7 +44,7 @@ public class FieldOfView implements Serializable
     {
         return z == depth && x >= 0 && y >= 0 && x < visible.length && y < visible[0].length && visible[x][y];
     }
-    public ArrayList getEntites()
+    public ArrayList getEntities()
     {
     	return (ArrayList) visibleEntities;
     }

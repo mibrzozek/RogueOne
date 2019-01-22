@@ -47,13 +47,11 @@ public class EntityAi implements Serializable
 	{
         if (entity.z != wz)
             return false;
-    
         if ((entity.x-wx)*(entity.x-wx) + (entity.y-wy)*(entity.y-wy) > entity.visionRadius()*entity.visionRadius())
             return false;
-    
         for (Point p : new Line(entity.x, entity.y, wx, wy))
         {
-            if (entity.tile(p.x, p.y, wz).isGround() || p.x == wx && p.y == wy)
+            if (entity.tile(p.x, p.y, wz).isGround() || entity.tile(p.x, p.y, wz).isStructure() || p.x == wx && p.y == wy)
                 continue;
         
             return false;

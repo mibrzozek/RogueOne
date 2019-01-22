@@ -2,6 +2,12 @@ package wolrdbuilding;
 
 public enum TileSet 
 {
+	DOUBLE_S(Tile.dblTLCS, Tile.dblTRCS, Tile.dblBLCS
+			, Tile.dblBRCS, Tile.dblTBWS, Tile.dblLRWS),
+
+	SIMPLE_S(Tile.simpleTLCS, Tile.simpleTRCS, Tile.simpleBLCS
+			, Tile.simpleBRCS, Tile.simpleTBWS, Tile.simpleLRWS),
+
 	DOUBLE(Tile.dblTLC, Tile.dblTRC, Tile.dblBLC
 			, Tile.dblBRC, Tile.dblTBW, Tile.dblLRW),
 
@@ -9,6 +15,8 @@ public enum TileSet
 			, Tile.simpleBRC, Tile.simpleTBW, Tile.simpleLRW),
 
 	INSIDE_TILE(Tile.INSIDE_FLOOR),
+
+	CANISTERS(Tile.PLASMA_CANISTER),
 	
 	UP_DOWN_TUNNEL_S(Tile.simpleTRC, Tile.simpleTLC, Tile.simpleBRC,
 					Tile.simpleBLC, Tile.INSIDE_FLOOR, Tile.simpleLRW),

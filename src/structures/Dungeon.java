@@ -74,19 +74,38 @@ public class Dungeon
 	}
 	public void makeStartingRoom()
 	{
-		int w = 15, h = 15;
+		int w = 25, h = 25;
 		Point p;
 		do {
 			p = getSpawnPointFromLevel(0);
 		}while(!isValidPoint(p, w, h));
 
-		RoomPoint rp = new RoomPoint(p, 15, 15);
+		RoomPoint rp = new RoomPoint(p, w, h);
 		buildRoom(rp, TileSet.DOUBLE);
 
-
+		buildPlasmaBlock(rp, 7);
 
 		startingPoints = getOpenPointFromRegion(rp.point(), 15, 15);
 	}
+	public void buildPlasmaBlock(RoomPoint rp, int oddWH)
+	{
+		// Plasma blocks should always be in the center of the room
+		// This checks that the room is square and has a center
+		int nw, nh, center;
+		if(rp.w != rp.h && rp.w % 2 == 0)
+			return;
+		else
+		{
+			center = ((rp.w - 1)/2) - ((oddWH-1)/2);
+		}
+
+		rp = new RoomPoint(new Point(rp.x + center, rp.y + center, rp.z), oddWH, oddWH);
+		buildRoom(rp, TileSet.SIMPLE_S);
+		rp = new RoomPoint(new Point(rp.x + 1, rp.y + 1, rp.z), oddWH-2, oddWH-2);
+		buildRoom(rp, TileSet.CANISTERS);
+		tiles[rp.x+ 2][rp.y -1][rp.z] = Tile.INTERFACE;
+	}
+
 	public ArrayList<Point> getOpenPointFromRegion(Point p, int w, int h)
 	{
 		ArrayList<Point> available = new ArrayList<>();
@@ -518,8 +537,13 @@ public class Dungeon
 						tiles[x][y][rp.z] = t.tbw;
 					else
 					{
+						if(t.equals(TileSet.CANISTERS)) // for filling whole room with same tile
+							tiles[x][y][rp.z] = t.tlc;
+						else // fills everything inside of the walls with ground
+						{
 						tiles[x][y][rp.z] = Tile.INSIDE_FLOOR;
 						spawnPoints.add(new Point(x, y, rp.z));
+						}
 					}
 					occupiedPoints.add(new Point(x, y, rp.z));
 		        }

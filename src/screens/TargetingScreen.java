@@ -26,7 +26,7 @@ public class TargetingScreen implements Screen
 	{
 		this.ps = ps;
 		this.player = player;
-		inView = player.fov().getEntites();
+		inView = player.fov().getEntities();
 		this.lastSize = inView.size();
 		this.scrollX = 0;
 		this.scrollY = 48 - inView.size() + 1;
@@ -34,7 +34,7 @@ public class TargetingScreen implements Screen
 	}
 	public void refresh()
 	{
-		inView = player.fov().getEntites();
+		inView = player.fov().getEntities();
 		this.lastSize = inView.size();
 		this.scrollX = 0;
 		this.scrollY = 48 - inView.size() + 1;

@@ -235,6 +235,8 @@ public class PlayScreen implements Screen
 	    	 ((TargetingScreen) subScreen).displayOutput(terminal);
 	     if(subScreen instanceof AnimationScreen)
 	    	 ((AnimationScreen) subScreen).displayOutput(terminal);
+	     if(subScreen instanceof InteractScreen)
+	    	 ((InteractScreen) subScreen).displayOutput(terminal);
 	     
 	     TileEngine.displayMessages(terminal, messages, screenWidth, screenHeight);
 	}
@@ -323,7 +325,13 @@ public class PlayScreen implements Screen
 				}case KeyEvent.VK_L: subScreen = new KeyInputScreen(terminal,this, 20, 15, 8); break;
         		case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(player,terminal, this); break;
         		case KeyEvent.VK_ENTER: return new WinScreen();
-        		case KeyEvent.VK_F: player.pickup(); break;
+        		case KeyEvent.VK_F: 
+        		{
+        			if(world.tile(player.x, player.y, player.z) == Tile.TERMINAL_ACESS)
+        				subScreen = new InteractScreen(player, this);
+        			else
+        				player.pickup(); break;
+        		}
         		case KeyEvent.VK_E: player.rotateClockwise(); break;
         		case KeyEvent.VK_Q: player.rotateCounterClockwise(); break;
         		case KeyEvent.VK_SPACE: player.useWeapon(); world.update();	 break;

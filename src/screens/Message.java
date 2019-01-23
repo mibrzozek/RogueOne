@@ -35,8 +35,12 @@ public class Message
 			//This loops adds words to a line one by one until the next word will exceed the maxlnegth
 			while(charCount < ml && wordCount < split.length)
 			{
-				String word = split[wordCount++];
-				word += " ";
+				String word = "";
+				if(charCount < ml)
+				{
+					word = split[wordCount++];
+					word += " ";
+				}
 				if(charCount + word.length() < ml)
 				{
 					charCount += word.length();
@@ -45,8 +49,8 @@ public class Message
 				else if(wordCount < split.length && charCount + split[wordCount].length() > ml ) 
 				{
 					choppedMsg.add(line);
-					charCount = ml;
-					--wordCount;
+					charCount = ml + 10;
+					wordCount--;
 				}
 				if(split.length == wordCount) // no more words
 					choppedMsg.add(line);

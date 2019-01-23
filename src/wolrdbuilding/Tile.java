@@ -13,6 +13,7 @@ public enum Tile
 	// World materials
 	UNKNOWN(' ', Palette.white),
     FLOOR((char)250, Palette.randomNewColor()),
+    TERMINAL_ACESS((char)250, Palette.red),
     INSIDE_FLOOR((char)250, Palette.gray),
     BLASTED_TERRAIN((char)176, Palette.brown),
     WHITE_TERRAIN((char)176, Palette.white),
@@ -149,7 +150,7 @@ public enum Tile
     public boolean isGround() {
         return this ==  Tile.FLOOR || this ==  Tile.INSIDE_FLOOR
         		|| this ==  Tile.BLASTED_TERRAIN || this == Tile.STAIRS_DOWN
-        		|| this == Tile.STAIRS_UP;
+        		|| this == Tile.STAIRS_UP		 || this == Tile.TERMINAL_ACESS;
     }
     public boolean isDiggable() 
     {

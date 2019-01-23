@@ -470,8 +470,6 @@ public class Entity implements Serializable
 	
 	public void moveBy(int mx, int my, int mz)
 	{
-		if(this.ai instanceof PlayerAi)
-			System.out.println("Player coordinates x : "+  this.x + " y : " + this.y);
 		if (mx == 0 && my == 0 && mz == 0)
 		    return;
 		if(shieldValue + 5 < 80)
@@ -536,8 +534,6 @@ public class Entity implements Serializable
 			tradeMode = true;
 			tradersPosition = new Point(x+mx, y+my,z+mz);
 		}	
-		
-			
 	}
 	public void pickup()
 	{

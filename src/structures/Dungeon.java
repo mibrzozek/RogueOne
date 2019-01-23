@@ -86,6 +86,12 @@ public class Dungeon
 		buildPlasmaBlock(rp, 7);
 
 		startingPoints = getOpenPointFromRegion(rp.point(), 15, 15);
+		// Removes spawn points for enemies form starting area
+		for(Point po : startingPoints)
+		{
+			if(spawnPoints.contains(po))
+				System.out.println(spawnPoints.remove(po));
+		}
 	}
 	public void buildPlasmaBlock(RoomPoint rp, int oddWH)
 	{
@@ -103,7 +109,7 @@ public class Dungeon
 		buildRoom(rp, TileSet.SIMPLE_S);
 		rp = new RoomPoint(new Point(rp.x + 1, rp.y + 1, rp.z), oddWH-2, oddWH-2);
 		buildRoom(rp, TileSet.CANISTERS);
-		tiles[rp.x+ 2][rp.y -1][rp.z] = Tile.INTERFACE;
+		tiles[rp.x + 2][rp.y -1][rp.z] = Tile.TERMINAL_ACESS;
 	}
 
 	public ArrayList<Point> getOpenPointFromRegion(Point p, int w, int h)

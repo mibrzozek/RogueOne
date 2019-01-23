@@ -15,6 +15,7 @@ public class UIScreen implements Screen
 	protected PlayScreen ps;
 	private boolean exitGame;
 	private boolean exitSubScreen;
+	protected boolean cursorOn;
 	private AsciiPanel terminal;
 	
 	protected Entity player;
@@ -37,7 +38,7 @@ public class UIScreen implements Screen
 		this.index = 0;
 		this.scrollX = 0;
 		this.scrollY = 0;
-		
+		this.cursorOn = true;
 		this.ts = TileSet.SIMPLE;
 	}
 	public void setList(ArrayList<String> list)
@@ -50,6 +51,14 @@ public class UIScreen implements Screen
 		this.bh = bh;
 		this.bx = bx;
 		this.by = by;
+	}
+	public void setTileSet(TileSet ts)
+	{
+		this.ts = ts;
+	}
+	public void setCursor(boolean onOff)
+	{
+		this.cursorOn = onOff;
 	}
 	public void setScrollX(int x)
 	{
@@ -80,23 +89,29 @@ public class UIScreen implements Screen
 	}
 	public void scrollUp()
 	{
-		if(scrollY == (49 - itemList.size()))
-			scrollY = scrollY;
-		else
+		if(cursorOn == true)
 		{
-			scrollY--;
-			index--;
-		}		
+			if(scrollY == (49 - itemList.size()))
+				scrollY = scrollY;
+			else
+			{
+				scrollY--;
+				index--;
+			}
+		}
 	}
 	public void scrollDown()
 	{
-		if(scrollY == (48))
-			scrollY = scrollY;
-		else
+		if(cursorOn == true)
 		{
-			scrollY++;
-			index++;
-		}	
+			if(scrollY == (48))
+				scrollY = scrollY;
+			else
+			{
+				scrollY++;
+				index++;
+			}	
+		}
 	}
 	public void setNull()
 	{

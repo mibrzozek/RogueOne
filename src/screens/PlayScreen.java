@@ -86,7 +86,7 @@ public class PlayScreen implements Screen
         
         introMessages = new ArrayList<String>();
         introMessages.add("You wake from a deep slumber.");
-        introMessages.add("The ground is wet, and the air smells of metal. You hear a sound and are startled.");
+        introMessages.add("The ground is wet, and the air smells of metal. You hear a sound and are startled by it.");
         messages = new ArrayList<String>();
        
         this.terminal = new AsciiPanel(100, 100);
@@ -328,7 +328,7 @@ public class PlayScreen implements Screen
         		case KeyEvent.VK_F: 
         		{
         			if(world.tile(player.x, player.y, player.z) == Tile.TERMINAL_ACESS)
-        				subScreen = new InteractScreen(player, this);
+        				subScreen = new InteractScreen(player, this, null);
         			else
         				player.pickup(); break;
         		}

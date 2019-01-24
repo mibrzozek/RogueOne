@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 
 public class Inventory implements Serializable
 {
-	public enum EquipementSlot{HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO};
+	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO};
 	
     private Item[] items;
     private Item[] equiped;
@@ -99,19 +99,19 @@ public class Inventory implements Serializable
     	
     	return stealth;
     }
-    public double getArmorNumber(EquipementSlot slot, double damage)
+    public double getArmorNumber(EquipmentSlot slot, double damage)
     {
     	double d = damage;
     	
     	System.out.println(d + " before filters applied.");
     	
-    	if(slot == EquipementSlot.HEAD)
+    	if(slot == EquipmentSlot.HEAD)
     		d = reduceDamage(get(Type.HEAD), damage);
-    	else if(slot == EquipementSlot.TORSO)
+    	else if(slot == EquipmentSlot.TORSO)
     		d = reduceDamage(get(Type.TORSO), damage);
-    	else if(slot == EquipementSlot.ARMS)
+    	else if(slot == EquipmentSlot.ARMS)
     		d = reduceDamage(get(Type.ARMS), damage);
-    	else if(slot == EquipementSlot.LEGS)
+    	else if(slot == EquipmentSlot.LEGS)
     		d = reduceDamage(get(Type.LEGS), damage);
     	
     	System.out.println(d + " after filters applied..");

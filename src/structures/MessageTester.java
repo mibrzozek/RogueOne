@@ -9,10 +9,14 @@ public class MessageTester
 	public static void main(String ... args)
 	{
 		Message m1 = new Message("Hello, this is one the the new messages. This is one long one!", 85- 31);
-		Message m2 = new Message("With this message tester we will see how these messages actually behave, and rid all of these evil bugs and it stiln doesn't seem to be working", 85- 31);
-		Message m3 = new Message("I am doing this because i have been ravaged by these bugs wayy too long.", 85- 31);
-		Message m4 = new Message("It doesn't seem to be prinintg the correct nummber of lines", 85- 31);
-		Message m5 = new Message("Let us test this now.", 85- 31);
+		Message m2 = new Message("With this message tester we will see how these messages actually behave, and rid all of these evil bugs and it still doesn't seem to be working.", 85- 31);
+		Message m3 = new Message("I am doing this because i have been ravaged by these bugs way too long.", 85- 31);
+		Message m4 = new Message("It doesn't seem to be printing the correct number of lines.", 85- 31);
+		Message m5 = new Message("Hello interloper. My name is Laura and I will be your guide. I'm sure you have" +
+				" a lot of questions and the answers will come soon enough but first you must feed me plasma" +
+				" or we both won't be able to make it. You see, i manage this underground sector, and I do all the heavy lifting when it comes" +
+				" to keeping this facilities running, and all I need from you is to bring me some plasma. It is the fuel which lets you breathe" +
+				" and lets me compute. Go now, the time is running out!" , 43);
 		
 		ArrayList<Message> msgList = new ArrayList<>();
 		msgList.add(m1);

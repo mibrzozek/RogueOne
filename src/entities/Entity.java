@@ -1,15 +1,15 @@
 package entities;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 import items.Inventory;
-import items.Inventory.EquipementSlot;
+import items.Inventory.EquipmentSlot;
 import items.Item;
 import items.ItemFactory;
 import items.Type;
+import structures.Script;
 import wolrdbuilding.Direction;
 import wolrdbuilding.Point;
 import wolrdbuilding.Projectile;
@@ -65,6 +65,8 @@ public class Entity implements Serializable
     private Point tradersPosition;
     private Point enemyPosition;
     public Entity lastTargetedEnemy = null;
+
+    public Script script;
     
     private ArrayList<Projectile> projectiles;
     
@@ -118,7 +120,8 @@ public class Entity implements Serializable
         this.inventory = new Inventory(20);
         this.crypto = 100;
     }
-    
+
+    public void setScript(Script script)		{	this.script = script;	}
     public void setTile(Tile t)					{ 	this.tile = tile;	}						
     public void addFOV(FieldOfView fov)			{   ((PlayerAi)ai).setFOV(fov); }
     public void addWorld(World world)			{   this.world = world; }
@@ -158,6 +161,7 @@ public class Entity implements Serializable
     										return ((PlayerAi) ai).getFOV();
     									else return null;
     								}
+	public Script getScript() 		{ return script; }
    
     
 	public Tile tile(int wx, int wy, int wz) 
@@ -274,7 +278,7 @@ public class Entity implements Serializable
     		modifyHp(amount);
 		*/
     	double damage = amount;
-    	EquipementSlot slot = null;
+    	EquipmentSlot slot = null;
     	
     	while(slot == null)
     	{
@@ -283,30 +287,30 @@ public class Entity implements Serializable
     		if(bodyPart == 1)
     		{
     			if(stats.getHead() > 0)
-    				slot = EquipementSlot.HEAD;
+    				slot = EquipmentSlot.HEAD;
     		}
     		if(bodyPart == 2)
     		{
     			if(stats.getTorso() > 0)
-    				slot = EquipementSlot.TORSO;
+    				slot = EquipmentSlot.TORSO;
     		}
     		if(bodyPart == 3)
     		{
     			if(stats.getlHand() + stats.getrHand() > 0)
-    				slot = EquipementSlot.ARMS;
+    				slot = EquipmentSlot.ARMS;
     		}
     		if(bodyPart == 4)
     		{
     			if(stats.getlLeg() + stats.getrLeg() > 0)
-    				slot = EquipementSlot.LEGS;
+    				slot = EquipmentSlot.LEGS;
     		}
     		if(stats.getVitals() <= 0)
     		{
-    			slot = EquipementSlot.HEAD;
+    			slot = EquipmentSlot.HEAD;
     		}
     	}
     	
-    	System.out.println(EquipementSlot.HEAD + " " + Type.HEAD);
+    	System.out.println(EquipmentSlot.HEAD + " " + Type.HEAD);
     	
     	
     	System.out.println(" "+ stats.getHead() 
@@ -320,22 +324,22 @@ public class Entity implements Serializable
     	modifyLimbHealth(slot, damage);
     	
     }
-    public void modifyLimbHealth(EquipementSlot slot, double damage)
+    public void modifyLimbHealth(EquipmentSlot slot, double damage)
     {
     	System.out.println(damage + " initial damage.");
     	
-    	if(slot == EquipementSlot.HEAD)
+    	if(slot == EquipmentSlot.HEAD)
     		stats.setHead(stats.getHead() + damage);
-    	else if(slot == EquipementSlot.TORSO)
+    	else if(slot == EquipmentSlot.TORSO)
     		stats.setTorso(stats.getTorso() + damage);
-    	else if(slot == EquipementSlot.ARMS)
+    	else if(slot == EquipmentSlot.ARMS)
     	{
     		if((r.nextInt(1) +1) == 1 && stats.getlHand() > 0)
     			stats.setlHand(stats.getlHand() + damage);
     		else
     			stats.setrHand(stats.getrHand() + damage);
     	}
-    	else if(slot == EquipementSlot.LEGS)
+    	else if(slot == EquipmentSlot.LEGS)
     	{
     		if((r.nextInt(1) +1) == 1 && stats.getlLeg() > 0)
     			stats.setlLeg(stats.getlLeg() + damage);
@@ -602,4 +606,6 @@ public class Entity implements Serializable
 			return false;
 		
 	}
+
+
 }

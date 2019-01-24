@@ -5,6 +5,7 @@ import java.util.List;
 
 import items.Item;
 import items.ItemFactory;
+import structures.Script;
 import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
 
@@ -29,6 +30,7 @@ public class PlayerAi extends EntityAi
     	attacks.add("Melee");
     	
     	this.entity.tagged = Tile.TAGGED_PLAYER;
+    	this.entity.setScript(new Script());
     }
     public ArrayList<String> getAttacks()
     {

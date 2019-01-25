@@ -58,7 +58,6 @@ public class TargetingScreen implements Screen
 			enemy = inView.get(index);
 			renderEnemyList(terminal);
 			terminal.write((char) 16 + "", scrollX, scrollY);
-			System.out.println("Hello fomr targeting");
 		}
 		else
 		{

@@ -22,6 +22,7 @@ public class AttackBox extends UIScreen
 		PlayerAi  ai = (PlayerAi)player.getEntityAi();
 		
 		setList(ai.getAttacks());
+		setTopBottomBounds(by, by + itemList.size() - 1);
 		setScrollX(bx);
 		setScrollY(by +1 );
 	}

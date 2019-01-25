@@ -1,21 +1,54 @@
 package structures;
 
-import screens.Message;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Script
 {
     public enum Type{TERMINAL, TRADER, DROID };
 
-    public Map<Type, ArrayList<String>> scriptMap;
+    private Map<Type, ArrayList<String>> scriptMap;
+    private Map<Type, Integer> progressMap;
+    private Map<Type, ArrayList<ArrayList>> responseMap;
 
     public Script()
     {
+        initProgress();
         initDialogues();
+        initResponses();
+    }
+    public Integer getScriptProgress(Type d)     { return progressMap.get(d);}
+    public ArrayList<String> getDialogue(Type d)
+    {
+        return scriptMap.get(d);
+    }
+    public ArrayList<ArrayList> getResponses(Type d){ return responseMap.get(d);}
+
+
+    private void initResponses()
+    {
+        responseMap = new HashMap<Type, ArrayList<ArrayList>>();
+
+
+        ArrayList<String> responses = new ArrayList<>();
+        responses.add("I've got the plasma right here!");
+        responses.add("Before i do anything, first i'm going to need some gosh darn answers!");
+        responses.add("I'm gonna be fine with or without you!");
+
+        ArrayList<ArrayList> listOfLists = new ArrayList<>();
+
+        listOfLists.add((ArrayList) responses);
+        responseMap.put(Type.TERMINAL, listOfLists);
+    }
+    private void initProgress()
+    {
+        Type[] allTypes = Type.values();
+        progressMap = new HashMap<>();
+        for(int i = 0; i < allTypes.length; i++)
+        {
+            progressMap.put(allTypes[i], 0);
+        }
     }
     private void initDialogues()
     {
@@ -30,8 +63,5 @@ public class Script
         scriptMap.put(Type.TERMINAL, terminalD);
 
     }
-    public ArrayList<String> getDialogue(Type d)
-    {
-        return scriptMap.get(d);
-    }
+
 }

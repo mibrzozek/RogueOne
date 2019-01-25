@@ -147,7 +147,6 @@ public class TileEngine
 	
 	public static ArrayList<TilePoint> renderBox(AsciiPanel terminal, int bw, int bh, int bx, int by, String header)
 	{
-		
 		ArrayList<TilePoint> tileMap = new ArrayList<>();
 		for(int y = by; y < by+bh ; y++)
 		{

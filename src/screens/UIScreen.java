@@ -24,6 +24,9 @@ public class UIScreen implements Screen
 	protected int index;
 	private int scrollY;
 	private int scrollX;
+
+	protected int topBound;
+	protected int bottomBound;
 	protected int bw;
 	protected int bh;
 	protected int bx;
@@ -52,6 +55,11 @@ public class UIScreen implements Screen
 		this.bx = bx;
 		this.by = by;
 	}
+	public void setTopBottomBounds(int top, int bottom)
+	{
+		this.topBound = top;
+		this.bottomBound = bottom;
+	}
 	public void setTileSet(TileSet ts)
 	{
 		this.ts = ts;
@@ -75,9 +83,8 @@ public class UIScreen implements Screen
 			return;
 
 		TileEngine.renderBox(terminal, bw, bh, bx, by, ts);
-		terminal.write((char) 16, scrollX, scrollY);
-		
 		render(terminal);
+		terminal.write((char) 16, scrollX, scrollY);
 	}
 	public void render(AsciiPanel terminal)
 	{
@@ -91,7 +98,7 @@ public class UIScreen implements Screen
 	{
 		if(cursorOn == true)
 		{
-			if(scrollY == (49 - itemList.size()))
+			if(scrollY == topBound)
 				scrollY = scrollY;
 			else
 			{
@@ -104,7 +111,7 @@ public class UIScreen implements Screen
 	{
 		if(cursorOn == true)
 		{
-			if(scrollY == (48))
+			if(scrollY == bottomBound)
 				scrollY = scrollY;
 			else
 			{

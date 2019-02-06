@@ -35,7 +35,6 @@ public class MainFrame extends JFrame implements KeyListener
 	private static final Color DEFAULT_FORE = Palette.paleWhite;
 	
 	private AsciiPanel terminal;
-	private JPanel ControlPanel;
 	
 	private Container contentPane;
 	
@@ -55,45 +54,32 @@ public class MainFrame extends JFrame implements KeyListener
 	 			KillingSmokesFrame.setVisible(true);
 	 			ImageIcon img = new ImageIcon(FILE_PATH);
 	 			KillingSmokesFrame.setIconImage((Image)img.getImage());
-	 			
-	 			//Timer timer = new Timer();
-	 			//timer.schedule(new Reminder(KillingSmokesFrame), 0, 1750);
 	 		}
        	});
 	}
 	public MainFrame()
 	{
-		super(" Rogue One");
+		super(" Abandoned");
 		this.setSize(1036, 787);
 		this.setResizable(true);
 		// Starts app in center of screen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-	
-		contentPane = getContentPane();
-		contentPane.setSize(800, 825);
-		contentPane.setVisible(true);
-		
+
 		terminal = new AsciiPanel(85, 75, AsciiFont.CP437_12x12);
 		screen = new StartScreen();
 		
 		terminal.setDefaultBackgroundColor(DEFAULT_BACK);
 		terminal.setDefaultForegroundColor(DEFAULT_FORE);
-		
-		ControlPanel = new JPanel();
-		ControlPanel.setSize(this.getPreferredSize());
-		ControlPanel.setVisible(true);
-		
+
 		this.addKeyListener(this);
-		this.add(terminal, BorderLayout.NORTH);
-		
+		this.add(terminal);
 		this.repaint();
 	}
 
     public void repaint()
     {
         terminal.clear();
-        //screen.animate();
         screen.displayOutput(terminal);
         super.repaint();
     }
@@ -112,12 +98,10 @@ public class MainFrame extends JFrame implements KeyListener
 	public void keyReleased(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
 	}
 	@Override
 	public void keyTyped(KeyEvent e) 
 	{
 		// TODO Auto-generated method stub
-		
 	}
 }

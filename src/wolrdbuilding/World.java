@@ -114,7 +114,6 @@ public class World implements Serializable
 		
 		if(direction == 0)
 		{
-			System.out.println(direction +  " direction 0");
 			my = -1;
 		}
 		else if(direction == 1)
@@ -137,7 +136,6 @@ public class World implements Serializable
 		}
 		else if(direction == 5)
 		{
-			System.out.println(direction +  " direction 5");
 			mx =-1;
 			my = 1;
 		}
@@ -153,8 +151,6 @@ public class World implements Serializable
 		
 		for(int i = 0; i < distance; i++)
 		{
-			System.out.println(direction + " direction " + mx + " mx " +  my + " my " + distance + " distance");
-			
 			if(!tiles[player.x +mx][player.y + my][player.z].isFloor())
 			{
 				blastTerrain(player.x + mx, player.y + my, player.z);
@@ -170,9 +166,7 @@ public class World implements Serializable
 			}
 			else
 				i = distance;
-			
-			System.out.println(mx + " mx and my " +  my);
-			System.out.println(player.x + mx + " mx and my " + (player.y + my));
+
 		}
 	}
 	public void blastTerrain(int x, int y, int z)
@@ -452,5 +446,4 @@ public class World implements Serializable
             }
         }
     }
-
 }

@@ -203,8 +203,8 @@ public class Entity implements Serializable
     			&& inventory.getDevice().type().equals(Type.DEVICE))
     	{
     		//inventory.removeEquiped(inventory.getDevice())
-    		
-    		System.out.println(inventory.getDevice().name());
+
+
     		world.tunnelExplosion(this.direction, inventory.getDevice().value());	
     	}
     }
@@ -243,7 +243,6 @@ public class Entity implements Serializable
     			p = new Projectile(direction, new Point(x, y, z), Tile.Y_SMALL);
     			world.queueProjectile(p);
     			notify("Die suckers!");
-    			System.out.println(direction + " direction");
     		}
     }
     // Attacking, modifying HP, messages

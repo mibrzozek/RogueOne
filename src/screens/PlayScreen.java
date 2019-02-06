@@ -318,7 +318,6 @@ public class PlayScreen implements Screen
 				case KeyEvent.VK_SHIFT: subScreen = new CharacterSheet(player); break;
 				case KeyEvent.VK_T:
 				{
-					System.out.println(player.fov().getEntities().size());
 					if(player.fov().getEntities().size() > 0)
 						subScreen = new TargetingScreen(player, this);
 					break;

@@ -5,9 +5,19 @@ import java.awt.Color;
 public class TilePoint
 {
 	private	char glyph;
-	private Color color;
-	private  int x, y;
-	
+	private Color color, fColor, bColor;
+	private  int x, y, ascii;
+
+
+	public TilePoint(int x, int y, int ascii, Color fColor, Color bColor)
+	{
+		this.x = x;
+		this.y = y;
+		this.ascii = ascii;
+		this.glyph = (char)ascii;
+		this.fColor = fColor;
+		this.bColor = bColor;
+	}
 	public TilePoint(char glyph, Color color, int x, int y)
 	{
 		this.glyph = glyph;
@@ -23,8 +33,13 @@ public class TilePoint
 	
 	public char glyph()		{ return this.glyph; }
 	public Color color()	{ return this.color; }
+
+	public Color foreground()	{ return this.fColor; }
+	public Color background()	{ return this.bColor; }
+
 	public int x()			{ return this.x; }
 	public int y()			{ return this.y; }
+	public int ascii()			{ return this.ascii; }
 	@Override
 	public boolean equals(Object obj)
 	{
@@ -39,9 +54,7 @@ public class TilePoint
 				return true;
 			}
 		}
-		
 		return false;
-		
 	}
 	
 }

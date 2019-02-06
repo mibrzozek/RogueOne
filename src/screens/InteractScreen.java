@@ -15,9 +15,13 @@ public class InteractScreen extends UIScreen
 {
 	private Entity entity;
 	private String name;
+
 	private int mo, ry;
 	private Script script;
 
+	private String displayMessage;
+	private ArrayList<ArrayList> responses;
+	private ArrayList<ArrayList> replies;
 
 	public InteractScreen(Entity player, PlayScreen ps, Entity entity)
 	{
@@ -29,14 +33,13 @@ public class InteractScreen extends UIScreen
 		this.entity = entity;
 		this.script = player.getScript();
 
-		ArrayList<ArrayList> responses = script.getResponses(Script.Type.TERMINAL);
+		responses = script.getResponses(Script.Type.TERMINAL);
 		setList(responses.get(script.getScriptProgress(Script.Type.TERMINAL)));
 
 		ry = by+bh;
 		setTopBottomBounds(ry , ry+itemList.size() -1);
 		setScrollX(bx + 1);
 		setScrollY(ry);
-
 		if(this.entity == null)
 		{
 			this.name = "Laura";
@@ -50,7 +53,18 @@ public class InteractScreen extends UIScreen
 	@Override
 	public void select()
 	{
+		if(index == 1)
+		{
 
+		}
+		else if(index  == 2)
+		{
+
+		}
+		else if(index == 3)
+		{
+
+		}
 	}
 	@Override
 	public void render(AsciiPanel terminal)

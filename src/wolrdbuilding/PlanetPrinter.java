@@ -133,7 +133,6 @@ public class PlanetPrinter
 		occupiedPoints = d.getOccupiedPoints();
 		startingPoints = d.getStartingPoints();
 
-		System.out.println(startingPoints.size() + " starting points");
 
 		/*
 		Direction d = null;

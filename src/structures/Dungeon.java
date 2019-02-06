@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import wolrdbuilding.Direction;
-import wolrdbuilding.Point;
-import wolrdbuilding.RoomPoint;
-import wolrdbuilding.Tile;
-import wolrdbuilding.TileSet;
+import wolrdbuilding.*;
 
 public class Dungeon
 {
@@ -20,6 +16,8 @@ public class Dungeon
 	private static ArrayList<Point> startingPoints;
 	private ArrayList<Point> occupiedPoints;
 	private List<List> regionList;
+
+	private ArrayList<TilePoint> testStructure;
 	
 	private Random r =  new Random();
 	
@@ -41,6 +39,8 @@ public class Dungeon
 		this.occupiedPoints = new ArrayList<>();
 		this.regionList = new ArrayList<>();
 		this.nextRegion = 1;
+
+		this.testStructure = RexReader.getStructure();
 	}
 	
 	public Tile[][][] getNewDungeon()
@@ -90,7 +90,7 @@ public class Dungeon
 		for(Point po : startingPoints)
 		{
 			if(spawnPoints.contains(po))
-				System.out.println(spawnPoints.remove(po));
+				spawnPoints.remove(po);
 		}
 	}
 	public void buildPlasmaBlock(RoomPoint rp, int oddWH)
@@ -104,12 +104,21 @@ public class Dungeon
 		{
 			center = ((rp.w - 1)/2) - ((oddWH-1)/2);
 		}
-
+		Point p = rp.point();
+		/*
+		System.out.println("rp z and x " + rp.z + " " + rp.x);
 		rp = new RoomPoint(new Point(rp.x + center, rp.y + center, rp.z), oddWH, oddWH);
 		buildRoom(rp, TileSet.SIMPLE_S);
 		rp = new RoomPoint(new Point(rp.x + 1, rp.y + 1, rp.z), oddWH-2, oddWH-2);
 		buildRoom(rp, TileSet.CANISTERS);
 		tiles[rp.x + 2][rp.y -1][rp.z] = Tile.TERMINAL_ACESS;
+		*/
+		while(!testStructure.isEmpty())
+		{
+			TilePoint t = testStructure.remove(0);
+			System.out.println(testStructure.size() + "p z and x " + p.z + " " + p.x);
+			tiles[p.x + 5 + t.x()][p.y + 5 + t.y()][p.z] = Tile.returnTile(t.ascii());
+		}
 	}
 
 	public ArrayList<Point> getOpenPointFromRegion(Point p, int w, int h)

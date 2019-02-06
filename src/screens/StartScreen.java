@@ -6,10 +6,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 import asciiPanel.AsciiPanel;
+import structures.RexReader;
 import structures.TileEngine;
 import wolrdbuilding.Tile;
+import wolrdbuilding.TilePoint;
 import wolrdbuilding.TileSet;
 
 public class StartScreen implements Screen
@@ -36,7 +39,14 @@ public class StartScreen implements Screen
 		terminal.writeCenter("PLAY [enter]", 19);
 		terminal.writeCenter("LOAD [space]", 20);
 		terminal.writeCenter("LOSE [ esc ]", 21);
-		
+
+
+		ArrayList<TilePoint> testStructure = RexReader.getStructure();
+		while(!testStructure.isEmpty())
+		{
+			TilePoint t = testStructure.remove(0);
+			terminal.write(t.glyph(), t.x(), t.y(), t.foreground(), t.background());
+		}
 		//renderBox(terminal, 25, 25, 30, 5);
 		
 	}

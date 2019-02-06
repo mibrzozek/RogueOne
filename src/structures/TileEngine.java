@@ -70,8 +70,7 @@ public class TileEngine
 		}
 		if((r.nextInt(3) + 1) == 1)
 			tileMap.removeAll(rPoints);
-		
-		System.out.println(tileMap.size() + " tilemap size");
+
 		for(TilePoint t : rPoints)
 		{
 			int direction = r.nextInt(4) + 1;
@@ -105,8 +104,7 @@ public class TileEngine
 		}
 		*/
 		tileMap.addAll(rPoints);
-		
-		System.out.println(tileMap.size());
+
 		return null;
 	}
 	public static ArrayList<TilePoint> renderBox(AsciiPanel terminal, int bw, int bh, int bx, int by, TileSet ts)

@@ -575,9 +575,9 @@ public class Entity implements Serializable
 		}
 		else
 		{
-			doAction("drop a " + inventory.getEquiped(i).name());
-			world.addAtEmptySpace(inventory.getEquiped(i),x,y,z);
-			inventory.removeEquiped(inventory.getEquiped(i));
+			doAction("drop a " + inventory.getEquipped(i).name());
+			world.addAtEmptySpace(inventory.getEquipped(i),x,y,z);
+			inventory.removeEquiped(inventory.getEquipped(i));
 			
 		}
     }

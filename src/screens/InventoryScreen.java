@@ -1,8 +1,6 @@
 package screens;
 
 import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,8 +9,10 @@ import java.util.Random;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import items.Item;
+import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
+import wolrdbuilding.TileSet;
 
 public class InventoryScreen extends ScrollingBasedScreen
 {
@@ -49,18 +49,20 @@ public class InventoryScreen extends ScrollingBasedScreen
 
     	renderArmAndBox(terminal);
     	//renderGrayBackground(terminal);
+		TileEngine.renderBox(terminal, 45, 3, rx, ry-2, TileSet.DOUBLE, Color.pink);
         renderItemList(terminal);
         renderEquipementList(terminal);
          
         System.out.println(
-        		Arrays.asList(player.inventory().getEquiped())
+        		Arrays.asList(player.inventory().getEquipped())
         		);
         
         
-        terminal.write(""+ (char) 16, scrollX, scrollY, AsciiPanel.brightGreen);
-        
+        terminal.write(""+ (char) 16, scrollX, scrollY, Palette.red);
+
         if(OptionScreen != null)
         	OptionScreen.displayOutput(terminal);
+
   
         terminal.repaint();
     }
@@ -81,7 +83,7 @@ public class InventoryScreen extends ScrollingBasedScreen
     		}
     		else
     		{
-    			if(player.inventory().getEquiped(index) != null)
+    			if(player.inventory().getEquipped(index) != null)
     			{
     				isSelected = true;
     				OptionScreen = new  OptionsScreen(player, rx+boxWidth, ry, index, false, terminal);
@@ -170,7 +172,6 @@ public class InventoryScreen extends ScrollingBasedScreen
     	{
     		for(int y = ry; y < ry+boxHeight; y++)
     		{
-    			
     			if(x == rx || x == rx + boxWidth-1)
     				terminal.write((char) 179, x, y, Color.PINK);
 				else if (y == ry || y == ry+boxHeight-1)
@@ -189,8 +190,8 @@ public class InventoryScreen extends ScrollingBasedScreen
 	
     public void renderEquipementList(AsciiPanel terminal)
     {
-    	ArrayList<String> lines = getList(player.inventory().getEquiped());
-    	List<Item> equippedItems = Arrays.asList(player.inventory().getEquiped());
+    	ArrayList<String> lines = getList(player.inventory().getEquipped());
+    	List<Item> equippedItems = Arrays.asList(player.inventory().getEquipped());
     	
         int x = rx+ eo;
         int y = ry+ 1;
@@ -204,28 +205,29 @@ public class InventoryScreen extends ScrollingBasedScreen
         {
         	if(i != null)
         	{
-        		terminal.write(i.glyph(), x, y, Palette.black, i.type().setColor());
+        		terminal.write("+" + Tile.INVENTORY_TYPE_ICON.glyph(), x, y, i.type().setColor(), Palette.darkestGray);
         		terminal.write(i.name());
         		y++;
         	}
         	else
         	{
-        		terminal.write("+", x, y++, Palette.white, Palette.black);
+        		terminal.write("+", x, y++, Palette.white, Palette.darkestGray);
         	}
         }
         
         
-        terminal.write("Equipment", rx + eo, ry-1);
+        terminal.write("  Equipment", rx + eo, ry-1);
     }
     public void renderItemList(AsciiPanel terminal)
     {
     	ArrayList<String> lines = getList(player.inventory().getItems());
+    	List<Item> iL = player.inventory().getItemList();
     	
     	
     	int limit = 18;
         int x = rx+1;
         int y = ry+1;
-    	
+
     	if(moreToDisplay && index-17 >= 0)
     	{
     		lines = updateList(index-17);
@@ -233,10 +235,18 @@ public class InventoryScreen extends ScrollingBasedScreen
     	
         for (int i = 0; i < limit; i++)	
         {
-            terminal.write(lines.get(i), x, y++, Color.white);
+        	Item item = iL.get(index);
+        	Color c = Palette.white;
+        	if(item != null)
+        		c = item.type().getColor();
+			terminal.write("+"+ Tile.INVENTORY_TYPE_ICON.glyph(), x, y, c);
+            terminal.write(lines.get(i), Color.white);
+            y++;
         }
-        terminal.write("Inventory", rx+1, ry-1);
+        terminal.write("  Inventory", rx+1, ry-1);
         terminal.write(player.inventory().getItemCount() + "/" + player.inventory().getCapacity(), rx +boxWidth-5 , ry+boxHeight-1);
+
+        //TileEngine.renderItemList(terminal, new ArrayList<Item>(player.inventory().getItemList()), x, y);
     }
     private ArrayList<String> updateList(int startingIndex)
     {
@@ -248,9 +258,9 @@ public class InventoryScreen extends ScrollingBasedScreen
     	for(int i = 0; i <= 17; i++)
     	{
     		if(items[startingIndex] != null)
-    			toDisplay.add(" " + (char)175 + items[startingIndex].name());
+    			toDisplay.add(items[startingIndex].name());
     		else
-    			toDisplay.add("+"); 
+    			toDisplay.add("");
     		startingIndex++;
     		
     	}
@@ -264,15 +274,13 @@ public class InventoryScreen extends ScrollingBasedScreen
         for (int i = 0; i < list.length; i++)
         {
             Item item = list[i];
-            String line;
+            String line = "";
             /*
             if (item == null || !isAcceptable(item))
                 continue;
             */
         	if(item != null)
-        		line = " " +(char)175 +  item.name();
-        	else 
-        		line = "+";
+        		line = item.name();
         	
             lines.add(line);
         }

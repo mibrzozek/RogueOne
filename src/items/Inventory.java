@@ -2,6 +2,7 @@ package items;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
@@ -11,7 +12,7 @@ public class Inventory implements Serializable
 	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO};
 	
     private Item[] items;
-    private Item[] equiped;
+    private Item[] equipped;
     
     private List<Item> devices;
     private int deviceIndex = -1;
@@ -23,13 +24,16 @@ public class Inventory implements Serializable
     public Inventory(int max)
     {
         items = new Item[max];
-        equiped = new Item[7];
+        equipped = new Item[7];
     }
     
     public Item[] getItems() { return items; }
-    public Item[] getEquiped() { return equiped; }
+    public Item[] getEquipped() { return equipped; }
 
-    public Item getEquiped(int index) { return equiped[index]; }
+    public List<Item> getItemList() { return Arrays.asList(items);}
+	public List<Item> getEquippedList() { return Arrays.asList(equipped);}
+
+    public Item getEquipped(int index) { return equipped[index]; }
     public boolean isFullyEquiped() { return fullyEquiped; }
     
     public Item get(int index) 
@@ -67,10 +71,10 @@ public class Inventory implements Serializable
     {
     	ArrayList<Item> specifiedItems =  new ArrayList<>();
     	
-    	for(int i = 0; i < equiped.length; i++)
+    	for(int i = 0; i < equipped.length; i++)
     	{
-    		if(equiped[i] != null && equiped[i].type().equals(type))
-    			specifiedItems.add(equiped[i]);
+    		if(equipped[i] != null && equipped[i].type().equals(type))
+    			specifiedItems.add(equipped[i]);
     	}
     	//System.out.println(specifiedItems.size() + " items on " + type.toString());
     	
@@ -79,10 +83,10 @@ public class Inventory implements Serializable
     public double getGunDamage()
 	{
 		double dmg = 0;
-		for(int i = 0; i < equiped.length; i++)
+		for(int i = 0; i < equipped.length; i++)
 		{
-			if(equiped[i] != null && equiped[i].type() == Type.GUN)
-				dmg += equiped[i].value();
+			if(equipped[i] != null && equipped[i].type() == Type.GUN)
+				dmg += equipped[i].value();
 		}
 		return dmg;
 	}
@@ -91,10 +95,10 @@ public class Inventory implements Serializable
     	Stream str = get(Type.STEALTH).stream();
     	
     	double stealth = 0;
-    	for(int i = 0; i < equiped.length; i++)
+    	for(int i = 0; i < equipped.length; i++)
     	{
-    		if(equiped[i] != null && equiped[i].type() == Type.STEALTH)
-    			stealth += equiped[i].value();
+    		if(equipped[i] != null && equipped[i].type() == Type.STEALTH)
+    			stealth += equipped[i].value();
     	}
     	
     	return stealth;
@@ -132,9 +136,9 @@ public class Inventory implements Serializable
     {
     	boolean contains = false;
     	
-    	for(int i = 0; i < equiped.length; i++)
+    	for(int i = 0; i < equipped.length; i++)
     	{
-    		if(item.equals(equiped[i]))
+    		if(item.equals(equipped[i]))
     			contains = true;
     	}
     	return contains;
@@ -156,8 +160,8 @@ public class Inventory implements Serializable
     	{
     		if(items[i] == null)
     		{
-    			items[i] = equiped[index];
-    			removeEquiped(equiped[index]);
+    			items[i] = equipped[index];
+    			removeEquiped(equipped[index]);
     		}
     		
     		if(items[items.length - 1] != null)
@@ -166,14 +170,14 @@ public class Inventory implements Serializable
     }
     public void moveToEquiped(int index)
     {
-    	for(int i = 0; i < equiped.length; i++)
+    	for(int i = 0; i < equipped.length; i++)
     	{
-    		if(equiped[i] == null)
+    		if(equipped[i] == null)
     		{
-    			equiped[i] = items[index];
+    			equipped[i] = items[index];
     			remove(items[index]);
     		}
-    		if(equiped[equiped.length - 1] != null)
+    		if(equipped[equipped.length - 1] != null)
     			fullyEquiped = true;
     	}
     }
@@ -193,11 +197,11 @@ public class Inventory implements Serializable
     }
     public void removeEquiped(Item item)
     {
-        for (int i = 0; i < equiped.length; i++)
+        for (int i = 0; i < equipped.length; i++)
         {
-            if (equiped[i] == item)
+            if (equipped[i] == item)
             {
-                 equiped[i] = null;
+                 equipped[i] = null;
                  return;
             }
         }

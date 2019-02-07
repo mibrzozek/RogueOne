@@ -49,7 +49,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 		this.itemIndex = itemIndex;
 		
 	    items = player.inventory().getItems();
-	    equiped = player.inventory().getEquiped();
+	    equiped = player.inventory().getEquipped();
 	    tradersItems = null;
 		
 	    optionList = new ArrayList<String>();
@@ -202,7 +202,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 			}
 			else
 			{
-				inspectScreen = new InspectScreen(player.inventory().getEquiped()
+				inspectScreen = new InspectScreen(player.inventory().getEquipped()
 						, itemIndex, renderX-45, renderY);
 			}
 		}

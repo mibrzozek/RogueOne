@@ -4,7 +4,6 @@ package zunused;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.List;
 
 import asciiPanel.AsciiPanel;
 import entities.Entity;
@@ -66,7 +65,7 @@ public abstract class InventoryBasedScreen implements Screen
     }
     public void renderEquipementList(AsciiPanel terminal)
     {
-    	ArrayList<String> lines = getList(player.inventory().getEquiped());
+    	ArrayList<String> lines = getList(player.inventory().getEquipped());
     	
         int y = 3;
         int x = 50;
@@ -192,7 +191,7 @@ public abstract class InventoryBasedScreen implements Screen
     		}
     		else
     		{
-    			if(player.inventory().getEquiped(index) != null)
+    			if(player.inventory().getEquipped(index) != null)
     			{
     				isSelected = true;
     				OptionScreen = new  OptionsScreen(player, 63, 3, index, selectingFromInventory, terminal);

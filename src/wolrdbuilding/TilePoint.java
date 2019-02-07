@@ -1,8 +1,9 @@
 package wolrdbuilding;
 
 import java.awt.Color;
+import java.io.Serializable;
 
-public class TilePoint
+public class TilePoint implements Serializable
 {
 	private	char glyph;
 	private Color color, fColor, bColor;
@@ -40,6 +41,11 @@ public class TilePoint
 	public int x()			{ return this.x; }
 	public int y()			{ return this.y; }
 	public int ascii()			{ return this.ascii; }
+	@Override
+	public String toString()
+	{
+		return "x : " + x + " y : " + y +" ascii : " + ascii;
+	}
 	@Override
 	public boolean equals(Object obj)
 	{

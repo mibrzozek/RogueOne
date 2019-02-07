@@ -8,6 +8,7 @@ import java.util.Random;
 
 import asciiPanel.AsciiPanel;
 import entities.Entity;
+import items.Item;
 import screens.Message;
 import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
@@ -17,6 +18,8 @@ import wolrdbuilding.TileSet;
 public class TileEngine
 {
 	private static Random r = new Random();
+	private static final Color DEFAULT_F_COLOR = Palette.darkGray;
+	private static Color fColor = DEFAULT_F_COLOR;
 
 	
 	public static void displayTilesWithTransparentBox(AsciiPanel terminal, ArrayList<TilePoint> tileMap, 
@@ -107,6 +110,29 @@ public class TileEngine
 
 		return null;
 	}
+	public static ArrayList<TilePoint> renderItemList(AsciiPanel terminal, ArrayList<Item> list, int x, int y)
+	{
+		for(Item i : list)
+		{
+			if(i != null)
+			{
+				terminal.write("+" + Tile.INVENTORY_TYPE_ICON.glyph(), x, y, i.type().setColor(), Palette.darkestGray);
+				terminal.write(i.name());
+				y++;
+			}
+			else
+			{
+				terminal.write("+", x, y++, Palette.white, Palette.darkestGray);
+			}
+		}
+
+		return null;
+	}
+	public static ArrayList<TilePoint> renderBox(AsciiPanel terminal, int bw, int bh, int bx, int by, TileSet ts, Color c)
+	{
+		fColor = c;
+		return renderBox(terminal, bw, bh,bx, by, ts);
+	}
 	public static ArrayList<TilePoint> renderBox(AsciiPanel terminal, int bw, int bh, int bx, int by, TileSet ts)
 	{
 		ArrayList<TilePoint> tileMap = new ArrayList<>();
@@ -115,9 +141,9 @@ public class TileEngine
 			for(int x = bx; x < bx+bw; x++)
 			{
 				if(x == bx || x == bx+bw-1)
-					terminal.write(ts.lrw().glyph(), x, y, Palette.darkGray);
+					terminal.write(ts.lrw().glyph(), x, y, fColor);
 				else if (y == by || y == by+bh-1)
-					terminal.write(ts.tbw().glyph(), x, y,  Palette.darkGray);
+					terminal.write(ts.tbw().glyph(), x, y,  fColor);
 				else
 				{
 					if(bw < 85)
@@ -133,10 +159,10 @@ public class TileEngine
 				}
 			}
 		}
-		terminal.write(ts.tlc().glyph(),bx, by,  Palette.darkGray);
-		terminal.write(ts.trc().glyph(),bx + bw -1, by,  Palette.darkGray);
-		terminal.write(ts.blc().glyph(),bx, by + bh -1,  Palette.darkGray);
-		terminal.write(ts.brc().glyph(),bx + bw -1, by+ bh - 1,  Palette.darkGray);
+		terminal.write(ts.tlc().glyph(),bx, by,  fColor);
+		terminal.write(ts.trc().glyph(),bx + bw -1, by,  fColor);
+		terminal.write(ts.blc().glyph(),bx, by + bh -1,  fColor);
+		terminal.write(ts.brc().glyph(),bx + bw -1, by+ bh - 1,  fColor);
 		
 		
 		

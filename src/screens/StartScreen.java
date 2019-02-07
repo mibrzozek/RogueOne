@@ -40,7 +40,7 @@ public class StartScreen implements Screen
 		terminal.writeCenter("LOAD [space]", 20);
 		terminal.writeCenter("LOSE [ esc ]", 21);
 
-
+		/*
 		ArrayList<TilePoint> testStructure = RexReader.getStructure();
 		while(!testStructure.isEmpty())
 		{
@@ -48,7 +48,7 @@ public class StartScreen implements Screen
 			terminal.write(t.glyph(), t.x(), t.y(), t.foreground(), t.background());
 		}
 		//renderBox(terminal, 25, 25, 30, 5);
-		
+		*/
 	}
 	// Using Serialization we are able to save the PlayScreen instance
 	// and reload it, setting the old screen as the current screen!

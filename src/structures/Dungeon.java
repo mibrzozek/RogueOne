@@ -1,9 +1,11 @@
 package structures;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import com.sun.deploy.util.ArrayUtil;
 import wolrdbuilding.*;
 
 public class Dungeon
@@ -18,6 +20,7 @@ public class Dungeon
 	private List<List> regionList;
 
 	private ArrayList<TilePoint> testStructure;
+	private HashMap<String, ArrayList<TilePoint>> structureMap;
 	
 	private Random r =  new Random();
 	
@@ -40,7 +43,9 @@ public class Dungeon
 		this.regionList = new ArrayList<>();
 		this.nextRegion = 1;
 
-		this.testStructure = RexReader.getStructure();
+		RexReader rex = new RexReader();
+		this.structureMap = rex.getStructures();
+		//his.testStructure = RexReader.getStructure();
 	}
 	
 	public Tile[][][] getNewDungeon()
@@ -113,12 +118,20 @@ public class Dungeon
 		buildRoom(rp, TileSet.CANISTERS);
 		tiles[rp.x + 2][rp.y -1][rp.z] = Tile.TERMINAL_ACESS;
 		*/
+
+		System.out.println(structureMap.keySet().toArray()[0]);
+		testStructure = structureMap.get("PT_3.csv");
+		System.out.println(testStructure.size());
+
 		while(!testStructure.isEmpty())
 		{
 			TilePoint t = testStructure.remove(0);
+			System.out.println(t.toString());
+
 			System.out.println(testStructure.size() + "p z and x " + p.z + " " + p.x);
 			tiles[p.x + 5 + t.x()][p.y + 5 + t.y()][p.z] = Tile.returnTile(t.ascii());
 		}
+
 	}
 
 	public ArrayList<Point> getOpenPointFromRegion(Point p, int w, int h)
@@ -156,9 +169,6 @@ public class Dungeon
 		for(int i = 0; i < 7; i++)
 		{
 			Point p = getPointFromLevel(0);
-			System.out.println(tiles[p.x-1][p.y][p.z].toString() + " " +
-					tiles[p.x][p.y][p.z].toString() + " " +
-					tiles[p.x+1][p.y][p.z].toString() + " ");
 			
 			Direction direction = Direction.NORTH;
 			
@@ -168,12 +178,10 @@ public class Dungeon
 				direction = direction.EAST;
 			else if(tiles[p.x][p.y-1][p.z].isRoom())
 				direction = direction.SOUTH;
-			
-			System.out.println(direction);
+
 			
 			makeLine(p, direction);
 		}
-		System.out.println("checking");
 	}
 	public Point getPointFromLevel(int z)
 	{
@@ -182,10 +190,10 @@ public class Dungeon
 		do
 		{
 			p = spawnPoints.get(r.nextInt(spawnPoints.size()));
-			
-			System.out.println("checking " + " " + p.toString() + "\n"
-					+ tiles[p.x + 1][p.y][p.z].isRoom() + "\n"
-					+ isCorridor(p));						
+
+			//System.out.println("checking " + " " + p.toString() + "\n"
+			//		+ tiles[p.x + 1][p.y][p.z].isRoom() + "\n"
+			//		+ isCorridor(p));
 		}while(p.z != 0 || !bound(p) || !isCorridor(p));
 		return p;
 	}
@@ -220,13 +228,13 @@ public class Dungeon
 			if(d.equals(Direction.WEST) || d.equals(Direction.EAST))
 			{	
 				if(tiles[p.x][p.y][p.z].isFloor())
-					tiles[p.x][p.y][p.z] = Tile.LEFT_RIGHT_LASER;
+					tiles[p.x][p.y][p.z] = Tile.UP_DOWN_SINGLE_LASER;
 				p.x += movement;
 			}
 			else 
 			{
 				if(tiles[p.x][p.y][p.z].isFloor())
-					tiles[p.x][p.y][p.z] = Tile.UP_DOWN_LASER;
+					tiles[p.x][p.y][p.z] = Tile.LEFT_RIGHT_SINGLE_LASER;
 				p.y += movement;
 			}
 		}
@@ -240,7 +248,7 @@ public class Dungeon
 		{	
 			if(tiles[p.x + 1][p.y][p.z].isRoom())
 				movement = -1;
-			System.out.println(tiles[p.x + 1][p.y][p.z] + " ************ movement : " + movement);
+			//System.out.println(tiles[p.x + 1][p.y][p.z] + " ************ movement : " + movement);
 			int i, nx = p.x;
 			for(i = 0; i < 7; i++)
 			{
@@ -254,13 +262,13 @@ public class Dungeon
 				if(nx + movement > 0 && nx + movement < 198)
 					nx += movement;
 			
-				System.out.println("x : " + p.x + "movement : " + movement
-						+"\n" + tiles[p.x][p.y][p.z]);
+				//System.out.println("x : " + p.x + "movement : " + movement
+						//+"\n" + tiles[p.x][p.y][p.z]);
 			}
 		}
 		else
 		{
-			System.out.println("Not next to wall");
+			//System.out.println("Not next to wall");
 		}
 		/*
 		if(tiles[p.x + 1][p.y][p.z].isRoom())
@@ -279,7 +287,7 @@ public class Dungeon
 		}
 		
 		*/
-		System.out.println("Is it a corridor? " + corridor);
+		//System.out.println("Is it a corridor? " + corridor);
 		return corridor;
 	}
 	
@@ -339,7 +347,7 @@ public class Dungeon
                 }
             }
         }
-        System.out.println("regions : " +  nextRegion + " Largest Region :" + largestRegion);
+        //System.out.println("regions : " +  nextRegion + " Largest Region :" + largestRegion);
     }
 	private void removeRegion(int region, int z)
 	{

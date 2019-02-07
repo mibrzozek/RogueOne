@@ -13,7 +13,7 @@ public enum Tile
 	// World materials
 	UNKNOWN(' ', Palette.white),
     FLOOR((char)250, Palette.randomNewColor()),
-    TERMINAL_ACESS((char)250, Palette.red),
+    TERMINAL_ACESS((char)249, Palette.red),
     INSIDE_FLOOR((char)250, Palette.gray),
     BLASTED_TERRAIN((char)176, Palette.brown),
     WHITE_TERRAIN((char)176, Palette.white),
@@ -24,9 +24,14 @@ public enum Tile
     BOUNDS('X', Palette.black),
     CURSOR('x', AsciiPanel.brightBlack),
 
-    // Obstacles
-    UP_DOWN_LASER((char)186, Color.red),
-    LEFT_RIGHT_LASER((char)205, Color.red),
+    // TRAPS / OBSTACLES / LAVA
+    UP_DOWN_DBL_LASER((char)186, Color.red),
+    LEFT_RIGHT_DBL_LASER((char)205, Color.red),
+
+    UP_DOWN_SINGLE_LASER((char)196, Color.red),
+    LEFT_RIGHT_SINGLE_LASER((char)179, Color.red),
+    //
+    INVENTORY_TYPE_ICON((char)254, Palette.purple, true),
     
     //Projectiles
     DEAD('X', AsciiPanel.red),
@@ -42,7 +47,8 @@ public enum Tile
     R_MED((char) 248, AsciiPanel.brightRed),
     G_SMALL((char) 4, AsciiPanel.brightGreen),
 
-    /*
+    /*  STRUCTURES
+
         The following tiles are to always be displayed
         These are the primary building components for
         all the structures in the game
@@ -50,6 +56,18 @@ public enum Tile
     PLASMA_CANISTER((char)7, Palette.blue, true),
     PLASMA_CANISTER_2((char)4, Palette.blue, true),
     INTERFACE((char)216, Palette.paleWhite, true),
+    BLOCK_CIRCLE((char)8, Palette.paleWhite, true),
+
+    // SIMPLE TO DOUBLE
+    S2D183((char)183, Color.white, true),
+    S2D184((char)184, Color.white, true),
+    S2D189((char)189, Color.white, true),
+    S2D190((char)190, Color.white, true),
+    S2D211((char)211, Color.white, true),
+    S2D212((char)212, Color.white, true),
+    S2D213((char)213, Color.white, true),
+    S2D214((char)214, Color.white, true),
+
 
     // SIMPLE
 
@@ -69,28 +87,24 @@ public enum Tile
     simpleTLCS((char)218, Color.white, true),
 
     // DOUBLE
-    dblTLCS((char)201, Palette.paleWhite, true),
-    dblTRCS((char)187, Palette.paleWhite, true),
-    dblBLCS((char)200, Palette.paleWhite, true),
-    dblBRCS((char)188, Palette.paleWhite, true),
-    dblLRWS((char)186, Palette.paleWhite, true),
-    dblTBWS((char)205, Palette.paleWhite, true),
-
-    dblLRW_RIGHT_KNOB((char)199, Palette.paleWhite, true),
     dblLRW_LEFT_KNOB((char)182, Palette.paleWhite, true),
-
-    dblLRW_DOUBLE_R_KNOB((char)204, Palette.paleWhite, true),
     dblLRW_DOUBLE_L_KNOB((char)185, Palette.paleWhite, true),
-
-    dblT_SHAPE((char)203, Palette.paleWhite, true),
+    dblLRWS((char)186, Palette.paleWhite, true),
+    dblTRCS((char)187, Palette.paleWhite, true),
+    dblBRCS((char)188, Palette.paleWhite, true),
+    dblLRW_RIGHT_KNOB((char)199, Palette.paleWhite, true),
+    dblBLCS((char)200, Palette.paleWhite, true),
+    dblTLCS((char)201, Palette.paleWhite, true),
     dblT_SHAPE_UPSIDEDOWN((char)202, Palette.paleWhite, true),
-
+    dblT_SHAPE((char)203, Palette.paleWhite, true),
+    dblLRW_DOUBLE_R_KNOB((char)204, Palette.paleWhite, true),
+    dblTBWS((char)205, Palette.paleWhite, true),
     dblCROSS((char)206, Palette.paleWhite, true),
     dblTBW_UP_KNOB((char)207, Palette.paleWhite, true),
     dblTBW_DOWN_KNOB((char)209, Palette.paleWhite, true),
-
-    dblTBW_DOUBLE_KNOB((char)216, Palette.paleWhite, true),
+    dblT_W_FLAT_TOP((char)210, Palette.paleWhite, true),
     dblLRW_DOUBLE_KNOB((char)215, Palette.paleWhite, true),
+    dblTBW_DOUBLE_KNOB((char)216, Palette.paleWhite, true),
 
 
     // Room material
@@ -170,12 +184,22 @@ public enum Tile
     {
         if(c == 4)
             return Tile.PLASMA_CANISTER_2;
-        if(c == 7)
+        else if(c == 7)
             return Tile.PLASMA_CANISTER;
+        else if(c == 8)
+            return Tile.BLOCK_CIRCLE;
         else if(c == 32)
             return Tile.INSIDE_FLOOR;
+        else if(c == 179)
+            return Tile.simpleLRWS;
+        else if(c == 180)
+            return Tile.simpleLRW_L_KNOB;
         else if(c == 182)
             return Tile.dblLRW_LEFT_KNOB;
+        else if(c == 183)
+            return Tile.S2D183;
+        else if(c == 184)
+            return Tile.S2D184;
         else if(c == 185)
             return Tile.dblLRW_DOUBLE_L_KNOB;
         else if(c == 186)
@@ -184,6 +208,26 @@ public enum Tile
             return Tile.dblTRCS;
         else if(c == 188)
             return Tile.dblBRCS;
+        else if(c == 189)
+            return Tile.S2D189;
+        else if(c == 190)
+            return Tile.S2D190;
+        else if(c == 191)
+            return Tile.simpleTRCS;
+        else if(c == 192)
+            return Tile.simpleBLCS;
+        else if(c == 193)
+            return Tile.simpleT_Shape_UPSIDEDOWN;
+        else if(c == 194)
+            return Tile.simpleT_Shape;
+        else if(c == 195)
+            return Tile.simpleLRW_R_KNOB;
+        else if(c == 196)
+            return Tile.simpleTBWS;
+        else if(c == 197)
+            return Tile.simpleCROSS;
+        else if(c == 198)
+            return Tile.simpleLRW_DOUBLE_R_KNOB;
         else if(c == 199)
             return Tile.dblLRW_RIGHT_KNOB;
         else if(c == 200)
@@ -204,10 +248,26 @@ public enum Tile
             return Tile.dblTBW_UP_KNOB;
         else if(c == 209)
             return Tile.dblTBW_DOWN_KNOB;
+        else if(c == 210)
+            return Tile.dblTBW_DOWN_KNOB;
+        else if(c == 211)
+            return Tile.S2D211;
+        else if(c == 212)
+            return Tile.S2D212;
+        else if(c == 213)
+            return Tile.S2D213;
+        else if(c == 214)
+            return Tile.S2D214;
         else if(c == 215)
             return Tile.dblLRW_DOUBLE_KNOB;
         else if(c == 216)
             return Tile.dblTBW_DOUBLE_KNOB;
+        else if(c == 217)
+            return Tile.simpleBRCS;
+        else if(c == 218)
+            return Tile.simpleTLCS;
+        else if(c == 249)
+            return Tile.TERMINAL_ACESS;
         else
             return Tile.randomTile();
     }

@@ -34,6 +34,10 @@ public class ItemFactory implements Serializable
 	public void initItemList()
 	{
 		itemList = new ArrayList<Item>();
+		//`
+		itemList.add(newShotgun());
+		itemList.add(newRifle());
+		itemList.add(newPistol());
 		itemList.add(newPeaShooter());
 		itemList.add(newPlasmaAxe());
 		itemList.add(newRoseBerkinstocks());
@@ -143,6 +147,39 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), peaShooter);
 		return peaShooter;
+	}
+	public Item newPistol()
+	{
+		Item pistol = new Item((char)234, AsciiPanel.cyan, Type.GUN,
+				"Pistol", 
+				"Standard issue P two nine eleven. The P2911 is beautifully crafted by expert craftsmen and balanced by top engineers for stability, accuracy and maximum zuc. Great for destroying NPCS!",
+				0, 0
+				, 25);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), pistol);
+		return pistol;
+	}
+	public Item newRifle()
+	{
+		Item rifle = new Item((char)234, AsciiPanel.cyan, Type.GUN,
+				"Rifle", 
+				"Standard issue lever action rifle designed by the Northingham Corporation and printed by your local 3D printer. The laser lever reloads the chamber extremely effectively always does so at the wrong time.",
+				0, 0
+				, 60);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), rifle);
+		return rifle;
+	}
+	public Item newShotgun()
+	{
+		Item shotgun = new Item((char)234, AsciiPanel.cyan, Type.GUN,
+				"Shotgun", 
+				"Standard issue auto shotgun developed by the Free Planet Militia. Designed to liberate two shells at a time for maximum spread and home defense. Best used at close range.",
+				0, 0
+				, 35);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), shotgun);
+		return shotgun;
 	}
 	/*
 	 *		Stealth Items --------------------------------------------

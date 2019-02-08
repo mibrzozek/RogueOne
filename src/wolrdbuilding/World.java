@@ -151,7 +151,7 @@ public class World implements Serializable
 		
 		for(int i = 0; i < distance; i++)
 		{
-			if(!tiles[player.x +mx][player.y + my][player.z].isFloor())
+			if(!tiles[player.x +mx][player.y + my][player.z].isFloor() && !tiles[player.x +mx][player.y + my][player.z].isStructure())
 			{
 				blastTerrain(player.x + mx, player.y + my, player.z);
 				if(my < 0)
@@ -173,7 +173,7 @@ public class World implements Serializable
 	{
 		if(x < 0 || x >= width ||y < 0|| y >= height || z < 0 || z >= depth)
 		{
-			player.notify("We're digging througha nother dimmmension!");
+			player.notify("We're digging through another dimmmension!");
 			System.out.println("x : " + x + "y : " + y +"z : " + z);
 		}
 		else

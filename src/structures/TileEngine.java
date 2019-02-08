@@ -131,7 +131,9 @@ public class TileEngine
 	public static ArrayList<TilePoint> renderBox(AsciiPanel terminal, int bw, int bh, int bx, int by, TileSet ts, Color c)
 	{
 		fColor = c;
-		return renderBox(terminal, bw, bh,bx, by, ts);
+		renderBox(terminal, bw, bh,bx, by, ts);
+		fColor = DEFAULT_F_COLOR;
+		return null;
 	}
 	public static ArrayList<TilePoint> renderBox(AsciiPanel terminal, int bw, int bh, int bx, int by, TileSet ts)
 	{

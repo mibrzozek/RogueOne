@@ -53,24 +53,38 @@ public class InteractScreen extends UIScreen
 	@Override
 	public void select()
 	{
-		if(index == 1)
+		if(index == 0)
 		{
-
+			processSelect();
 		}
-		else if(index  == 2)
+		else if(index  == 1)
 		{
-
+			processSelect();
 		}
-		else if(index == 3)
+		else if(index == 2)
 		{
+			processSelect();
+		}
 
+	}
+	public void processSelect()
+	{
+		System.out.println("index " + index );
+		if(script.getProgressLevel(Script.Type.TERMINAL) + 1 < script.getNumLevels(Script.Type.TERMINAL))
+		{ // Increments progress if there is more dialgue to be had
+			script.processDecision(Script.Type.TERMINAL, player, index);
+		}
+		else if(script.getProgressLevel(Script.Type.TERMINAL) + 1 == script.getNumLevels(Script.Type.TERMINAL))
+		{ // Proceces but doesn't increment b/c no more progress to be had
+			//script.processDecision(Script.Type.TERMINAL, player, index);
 		}
 	}
 	@Override
 	public void render(AsciiPanel terminal)
 	{
-		String s = script.getDialogue(Script.Type.TERMINAL).get(script.getScriptProgress(Script.Type.TERMINAL));
+		setList(responses.get(script.getScriptProgress(Script.Type.TERMINAL)));
 
+		String s = script.getDialogue(Script.Type.TERMINAL).get(script.getScriptProgress(Script.Type.TERMINAL));
 		Message msg = new Message(s, bw - mo);
 		List<String> msgLineList = msg.getLines();
 

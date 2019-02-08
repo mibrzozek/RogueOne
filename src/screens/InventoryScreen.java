@@ -235,11 +235,7 @@ public class InventoryScreen extends ScrollingBasedScreen
     	
         for (int i = 0; i < limit; i++)	
         {
-        	Item item = iL.get(index);
-        	Color c = Palette.white;
-        	if(item != null)
-        		c = item.type().getColor();
-			terminal.write("+"+ Tile.INVENTORY_TYPE_ICON.glyph(), x, y, c);
+			terminal.write("+"+ Tile.INVENTORY_TYPE_ICON.glyph(), x, y);
             terminal.write(lines.get(i), Color.white);
             y++;
         }

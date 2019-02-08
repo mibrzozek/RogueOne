@@ -8,9 +8,10 @@ import java.util.List;
 
 import asciiPanel.AsciiPanel;
 import items.Item;
+import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
-
+import wolrdbuilding.TileSet;
 
 
 public class InspectScreen implements Screen
@@ -60,8 +61,8 @@ public class InspectScreen implements Screen
 	@Override
 	public void displayOutput(AsciiPanel terminal)
 	{
-		renderGrayBackground(terminal);
-		
+		//renderGrayBackground(terminal);
+		TileEngine.renderBox(terminal, 45, 19, rx, ry+1, TileSet.SIMPLE, Palette.white);
 		if(items != null)
 			item = items[index];
 			
@@ -72,17 +73,20 @@ public class InspectScreen implements Screen
 	public void renderTitleDescription(AsciiPanel terminal, Item item)
 	{
 		if(item != null)
-		{	
+		{
+			TileEngine.renderBox(terminal, 44, 3, rx, ry+1, TileSet.SIMPLE, Color.pink);
+
 			title = item.name();
 			description = item.description();
-			
-			terminal.write(title, rx+1, ry+1, Palette.black, Palette.white);
-			terminal.write(" " + item.type().toString() + " : " + item.value(), Palette.white, item.type().setColor());
+			int bx = rx + 1;
+			int by = ry + 2;
+			terminal.write(title, bx, by, Palette.white);
+			terminal.write(item.type().toString() + " : " + item.value(), bx + 23, by, item.type().setColor());
 		
 			String[] split = description.split(" ");
 			int count = 0;
-		
-			for (int y = ry+2; y < ry+22; y++)
+
+			for (int y = ry+4; y < ry+22; y++)
 			{	
 				int charCount= 0;
 				int cx = rx+2;
@@ -92,7 +96,7 @@ public class InspectScreen implements Screen
 					String word = split[count++];
 					word += " ";
 					charCount += word.length();
-					terminal.write(word, cx, y, Color.BLACK, Color.WHITE);
+					terminal.write(word, cx, y, Palette.paleWhite);
 					
 					cx += word.length();
 				}

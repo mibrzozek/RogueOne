@@ -84,7 +84,7 @@ public class EntityFactory implements Serializable
 		if(world!= null)
 			world.spawnPlayer(player);
 		player.setEntityAi(new PlayerAi(player, messages, fov));
-		player.modifyPlasma(200);
+		player.modifyPlasma(1500);
 		player.modifyCrypto(1000);
 		
 		player.inventory().add(new ItemFactory().newMiningBeam());

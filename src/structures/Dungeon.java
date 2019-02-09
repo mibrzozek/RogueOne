@@ -79,7 +79,7 @@ public class Dungeon
 	}
 	public void makeStartingRoom()
 	{
-		int w = 25, h = 25;
+		int w = 71, h = 25;
 		Point p;
 		do {
 			p = getSpawnPointFromLevel(0);
@@ -120,7 +120,7 @@ public class Dungeon
 		*/
 
 		System.out.println(structureMap.keySet().toArray()[0]);
-		testStructure = structureMap.get("PT_3.csv");
+		testStructure = structureMap.get("PT_4.csv");
 		System.out.println(testStructure.size());
 
 		while(!testStructure.isEmpty())
@@ -130,6 +130,30 @@ public class Dungeon
 
 			System.out.println(testStructure.size() + "p z and x " + p.z + " " + p.x);
 			tiles[p.x + 5 + t.x()][p.y + 5 + t.y()][p.z] = Tile.returnTile(t.ascii());
+		}
+
+		testStructure = structureMap.get("PT_3.csv");
+		System.out.println(testStructure.size());
+
+		while(!testStructure.isEmpty())
+		{
+			TilePoint t = testStructure.remove(0);
+			System.out.println(t.toString());
+
+			System.out.println(testStructure.size() + "p z and x " + p.z + " " + p.x);
+			tiles[p.x + 18 + t.x()][p.y + 5 + t.y()][p.z] = Tile.returnTile(t.ascii());
+		}
+
+		testStructure = structureMap.get("PT_5.csv");
+		System.out.println(testStructure.size());
+
+		while(!testStructure.isEmpty())
+		{
+			TilePoint t = testStructure.remove(0);
+			System.out.println(t.toString());
+
+			System.out.println(testStructure.size() + "p z and x " + p.z + " " + p.x);
+			tiles[p.x + 45 + t.x()][p.y + 5 + t.y()][p.z] = Tile.returnTile(t.ascii());
 		}
 
 	}

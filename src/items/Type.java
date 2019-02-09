@@ -6,9 +6,9 @@ import wolrdbuilding.Palette;
 
 public enum Type 
 {
-	PLASMA, APLASMA, 
+	PLASMA, APLASMA, BAD_PLASMA,
 	HEAD, ARMS, TORSO, LEGS, 
-	GUN, DEVICE, WEAPON, PART, 
+	GUN, DEVICE, WEAPON, PART, MELEE,
 	CONSUMABLE,
 	VILE,
 	STEALTH;

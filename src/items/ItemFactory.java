@@ -35,6 +35,8 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newSpoiledPlasma());
+		itemList.add(newCyberneticSyringe());
 		itemList.add(newShotgun());
 		itemList.add(newRifle());
 		itemList.add(newPistol());
@@ -180,6 +182,28 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), shotgun);
 		return shotgun;
+	}
+	public Item newCyberneticSyringe()
+	{
+		Item cyberneticSyringe = new Item((char)92, AsciiPanel.cyan, Type.MELEE,
+				"Cybernetic Syringe", 
+				"A junkie needle. Blunt like a butter knife, and dirty like the underside of a dead plasma rat. Good for shooting up and passing around diseases.",
+				0, 0
+				, 15);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), cyberneticSyringe);
+		return cyberneticSyringe;
+	}
+	public Item newSpoiledPlasma()
+	{
+		Item spoiledPlasma = new Item((char)92, AsciiPanel.cyan, Type.BAD_PLASMA,
+				"Spoiled Plasma", 
+				"A small plasma pod used by some junkie. The plasma seems unstable. Probably produces a great high. Probably why the junkie lost his plasma in the first place.",
+				0, 0
+				, 15);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), spoiledPlasma);
+		return spoiledPlasma;
 	}
 	/*
 	 *		Stealth Items --------------------------------------------

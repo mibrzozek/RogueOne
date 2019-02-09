@@ -28,7 +28,15 @@ public class EntityFactory implements Serializable
         this.fov = fov;
     }
     // name, world, glyph, color, maxHP, attack, defense
-    
+    public Entity newPlasmaJunkie(int depth, Entity player)
+	{
+		Entity plasmaJunkie = new Entity("Plasma Junkie", world, Tile.randomTile(), 200, 15, 15);
+		if(world != null)
+			world.addAtEmptyLocation(1, plasmaJunkie);
+
+		new HitmanAi(plasmaJunkie, player);
+		return plasmaJunkie;
+	}
     public Entity newHitman(int depth, Entity player)
     {
         Entity hitman = new Entity("Hitman", world, Tile.HITMAN, 600, 10, 10);

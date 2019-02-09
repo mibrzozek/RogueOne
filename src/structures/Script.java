@@ -96,6 +96,11 @@ public class Script implements Serializable
         r1.add(" Where are we?");
         r1.add(" Here's your plasma now i want some answers!");
 
+        ArrayList<String> r2 = new ArrayList<>();
+        r2.add(" Wow, that's fascinating ...");
+        r2.add(" That sounds like bullshit ...");
+        r2.add(" When are you going to get to the good part ...?");
+
         ArrayList<String> last = new ArrayList<>();
         last.add(" ...");
         last.add(" ...");
@@ -105,6 +110,7 @@ public class Script implements Serializable
 
         listOfLists.add((ArrayList) r0);
         listOfLists.add((ArrayList) r1);
+        listOfLists.add((ArrayList) r2);
 
         listOfLists.add((ArrayList) last);
         responseMap.put(Type.TERMINAL, listOfLists);

@@ -145,7 +145,7 @@ public class PlayScreen implements Screen
 
 		for (int z = 0; z < world.depth(); z++)
 		{
-			for (int i = 0; i < 8; i++)
+			for (int i = 0; i < 4; i++)
 			{
 				/*
 				entityFactory.newFungus(z);
@@ -154,17 +154,7 @@ public class PlayScreen implements Screen
 				entityFactory.newMutant();
 				/// entityFactory.newMech();
 				*/
-				entityFactory.newHitman(0, player);
-				entityFactory.newHitman(0, player);
-				entityFactory.newHitman(0, player);
-				entityFactory.newHitman(0, player);
-				entityFactory.newHitman(0, player);
-				entityFactory.newHitman(0, player);
-				entityFactory.newHitman(0, player);
-				entityFactory.newHitman(0, player);
-				entityFactory.newHitman(0, player);
-				entityFactory.newHitman(0, player);
-
+				entityFactory.newPlasmaJunkie(0, player);
 			}
 		}
 	}

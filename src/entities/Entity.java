@@ -204,7 +204,10 @@ public class Entity implements Serializable
     	{
     		//inventory.removeEquiped(inventory.getDevice())
 
-
+    		if(plasmaValue > 50)
+    			plasmaValue -= 50;
+    		else 
+    			return;
     		world.tunnelExplosion(this.direction, inventory.getDevice().value());	
     	}
     }

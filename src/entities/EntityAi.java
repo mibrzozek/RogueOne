@@ -23,6 +23,9 @@ public class EntityAi implements Serializable
         
         Entity other = entity.entity(entity.x + mx, entity.y + my, entity.z);
         
+        if(Math.random() > .8)
+        	return;
+        
         if(other != null && other.tile().glyph() == entity.tile().glyph())
         	return;
         else

@@ -144,6 +144,7 @@ public enum Tile
 	DROID((char)225, Palette.darkRed, Palette.lightRed),
 	ROGUE( (char)146, Palette.red, Palette.lightRed),
 	MECH('M', Palette.paleWhite, Palette.lightRed),
+	JUNKIE('J', Palette.blue, Palette.lightRed),
 	;
 	
 	private boolean swapable;

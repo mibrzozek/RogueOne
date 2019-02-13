@@ -15,7 +15,7 @@ import static java.awt.Color.*;
 
 public class RexReader
 {
-    private static String filePath ="D:\\06 SOURCE\\01 JAVA PROJECTS\\02 JAVA PROJECTS\\RogueOne\\resources\\structures\\";
+    private static String filePath ="C:\\Users\\Michal\\Desktop\\tilda\\01 JAVA 18 SOURCE\\RogueOne\\resources\\structures\\";
 
     private static ArrayList<TilePoint> structureTiles = new ArrayList<>();
     private static Map<String, ArrayList<TilePoint>> structureMap =  new HashMap<>();
@@ -64,7 +64,7 @@ public class RexReader
         int x, y, ascii;
         Color fColor, bColor;
 
-        File file = new File("D:\\06 SOURCE\\01 JAVA PROJECTS\\02 JAVA PROJECTS\\RogueOne\\resources\\structures");
+        File file = new File(filePath);
         String[] files = file.list(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {

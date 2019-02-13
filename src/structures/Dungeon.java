@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import com.sun.deploy.util.ArrayUtil;
 import wolrdbuilding.*;
 
 public class Dungeon
@@ -79,7 +78,7 @@ public class Dungeon
 	}
 	public void makeStartingRoom()
 	{
-		int w = 71, h = 25;
+		int w = 25, h = 25;
 		Point p;
 		do {
 			p = getSpawnPointFromLevel(0);
@@ -110,54 +109,20 @@ public class Dungeon
 			center = ((rp.w - 1)/2) - ((oddWH-1)/2);
 		}
 		Point p = rp.point();
-		/*
-		System.out.println("rp z and x " + rp.z + " " + rp.x);
-		rp = new RoomPoint(new Point(rp.x + center, rp.y + center, rp.z), oddWH, oddWH);
-		buildRoom(rp, TileSet.SIMPLE_S);
-		rp = new RoomPoint(new Point(rp.x + 1, rp.y + 1, rp.z), oddWH-2, oddWH-2);
-		buildRoom(rp, TileSet.CANISTERS);
-		tiles[rp.x + 2][rp.y -1][rp.z] = Tile.TERMINAL_ACESS;
-		*/
-
-		System.out.println(structureMap.keySet().toArray()[0]);
-		testStructure = structureMap.get("PT_4.csv");
-		System.out.println(testStructure.size());
-
-		while(!testStructure.isEmpty())
+		
+		buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_4.csv")), new Point(p.x + 4, p.y + 4, 0));
+	}
+	public void buildStructure(ArrayList<TilePoint> structure, Point p)
+	{
+		System.out.println(structure.size() + " from the new method");
+		while(!structure.isEmpty())
 		{
-			TilePoint t = testStructure.remove(0);
-			System.out.println(t.toString());
-
-			System.out.println(testStructure.size() + "p z and x " + p.z + " " + p.x);
+			TilePoint t = structure.remove(0);
+			
 			tiles[p.x + 5 + t.x()][p.y + 5 + t.y()][p.z] = Tile.returnTile(t.ascii());
 		}
-
-		testStructure = structureMap.get("PT_3.csv");
-		System.out.println(testStructure.size());
-
-		while(!testStructure.isEmpty())
-		{
-			TilePoint t = testStructure.remove(0);
-			System.out.println(t.toString());
-
-			System.out.println(testStructure.size() + "p z and x " + p.z + " " + p.x);
-			tiles[p.x + 18 + t.x()][p.y + 5 + t.y()][p.z] = Tile.returnTile(t.ascii());
-		}
-
-		testStructure = structureMap.get("PT_5.csv");
-		System.out.println(testStructure.size());
-
-		while(!testStructure.isEmpty())
-		{
-			TilePoint t = testStructure.remove(0);
-			System.out.println(t.toString());
-
-			System.out.println(testStructure.size() + "p z and x " + p.z + " " + p.x);
-			tiles[p.x + 45 + t.x()][p.y + 5 + t.y()][p.z] = Tile.returnTile(t.ascii());
-		}
-
 	}
-
+	
 	public ArrayList<Point> getOpenPointFromRegion(Point p, int w, int h)
 	{
 		ArrayList<Point> available = new ArrayList<>();

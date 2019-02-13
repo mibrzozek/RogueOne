@@ -5,7 +5,7 @@ import items.ItemFactory;
 public class JunkieAi extends EntityAi
 {
     private ItemFactory iF;
-    public JunkieAi(Entity entity)
+    public JunkieAi(Entity entity, Entity player)
     {
         super(entity);
 
@@ -18,4 +18,13 @@ public class JunkieAi extends EntityAi
         entity.inventory().add(iF.newPlasmaPod());
         entity.inventory().add(iF.newPlasmaJuice());
     }
+    public void onUpdate()
+    {
+    	wander();
+    }
+    public void shootUp()
+    {
+    	
+    }
+    
 }

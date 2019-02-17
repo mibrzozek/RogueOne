@@ -58,8 +58,6 @@ public class HitmanAi extends EntityAi
       
       entity.useWeapon();
       entity.moveBy(mx, my, 0);
-     
-     
       System.out.println("mx: " +  mx + " my: " + my);
   }
 }

@@ -5,6 +5,7 @@ import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
 
 import java.io.Serializable;
+import java.util.List;
 
 
 public class EntityAi implements Serializable
@@ -31,6 +32,17 @@ public class EntityAi implements Serializable
         else
         	entity.moveBy(mx, my, 0);
     }
+    public void hunt(Entity target)
+    {
+        List<Point> points = new Path(entity, target.x, target.y).points();
+    
+        int mx = points.get(0).x - entity.x;
+        int my = points.get(0).y - entity.y;       
+        
+        entity.moveBy(mx, my, 0);
+    }
+    
+    
     public void onEnter(int x, int y, int z, Tile tile) 
     { 
     	if (tile.isGround())

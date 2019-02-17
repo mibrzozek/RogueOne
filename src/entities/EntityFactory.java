@@ -34,8 +34,6 @@ public class EntityFactory implements Serializable
 		if(world != null)
 			world.addAtEmptyLocation(depth, plasmaJunkie);
 
-		plasmaJunkie.inventory().add(nullFactory.newPlasmaPack());
-		plasmaJunkie.inventory().add(nullFactory.newPlasmaPack());
 		plasmaJunkie.inventory().add(nullFactory.newCyberneticSyringe());
 		
 		new JunkieAi(plasmaJunkie, player);
@@ -99,25 +97,8 @@ public class EntityFactory implements Serializable
 		player.modifyPlasma(1500);
 		player.modifyCrypto(1000);
 		
-		player.inventory().add(new ItemFactory().newMiningBeam());
-		player.inventory().add(new ItemFactory().newDevSword());
 		player.inventory().add(new ItemFactory().newWallBomb());
-		player.inventory().add(new ItemFactory().newInvisibilityCloak());
-		player.inventory().add(new ItemFactory().newInvisibilityChaps());
-		player.inventory().add(new ItemFactory().newDankBoots());
-		player.inventory().add(new ItemFactory().newLoinCloth());
-		player.inventory().add(new ItemFactory().newRacingGloves());
-		player.inventory().add(new ItemFactory().newRuggedCap());
 		player.inventory().add(new ItemFactory().newBioLard());
-		player.inventory().add(new ItemFactory().newPeaShooter());
-		
-		
-		player.inventory().moveToEquiped(6);
-		player.inventory().moveToEquiped(5);
-		player.inventory().moveToEquiped(4);
-		player.inventory().moveToEquiped(3);
-		player.inventory().moveToEquiped(2);
-		player.inventory().moveToEquiped(1);
 		
 		player.stats.setStealth(player.inventory().getStealthNumber());
 		

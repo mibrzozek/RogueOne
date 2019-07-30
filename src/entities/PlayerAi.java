@@ -31,6 +31,8 @@ public class PlayerAi extends EntityAi
     	
     	this.entity.tagged = Tile.TAGGED_PLAYER;
     	this.entity.setScript(new Script());
+
+    	this.entity.inventory().add(new ItemFactory().newDevSword());
     }
     public ArrayList<String> getAttacks()
     {

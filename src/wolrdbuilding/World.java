@@ -54,7 +54,7 @@ public class World implements Serializable
 		
 		this.insideSpawns = spawns;
 		this.startingPoints = startingPoints;
-		System.out.println(startingPoints.size());
+		//System.out.println(startingPoints.size());
 	}
     public void animate()
     {

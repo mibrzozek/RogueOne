@@ -13,7 +13,7 @@ public enum Tile
 	// World materials
 	UNKNOWN(' ', Palette.white),
     FLOOR((char)250, Palette.randomNewColor()),
-    TERMINAL_ACESS((char)249, Palette.red),
+    TERMINAL_ACESS((char)249, Palette.white),
     INSIDE_FLOOR((char)250, Palette.gray),
     BLASTED_TERRAIN((char)176, Palette.brown),
     WHITE_TERRAIN((char)176, Palette.white),
@@ -28,8 +28,8 @@ public enum Tile
     UP_DOWN_DBL_LASER((char)186, Color.red),
     LEFT_RIGHT_DBL_LASER((char)205, Color.red),
 
-    UP_DOWN_SINGLE_LASER((char)196, Color.red),
-    LEFT_RIGHT_SINGLE_LASER((char)179, Color.red),
+    UP_DOWN_SINGLE_LASER((char)179, Color.red),
+    LEFT_RIGHT_SINGLE_LASER((char)196, Color.red),
     //
     INVENTORY_TYPE_ICON((char)254, Palette.purple, true),
     
@@ -57,6 +57,21 @@ public enum Tile
     PLASMA_CANISTER_2((char)4, Palette.blue, true),
     INTERFACE((char)216, Palette.paleWhite, true),
     BLOCK_CIRCLE((char)8, Palette.paleWhite, true),
+
+    // DECORATIONS
+    UP_ARROW((char)30, Color.red, true),
+    DOWN_ARROW((char)31, Color.red, true),
+    LEFT_ARROW((char)17, Color.red, true),
+    RIGHT_ARROW((char)16, Color.red, true),
+
+    BACKSLASH((char)92, Color.white, true),
+    FORWARDSLASH((char)47, Color.white, true),
+    DOUBLE_LEFT_ARROW((char)174, Color.white, true),
+    V_DOWN_ARROW((char)118, Color.white, true),
+
+    CARROT_UP_ARROW((char)94, Color.white, true),
+    DOUBLE_RIGHT_ARROW((char)175, Color.white, true),
+
 
     // SIMPLE TO DOUBLE
     S2D183((char)183, Color.white, true),
@@ -189,8 +204,28 @@ public enum Tile
             return Tile.PLASMA_CANISTER;
         else if(c == 8)
             return Tile.BLOCK_CIRCLE;
+        else if(c == 16)
+            return Tile.LEFT_ARROW;
+        else if(c == 17)
+            return Tile.RIGHT_ARROW;
+        else if(c == 30)
+            return Tile.UP_ARROW;
+        else if(c == 31)
+            return Tile.DOWN_ARROW;
         else if(c == 32)
             return Tile.INSIDE_FLOOR;
+        else if(c == 47)
+            return Tile.FORWARDSLASH;
+        else if(c == 92)
+            return Tile.BACKSLASH;
+        else if(c == 94)
+            return Tile.CARROT_UP_ARROW;
+        else if(c == 118)
+            return Tile.V_DOWN_ARROW;
+        else if(c == 174)
+            return Tile.DOUBLE_LEFT_ARROW;
+        else if(c == 175)
+            return Tile.DOUBLE_RIGHT_ARROW;
         else if(c == 179)
             return Tile.simpleLRWS;
         else if(c == 180)

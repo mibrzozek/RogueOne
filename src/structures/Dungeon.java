@@ -16,9 +16,10 @@ public class Dungeon
 	private static ArrayList<Point> spawnPoints;
 	private static ArrayList<Point> startingPoints;
 	private ArrayList<Point> occupiedPoints;
+	private ArrayList<Point> roomPoints;
+
 	private List<List> regionList;
 
-	private ArrayList<TilePoint> testStructure;
 	private HashMap<String, ArrayList<TilePoint>> structureMap;
 	
 	private Random r =  new Random();
@@ -44,9 +45,7 @@ public class Dungeon
 
 		RexReader rex = new RexReader();
 		this.structureMap = rex.getStructures();
-		//his.testStructure = RexReader.getStructure();
 	}
-	
 	public Tile[][][] getNewDungeon()
 	{
 		randomizeFloor();
@@ -58,7 +57,7 @@ public class Dungeon
 		Point p =  null;
 		
 		for(int i = 0; i < 120; i++)
-		{	
+		{
 			for(int j = 0; j < depth; j++)
 			{
 				p = getFirstRoomPoint(j);
@@ -76,7 +75,7 @@ public class Dungeon
 		makeStartingRoom();
 		
 	}
-	public void makeStartingRoom()
+	public RoomPoint makeStartingRoom()
 	{
 		int w = 25, h = 25;
 		Point p;
@@ -87,7 +86,8 @@ public class Dungeon
 		RoomPoint rp = new RoomPoint(p, w, h);
 		buildRoom(rp, TileSet.DOUBLE);
 
-		buildPlasmaBlock(rp, 7);
+		//buildPlasmaBlock(rp, 7);
+		buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_6.csv")), new Point(rp.x + 4, rp.y + 4, 0));
 
 		startingPoints = getOpenPointFromRegion(rp.point(), 15, 15);
 		// Removes spawn points for enemies form starting area
@@ -96,21 +96,7 @@ public class Dungeon
 			if(spawnPoints.contains(po))
 				spawnPoints.remove(po);
 		}
-	}
-	public void buildPlasmaBlock(RoomPoint rp, int oddWH)
-	{
-		// Plasma blocks should always be in the center of the room
-		// This checks that the room is square and has a center
-		int nw, nh, center;
-		if(rp.w != rp.h && rp.w % 2 == 0)
-			return;
-		else
-		{
-			center = ((rp.w - 1)/2) - ((oddWH-1)/2);
-		}
-		Point p = rp.point();
-		
-		buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_4.csv")), new Point(p.x + 4, p.y + 4, 0));
+		return rp;
 	}
 	public void buildStructure(ArrayList<TilePoint> structure, Point p)
 	{
@@ -134,8 +120,6 @@ public class Dungeon
 					available.add(new Point(i, j, p.z));
 			}
 		}
-
-
 		return available;
 	}
 	public Point getSpawnPointFromLevel(int level)
@@ -148,44 +132,62 @@ public class Dungeon
 
 		return p;
 	}
-	private void makeLaserTraps()
-	{
-		//find random inside point nextr to a wall
-		// see if corridor
-		// connect
-		boolean isCorridor = false;
-		int nx, ny, nz;
-		for(int i = 0; i < 7; i++)
-		{
-			Point p = getPointFromLevel(0);
-			
-			Direction direction = Direction.NORTH;
-			
-			if(tiles[p.x+1][p.y][p.z].isRoom())
-				direction = Direction.WEST;
-			else if(tiles[p.x-1][p.y][p.z].isRoom())
-				direction = direction.EAST;
-			else if(tiles[p.x][p.y-1][p.z].isRoom())
-				direction = direction.SOUTH;
-
-			
-			makeLine(p, direction);
-		}
-	}
-	public Point getPointFromLevel(int z)
+	private CorridorPoint getCorridorPoint()
 	{
 		Point p = null;
-		
+		CorridorPoint cp;
 		do
 		{
-			p = spawnPoints.get(r.nextInt(spawnPoints.size()));
+			p = getSpawnPointFromLevel(0);
+			System.out.println("From dungeon " + p.toString());
+			cp = new CorridorPoint(p);
 
-			//System.out.println("checking " + " " + p.toString() + "\n"
-			//		+ tiles[p.x + 1][p.y][p.z].isRoom() + "\n"
-			//		+ isCorridor(p));
-		}while(p.z != 0 || !bound(p) || !isCorridor(p));
-		return p;
+		} while(!cp.isCorridor(tiles));
+
+		return cp;
 	}
+	private void makeLaserTraps()
+	{
+		//find random inside point next to a wall
+		// see if corridor
+		// connect
+
+		for(int i = 0; i < 15; i++)
+		{
+			CorridorPoint cp = getCorridorPoint();
+			//tiles[cp.x][cp.y][cp.z] = Tile.PLASMA_CANISTER_2;
+
+			makeLine(cp.point(), cp.getdOfHall(), cp.getHallLength());
+		}
+	}
+	private void makeLine(Point p, Direction d, int length)
+	{
+		int movement = 1, corridor = 7;
+
+		if(d.equals(Direction.WEST) || d.equals(Direction.NORTH))
+			movement = -1;
+
+		for(int i = 0; i < length; i++)
+		{
+			if(p.x > 199 || p.x < 1 || p.y > 199 || p.y < 1 || tiles[p.x][p.y][p.z].isRoom()) {
+				i = length;
+				return;
+			}
+			if(d.equals(Direction.WEST) || d.equals(Direction.EAST))
+			{
+				if(tiles[p.x][p.y][p.z].isFloor())
+					tiles[p.x][p.y][p.z] = Tile.LEFT_RIGHT_SINGLE_LASER;
+				p.x += movement;
+			}
+			else
+			{
+				if(tiles[p.x][p.y][p.z].isFloor())
+					tiles[p.x][p.y][p.z] = Tile.UP_DOWN_SINGLE_LASER;
+				p.y += movement;
+			}
+		}
+	}
+
 	public boolean bound(Point p)
 	{
 		int bound = 30;
@@ -205,81 +207,6 @@ public class Dungeon
 		else
 			return false;
 	}
-	private void makeLine(Point p, Direction d)
-	{
-		int movement = 1, corridor = 7;
-		
-		if(d.equals(Direction.WEST) || d.equals(Direction.NORTH))
-			movement = -1;
-		
-		for(int i = 0; i < 10; i++)
-		{
-			if(d.equals(Direction.WEST) || d.equals(Direction.EAST))
-			{	
-				if(tiles[p.x][p.y][p.z].isFloor())
-					tiles[p.x][p.y][p.z] = Tile.UP_DOWN_SINGLE_LASER;
-				p.x += movement;
-			}
-			else 
-			{
-				if(tiles[p.x][p.y][p.z].isFloor())
-					tiles[p.x][p.y][p.z] = Tile.LEFT_RIGHT_SINGLE_LASER;
-				p.y += movement;
-			}
-		}
-	}
-	private boolean isCorridor(Point p)
-	{
-		int movement = 1;
-		boolean corridor = false;
-		
-		if(isNextToWall(p))
-		{	
-			if(tiles[p.x + 1][p.y][p.z].isRoom())
-				movement = -1;
-			//System.out.println(tiles[p.x + 1][p.y][p.z] + " ************ movement : " + movement);
-			int i, nx = p.x;
-			for(i = 0; i < 7; i++)
-			{
-				if(i == 0 && tiles[nx][p.y][p.z].isFloor())	
-					nx += movement;
-				else if(i > 0 && tiles[nx][p.y][p.z].isRoom())
-				{	
-					corridor = true;
-					break;
-				}
-				if(nx + movement > 0 && nx + movement < 198)
-					nx += movement;
-			
-				//System.out.println("x : " + p.x + "movement : " + movement
-						//+"\n" + tiles[p.x][p.y][p.z]);
-			}
-		}
-		else
-		{
-			//System.out.println("Not next to wall");
-		}
-		/*
-		if(tiles[p.x + 1][p.y][p.z].isRoom())
-			movement = -1;
-		
-		System.out.println("x : " + p.x + "movement : " + movement);
-		
-		p.x += movement;
-		for(int i = 1; i < 10; i++);
-		{
-			
-			if(tiles[p.x][p.y][p.z].isRoom())
-				corridor = true;
-			
-			p.x += movement;
-		}
-		
-		*/
-		//System.out.println("Is it a corridor? " + corridor);
-		return corridor;
-	}
-	
 	private void makeStairsDown()
 	{
 		ArrayList<Point> allRegionPoints = new ArrayList<>();
@@ -570,7 +497,6 @@ public class Dungeon
 	}
 	public void randomizeFloor()
 	{
-	
 		for (int x = 0; x < width; x++) 
 		{
 			for (int y = 0; y < height; y++) 
@@ -598,8 +524,6 @@ public class Dungeon
 	{
 		return occupiedPoints;
 	}
-
-
 	public ArrayList<Point> getStartingPoints() {
 		return startingPoints;
 	}

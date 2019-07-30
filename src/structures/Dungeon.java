@@ -46,11 +46,7 @@ public class Dungeon
 		RexReader rex = new RexReader();
 		this.structureMap = rex.getStructures();
 	}
-<<<<<<< HEAD
-	public Tile[][][] getNewDungeon()
-=======
 	public TileV[][][] getNewDungeon()
->>>>>>> 9386f9fdb6e1ff0d60d3940581a20c97bf5a66fe
 	{
 		randomizeFloor();
 		randomApproachToDungeons();
@@ -91,11 +87,8 @@ public class Dungeon
 		buildRoom(rp, TileSet.DOUBLE);
 
 		//buildPlasmaBlock(rp, 7);
-<<<<<<< HEAD
 		buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_6.csv")), new Point(rp.x + 4, rp.y + 4, 0));
-=======
 		buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_7.csv")), new Point(rp.x + 4, rp.y + 4, 0));
->>>>>>> 9386f9fdb6e1ff0d60d3940581a20c97bf5a66fe
 
 		startingPoints = getOpenPointFromRegion(rp.point(), 15, 15);
 		// Removes spawn points for enemies form starting area
@@ -142,7 +135,6 @@ public class Dungeon
 		return p;
 	}
 	private CorridorPoint getCorridorPoint()
-<<<<<<< HEAD
 	{
 		Point p = null;
 		CorridorPoint cp;
@@ -156,6 +148,7 @@ public class Dungeon
 
 		return cp;
 	}
+	/*
 	private void makeLaserTraps()
 	{
 		//find random inside point next to a wall
@@ -170,6 +163,7 @@ public class Dungeon
 			makeLine(cp.point(), cp.getdOfHall(), cp.getHallLength());
 		}
 	}
+
 	private void makeLine(Point p, Direction d, int length)
 	{
 		int movement = 1, corridor = 7;
@@ -197,16 +191,18 @@ public class Dungeon
 			}
 		}
 	}
+	*/
 
 	public boolean bound(Point p)
 	{
 		int bound = 30;
-		
-		if(p.x < bound || p.x > width - bound || p.y < bound || p.y > width - bound)
+
+		if (p.x < bound || p.x > width - bound || p.y < bound || p.y > width - bound)
 			return false;
 		else
 			return true;
-=======
+	}
+	/*
 	{
 		Point p = null;
 		CorridorPoint cp;
@@ -219,8 +215,8 @@ public class Dungeon
 		} while(!cp.isCorridor(tiles));
 
 		return cp;
->>>>>>> 9386f9fdb6e1ff0d60d3940581a20c97bf5a66fe
 	}
+	*/
 	private void makeLaserTraps()
 	{
 		//find random inside point next to a wall
@@ -235,8 +231,6 @@ public class Dungeon
 			makeLine(cp.point(), cp.getdOfHall(), cp.getHallLength());
 		}
 	}
-<<<<<<< HEAD
-=======
 	private void makeLine(Point p, Direction d, int length)
 	{
 		int movement = 1, corridor = 7;
@@ -264,7 +258,7 @@ public class Dungeon
 			}
 		}
 	}
-
+	/*
 	public boolean bound(Point p)
 	{
 		int bound = 30;
@@ -274,6 +268,7 @@ public class Dungeon
 		else
 			return true;
 	}
+	*/
 	public boolean isNextToWall(Point p)
 	{
 		if(tiles[p.x + 1][p.y][p.z].getTile().isRoom()
@@ -284,7 +279,6 @@ public class Dungeon
 		else
 			return false;
 	}
->>>>>>> 9386f9fdb6e1ff0d60d3940581a20c97bf5a66fe
 	private void makeStairsDown()
 	{
 		ArrayList<Point> allRegionPoints = new ArrayList<>();

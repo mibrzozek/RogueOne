@@ -15,11 +15,8 @@ import static java.awt.Color.*;
 
 public class RexReader
 {
-<<<<<<< HEAD
     private static String filePath ="D:\\06 SOURCE\\01 JAVA PROJECTS\\02 JAVA PROJECTS\\RogueOne\\resources\\structures\\";
-=======
-    private static String filePath ="D:\\06 SOURCE\\01 JAVA PROJECTS\\02 JAVA PROJECTS\\RogueOne_UV1\\resources\\structures\\";
->>>>>>> 9386f9fdb6e1ff0d60d3940581a20c97bf5a66fe
+
 
     private static ArrayList<TilePoint> structureTiles = new ArrayList<>();
     private static Map<String, ArrayList<TilePoint>> structureMap =  new HashMap<>();

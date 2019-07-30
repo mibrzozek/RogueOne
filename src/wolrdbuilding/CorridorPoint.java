@@ -11,51 +11,13 @@ public class CorridorPoint extends Point
         super(p.x, p.y, p.z);
         this.p = p;
     }
-<<<<<<< HEAD
-    public boolean isCorridor(Tile[][][] tiles)
-    {
-        boolean corridor = false;
 
-        if(tiles[x + 1][y][z].isRoom())
-        {
-            dOfWall = Direction.WEST;
-            dOfHall = Direction.WEST;
-            System.out.println(dOfHall);
-        }
-        else if(tiles[x - 1][y][z].isRoom())
-        {
-            dOfWall = Direction.EAST;
-            dOfHall = Direction.EAST;
-            System.out.println(dOfHall);
-        }
-        else if(tiles[x][y + 1][z].isRoom())
-        {
-            dOfWall = Direction.NORTH;
-            dOfHall = Direction.NORTH;
-            System.out.println(dOfHall);
-        }
-        else if(tiles[x][y - 1][z].isRoom())
-        {
-            dOfWall = Direction.SOUTH;
-            dOfHall = Direction.SOUTH;
-            System.out.println(dOfHall);
-        }
-
-        System.out.println(checkSpaceInDirection(tiles));
-
-        if(checkSpaceInDirection(tiles) > 1 && checkSpaceInDirection(tiles) < 16)
-            corridor = true;
-        System.out.println(hallLength + " length and " + corridor);
-
-        return corridor;
-    }
-    public void checkHallLength(int moveX, int moveY, Tile[][][] tiles)
-    {
+    public void checkHallLength(int moveX, int moveY, Tile[][][] tiles) {
         int mx = x;
         int my = y;
-        System.out.println("Starting Loop in " + dOfWall + " " + moveX + " " +  moveY);
+        System.out.println("Starting Loop in " + dOfWall + " " + moveX + " " + moveY);
         System.out.println(" " + tiles[mx + moveX][my + moveY][z]);
-=======
+    }
     public boolean isCorridor(TileV[][][] tiles)
     {
         boolean corridor = false;
@@ -99,26 +61,18 @@ public class CorridorPoint extends Point
         int my = y;
         //System.out.println("Starting Loop in " + dOfWall + " " + moveX + " " +  moveY);
         //System.out.println(" " + tiles[mx + moveX][my + moveY][z]);
->>>>>>> 9386f9fdb6e1ff0d60d3940581a20c97bf5a66fe
         while(tiles[mx + moveX][my + moveY][z].isGround() && mx < 199 && mx > 1 && my < 199 && my > 1)
         {
             hallLength++;
             mx += moveX;
             my += moveY;
-<<<<<<< HEAD
             System.out.println("From check hall length " +  tiles[mx + moveX][my + moveY][z].isGround());
-=======
             //System.out.println("From check hall length " +  tiles[mx + moveX][my + moveY][z].isGround());
->>>>>>> 9386f9fdb6e1ff0d60d3940581a20c97bf5a66fe
         }
 
 
     }
-<<<<<<< HEAD
-    public int checkSpaceInDirection(Tile[][][] tiles)
-=======
     public int checkSpaceInDirection(TileV[][][] tiles)
->>>>>>> 9386f9fdb6e1ff0d60d3940581a20c97bf5a66fe
     {
         if(dOfHall == null)
             return 0;
@@ -139,11 +93,8 @@ public class CorridorPoint extends Point
         {
             checkHallLength(-1, 0, tiles);
         }
-<<<<<<< HEAD
         System.out.print("Check space ");
-=======
         //System.out.print("Check space ");
->>>>>>> 9386f9fdb6e1ff0d60d3940581a20c97bf5a66fe
         return hallLength;
     }
     public static boolean isCorridor(Point p, Tile[][][] tiles)

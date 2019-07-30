@@ -29,13 +29,10 @@ public enum Tile
     UP_DOWN_DBL_LASER((char)186, Palette.purple),
     LEFT_RIGHT_DBL_LASER((char)205, Palette.purple),
 
-<<<<<<< HEAD
-    UP_DOWN_SINGLE_LASER((char)179, Color.red),
-    LEFT_RIGHT_SINGLE_LASER((char)196, Color.red),
-=======
+
     UP_DOWN_SINGLE_LASER((char)179, Palette.purple),
     LEFT_RIGHT_SINGLE_LASER((char)196, Palette.purple),
->>>>>>> 9386f9fdb6e1ff0d60d3940581a20c97bf5a66fe
+
     //
     INVENTORY_TYPE_ICON((char)254, Palette.purple, true),
     
@@ -65,20 +62,6 @@ public enum Tile
     BLOCK_CIRCLE((char)8, Palette.paleWhite, true),
 
     // DECORATIONS
-<<<<<<< HEAD
-    UP_ARROW((char)30, Color.red, true),
-    DOWN_ARROW((char)31, Color.red, true),
-    LEFT_ARROW((char)17, Color.red, true),
-    RIGHT_ARROW((char)16, Color.red, true),
-
-    BACKSLASH((char)92, Color.white, true),
-    FORWARDSLASH((char)47, Color.white, true),
-    DOUBLE_LEFT_ARROW((char)174, Color.white, true),
-    V_DOWN_ARROW((char)118, Color.white, true),
-
-    CARROT_UP_ARROW((char)94, Color.white, true),
-    DOUBLE_RIGHT_ARROW((char)175, Color.white, true),
-=======
     UP_ARROW((char)30, Palette.purple, true),
     DOWN_ARROW((char)31, Palette.purple, true),
     LEFT_ARROW((char)17, Palette.purple, true),
@@ -91,7 +74,6 @@ public enum Tile
 
     CARROT_UP_ARROW((char)94, Color.RED, true),
     DOUBLE_RIGHT_ARROW((char)175, Palette.purple, true),
->>>>>>> 9386f9fdb6e1ff0d60d3940581a20c97bf5a66fe
 
 
     // SIMPLE TO DOUBLE

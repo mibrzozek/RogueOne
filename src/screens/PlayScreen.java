@@ -239,7 +239,7 @@ public class PlayScreen implements Screen
     public int getScrollY() { return Math.max(0, Math.min(player.y - screenHeight / 2, world.height() - screenHeight)); }
     private boolean userIsTryingToExit()
     {
-        return player.z == 0 && world.tile(player.x, player.y, player.z) == Tile.STAIRS_EXIT;
+        return player.z == 0 && world.tile(player.x, player.y, player.z).getTile() == Tile.STAIRS_EXIT;
     }
     private Screen userExits()
     {
@@ -316,7 +316,7 @@ public class PlayScreen implements Screen
         		case KeyEvent.VK_ENTER: return new WinScreen();
         		case KeyEvent.VK_F: 
         		{
-        			if(world.tile(player.x, player.y, player.z) == Tile.TERMINAL_ACESS)
+        			if(world.tile(player.x, player.y, player.z).getTile() == Tile.TERMINAL_ACESS)
         				subScreen = new InteractScreen(player, this, null);
         			else
         				player.pickup(); break;

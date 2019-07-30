@@ -1,6 +1,6 @@
 package items;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.Serializable;
 
 import entities.Entity;

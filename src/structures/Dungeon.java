@@ -10,15 +10,16 @@ import wolrdbuilding.*;
 public class Dungeon
 {
 	private static int width, height, depth, nextRegion;
-	private static Tile[][][] tiles;
+	private static TileV[][][] tiles;
 	private static int[][][] regions;
 	
 	private static ArrayList<Point> spawnPoints;
 	private static ArrayList<Point> startingPoints;
 	private ArrayList<Point> occupiedPoints;
+	private ArrayList<Point> roomPoints;
+
 	private List<List> regionList;
 
-	private ArrayList<TilePoint> testStructure;
 	private HashMap<String, ArrayList<TilePoint>> structureMap;
 	
 	private Random r =  new Random();
@@ -35,7 +36,7 @@ public class Dungeon
 		this.height = height;
 		this.depth = depth;
 		
-		this.tiles = new Tile[width][height][depth];
+		this.tiles = new TileV[width][height][depth];
 		
 		this.spawnPoints = new ArrayList<>();
 		this.occupiedPoints = new ArrayList<>();
@@ -44,10 +45,8 @@ public class Dungeon
 
 		RexReader rex = new RexReader();
 		this.structureMap = rex.getStructures();
-		//his.testStructure = RexReader.getStructure();
 	}
-	
-	public Tile[][][] getNewDungeon()
+	public TileV[][][] getNewDungeon()
 	{
 		randomizeFloor();
 		randomApproachToDungeons();
@@ -58,7 +57,7 @@ public class Dungeon
 		Point p =  null;
 		
 		for(int i = 0; i < 120; i++)
-		{	
+		{
 			for(int j = 0; j < depth; j++)
 			{
 				p = getFirstRoomPoint(j);
@@ -76,7 +75,7 @@ public class Dungeon
 		makeStartingRoom();
 		
 	}
-	public void makeStartingRoom()
+	public RoomPoint makeStartingRoom()
 	{
 		int w = 25, h = 25;
 		Point p;
@@ -87,7 +86,8 @@ public class Dungeon
 		RoomPoint rp = new RoomPoint(p, w, h);
 		buildRoom(rp, TileSet.DOUBLE);
 
-		buildPlasmaBlock(rp, 7);
+		//buildPlasmaBlock(rp, 7);
+		buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_7.csv")), new Point(rp.x + 4, rp.y + 4, 0));
 
 		startingPoints = getOpenPointFromRegion(rp.point(), 15, 15);
 		// Removes spawn points for enemies form starting area
@@ -96,30 +96,17 @@ public class Dungeon
 			if(spawnPoints.contains(po))
 				spawnPoints.remove(po);
 		}
-	}
-	public void buildPlasmaBlock(RoomPoint rp, int oddWH)
-	{
-		// Plasma blocks should always be in the center of the room
-		// This checks that the room is square and has a center
-		int nw, nh, center;
-		if(rp.w != rp.h && rp.w % 2 == 0)
-			return;
-		else
-		{
-			center = ((rp.w - 1)/2) - ((oddWH-1)/2);
-		}
-		Point p = rp.point();
-		
-		buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_4.csv")), new Point(p.x + 4, p.y + 4, 0));
+		return rp;
 	}
 	public void buildStructure(ArrayList<TilePoint> structure, Point p)
 	{
-		System.out.println(structure.size() + " from the new method");
+		//System.out.println(structure.size() + " from the new method");
 		while(!structure.isEmpty())
 		{
 			TilePoint t = structure.remove(0);
-			
-			tiles[p.x + 5 + t.x()][p.y + 5 + t.y()][p.z] = Tile.returnTile(t.ascii());
+			System.out.println(t.toString());
+
+			tiles[p.x + 5 + t.x()][p.y + 5 + t.y()][p.z].setTile((char)t.ascii(), t.foreground(), t.background(), true);
 		}
 	}
 	
@@ -134,8 +121,6 @@ public class Dungeon
 					available.add(new Point(i, j, p.z));
 			}
 		}
-
-
 		return available;
 	}
 	public Point getSpawnPointFromLevel(int level)
@@ -148,44 +133,62 @@ public class Dungeon
 
 		return p;
 	}
-	private void makeLaserTraps()
-	{
-		//find random inside point nextr to a wall
-		// see if corridor
-		// connect
-		boolean isCorridor = false;
-		int nx, ny, nz;
-		for(int i = 0; i < 7; i++)
-		{
-			Point p = getPointFromLevel(0);
-			
-			Direction direction = Direction.NORTH;
-			
-			if(tiles[p.x+1][p.y][p.z].isRoom())
-				direction = Direction.WEST;
-			else if(tiles[p.x-1][p.y][p.z].isRoom())
-				direction = direction.EAST;
-			else if(tiles[p.x][p.y-1][p.z].isRoom())
-				direction = direction.SOUTH;
-
-			
-			makeLine(p, direction);
-		}
-	}
-	public Point getPointFromLevel(int z)
+	private CorridorPoint getCorridorPoint()
 	{
 		Point p = null;
-		
+		CorridorPoint cp;
 		do
 		{
-			p = spawnPoints.get(r.nextInt(spawnPoints.size()));
+			p = getSpawnPointFromLevel(0);
+			//System.out.println("From dungeon " + p.toString());
+			cp = new CorridorPoint(p);
 
-			//System.out.println("checking " + " " + p.toString() + "\n"
-			//		+ tiles[p.x + 1][p.y][p.z].isRoom() + "\n"
-			//		+ isCorridor(p));
-		}while(p.z != 0 || !bound(p) || !isCorridor(p));
-		return p;
+		} while(!cp.isCorridor(tiles));
+
+		return cp;
 	}
+	private void makeLaserTraps()
+	{
+		//find random inside point next to a wall
+		// see if corridor
+		// connect
+
+		for(int i = 0; i < 15; i++)
+		{
+			CorridorPoint cp = getCorridorPoint();
+			//tiles[cp.x][cp.y][cp.z] = Tile.PLASMA_CANISTER_2;
+
+			makeLine(cp.point(), cp.getdOfHall(), cp.getHallLength());
+		}
+	}
+	private void makeLine(Point p, Direction d, int length)
+	{
+		int movement = 1, corridor = 7;
+
+		if(d.equals(Direction.WEST) || d.equals(Direction.NORTH))
+			movement = -1;
+
+		for(int i = 0; i < length; i++)
+		{
+			if(p.x > 199 || p.x < 1 || p.y > 199 || p.y < 1 || tiles[p.x][p.y][p.z].getTile().isRoom()) {
+				i = length;
+				return;
+			}
+			if(d.equals(Direction.WEST) || d.equals(Direction.EAST))
+			{
+				if(tiles[p.x][p.y][p.z].isFloor())
+					tiles[p.x][p.y][p.z].setTile(Tile.LEFT_RIGHT_SINGLE_LASER);
+				p.x += movement;
+			}
+			else
+			{
+				if(tiles[p.x][p.y][p.z].isFloor())
+					tiles[p.x][p.y][p.z].setTile(Tile.UP_DOWN_SINGLE_LASER);
+				p.y += movement;
+			}
+		}
+	}
+
 	public boolean bound(Point p)
 	{
 		int bound = 30;
@@ -197,89 +200,14 @@ public class Dungeon
 	}
 	public boolean isNextToWall(Point p)
 	{
-		if(tiles[p.x + 1][p.y][p.z].isRoom() 
-			|| tiles[p.x - 1][p.y][p.z].isRoom()
-			|| tiles[p.x][p.y + 1][p.z].isRoom()
-			|| tiles[p.x][p.y - 1][p.z].isRoom())
+		if(tiles[p.x + 1][p.y][p.z].getTile().isRoom()
+			|| tiles[p.x - 1][p.y][p.z].getTile().isRoom()
+			|| tiles[p.x][p.y + 1][p.z].getTile().isRoom()
+			|| tiles[p.x][p.y - 1][p.z].getTile().isRoom())
 			return true;
 		else
 			return false;
 	}
-	private void makeLine(Point p, Direction d)
-	{
-		int movement = 1, corridor = 7;
-		
-		if(d.equals(Direction.WEST) || d.equals(Direction.NORTH))
-			movement = -1;
-		
-		for(int i = 0; i < 10; i++)
-		{
-			if(d.equals(Direction.WEST) || d.equals(Direction.EAST))
-			{	
-				if(tiles[p.x][p.y][p.z].isFloor())
-					tiles[p.x][p.y][p.z] = Tile.UP_DOWN_SINGLE_LASER;
-				p.x += movement;
-			}
-			else 
-			{
-				if(tiles[p.x][p.y][p.z].isFloor())
-					tiles[p.x][p.y][p.z] = Tile.LEFT_RIGHT_SINGLE_LASER;
-				p.y += movement;
-			}
-		}
-	}
-	private boolean isCorridor(Point p)
-	{
-		int movement = 1;
-		boolean corridor = false;
-		
-		if(isNextToWall(p))
-		{	
-			if(tiles[p.x + 1][p.y][p.z].isRoom())
-				movement = -1;
-			//System.out.println(tiles[p.x + 1][p.y][p.z] + " ************ movement : " + movement);
-			int i, nx = p.x;
-			for(i = 0; i < 7; i++)
-			{
-				if(i == 0 && tiles[nx][p.y][p.z].isFloor())	
-					nx += movement;
-				else if(i > 0 && tiles[nx][p.y][p.z].isRoom())
-				{	
-					corridor = true;
-					break;
-				}
-				if(nx + movement > 0 && nx + movement < 198)
-					nx += movement;
-			
-				//System.out.println("x : " + p.x + "movement : " + movement
-						//+"\n" + tiles[p.x][p.y][p.z]);
-			}
-		}
-		else
-		{
-			//System.out.println("Not next to wall");
-		}
-		/*
-		if(tiles[p.x + 1][p.y][p.z].isRoom())
-			movement = -1;
-		
-		System.out.println("x : " + p.x + "movement : " + movement);
-		
-		p.x += movement;
-		for(int i = 1; i < 10; i++);
-		{
-			
-			if(tiles[p.x][p.y][p.z].isRoom())
-				corridor = true;
-			
-			p.x += movement;
-		}
-		
-		*/
-		//System.out.println("Is it a corridor? " + corridor);
-		return corridor;
-	}
-	
 	private void makeStairsDown()
 	{
 		ArrayList<Point> allRegionPoints = new ArrayList<>();
@@ -302,8 +230,8 @@ public class Dungeon
 				if(tiles[p.x][p.y][p.z].isGround() 
 						&& p.z +1 < depth && tiles[p.x][p.y][p.z + 1].isGround())
 				{
-					tiles[p.x][p.y][p.z] = Tile.STAIRS_DOWN;
-					tiles[p.x][p.y][p.z + 1] = Tile.STAIRS_UP;
+					tiles[p.x][p.y][p.z].setTile(Tile.STAIRS_DOWN);
+					tiles[p.x][p.y][p.z + 1].setTile(Tile.STAIRS_UP);
 				
 					truth = true;
 				}
@@ -322,7 +250,7 @@ public class Dungeon
             {
                 for (int y = 0; y < height; y++)
                 {
-                   if (!tiles[x][y][z].isWall() && regions[x][y][z] == 0)
+                   if (!tiles[x][y][z].getTile().isWall() && regions[x][y][z] == 0)
                    {
                        int size = fillRegion(nextRegion++, x, y, z);
                        if (size < 60)
@@ -347,7 +275,7 @@ public class Dungeon
 				if (regions[x][y][z] == region)
 				{
 					regions[x][y][z] = 0;
-					tiles[x][y][z] = Tile.WALL;
+					tiles[x][y][z].setTile(Tile.WALL);
 				}
 			}
 		}
@@ -370,7 +298,7 @@ public class Dungeon
 					continue;
 				
 				if (regions[neighbor.x][neighbor.y][neighbor.z] > 0
-						|| tiles[neighbor.x][neighbor.y][neighbor.z].isWall())
+						|| tiles[neighbor.x][neighbor.y][neighbor.z].getTile().isWall())
 					continue;
 
 				size++;
@@ -392,9 +320,9 @@ public class Dungeon
             x = (int)(Math.random() * width);
             y = (int)(Math.random() * height);
         }
-        while (tiles[x][y][0] != Tile.FLOOR);
+        while (tiles[x][y][0].getTile() != Tile.FLOOR);
     
-        tiles[x][y][0] = Tile.STAIRS_EXIT;
+        tiles[x][y][0].setTile(Tile.STAIRS_EXIT);
     }
 	public void fillDungeonWithWall(TileSet set)
 	{
@@ -404,35 +332,35 @@ public class Dungeon
 			{
 				for (int z = 0; z < depth; z++) 
 				{
-					if(tiles[x][y][z] == Tile.INSIDE_FLOOR)
+					if(tiles[x][y][z].getTile() == Tile.INSIDE_FLOOR)
 					{	
 						if(x-1 > 0 && x + 1 < width && y-1 > 0 && y + 1 < height)
 						{	
-							if(tiles[x+1][y][z] == Tile.INSIDE_FLOOR
-									&& tiles[x-1][y][z].isWall())
-									tiles[x][y][z] = set.lrw;
-							else if(tiles[x][y+1][z] == Tile.INSIDE_FLOOR
-									&& tiles[x][y-1][z].isWall())
-									tiles[x][y][z] = set.tbw;
-							else if(tiles[x-1][y][z] == Tile.INSIDE_FLOOR
-									&& tiles[x+1][y][z].isWall())
-									tiles[x][y][z] = set.lrw;
-							else if(tiles[x][y-1][z] == Tile.INSIDE_FLOOR
-									&& tiles[x][y+1][z].isWall())
-									tiles[x][y][z] = set.tbw;
+							if(tiles[x+1][y][z].getTile() == Tile.INSIDE_FLOOR
+									&& tiles[x-1][y][z].getTile().isWall())
+									tiles[x][y][z].setTile(set.lrw);
+							else if(tiles[x][y+1][z].getTile() == Tile.INSIDE_FLOOR
+									&& tiles[x][y-1][z].getTile().isWall())
+									tiles[x][y][z].setTile(set.tbw);
+							else if(tiles[x-1][y][z].getTile() == Tile.INSIDE_FLOOR
+									&& tiles[x+1][y][z].getTile().isWall())
+									tiles[x][y][z].setTile(set.lrw);
+							else if(tiles[x][y-1][z].getTile() == Tile.INSIDE_FLOOR
+									&& tiles[x][y+1][z].getTile().isWall())
+									tiles[x][y][z].setTile(set.tbw);
 							// Fills corners with floor tiles INSIDE the corner
-							if(tiles[x][y+1][z].isWall()
-									&& tiles[x+1][y][z].isWall())
-									tiles[x][y][z] = set.brc;
-							else if(tiles[x][y-1][z].isWall()
-									&& tiles[x+1][y][z].isWall())
-									tiles[x][y][z] = set.trc;
-							else if(tiles[x][y+1][z].isWall()
-									&& tiles[x-1][y][z].isWall())
-									tiles[x][y][z] = set.blc;
-							else if(tiles[x][y-1][z].isWall()
-									&& tiles[x-1][y][z].isWall())
-									tiles[x][y][z] = set.tlc;
+							if(tiles[x][y+1][z].getTile().isWall()
+									&& tiles[x+1][y][z].getTile().isWall())
+									tiles[x][y][z].setTile(set.brc);
+							else if(tiles[x][y-1][z].getTile().isWall()
+									&& tiles[x+1][y][z].getTile().isWall())
+									tiles[x][y][z].setTile(set.trc);
+							else if(tiles[x][y+1][z].getTile().isWall()
+									&& tiles[x-1][y][z].getTile().isWall())
+									tiles[x][y][z].setTile(set.blc);
+							else if(tiles[x][y-1][z].getTile().isWall()
+									&& tiles[x-1][y][z].getTile().isWall())
+									tiles[x][y][z].setTile(set.tlc);
 						}
 					}
 				}
@@ -450,18 +378,18 @@ public class Dungeon
 				{
 					if(x-1 > 0 && x + 1 < width && y-1 > 0 && y + 1 < height) // transformation bound check
 					{	
-						if((tiles[x][y-1][z] == set.lrw || tiles[x][y-1][z] == set.tlc ) //done
-								&& (tiles[x-1][y][z] == set.tbw || tiles[x-1][y][z] == set.tlc ))
-								tiles[x][y][z] = set.brc;
-						if((tiles[x][y-1][z] == set.lrw || tiles[x][y-1][z] == set.trc )
-								&& (tiles[x+1][y][z] == set.tbw || tiles[x+1][y][z] == set.trc ))
-								tiles[x][y][z] = set.blc;
-						if((tiles[x][y+1][z] == set.lrw || tiles[x][y+1][z] == set.blc ) //done
-								&& (tiles[x-1][y][z] == set.tbw || tiles[x-1][y][z] == set.blc ))
-								tiles[x][y][z] = set.trc;
-						if((tiles[x][y+1][z] == set.lrw || tiles[x][y+1][z] == set.brc) //done
-								&& (tiles[x+1][y][z] == set.tbw || tiles[x+1][y][z] == set.brc))
-								tiles[x][y][z] = set.tlc;
+						if((tiles[x][y-1][z].getTile() == set.lrw || tiles[x][y-1][z].getTile() == set.tlc ) //done
+								&& (tiles[x-1][y][z].getTile() == set.tbw || tiles[x-1][y][z].getTile() == set.tlc ))
+								tiles[x][y][z].setTile(set.brc);
+						if((tiles[x][y-1][z].getTile() == set.lrw || tiles[x][y-1][z].getTile() == set.trc )
+								&& (tiles[x+1][y][z].getTile() == set.tbw || tiles[x+1][y][z].getTile() == set.trc ))
+								tiles[x][y][z].setTile(set.blc);
+						if((tiles[x][y+1][z].getTile() == set.lrw || tiles[x][y+1][z].getTile() == set.blc ) //done
+								&& (tiles[x-1][y][z].getTile() == set.tbw || tiles[x-1][y][z].getTile() == set.blc ))
+								tiles[x][y][z].setTile(set.trc);
+						if((tiles[x][y+1][z].getTile() == set.lrw || tiles[x][y+1][z].getTile() == set.brc) //done
+								&& (tiles[x+1][y][z].getTile() == set.tbw || tiles[x+1][y][z].getTile() == set.brc))
+								tiles[x][y][z].setTile(set.tlc);
 						
 					}
 				}
@@ -544,40 +472,39 @@ public class Dungeon
 				for (int y = rp.y; y < rp.y+rp.h ; y++)
 		        {	 
 					if(x == rp.x || x == rp.x+rp.w-1)
-						tiles[x][y][rp.z] = t.lrw ;
+						tiles[x][y][rp.z].setTile(t.lrw) ;
 					else if (y == rp.y || y == rp.y+rp.h-1)
-						tiles[x][y][rp.z] = t.tbw;
+						tiles[x][y][rp.z].setTile(t.tbw);
 					else
 					{
 						if(t.equals(TileSet.CANISTERS)) // for filling whole room with same tile
-							tiles[x][y][rp.z] = t.tlc;
+							tiles[x][y][rp.z].setTile(t.tlc);
 						else // fills everything inside of the walls with ground
 						{
-						tiles[x][y][rp.z] = Tile.INSIDE_FLOOR;
+						tiles[x][y][rp.z].setTile(Tile.INSIDE_FLOOR);
 						spawnPoints.add(new Point(x, y, rp.z));
 						}
 					}
 					occupiedPoints.add(new Point(x, y, rp.z));
 		        }
 		    }	
-			tiles[rp.x][rp.y][rp.z] = t.tlc;
-			tiles[rp.x+rp.w-1][rp.y][rp.z] = t.trc;
-			tiles[rp.x][rp.y+rp.h-1][rp.z] = t.blc;
-			tiles[rp.x+rp.w-1][rp.y+rp.h-1][rp.z] = t.brc;
+			tiles[rp.x][rp.y][rp.z].setTile(t.tlc);
+			tiles[rp.x+rp.w-1][rp.y][rp.z].setTile(t.trc);
+			tiles[rp.x][rp.y+rp.h-1][rp.z].setTile(t.blc);
+			tiles[rp.x+rp.w-1][rp.y+rp.h-1][rp.z].setTile(t.brc);
 		}
 		else
 			System.out.println("The room was NOT built");
 	}
 	public void randomizeFloor()
 	{
-	
 		for (int x = 0; x < width; x++) 
 		{
 			for (int y = 0; y < height; y++) 
 			{
 				for (int z = 0; z < depth; z++) 
 				{
-					tiles[x][y][z] = Math.random() < 0.5 ? Tile.WALL : Tile.RED_WALL;
+					tiles[x][y][z] = new TileV( (Math.random() < 0.5 ? Tile.WALL : Tile.RED_WALL) );
 				}
 			}
 		}
@@ -598,8 +525,6 @@ public class Dungeon
 	{
 		return occupiedPoints;
 	}
-
-
 	public ArrayList<Point> getStartingPoints() {
 		return startingPoints;
 	}

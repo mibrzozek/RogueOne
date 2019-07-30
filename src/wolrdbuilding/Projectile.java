@@ -1,6 +1,6 @@
 package wolrdbuilding;
 
-import java.awt.Color;
+import java.awt.*;
 import java.io.Serializable;
 
 import asciiPanel.AsciiPanel;

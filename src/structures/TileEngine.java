@@ -28,7 +28,7 @@ public class TileEngine
 		for (TilePoint tile : tileMap)
 		{ 
 			if(gx == null)
-				terminal.write(tile.glyph(), tile.x(), tile.y(), tile.color());
+				terminal.write(tile.glyph(), tile.x(), tile.y(), tile.foreground());
 			else
 			{
 				if(tile.x() >= gx && tile.x() < gx + gw -1
@@ -41,7 +41,7 @@ public class TileEngine
 						
 				}
 				else 
-					terminal.write(tile.glyph(), tile.x(), tile.y(), tile.color());
+					terminal.write(tile.glyph(), tile.x(), tile.y(), tile.foreground());
 			}
 		}
 	}

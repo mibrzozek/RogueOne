@@ -10,11 +10,7 @@ import items.Item;
 import items.ItemFactory;
 import items.Type;
 import structures.Script;
-import wolrdbuilding.Direction;
-import wolrdbuilding.Point;
-import wolrdbuilding.Projectile;
-import wolrdbuilding.Tile;
-import wolrdbuilding.World;
+import wolrdbuilding.*;
 
 /*
  *  Damage :
@@ -166,7 +162,11 @@ public class Entity implements Serializable
     
 	public Tile tile(int wx, int wy, int wz) 
 	{
-		return world.tile(wx, wy, wz);
+		return world.tile(wx, wy, wz).getTile();
+	}
+	public boolean isLookingAtStructure(int wx, int wy, int wz)
+	{
+		return world.tile(wx, wy, wz).isStructure();
 	}
     public Entity entity(int wx, int wy, int wz) 
     {
@@ -200,9 +200,11 @@ public class Entity implements Serializable
     	notify("Device out!");
     	
     	if(inventory.getDevice() != null 
-    			&& inventory.getDevice().type().equals(Type.DEVICE))
+    			&& inventory.getDevice().type().equals(Type.DEVICE)
+				&& isNextToWall())
     	{
     		//inventory.removeEquiped(inventory.getDevice())
+
 
     		if(plasmaValue > 50)
     			plasmaValue -= 50;
@@ -211,6 +213,28 @@ public class Entity implements Serializable
     		world.tunnelExplosion(this.direction, inventory.getDevice().value());	
     	}
     }
+    public boolean isNextToWall()
+	{
+
+		if(!world.tile(x, y-1, z).getTile().isFloor()) // north
+			return false;
+		else if(!world.tile(x -1, y-1, z).getTile().isFloor()) // north west
+			return false;
+		else if(!world.tile(x, y+1, z).getTile().isFloor()) // south
+			return false;
+		else if(!world.tile(x+1, y+1, z).getTile().isFloor()) // south east
+			return false;
+		else if(!world.tile(x + 1, y, z).getTile().isFloor()) // west
+			return false;
+		else if(!world.tile(x - 1, y + 1, z).getTile().isFloor()) // south west
+			return false;
+		else if(!world.tile(x + 1, y - 1, z).getTile().isFloor()) // north east
+			return false;
+		else if(!world.tile(x + 1, y, z).getTile().isFloor()) // east
+			return false;
+		else
+			return true;
+	}
     public void useWeapon()
     {
     		Projectile p;
@@ -481,11 +505,11 @@ public class Entity implements Serializable
 		if(shieldValue + 5 < 80)
 			shieldValue += 1;
 		
-		Tile tile = world.tile(x+mx, y+my, z+mz);
+		TileV tile = world.tile(x+mx, y+my, z+mz);
 		
 		if (mz == -1)
 		{
-			if (tile == Tile.STAIRS_DOWN) 
+			if (tile.getTile() == Tile.STAIRS_DOWN)
 			{
 				doAction("walk up to level %d", z+mz+1);
 			} 
@@ -497,7 +521,7 @@ public class Entity implements Serializable
 		} 
 		else if (mz == 1)
 		{
-			if (tile == Tile.STAIRS_UP) 
+			if (tile.getTile() == Tile.STAIRS_UP)
 			{
 				doAction("walk down to level %d", z+mz+1);
 			} 
@@ -525,7 +549,7 @@ public class Entity implements Serializable
 				notify("Mmmmm, tasty plasma");
 				world.remove(x+mx, y+my, z+mz);
 			}
-			ai.onEnter(x+mx, y+my, z+mz, tile);
+			ai.onEnter(x+mx, y+my, z+mz, tile.getTile());
 			
 		}
 		else if(!other.equals( new EntityFactory().newTrader()) && other != null)

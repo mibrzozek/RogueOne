@@ -1,7 +1,6 @@
 package wolrdbuilding;
 
-
-import java.awt.Color;
+import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.Random;
 
 import entities.Entity;
 import entities.Mech;
-import entities.PlayerAi;
 import items.Item;
 
 public class World implements Serializable
@@ -20,7 +18,7 @@ public class World implements Serializable
 	private List<Entity> entities;
 	private ArrayList<Projectile> projectiles;
 	
-	private Tile[][][] tiles;
+	private TileV[][][] tiles;
 	private Item[][][] itemMap;
 	private Projectile[][][] projectileMap;
 	
@@ -37,7 +35,7 @@ public class World implements Serializable
 	public int depth() { return depth; }
     
     // Constructor
-	public World(Tile[][][] tiles, ArrayList<Point> spawns, ArrayList<Point> startingPoints, Entity player)
+	public World(TileV[][][] tiles, ArrayList<Point> spawns, ArrayList<Point> startingPoints, Entity player)
 	{
 		this.tiles = tiles;
 		this.player = player;
@@ -54,7 +52,7 @@ public class World implements Serializable
 		
 		this.insideSpawns = spawns;
 		this.startingPoints = startingPoints;
-		System.out.println(startingPoints.size());
+		//System.out.println(startingPoints.size());
 	}
     public void animate()
     {
@@ -62,15 +60,15 @@ public class World implements Serializable
     	{
     		for(int y = 0; y < height; y++)
     		{
-    			tiles[x][y][player.z].animate();
+    			//tiles[x][y][player.z].animate();
     		}
     	}
     }
     // Returns the tiles at give point; Used for checking type of tile
-	public Tile tile(int x, int y, int z)
+	public TileV tile(int x, int y, int z)
 	{
 		if (x < 0 || x >= width || y < 0 || y >= height || z < 0 || z >= depth)
-			return Tile.BOUNDS;
+			return new TileV(Tile.BOUNDS.glyph(), Tile.BOUNDS.color());
 		else
 			return tiles[x][y][z];
 	}
@@ -106,7 +104,7 @@ public class World implements Serializable
 	public void dig(int x, int y, int z) 
 	{
 		if (tile(x, y, z).isDiggable())
-			tiles[x][y][z] = Tile.FLOOR;
+			tiles[x][y][z].setGlyph(Tile.FLOOR);
 	}
 	public void tunnelExplosion(int direction, int distance)
 	{
@@ -178,7 +176,7 @@ public class World implements Serializable
 		}
 		else
 		{
-			tiles[x][y][z] = Tile.BLASTED_TERRAIN;
+			tiles[x][y][z].setTile(Tile.BLASTED_TERRAIN);
 		}
 	}
     // Removes specified entity from EntityList 
@@ -204,7 +202,7 @@ public class World implements Serializable
         if (item(x,y,z) != null)
             return item(x,y,z).glyph();
         
-        return tile(x, y, z).glyph();
+        return tile(x, y, z).getGlyph();
     }
     public Color color(int x, int y, int z)
     {
@@ -221,7 +219,7 @@ public class World implements Serializable
         if (item(x,y,z) != null)
             return item(x,y,z).color();
         
-        return tile(x, y, z).color();
+        return tile(x, y, z).getColorF();
     }
     public Color backColor(int x, int y, int z)
     {
@@ -235,7 +233,7 @@ public class World implements Serializable
         if (item(x,y,z) != null)
             return Palette.darkestGray;
         
-        return tile(x, y, z).backColor();
+        return tile(x, y, z).getBackColor();
     }
     public void addPlayer(Entity player)
     {

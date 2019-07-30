@@ -1,7 +1,7 @@
 package wolrdbuilding;
 
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,9 +11,10 @@ import wolrdbuilding.Palette;
 public enum Tile 
 {
 	// World materials
+    CUSTOM(' ', Palette.white),
 	UNKNOWN(' ', Palette.white),
     FLOOR((char)250, Palette.randomNewColor()),
-    TERMINAL_ACESS((char)249, Palette.red),
+    TERMINAL_ACESS((char)249, Palette.white),
     INSIDE_FLOOR((char)250, Palette.gray),
     BLASTED_TERRAIN((char)176, Palette.brown),
     WHITE_TERRAIN((char)176, Palette.white),
@@ -22,30 +23,30 @@ public enum Tile
     BROWN_WALL((char)177, Palette.randomColor()),
     SILVER_WALL((char)177, Palette.randomColor()),
     BOUNDS('X', Palette.black),
-    CURSOR('x', AsciiPanel.brightBlack),
+    CURSOR('x', Palette.purple),
 
     // TRAPS / OBSTACLES / LAVA
-    UP_DOWN_DBL_LASER((char)186, Color.red),
-    LEFT_RIGHT_DBL_LASER((char)205, Color.red),
+    UP_DOWN_DBL_LASER((char)186, Palette.purple),
+    LEFT_RIGHT_DBL_LASER((char)205, Palette.purple),
 
-    UP_DOWN_SINGLE_LASER((char)196, Color.red),
-    LEFT_RIGHT_SINGLE_LASER((char)179, Color.red),
+    UP_DOWN_SINGLE_LASER((char)179, Palette.purple),
+    LEFT_RIGHT_SINGLE_LASER((char)196, Palette.purple),
     //
     INVENTORY_TYPE_ICON((char)254, Palette.purple, true),
     
     //Projectiles
-    DEAD('X', AsciiPanel.red),
-    TAGGED('x', AsciiPanel.red),
+    DEAD('X', Palette.purple),
+    TAGGED('x', Palette.purple),
     TAGGED_PLAYER('@', Palette.darkRed),
     
-    Y_SMALL('.', AsciiPanel.brightYellow),
-    R_SNIPER((char) 15, AsciiPanel.brightRed),
+    Y_SMALL('.', Palette.purple),
+    R_SNIPER((char) 15, Palette.purple),
     
-    Y_MED((char) 4, AsciiPanel.brightYellow),
-    Y_LARGE((char) 9, AsciiPanel.brightYellow),
+    Y_MED((char) 4, Palette.purple),
+    Y_LARGE((char) 9, Palette.purple),
     
-    R_MED((char) 248, AsciiPanel.brightRed),
-    G_SMALL((char) 4, AsciiPanel.brightGreen),
+    R_MED((char) 248, Palette.purple),
+    G_SMALL((char) 4, Palette.purple),
 
     /*  STRUCTURES
 
@@ -58,33 +59,48 @@ public enum Tile
     INTERFACE((char)216, Palette.paleWhite, true),
     BLOCK_CIRCLE((char)8, Palette.paleWhite, true),
 
+    // DECORATIONS
+    UP_ARROW((char)30, Palette.purple, true),
+    DOWN_ARROW((char)31, Palette.purple, true),
+    LEFT_ARROW((char)17, Palette.purple, true),
+    RIGHT_ARROW((char)16, Palette.purple, true),
+
+    BACKSLASH((char)92, Palette.purple, true),
+    FORWARDSLASH((char)47, Palette.purple, true),
+    DOUBLE_LEFT_ARROW((char)174, Palette.purple, true),
+    V_DOWN_ARROW((char)118, Color.WHITE, true),
+
+    CARROT_UP_ARROW((char)94, Color.RED, true),
+    DOUBLE_RIGHT_ARROW((char)175, Palette.purple, true),
+
+
     // SIMPLE TO DOUBLE
-    S2D183((char)183, Color.white, true),
-    S2D184((char)184, Color.white, true),
-    S2D189((char)189, Color.white, true),
-    S2D190((char)190, Color.white, true),
-    S2D211((char)211, Color.white, true),
-    S2D212((char)212, Color.white, true),
-    S2D213((char)213, Color.white, true),
-    S2D214((char)214, Color.white, true),
+    S2D183((char)183, Color.WHITE, true),
+    S2D184((char)184, Color.WHITE, true),
+    S2D189((char)189, Color.WHITE, true),
+    S2D190((char)190, Color.WHITE, true),
+    S2D211((char)211, Color.WHITE, true),
+    S2D212((char)212, Color.WHITE, true),
+    S2D213((char)213, Color.WHITE, true),
+    S2D214((char)214, Color.WHITE, true),
 
 
     // SIMPLE
 
-    simpleLRWS((char)179, Color.white, true),
-    simpleLRW_L_KNOB((char)180, Color.white, true),
-    simpleLRW_L_DBL_KNOB((char)181, Color.white, true),
-    simpleTRCS((char)191, Color.white, true),
-    simpleBLCS((char)192, Color.white, true),
-    simpleT_Shape_UPSIDEDOWN((char)193, Color.white, true),
-    simpleT_Shape((char)194, Color.white, true),
-    simpleLRW_R_KNOB((char)195, Color.white, true),
-    simpleTBWS((char)196, Color.white, true),
-    simpleCROSS((char)197, Color.white, true),
-    simpleLRW_DOUBLE_R_KNOB((char)198, Color.white, true),
-    simpleLRW_DBL_LR_KNOBS((char)216, Color.white, true),
-    simpleBRCS((char)217, Color.white, true),
-    simpleTLCS((char)218, Color.white, true),
+    simpleLRWS((char)179, Color.WHITE, true),
+    simpleLRW_L_KNOB((char)180, Color.WHITE, true),
+    simpleLRW_L_DBL_KNOB((char)181, Color.WHITE, true),
+    simpleTRCS((char)191, Color.WHITE, true),
+    simpleBLCS((char)192, Color.WHITE, true),
+    simpleT_Shape_UPSIDEDOWN((char)193, Color.WHITE, true),
+    simpleT_Shape((char)194, Color.WHITE, true),
+    simpleLRW_R_KNOB((char)195, Color.WHITE, true),
+    simpleTBWS((char)196, Color.WHITE, true),
+    simpleCROSS((char)197, Color.WHITE, true),
+    simpleLRW_DOUBLE_R_KNOB((char)198, Color.WHITE, true),
+    simpleLRW_DBL_LR_KNOBS((char)216, Color.WHITE, true),
+    simpleBRCS((char)217, Color.WHITE, true),
+    simpleTLCS((char)218, Color.WHITE, true),
 
     // DOUBLE
     dblLRW_LEFT_KNOB((char)182, Palette.paleWhite, true),
@@ -115,25 +131,25 @@ public enum Tile
     dblLRW((char)186, Palette.paleWhite),
     dblTBW((char)205, Palette.paleWhite),
 
-    DOOR((char)240, AsciiPanel.red),
+    DOOR((char)240, Color.WHITE),
     
-	lrWall((char)186, Color.white),
-	tbWall((char)205, Color.white),
-	tlCorner((char)218, Color.white),
-	trCorner((char)170, Color.white),
-	blCorner((char)200, Color.white),
-	brCorner((char)217, Color.white),
+	lrWall((char)186, Color.WHITE),
+	tbWall((char)205, Color.WHITE),
+	tlCorner((char)218, Color.WHITE),
+	trCorner((char)170, Color.WHITE),
+	blCorner((char)200, Color.WHITE),
+	brCorner((char)217, Color.WHITE),
 	
-	simpleTLC((char)218, Color.white),
-	simpleTRC((char)191, Color.white),
-	simpleBLC((char)192, Color.white),
-	simpleBRC((char)217, Color.white),
-	simpleTBW((char)196, Color.white),
-	simpleLRW((char)179, Color.white),
+	simpleTLC((char)218, Color.WHITE),
+	simpleTRC((char)191, Color.WHITE),
+	simpleBLC((char)192, Color.WHITE),
+	simpleBRC((char)217, Color.WHITE),
+	simpleTBW((char)196, Color.WHITE),
+	simpleLRW((char)179, Color.WHITE),
 
-	STAIRS_DOWN('>', AsciiPanel.white),
-    STAIRS_UP('<', AsciiPanel.white),
-	STAIRS_EXIT('<', AsciiPanel.red),
+	STAIRS_DOWN('>', Color.WHITE),
+    STAIRS_UP('<', Color.WHITE),
+	STAIRS_EXIT('<', Color.WHITE),
 	
 	// Entity Tiles
 	PLAYER('@', Palette.paleWhite, Palette.darkGray),
@@ -189,8 +205,28 @@ public enum Tile
             return Tile.PLASMA_CANISTER;
         else if(c == 8)
             return Tile.BLOCK_CIRCLE;
+        else if(c == 16)
+            return Tile.LEFT_ARROW;
+        else if(c == 17)
+            return Tile.RIGHT_ARROW;
+        else if(c == 30)
+            return Tile.UP_ARROW;
+        else if(c == 31)
+            return Tile.DOWN_ARROW;
         else if(c == 32)
             return Tile.INSIDE_FLOOR;
+        else if(c == 47)
+            return Tile.FORWARDSLASH;
+        else if(c == 92)
+            return Tile.BACKSLASH;
+        else if(c == 94)
+            return Tile.CARROT_UP_ARROW;
+        else if(c == 118)
+            return Tile.V_DOWN_ARROW;
+        else if(c == 174)
+            return Tile.DOUBLE_LEFT_ARROW;
+        else if(c == 175)
+            return Tile.DOUBLE_RIGHT_ARROW;
         else if(c == 179)
             return Tile.simpleLRWS;
         else if(c == 180)

@@ -1,6 +1,8 @@
 package wolrdbuilding;
 
-public enum Direction 
+import static wolrdbuilding.Palette.r;
+
+public enum Direction
 {
 	NORTH("North", 0),
 	NORTH_WEST("North West", 7),
@@ -50,6 +52,30 @@ public enum Direction
 		}
 		else return null;
 		
+	}
+	public static Direction getRandomDirection()
+	{
+		int d = r.nextInt(4) + 1;
+
+		if(d == 1)
+			return Direction.NORTH;
+		else if(d == 2)
+			return Direction.SOUTH;
+		else if(d == 3)
+			return Direction.EAST;
+		else if(d == 4)
+			return Direction.WEST;
+		else
+			return Direction.NORTH;
+	}
+	public static int getMovement(Direction d)
+	{
+		if(d.equals(Direction.NORTH) || d.equals(Direction.WEST))
+			return -1;
+		else if(d.equals(Direction.EAST) || d.equals(Direction.SOUTH))
+			return 1;
+		else
+			return 0;
 	}
 	public String getDirection()
 	{

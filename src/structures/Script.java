@@ -54,7 +54,7 @@ public class Script implements Serializable
                 incrementProgress(d);
                 player.notify("A new weapon reatomizes in your bag. Who knows where that's been...");
             }
-             else if(progressMap.get(d) == 1) // Choose Weapon
+            else if(progressMap.get(d) == 1) // Choose Weapon
             {
                 if(decisionNum == 2 && player.plasma() > 2000)
                 {

@@ -6,6 +6,7 @@ import java.util.List;
 
 import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
+import wolrdbuilding.TileV;
 import wolrdbuilding.World;
 
 public class FieldOfView implements Serializable
@@ -14,7 +15,7 @@ public class FieldOfView implements Serializable
     private int depth;
 
     private boolean[][] visible;
-    private Tile[][][] tiles;
+    private TileV[][][] tiles;
     
     private List<Entity> visibleEntities;
 
@@ -22,7 +23,7 @@ public class FieldOfView implements Serializable
     {
         this.world = world;
         this.visible = new boolean[world.width()][world.height()];
-        this.tiles = new Tile[world.width()][world.height()][world.depth()];
+        this.tiles = new TileV[world.width()][world.height()][world.depth()];
         this.visibleEntities = new ArrayList<Entity>();
         
         for (int x = 0; x < world.width(); x++)
@@ -31,14 +32,14 @@ public class FieldOfView implements Serializable
             {
                 for (int z = 0; z < world.depth(); z++)
                 {
-                    tiles[x][y][z] = Tile.UNKNOWN;
+                    tiles[x][y][z] = new TileV(Tile.UNKNOWN);
                 }
             }
         }
     }
     public Tile tile(int x, int y, int z)
     {
-        return tiles[x][y][z];
+        return tiles[x][y][z].getTile();
     }
     public boolean isVisible(int x, int y, int z)
     {
@@ -67,9 +68,9 @@ public class FieldOfView implements Serializable
                 
                 for (Point p : new Line(wx, wy, wx + x, wy + y))
                 {
-                    Tile tile = world.tile(p.x, p.y, wz);
+                    Tile tile = world.tile(p.x, p.y, wz).getTile();
                     visible[p.x][p.y] = true;
-                    tiles[p.x][p.y][wz] = tile;
+                    tiles[p.x][p.y][wz].setTile(tile);
                     
                     if(world.entity(p.x, p.y, wz) != null)
                     {

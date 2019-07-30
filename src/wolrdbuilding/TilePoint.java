@@ -44,7 +44,8 @@ public class TilePoint implements Serializable
 	@Override
 	public String toString()
 	{
-		return "x : " + x + " y : " + y +" ascii : " + ascii;
+		return "x : " + x + " y : " + y +" ascii : " + ascii
+				+ "\n\tGlyph : " + glyph + "\tColor = " + fColor;
 	}
 	@Override
 	public boolean equals(Object obj)

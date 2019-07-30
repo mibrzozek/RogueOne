@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Random;
 
 import entities.Entity;
-
+/*
 public class WorldBuilder implements Serializable
 {
 	private Entity player;
@@ -18,7 +18,7 @@ public class WorldBuilder implements Serializable
 	private int nextRegion;
 	
 	private int[][][] regions;
-    private Tile[][][] tiles;
+    private TileV[][][] tiles;
     
     private ArrayList<Point> spawnPoints;
     private static Random random;
@@ -32,7 +32,7 @@ public class WorldBuilder implements Serializable
     	this.width = width;
         this.height = height;
         this.depth = depth;
-        this.tiles = new Tile[width][height][depth];
+        this.tiles = new TileV[width][height][depth];
         this.regions = new int[width][height][depth];
         this.nextRegion = 1;
         this.spawnPoints = new ArrayList<>();
@@ -353,3 +353,4 @@ public class WorldBuilder implements Serializable
 	public int getHeight() 	{	return height;	}
 	public void setHeight(int height) {	this.height = height;}
 }
+*/

@@ -17,7 +17,6 @@ import wolrdbuilding.Palette;
 import wolrdbuilding.TilePoint;
 import wolrdbuilding.TileSet;
 import wolrdbuilding.World;
-import wolrdbuilding.WorldBuilder;
 
 public class CharacterCreationScreen implements Screen
 {
@@ -65,14 +64,14 @@ public class CharacterCreationScreen implements Screen
 			m1 = TileEngine.renderBox(terminal, 85,  62, 0, 0, TileSet.SIMPLE);
 			m2 = TileEngine.renderBox(terminal, 70, 50, 7, 6, TileSet.SIMPLE);
 			m3 = TileEngine.renderBox(terminal, 20, 3, 10, 5, TileSet.SIMPLE);
-		rendered = true;
+			rendered = true;
 		}
 		
 		if(rendered)
 		{
 			TileEngine.animateBox(m1);
 			TileEngine.renderBox(terminal, 50, 53, 18, 4, TileSet.SIMPLE);
-			TileEngine.displayTilesWithTransparentBox(terminal, m1, 50, 53, 18, 5, Palette.darkerGray);
+			TileEngine.displayTilesWithTransparentBox(terminal, m1, 50, 53, 18, 5, Palette.darkestGray);
 			
 			//TileEngine.renderBox(terminal, 20, 20, 10, 6, null);
 			//TileEngine.renderBox(terminal, 70, 50, 7, 6, null);

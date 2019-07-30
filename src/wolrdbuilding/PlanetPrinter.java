@@ -14,7 +14,7 @@ public class PlanetPrinter
 	private int depth;
 	
 	private Entity player;
-	private Tile[][][] tiles;	
+	private TileV[][][] tiles;
 
 	private ArrayList<Point> spawnPoints;
 	private static ArrayList<Point> occupiedPoints;
@@ -39,7 +39,7 @@ public class PlanetPrinter
 		this.depth = depth;
 		
 		this.player = player;
-		this.tiles = new Tile[width][height][depth];
+		this.tiles = new TileV[width][height][depth];
 		
 		this.spawnPoints = new ArrayList<>();
 		this.occupiedPoints = new ArrayList<>();
@@ -65,9 +65,9 @@ public class PlanetPrinter
 			{
 				for (int z = 0; z < depth; z++) 
 				{
-					tiles[x][y][z] = Math.random() < 0.5 ? Tile.WALL : Tile.INSIDE_FLOOR;
+					tiles[x][y][z].setTile(Math.random() < 0.5 ? Tile.WALL : Tile.INSIDE_FLOOR);
 					
-					if(tiles[x][y][z] == Tile.INSIDE_FLOOR)
+					if(tiles[x][y][z].getTile() == Tile.INSIDE_FLOOR)
 						spawnPoints.add(new Point(x, y, z));
 				}
 			}
@@ -83,21 +83,21 @@ public class PlanetPrinter
 			for (int y = rp.y; y < rp.y+rp.h ; y++)
 	        {	 
 				if(x == rp.x || x == rp.x+rp.w-1)
-					tiles[x][y][rp.z] = t.lrw ;
+					tiles[x][y][rp.z].setTile(t.lrw) ;
 				else if (y == rp.y || y == rp.y+rp.h-1)
-					tiles[x][y][rp.z] = t.tbw;
+					tiles[x][y][rp.z].setTile(t.tbw);
 				else
 				{
-					tiles[x][y][rp.z] = Tile.INSIDE_FLOOR;
+					tiles[x][y][rp.z].setTile(Tile.INSIDE_FLOOR);
 					spawnPoints.add(new Point(x, y, rp.z));
 				}
 				occupiedPoints.add(new Point(x, y, rp.z));
 	        }
 	    }
-		tiles[rp.x][rp.y][rp.z] = t.tlc;
-		tiles[rp.x+rp.w-1][rp.y][rp.z] = t.trc;
-		tiles[rp.x][rp.y+rp.h-1][rp.z] = t.blc;
-		tiles[rp.x+rp.w-1][rp.y+rp.h-1][rp.z] = t.brc;
+		tiles[rp.x][rp.y][rp.z].setTile(t.tlc);
+		tiles[rp.x+rp.w-1][rp.y][rp.z].setTile(t.trc);
+		tiles[rp.x][rp.y+rp.h-1][rp.z].setTile(t.blc);
+		tiles[rp.x+rp.w-1][rp.y+rp.h-1][rp.z].setTile(t.brc);
 		}
 		else
 			System.out.println("The room was NOT built");		/*
@@ -295,7 +295,7 @@ public class PlanetPrinter
 	public PlanetPrinter smoothSpawns()
 	{
 		for(Point p: spawnPoints)
-			tiles[p.x][p.y][p.z] = Tile.INSIDE_FLOOR;
+			tiles[p.x][p.y][p.z].setTile(Tile.INSIDE_FLOOR);
 		
 		return this;
 		

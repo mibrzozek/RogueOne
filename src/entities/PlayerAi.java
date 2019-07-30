@@ -84,7 +84,7 @@ public class PlayerAi extends EntityAi
 			return false;
 		for (Point p : new Line(entity.x, entity.y, wx, wy))
 		{
-			if (entity.tile(p.x, p.y, wz).isGround() || entity.tile(p.x, p.y, wz).isStructure() || p.x == wx && p.y == wy)
+			if (entity.tile(p.x, p.y, wz).isGround() || entity.isLookingAtStructure(p.x, p.y, wz) || p.x == wx && p.y == wy)
 				continue;
 
 			return false;

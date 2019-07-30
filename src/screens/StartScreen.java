@@ -7,10 +7,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import asciiPanel.AsciiPanel;
 import structures.RexReader;
 import structures.TileEngine;
+import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
 import wolrdbuilding.TilePoint;
 import wolrdbuilding.TileSet;
@@ -18,6 +20,7 @@ import wolrdbuilding.TileSet;
 public class StartScreen implements Screen
 {
 	AsciiPanel terminal;
+	private HashMap<String, ArrayList<TilePoint>> structureMap;
 	//playScreen
 
 	
@@ -30,6 +33,9 @@ public class StartScreen implements Screen
 	@Override
 	public void displayOutput(AsciiPanel terminal) 
 	{
+
+
+
 		TileEngine.renderBox(terminal, sw, sh, 0, 0,  TileSet.SIMPLE);
 		TileEngine.renderBox(terminal, 45, 22, 20, 10,  TileSet.SIMPLE);
 		
@@ -40,15 +46,26 @@ public class StartScreen implements Screen
 		terminal.writeCenter("LOAD [space]", 20);
 		terminal.writeCenter("LOSE [ esc ]", 21);
 
+		structureMap = new RexReader().getStructures();
+		ArrayList<TilePoint> testStructure = structureMap.get("ascciWorld.csv");
 		/*
-		ArrayList<TilePoint> testStructure = RexReader.getStructure();
 		while(!testStructure.isEmpty())
 		{
 			TilePoint t = testStructure.remove(0);
 			terminal.write(t.glyph(), t.x(), t.y(), t.foreground(), t.background());
 		}
-		//renderBox(terminal, 25, 25, 30, 5);
 		*/
+		//testStructure = structureMap.get("ascciWorld.csv");
+		TileEngine.renderBox(terminal, 45, 22, 20, 10,  TileSet.SIMPLE);
+		TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 15, 8, 35, 18, Palette.darkGray);
+
+		terminal.writeCenter("PLAY [enter]", 19);
+		terminal.writeCenter("LOAD [space]", 20);
+		terminal.writeCenter("LOSE [ esc ]", 21);
+		terminal.write("!", 83, 73 );
+
+		//renderBox(terminal, 25, 25, 30, 5);
+
 	}
 	// Using Serialization we are able to save the PlayScreen instance
 	// and reload it, setting the old screen as the current screen!

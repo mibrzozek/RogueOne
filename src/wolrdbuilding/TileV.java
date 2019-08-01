@@ -2,8 +2,9 @@ package wolrdbuilding;
 
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class TileV
+public class TileV implements Serializable
 {
     private int asciiValue;
 
@@ -120,7 +121,7 @@ public class TileV
     }
     public boolean isFloor()
     {
-        return isFloor;
+        return t.isFloor();
     }
     public boolean isStructure()
     {

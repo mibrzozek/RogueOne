@@ -152,7 +152,7 @@ public class TargetingScreen implements Screen
 		if(exitGame)
 		{
 			exitGame = false;
-			return new StartScreen();
+			return new StartScreen(terminal);
 		}
 	return this;
 

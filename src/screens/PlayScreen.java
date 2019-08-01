@@ -246,9 +246,9 @@ public class PlayScreen implements Screen
         for (Item item : player.inventory().getItems())
         {
             if (item != null && item.name().equals("Teddy Bear"))
-                return new WinScreen();
+                return new WinScreen(terminal);
         }
-        return new LoseScreen();
+        return new LoseScreen(terminal);
     }
     public void saveGame()
     {
@@ -313,7 +313,7 @@ public class PlayScreen implements Screen
 					break;
 				}case KeyEvent.VK_L: subScreen = new KeyInputScreen(terminal,this, 20, 15, 8); break;
         		case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(player,terminal, this); break;
-        		case KeyEvent.VK_ENTER: return new WinScreen();
+        		case KeyEvent.VK_ENTER: return new WinScreen(terminal);
         		case KeyEvent.VK_F: 
         		{
         			if(world.tile(player.x, player.y, player.z).getTile() == Tile.TERMINAL_ACESS)
@@ -342,7 +342,7 @@ public class PlayScreen implements Screen
         			else
         				subScreen = new InventoryScreen(player, terminal, true); break;
         		}
-        		case KeyEvent.VK_1: subScreen = new AnimationScreen(); break;
+        		case KeyEvent.VK_1: ; break;
         		// Planar Scrolling
         		case KeyEvent.VK_NUMPAD4:
         		case KeyEvent.VK_LEFT:
@@ -384,12 +384,12 @@ public class PlayScreen implements Screen
 			}
 		}
 		if (player.stats.getVitals() < 1)
-		    return new LoseScreen();
+		    return new LoseScreen(terminal);
 		
 		if(exitGame)
 		{
 			exitGame = false;
-			return new StartScreen();
+			return new StartScreen(terminal);
 		}
 		return this;	
 	}

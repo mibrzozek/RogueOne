@@ -6,9 +6,15 @@ import asciiPanel.AsciiPanel;
 
 public class WinScreen implements Screen 
 {
+	AsciiPanel terminal;
+
+	public WinScreen(AsciiPanel terminal)
+	{
+		this.terminal = terminal;
+	}
 
 	@Override
-	public void displayOutput(AsciiPanel terminal) 
+	public void displayOutput(AsciiPanel terminal)
 	{
 	    terminal.write("You won.", 1, 1);
         terminal.writeCenter("-- press [enter] to restart --", 22);
@@ -17,7 +23,7 @@ public class WinScreen implements Screen
 	@Override
 	public Screen respondToUserInput(KeyEvent key) 
 	{
-		return key.getKeyCode() == KeyEvent.VK_ENTER ? new PlayScreen() : this;
+		return key.getKeyCode() == KeyEvent.VK_ENTER ? new StartScreen(terminal) : this;
 		
 	}
 

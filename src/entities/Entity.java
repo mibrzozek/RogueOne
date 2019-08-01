@@ -198,19 +198,19 @@ public class Entity implements Serializable
     public void useDevice()
     {
     	notify("Device out!");
-    	
+
     	if(inventory.getDevice() != null 
     			&& inventory.getDevice().type().equals(Type.DEVICE)
-				&& isNextToWall())
+				)
     	{
     		//inventory.removeEquiped(inventory.getDevice())
 
 
-    		if(plasmaValue > 50)
+    		if(plasmaValue > 50
+					&& world.tunnelExplosion(this.direction, inventory.getDevice().value()))
     			plasmaValue -= 50;
     		else 
     			return;
-    		world.tunnelExplosion(this.direction, inventory.getDevice().value());	
     	}
     }
     public boolean isNextToWall()

@@ -12,6 +12,7 @@ import entities.EntityFactory;
 import entities.FieldOfView;
 import entities.Statistics;
 import items.ItemFactory;
+import structures.RexReader;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.TilePoint;
@@ -29,7 +30,7 @@ public class CharacterCreationScreen implements Screen
 	ArrayList<String> fields;
 	
 	private Statistics stats;
-	private String customString = "Hello";
+	private String customString = "Press enter to type...";
 	
 	private int scrollX = 19;
 	private int scrollY = 8;
@@ -38,6 +39,9 @@ public class CharacterCreationScreen implements Screen
 	ArrayList<TilePoint> m1;
 	ArrayList<TilePoint> m2;
 	ArrayList<TilePoint> m3;
+
+	ArrayList<TilePoint> background;
+
 	private boolean rendered =  false;
 	
 	public CharacterCreationScreen()
@@ -54,6 +58,9 @@ public class CharacterCreationScreen implements Screen
 		fields.add("Skills");
 		
 		stats = new Statistics();
+		RexReader rex = new RexReader();
+		background = new ArrayList<>();
+		background = (ArrayList<TilePoint>) rex.getStructures().get("ascciWorld.csv");
 	}
 	@Override
 	public void displayOutput(AsciiPanel terminal)
@@ -82,7 +89,7 @@ public class CharacterCreationScreen implements Screen
 		ArrayList display = stats.displayStats();
 		
 		terminal.write(stats.getPoints() + "", 20, 6);
-		for(int i = 0; i < fields.size(); i++) // Sewtting displayed
+		for(int i = 0; i < fields.size(); i++) // Displays all the fields
 		{
 			int y = 8+i;
 			
@@ -111,6 +118,9 @@ public class CharacterCreationScreen implements Screen
 			((EscapeScreen) subScreen).displayOutput(terminal);
 	    	((EscapeScreen) subScreen).write(terminal); 
 	    }
+		if(subScreen instanceof AnimationScreen) {
+			((AnimationScreen) subScreen).displayOutput(terminal);
+		}
 		
 	}
 	public void setCustomString(String s)
@@ -202,7 +212,7 @@ public class CharacterCreationScreen implements Screen
 		if(exitGame)
 		{
 			exitGame = false;
-			return new StartScreen();
+			return new StartScreen(terminal);
 		}
 		return this;
 	}

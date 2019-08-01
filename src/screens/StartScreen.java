@@ -21,50 +21,43 @@ public class StartScreen implements Screen
 {
 	AsciiPanel terminal;
 	private HashMap<String, ArrayList<TilePoint>> structureMap;
+	ArrayList<TilePoint> testStructure;
 	//playScreen
-
+	private boolean rendered = false;
+	private Screen subscreen;
 	
 	
-	public StartScreen()
+	public StartScreen(AsciiPanel terminal)
 	{
-
+		this.terminal = terminal;
+		testStructure = new ArrayList<>();
+		structureMap = new RexReader().getStructures();
 	}
 	
 	@Override
 	public void displayOutput(AsciiPanel terminal) 
-	{
-
-
-
-		TileEngine.renderBox(terminal, sw, sh, 0, 0,  TileSet.SIMPLE);
-		TileEngine.renderBox(terminal, 45, 22, 20, 10,  TileSet.SIMPLE);
-		
-		terminal.writeCenter("_Abandoned_Project_" + Tile.dblTLC.glyph(), 13);
-		terminal.writeCenter("- a quest for answers -", 15);
-		
-		terminal.writeCenter("PLAY [enter]", 19);
-		terminal.writeCenter("LOAD [space]", 20);
-		terminal.writeCenter("LOSE [ esc ]", 21);
-
-		structureMap = new RexReader().getStructures();
-		ArrayList<TilePoint> testStructure = structureMap.get("ascciWorld.csv");
-		/*
-		while(!testStructure.isEmpty())
+	{	this.terminal = terminal;
+		if(!rendered)
 		{
-			TilePoint t = testStructure.remove(0);
-			terminal.write(t.glyph(), t.x(), t.y(), t.foreground(), t.background());
-		}
-		*/
-		//testStructure = structureMap.get("ascciWorld.csv");
-		TileEngine.renderBox(terminal, 45, 22, 20, 10,  TileSet.SIMPLE);
-		TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 15, 8, 35, 18, Palette.darkGray);
+			testStructure = structureMap.get("ascciWorld.csv");
+			testStructure = TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 15, 5, 35, 18, Palette.darkGray);
+			System.out.println(testStructure.size());
 
+			testStructure.addAll(TileEngine.renderFrame(terminal, 16, 7, 34, 17, TileSet.DOUBLE, Palette.gray));
+			System.out.println(testStructure.size());
+			testStructure.addAll(TileEngine.renderBox(terminal, 14, 5, 35, 18, TileSet.SIMPLE));
+			System.out.println(testStructure.size());
+			rendered = true;
+		}
+		else
+		{
+			System.out.println("From rendered " + testStructure.size());
+			TileEngine.sparkleAnime(testStructure);
+			TileEngine.displayTilesWithTransparentBox(terminal, testStructure, null, null, null, null, null);
+		}
 		terminal.writeCenter("PLAY [enter]", 19);
 		terminal.writeCenter("LOAD [space]", 20);
 		terminal.writeCenter("LOSE [ esc ]", 21);
-		terminal.write("!", 83, 73 );
-
-		//renderBox(terminal, 25, 25, 30, 5);
 
 	}
 	// Using Serialization we are able to save the PlayScreen instance
@@ -87,22 +80,31 @@ public class StartScreen implements Screen
 		
 		return savedScreen;
 	}
-	
+	public void write(String s)
+	{
+		terminal.write(s, 10, 30, Color.white);
+	}
 	// Takes key event handled by main frame and returns a win or lose screen
 	@Override
 	public Screen respondToUserInput(KeyEvent key) 
 	{
 		switch (key.getKeyCode())
 		{
-	    	case KeyEvent.VK_ESCAPE: return new LoseScreen();
-	      	case KeyEvent.VK_ENTER: return new CharacterCreationScreen();
-	      	case KeyEvent.VK_SPACE: 
-	      	try
+	    	case KeyEvent.VK_ESCAPE: return new LoseScreen(terminal);
+	      	case KeyEvent.VK_ENTER:
 			{
-	      		return loadSavedScreen();
-			} catch (IOException e)
+				return new CharacterCreationScreen();
+			}
+			case KeyEvent.VK_SPACE:
 			{
-				e.printStackTrace();
+				try
+				{
+					return loadSavedScreen();
+				}
+				catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	    return this;

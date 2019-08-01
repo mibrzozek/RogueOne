@@ -73,7 +73,7 @@ public class RexReader
             }
         });
 
-        System.out.println(files[0]);
+        //System.out.println(files[0] + "hi form Rex");
 
         for(int i = 0; i < files.length; i++)
         {

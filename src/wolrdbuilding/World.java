@@ -106,8 +106,10 @@ public class World implements Serializable
 		if (tile(x, y, z).isDiggable())
 			tiles[x][y][z].setGlyph(Tile.FLOOR);
 	}
-	public void tunnelExplosion(int direction, int distance)
+	public boolean tunnelExplosion(int direction, int distance) // returns true is tiles were blasted
 	{
+		boolean blasted  = false;
+
 		int mx = 0, my= 0;
 		
 		if(direction == 0)
@@ -149,7 +151,9 @@ public class World implements Serializable
 		
 		for(int i = 0; i < distance; i++)
 		{
-			if(!tiles[player.x +mx][player.y + my][player.z].isFloor() && !tiles[player.x +mx][player.y + my][player.z].isStructure())
+			System.out.println(tiles[player.x +mx][player.y + my][player.z].getTile().toString());
+
+			if(!tiles[player.x +mx][player.y + my][player.z].isGround() && !tiles[player.x +mx][player.y + my][player.z].isStructure())
 			{
 				blastTerrain(player.x + mx, player.y + my, player.z);
 				if(my < 0)
@@ -161,11 +165,13 @@ public class World implements Serializable
 					--mx;
 				else if(mx > 0)
 					++mx;
+
+				blasted = true;
 			}
 			else
 				i = distance;
-
 		}
+		return blasted;
 	}
 	public void blastTerrain(int x, int y, int z)
 	{

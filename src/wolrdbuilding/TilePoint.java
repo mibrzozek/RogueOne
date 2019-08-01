@@ -8,7 +8,7 @@ public class TilePoint implements Serializable
 	private	char glyph;
 	private Color color, fColor, bColor;
 	private  int x, y, ascii;
-
+	private Point p;
 
 	public TilePoint(int x, int y, int ascii, Color fColor, Color bColor)
 	{
@@ -28,12 +28,15 @@ public class TilePoint implements Serializable
 	}
 	
 	public void setGlyph(char glyph)		{ this.glyph = glyph; }
-	public void setColor(Color color)		{ this.color = color; }
+	public void setForeColor(Color color)		{ this.fColor = color; }
+	public void setBackColor(Color color)		{ this.bColor = color; }
 	public void setX(int x)					{ this.x = x; }
-	public void setYlyph(int y)				{ this.y = y; }
+	public void setY(int y)				{ this.y = y; }
+	public void setPoint(Point p)			{this.p = p;	}
 	
 	public char glyph()		{ return this.glyph; }
 	public Color color()	{ return this.color; }
+	public Point point() 	{ return p;	}
 
 	public Color foreground()	{ return this.fColor; }
 	public Color background()	{ return this.bColor; }
@@ -53,6 +56,7 @@ public class TilePoint implements Serializable
 		TilePoint tp = null;
 		if(obj instanceof TilePoint)
 			tp = (TilePoint)obj;
+		else return false;
 		
 		if(tp != null)
 		{

@@ -15,11 +15,12 @@ public class LoseScreen implements Screen
 	private Entity player;
 	ArrayList<TilePoint> m1;
 	private boolean rendered = false;
+	private AsciiPanel terminal;
 	
 	
-	public LoseScreen()
+	public LoseScreen(AsciiPanel terminal)
 	{
-		
+		this.terminal = terminal;
 	}
 	public LoseScreen(Entity player)
 	{
@@ -48,7 +49,7 @@ public class LoseScreen implements Screen
 	@Override
 	public Screen respondToUserInput(KeyEvent key) 
 	{
-		return key.getKeyCode() == KeyEvent.VK_ENTER ? new StartScreen() : this;	
+		return key.getKeyCode() == KeyEvent.VK_ENTER ? new StartScreen(terminal) : this;
 	}
 	@Override
 	public Screen returnScreen(Screen screen)

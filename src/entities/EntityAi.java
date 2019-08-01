@@ -45,7 +45,7 @@ public class EntityAi implements Serializable
     
     public void onEnter(int x, int y, int z, Tile tile) 
     { 
-    	if (tile.isGround())
+    	if (tile != null && tile.isGround())
         {
     		
         	entity.x = x;

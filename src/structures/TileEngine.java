@@ -1,7 +1,6 @@
 package structures;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -10,10 +9,7 @@ import asciiPanel.AsciiPanel;
 import entities.Entity;
 import items.Item;
 import screens.Message;
-import wolrdbuilding.Palette;
-import wolrdbuilding.Tile;
-import wolrdbuilding.TilePoint;
-import wolrdbuilding.TileSet;
+import wolrdbuilding.*;
 
 public class TileEngine
 {
@@ -21,14 +17,34 @@ public class TileEngine
 	private static final Color DEFAULT_F_COLOR = Palette.darkGray;
 	private static Color fColor = DEFAULT_F_COLOR;
 
-	
-	public static void displayTilesWithTransparentBox(AsciiPanel terminal, ArrayList<TilePoint> tileMap, 
+
+	public static void loadingAnimation(AsciiPanel terminal)
+	{
+		System.out.println("in animation");
+		terminal.write("Center loaidng", 20, 2);
+		renderBox(terminal, 83, 6, 1, 30, TileSet.SIMPLE, Palette.lightGray);
+		try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("out animation");
+	}
+	public static ArrayList<TilePoint> displayTilesWithTransparentBox(AsciiPanel terminal, ArrayList<TilePoint> tileMap,
 			Integer gw, Integer gh, Integer gx, Integer gy, Color c)
 	{
+		ArrayList<TilePoint> tiles = new ArrayList<>();
+
+
 		for (TilePoint tile : tileMap)
-		{ 
+		{
+			tiles.add(tile);
+			//System.out.println(tileMap.size());
+			//System.out.println(tiles.size());
 			if(gx == null)
+			{
 				terminal.write(tile.glyph(), tile.x(), tile.y(), tile.foreground());
+			}
 			else
 			{
 				if(tile.x() >= gx && tile.x() < gx + gw -1
@@ -44,6 +60,8 @@ public class TileEngine
 					terminal.write(tile.glyph(), tile.x(), tile.y(), tile.foreground());
 			}
 		}
+
+		return tiles;
 	}
 	
 	public static ArrayList<TilePoint> growTilesEffect(ArrayList<TilePoint> tileMap)
@@ -58,12 +76,75 @@ public class TileEngine
 		
 		return null;
 	}
+	public static ArrayList<TilePoint> sparkleAnime(ArrayList<TilePoint> tileMap)
+	{
+		ArrayList<TilePoint> rPoints = new ArrayList<TilePoint>();
+		ArrayList<Integer> indicies = new ArrayList();
+
+		for (int i = 0; i < (tileMap.size() * .90); i++) // get random points
+		{
+			int rIndex = r.nextInt(tileMap.size() - 1);
+			indicies.add(rIndex);
+
+			TilePoint rTile = tileMap.get(rIndex);
+			rPoints.add(rTile);
+		}
+
+		if((r.nextInt(3) + 1) == 1) // removes random points
+			//tileMap.removeAll(rPoints);
+
+		for(Integer i : indicies)
+		{
+			TilePoint t = tileMap.get(i);
+			if(t.ascii() != 32)
+			{
+				//t.setGlyph((char)r.nextInt((250)));
+				//t.setForeColor(Palette.darkGray);
+				int d = r.nextInt(4);
+
+				if(d == 0) // north
+				{
+					if(t.y() - 1 > 0)
+						t.setY(t.y() - 1);
+				}
+				if(d == 1) // East
+				{
+					if(t.x() + 1 < 85)
+						t.setX(t.x() + 1);
+				}
+				if(d == 3) // South
+				{
+					if(t.y() + 1 < 65)
+						t.setY(t.y() + 1);
+				}
+				if(d == 4) // West
+				{
+					if(t.x() - 1 > 0)
+						t.setX(t.x() - 1);
+				}
+			}
+		}
+		//tileMap.addAll(rPoints);
+
+		return null;
+	}
+
+	 static TilePoint getPointThatIsNot(int ascii, ArrayList<TilePoint> list)
+	{
+		TilePoint t;
+		do
+		{
+			t = list.get(r.nextInt(list.size()-1));
+		}while (t.ascii() != ascii);
+
+		return t;
+	}
 	public static ArrayList<TilePoint> animateBox(ArrayList<TilePoint> tileMap)
 	{
 		ArrayList<TilePoint> rPoints = new ArrayList<TilePoint>();
 		ArrayList indicies = new ArrayList();
 		
-		for(int i = 0; i < (tileMap.size() / 20); i++)
+		for(int i = 0; i < (tileMap.size() / 20); i++) // Get some random points
 		{
 			int rIndex = r.nextInt(tileMap.size()-1);
 			indicies.add(rIndex);
@@ -71,7 +152,7 @@ public class TileEngine
 			TilePoint rTile = tileMap.get(rIndex);
 			rPoints.add(rTile);
 		}
-		if((r.nextInt(3) + 1) == 1)
+		if((r.nextInt(3) + 1) == 1) // removes random points
 			tileMap.removeAll(rPoints);
 
 		for(TilePoint t : rPoints)
@@ -128,6 +209,41 @@ public class TileEngine
 
 		return null;
 	}
+	public static ArrayList<TilePoint> renderFrame(AsciiPanel terminal, int fw, int fh, int fx, int fy, TileSet ts, Color c)
+	{
+		ArrayList<TilePoint> tileMap = new ArrayList<>();
+
+
+		for(int y = fy; y < fy+fh ; y++)
+		{
+			for(int x = fx; x < fx+fw; x++)
+			{
+				if(x == fx || x == fx+fw-1) // draws Left Right Wall and saves in list
+				{
+					tileMap.add(new TilePoint(ts.lrw().glyph(), c, x, y));
+					terminal.write(ts.lrw().glyph(), x, y, c);
+				}
+				else if (y == fy || y == fy+fh-1) // draws Top Bottom Wall and saves in list
+				{
+					tileMap.add(new TilePoint(ts.tbw().glyph(), c, x, y));
+					terminal.write(ts.tbw().glyph(), x, y, c);
+				}
+			}
+		}
+		terminal.write(ts.tlc().glyph(),fx, fy,  c);
+		tileMap.add(new TilePoint(ts.tlc().glyph(), c, fx, fy));
+
+		terminal.write(ts.trc().glyph(),fx + fw -1, fy,  c);
+		tileMap.add(new TilePoint(ts.trc().glyph(), c, fx + fw -1, fy));
+
+		terminal.write(ts.blc().glyph(),fx, fy + fh -1,  c);
+		tileMap.add(new TilePoint(ts.blc().glyph(), c, fx, fy + fh -1));
+
+		terminal.write(ts.brc().glyph(),fx + fw -1, fy+ fh - 1,  c);
+		tileMap.add(new TilePoint(ts.brc().glyph(), c, fx + fw -1, fy+ fh - 1));
+
+		return tileMap;
+	}
 	public static ArrayList<TilePoint> renderBox(AsciiPanel terminal, int bw, int bh, int bx, int by, TileSet ts, Color c)
 	{
 		fColor = c;
@@ -142,10 +258,15 @@ public class TileEngine
 		{
 			for(int x = bx; x < bx+bw; x++)
 			{
-				if(x == bx || x == bx+bw-1)
+				if(x == bx || x == bx+bw-1) {
 					terminal.write(ts.lrw().glyph(), x, y, fColor);
+					tileMap.add(new TilePoint(ts.lrw().glyph(), fColor, x, y));
+				}
 				else if (y == by || y == by+bh-1)
-					terminal.write(ts.tbw().glyph(), x, y,  fColor);
+				{
+					terminal.write(ts.tbw().glyph(), x, y, fColor);
+					tileMap.add(new TilePoint(ts.tbw().glyph(), fColor, x, y));
+				}
 				else
 				{
 					if(bw < 85)
@@ -162,12 +283,17 @@ public class TileEngine
 			}
 		}
 		terminal.write(ts.tlc().glyph(),bx, by,  fColor);
+		tileMap.add(new TilePoint(ts.tlc().glyph(), fColor, bx, by));
+
 		terminal.write(ts.trc().glyph(),bx + bw -1, by,  fColor);
+		tileMap.add(new TilePoint(ts.trc().glyph(), fColor, bx + bw -1, by));
+
 		terminal.write(ts.blc().glyph(),bx, by + bh -1,  fColor);
+		tileMap.add(new TilePoint(ts.blc().glyph(), fColor, bx, by + bh -1));
+
 		terminal.write(ts.brc().glyph(),bx + bw -1, by+ bh - 1,  fColor);
-		
-		
-		
+		tileMap.add(new TilePoint(ts.brc().glyph(), fColor, bx + bw -1, by+ bh - 1));
+
 		return tileMap;
 	}
 	

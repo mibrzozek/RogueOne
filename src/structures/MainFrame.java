@@ -60,14 +60,14 @@ public class MainFrame extends JFrame implements KeyListener
 	public MainFrame()
 	{
 		super(" Abandoned");
-		this.setSize(1036, 787);
-		this.setResizable(true);
+		this.setResizable(false);
+		this.setSize(1026, 777);
 		// Starts app in center of screen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
 
 		terminal = new AsciiPanel(85, 75, AsciiFont.CP437_12x12);
-		screen = new StartScreen();
+		screen = new StartScreen(terminal);
 		
 		terminal.setDefaultBackgroundColor(DEFAULT_BACK);
 		terminal.setDefaultForegroundColor(DEFAULT_FORE);

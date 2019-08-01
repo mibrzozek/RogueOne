@@ -87,8 +87,8 @@ public class Dungeon
 		buildRoom(rp, TileSet.DOUBLE);
 
 		//buildPlasmaBlock(rp, 7);
-		buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_6.csv")), new Point(rp.x + 4, rp.y + 4, 0));
-		buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_7.csv")), new Point(rp.x + 4, rp.y + 4, 0));
+		buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_11" +
+				".csv")), new Point(rp.x + 4, rp.y + 4, 0));
 
 		startingPoints = getOpenPointFromRegion(rp.point(), 15, 15);
 		// Removes spawn points for enemies form starting area
@@ -148,51 +148,6 @@ public class Dungeon
 
 		return cp;
 	}
-	/*
-	private void makeLaserTraps()
-	{
-		//find random inside point next to a wall
-		// see if corridor
-		// connect
-
-		for(int i = 0; i < 15; i++)
-		{
-			CorridorPoint cp = getCorridorPoint();
-			//tiles[cp.x][cp.y][cp.z] = Tile.PLASMA_CANISTER_2;
-
-			makeLine(cp.point(), cp.getdOfHall(), cp.getHallLength());
-		}
-	}
-
-	private void makeLine(Point p, Direction d, int length)
-	{
-		int movement = 1, corridor = 7;
-
-		if(d.equals(Direction.WEST) || d.equals(Direction.NORTH))
-			movement = -1;
-
-		for(int i = 0; i < length; i++)
-		{
-			if(p.x > 199 || p.x < 1 || p.y > 199 || p.y < 1 || tiles[p.x][p.y][p.z].isRoom()) {
-				i = length;
-				return;
-			}
-			if(d.equals(Direction.WEST) || d.equals(Direction.EAST))
-			{
-				if(tiles[p.x][p.y][p.z].isFloor())
-					tiles[p.x][p.y][p.z] = Tile.LEFT_RIGHT_SINGLE_LASER;
-				p.x += movement;
-			}
-			else
-			{
-				if(tiles[p.x][p.y][p.z].isFloor())
-					tiles[p.x][p.y][p.z] = Tile.UP_DOWN_SINGLE_LASER;
-				p.y += movement;
-			}
-		}
-	}
-	*/
-
 	public boolean bound(Point p)
 	{
 		int bound = 30;

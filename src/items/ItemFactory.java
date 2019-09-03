@@ -185,11 +185,11 @@ public class ItemFactory implements Serializable
 	}
 	public Item newCyberneticSyringe()
 	{
-		Item cyberneticSyringe = new Item((char)92, AsciiPanel.cyan, Type.MELEE,
+		Item cyberneticSyringe = new Item((char)92, AsciiPanel.cyan, Type.VISION,
 				"Cybernetic Syringe", 
 				"A junkie needle. Blunt like a butter knife, and dirty like the underside of a dead plasma rat. Good for shooting up and passing around diseases.",
 				0, 0
-				, 15);
+				, 10);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), cyberneticSyringe);
 		return cyberneticSyringe;

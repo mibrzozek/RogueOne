@@ -21,6 +21,7 @@ public class Dungeon
 	private List<List> regionList;
 
 	private HashMap<String, ArrayList<TilePoint>> structureMap;
+	private HashMap<Integer, ArrayList<TilePoint>> partsMap;
 	
 	private Random r =  new Random();
 	
@@ -45,6 +46,7 @@ public class Dungeon
 
 		RexReader rex = new RexReader();
 		this.structureMap = rex.getStructures();
+		this.partsMap = rex.getDecorations();
 	}
 	public TileV[][][] getNewDungeon()
 	{
@@ -73,7 +75,42 @@ public class Dungeon
 		makeStairsDown();
 		makeLaserTraps();
 		makeStartingRoom();
+		addRoomDecor();
+		spawnMethane();
 		
+	}
+	public void spawnMethane()
+	{
+		for(int i = 0; i < 30; i++) {
+			Point p = new Point(0, 0, 0);
+			Boolean found = false;
+
+			do {
+				int x = r.nextInt(width);
+				int y = r.nextInt(height);
+
+				TileV tv = tiles[x][y][0];
+				if (tv.getTile() == Tile.INSIDE_FLOOR) {
+					found = true;
+					p = new Point(x, y, 0);
+				}
+			} while (!found);
+
+			System.out.println("FIRST CLOUD : " + p.toString());
+
+			List<Point> cloud = p.neighbors8();
+			List<Point> cloud1 = cloud.get(r.nextInt(cloud.size())).neighbors8();
+			List<Point> cloud2 = cloud.get(r.nextInt(cloud.size())).neighbors8();
+
+			cloud.addAll(cloud1);
+			cloud.addAll(cloud2);
+
+			for (Point ps : cloud) {
+				if (tiles[ps.x][ps.y][ps.z].getTile() == Tile.INSIDE_FLOOR) {
+					tiles[ps.x][ps.y][ps.z] = new TileV(Tile.METHANE);
+				}
+			}
+		}
 	}
 	public RoomPoint makeStartingRoom()
 	{
@@ -99,16 +136,71 @@ public class Dungeon
 		}
 		return rp;
 	}
+	public void addRoomDecor()
+	{
+		int numDecor = partsMap.keySet().size();
+		ArrayList<TilePoint> list;
+		ArrayList<Point> builtP = new ArrayList<>();
+		Point p= new Point(0, 0, 0);
+
+		for(int j = 0; j < 200; j++)
+		{
+			list = partsMap.get(r.nextInt(numDecor));
+
+			System.out.println(partsMap.size() + " map size");
+			boolean found = false;
+			do
+			{
+				p = new Point(r.nextInt(width -13), r.nextInt(height-13), 0);
+				TileV tile = tiles[p.x][p.y][0];
+
+				if (tile.getTile() == Tile.simpleTBW)
+				{
+					boolean clear = true;
+					for (int i = 0; i < list.size(); i++)
+					{
+						if(i + p.x > width)
+							i = 13;
+						System.out.println(list.size());
+						if (tiles[p.x + i][p.y][0].getTile() != Tile.simpleTBW)
+						{
+							clear = false;
+						}
+						System.out.println(tiles[p.x + i][p.y][0].getTile() );
+					}
+					if (clear)
+						found = true;
+				}
+			} while (!found);
+
+			for(TilePoint tp : list)
+			{
+				tp.setY(0);
+			}
+			buildStructure(list, p);
+			builtP.add(p);
+		}
+
+		System.out.println("\t\t All point where decor goes" + "\n" + builtP.toString());
+		System.out.println(p.toString() + " " + tiles[p.x][p.y][0].getTile());
+
+		System.out.println(partsMap.size() + " map size");
+	}
 	public void buildStructure(ArrayList<TilePoint> structure, Point p)
 	{
 		//System.out.println(structure.size() + " from the new method");
+		ArrayList<TilePoint> copy = structure;
+
 		while(!structure.isEmpty())
 		{
 			TilePoint t = structure.remove(0);
-			System.out.println(t.toString());
+			if(t.ascii() == 250)
+				continue;
+			//System.out.println("In dungeon " + t.toString());
 
-			tiles[p.x + 5 + t.x()][p.y + 5 + t.y()][p.z].setTile((char)t.ascii(), t.foreground(), t.background(), true);
+			tiles[p.x + t.x()][p.y + t.y()][p.z].setTile((char)t.ascii(), t.foreground(), t.background(), true);
 		}
+		structure = copy;
 	}
 	
 	public ArrayList<Point> getOpenPointFromRegion(Point p, int w, int h)

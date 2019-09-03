@@ -5,9 +5,11 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import asciiPanel.AsciiPanel;
+import structures.Console;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
+import wolrdbuilding.TileSet;
 
 public class KeyInputScreen implements Screen
 {
@@ -15,6 +17,7 @@ public class KeyInputScreen implements Screen
 	private int charLimit;
 	private boolean onlyNumbers = false;
 	private Screen screen;
+	private Console c;
 	
 	int x;
 	int y;
@@ -33,7 +36,7 @@ public class KeyInputScreen implements Screen
 		this.x = x;
 		this.y = y;
 	}
-	public KeyInputScreen(AsciiPanel terminal, Screen screen, int charLimit, int x, int y)
+	public KeyInputScreen(AsciiPanel terminal, Screen screen, int charLimit, int x, int y, Console c)
 	{
 		customString = "";
 		this.terminal = terminal;
@@ -41,19 +44,45 @@ public class KeyInputScreen implements Screen
 		this.charLimit = charLimit;
 		this.x = x;
 		this.y = y;
+		this.c = c;
 	}
 
 	
 	@Override
 	public void displayOutput(AsciiPanel terminal)
 	{
+		if(c != null)
+		{
+			int bh = c.getLog().size() + 3;
+
+			if(c.getLog().size() + 3 > 50)
+			{
+				bh = 50;
+			}
+
+			TileEngine.renderBox(terminal, 20, bh, x - 2, y-1, TileSet.SIMPLE);
+
+
+			for(int i = 0; i < c.getLog().size(); i++)
+			{
+				if(i < 47)
+					terminal.write(c.getLog().get(c.getLog().size()-i -1), x, y + 1 + i, Palette.darkGray);
+			}
+
+			terminal.write("console", x+10, y-1);
+		}
+
+
 		terminal.write((char)221, x, y, Palette.lightRed); 			// Cursor
 		terminal.write((char)175, x-1, y, Palette.lightRed);		// input begin
+
+
 		
 		int x1 = x;
 		
 		for(Character c : inputs)
-			terminal.write(c, x1++, y);
+			terminal.write(c, x1++, y, Palette.green);
+
 		
 		
 		/*
@@ -145,8 +174,15 @@ public class KeyInputScreen implements Screen
 					
 					if(screen instanceof CharacterCreationScreen)
 						((CharacterCreationScreen)screen).setCustomString(customString);
-					
-					return null;
+					else if(screen instanceof PlayScreen) {
+						((PlayScreen)screen).writeToConsole(customString);
+					}
+
+					customString= "";
+					inputs.clear();
+
+					if(c == null)
+						return null;
 				}
 				else
 					System.out.println("Not long enough name!");

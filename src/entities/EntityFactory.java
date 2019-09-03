@@ -99,6 +99,7 @@ public class EntityFactory implements Serializable
 		
 		player.inventory().add(new ItemFactory().newWallBomb());
 		player.inventory().add(new ItemFactory().newBioLard());
+		player.inventory().add(new ItemFactory().newMacroUzi());
 		
 		player.stats.setStealth(player.inventory().getStealthNumber());
 		

@@ -11,7 +11,8 @@ public enum Type
 	GUN, DEVICE, WEAPON, PART, MELEE,
 	CONSUMABLE,
 	VILE,
-	STEALTH;
+	STEALTH,
+	VISION;
 	
 	private Color color = setColor();
 	

@@ -25,6 +25,7 @@ public enum Tile
     BOUNDS('X', Palette.black),
     CURSOR('x', Palette.purple),
 
+
     // TRAPS / OBSTACLES / LAVA
     UP_DOWN_DBL_LASER((char)186, Palette.purple),
     LEFT_RIGHT_DBL_LASER((char)205, Palette.purple),
@@ -74,6 +75,16 @@ public enum Tile
 
     CARROT_UP_ARROW((char)94, Color.RED, true),
     DOUBLE_RIGHT_ARROW((char)175, Palette.purple, true),
+    // Fire
+    FIRE_ONE((char)34, Palette.yellow),
+    FIRE_TWO((char)39, Palette.lightRed),
+    FIRE_THREE((char)157, Palette.darkRed),
+    FIRE_FOUR((char)58, Palette.darkerRed),
+
+    BURNED_FLOOR_1((char)176, Palette.gray),
+    BURNED_FLOOR_2((char)177, Palette.darkerGray),
+    BURNED_FLOOR_3((char)178, Palette.darkerGray),
+    BURNED_FLOOR_4((char)250, Palette.darkestGray),
 
 
     // SIMPLE TO DOUBLE
@@ -163,7 +174,7 @@ public enum Tile
 	ROGUE( (char)146, Palette.red, Palette.lightRed),
 	MECH('M', Palette.paleWhite, Palette.lightRed),
 	JUNKIE('J', Palette.blue, Palette.lightRed),
-	;
+    METHANE('m',Palette.methane, Palette.darkestGray);
 	
 	private boolean swapable;
 	public Random r =  new Random();
@@ -198,6 +209,22 @@ public enum Tile
         this.color = color;
         this.backColor = backColor;
         this.tempColor = backColor;
+    }
+    public static Tile getFire()
+    {
+        if(Math.random() < 0.5)
+            return (Math.random() < 0.5 ? Tile.FIRE_ONE : Tile.FIRE_TWO);
+        else
+            return (Math.random() < 0.5 ? Tile.FIRE_THREE : Tile.FIRE_FOUR);
+
+    }
+    public static Tile getBurnedTile()
+    {
+        if(Math.random() < 0.5)
+            return (Math.random() < 0.5 ? Tile.BURNED_FLOOR_1 : Tile.BURNED_FLOOR_2);
+        else
+            return (Math.random() < 0.5 ? Tile.BURNED_FLOOR_3 : Tile.BURNED_FLOOR_4);
+
     }
     public static Tile returnTile(int c)
     {
@@ -326,7 +353,16 @@ public enum Tile
     public boolean isGround() {
         return this ==  Tile.FLOOR || this ==  Tile.INSIDE_FLOOR
         		|| this ==  Tile.BLASTED_TERRAIN || this == Tile.STAIRS_DOWN
-        		|| this == Tile.STAIRS_UP		 || this == Tile.TERMINAL_ACESS;
+        		|| this == Tile.STAIRS_UP		 || this == Tile.TERMINAL_ACESS
+                || this == Tile.METHANE || this == Tile.FIRE_ONE
+                || this == Tile.FIRE_TWO
+                || this == Tile.FIRE_THREE
+                || this == Tile.FIRE_FOUR
+                || this == Tile.BURNED_FLOOR_1
+                || this == Tile.BURNED_FLOOR_2
+                || this == Tile.BURNED_FLOOR_3
+                || this == Tile.BURNED_FLOOR_4
+                ;
     }
     public boolean isDiggable() 
     {
@@ -342,6 +378,11 @@ public enum Tile
         		|| this == Tile.simpleLRW || this == Tile.simpleTBW
         		|| this == Tile.simpleTLC || this == Tile.simpleTRC;
     }
+    public boolean isFire()
+    {
+        return this == Tile.FIRE_ONE || this == Tile.FIRE_TWO || this == Tile.FIRE_THREE;
+    }
+
     public boolean isWall() 
     {
         return this == Tile.WALL || this == Tile.RED_WALL; 

@@ -2,8 +2,10 @@ package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import asciiPanel.AsciiPanel;
+import entities.Effect;
 import entities.Entity;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
@@ -14,12 +16,15 @@ public class CharacterSheet implements Screen
 	private Screen subScreen;
 	private boolean exitGame;
 	private AsciiPanel terminal;
+	private int width, height;
 	
 	private Entity player;
 	
 	public CharacterSheet(Entity player)
 	{
 		this.player = player;
+		this.width = 31;
+		this.height = 40;
 	}
 	
 	@Override
@@ -51,7 +56,31 @@ public class CharacterSheet implements Screen
 		TileEngine.renderPercentBlocks(terminal, Palette.blue, 9, 31, player.stats.getInteligence(), 20);
 		terminal.write("Charism"+(char)195, 1, 32);
 		TileEngine.renderPercentBlocks(terminal, Palette.blue, 9, 32, player.stats.getCharisma(), 20);
-		
+
+		terminal.write("Effcts :", 1, 33);
+
+		ArrayList<Effect> effects = player.stats.getEffects();
+
+		if(!player.stats.getEffects().isEmpty())
+		{
+			int ex = 8;
+			int ey = 33;
+			for(Effect e : effects)
+			{
+				if(ex + e.getEffectTag().length() < width-1)
+				{
+					ex += e.getEffectTag().length() + 1;
+					terminal.write(e.getEffectTag() + " ", ex , ey, e.getGolor());
+				}
+				else
+				{
+					ey++;
+					ex = 1;
+					terminal.write(e.getEffectTag() + " ", ex, ey, e.getGolor());
+				}
+			}
+
+		}
 		
 	}
 

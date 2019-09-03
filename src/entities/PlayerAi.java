@@ -6,6 +6,7 @@ import java.util.List;
 import items.Item;
 import items.ItemFactory;
 import structures.Script;
+import wolrdbuilding.Palette;
 import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
 
@@ -51,7 +52,17 @@ public class PlayerAi extends EntityAi
             entity.x = x;
             entity.y = y;
             entity.z = z;
-        } 
+			if(tile == Tile.METHANE)
+			{
+				entity.setSpark();
+
+				System.out.println("Stepping on methane!");
+			}
+			if(tile.isFire())
+			{
+				entity.stats.addEffect(new Effect(Effect.Effects.BURN_1, "BURNED", Palette.lightRed));
+			}
+        }
     	else if (tile.isDiggable() && canMine()) 
         {
     		if(entity.plasma() > 10)

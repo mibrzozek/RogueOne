@@ -76,7 +76,7 @@ public class CharacterCreationScreen implements Screen
 		
 		if(rendered)
 		{
-			TileEngine.animateBox(m1);
+			TileEngine.sparkleAnime(m1);
 			TileEngine.renderBox(terminal, 50, 53, 18, 4, TileSet.SIMPLE);
 			TileEngine.displayTilesWithTransparentBox(terminal, m1, 50, 53, 18, 5, Palette.darkestGray);
 			
@@ -101,7 +101,28 @@ public class CharacterCreationScreen implements Screen
 			
 			if(y == 11)
 				y++;
-				
+		}
+
+		// Story synopsis
+
+		String story = "\tThe year is unknown. Your origin is unknown. Your earliest memories reach back to the day you were" +
+				" given your mission; get of the uninhabitable Earth. What made the Earth uninhabitable is vague, at the most." +
+				"The logs show this facility was constructed long after the events which damaged Earths magnetic field. " +
+				"One thing is certain, the motion of the Earth has slowed and the gravity has decreased. The logs always mention" +
+				" the 'Long War' as something partially responsible for the near extinction of humanity.\n" +
+				"\t'Near extinciton', you always remember. You're still here. Sector 2994, operated by Laura, the only companion you've" +
+				" had your entire life. You always thought there was another person on the other side of the screen when you talked" +
+				" to her. ";
+
+		Message m = new Message(story, 47);
+		ArrayList<String> print = m.getLines();
+
+		int ys = 20;
+		int xs = 20;
+
+		for(String s : print)
+		{
+			terminal.write(s, xs, ys++);
 		}
 			
 		terminal.write((char)175 + "", scrollX, scrollY, Palette.lightRed); // Cursor
@@ -156,7 +177,7 @@ public class CharacterCreationScreen implements Screen
     {
     	if(index == 0 || index == 1)
     	{
-    		subScreen = new KeyInputScreen(terminal, this, 30, 34, scrollY);
+    		subScreen = new KeyInputScreen(terminal, this, 30, 34, scrollY, null);
     	}
     	else if(index == 2 || index == 3 || index == 4 || index == 5)
     	{

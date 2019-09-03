@@ -81,7 +81,7 @@ public class TileEngine
 		ArrayList<TilePoint> rPoints = new ArrayList<TilePoint>();
 		ArrayList<Integer> indicies = new ArrayList();
 
-		for (int i = 0; i < (tileMap.size() * .90); i++) // get random points
+		for (int i = 0; i < (tileMap.size() * .50); i++) // get random points
 		{
 			int rIndex = r.nextInt(tileMap.size() - 1);
 			indicies.add(rIndex);
@@ -101,23 +101,25 @@ public class TileEngine
 				//t.setGlyph((char)r.nextInt((250)));
 				//t.setForeColor(Palette.darkGray);
 				int d = r.nextInt(4);
-
 				if(d == 0) // north
 				{
-					if(t.y() - 1 > 0)
-						t.setY(t.y() - 1);
+					if(t.y() + 1 > 65)
+						t.setY(t.y() + 1);
+					if(t.x() + 1 < 85)
+						t.setX(t.x() + 1);
+
 				}
 				if(d == 1) // East
 				{
 					if(t.x() + 1 < 85)
 						t.setX(t.x() + 1);
 				}
-				if(d == 3) // South
+				if(d == 2) // South
 				{
 					if(t.y() + 1 < 65)
 						t.setY(t.y() + 1);
 				}
-				if(d == 4) // West
+				if(d == 3) // West
 				{
 					if(t.x() - 1 > 0)
 						t.setX(t.x() - 1);

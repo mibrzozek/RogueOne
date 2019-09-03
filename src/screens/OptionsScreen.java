@@ -243,7 +243,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 			player.uniequipItem(equiped[itemIndex]);
 			player.inventory().moveToInventory(itemIndex);
 		}			
-		
+		player.updateStats();
 		
 	}
 	public void dropItem()

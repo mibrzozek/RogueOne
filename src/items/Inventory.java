@@ -9,12 +9,16 @@ import java.util.stream.Stream;
 
 public class Inventory implements Serializable
 {
-	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO};
+	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
 	
     private Item[] items;
     private Item[] equipped;
+
+    private int max;
     
     private List<Item> devices;
+	private List<Item> opticalEnhancers;
+
     private int deviceIndex = -1;
     
     private boolean fullyEquiped = false;
@@ -23,6 +27,7 @@ public class Inventory implements Serializable
 
     public Inventory(int max)
     {
+    	this.max = max;
         items = new Item[max];
         equipped = new Item[7];
     }
@@ -55,6 +60,18 @@ public class Inventory implements Serializable
     			deviceIndex++;
     	}
     }
+	public Item getVisionRadius()
+	{
+		opticalEnhancers = get(Type.VISION);
+		deviceIndex = 0;
+
+		if(opticalEnhancers.isEmpty())
+			return null;
+		else
+		{
+			return opticalEnhancers.get(deviceIndex);
+		}
+	}
     public Item getDevice()
     {
     	devices = get(Type.DEVICE);
@@ -176,14 +193,34 @@ public class Inventory implements Serializable
     		{
     			equipped[i] = items[index];
     			remove(items[index]);
+
     		}
     		if(equipped[equipped.length - 1] != null)
     			fullyEquiped = true;
     	}
     }
+    public void equipAll(Item ... toAdd)
+	{
+		for(Item item : toAdd)
+		{
+			for (int i = 0; i < equipped.length; i++)
+			{
+				if (equipped[i] == null)
+				{
+					equipped[i] = item;
+					break;
+				}
+			}
+		}
+	}
+	public void emptyBag()
+	{
+		items = new Item[max];
+		equipped = new Item[7];
+	}
     public void add(Item ... toAdd)
     {
-    	for( Item item : toAdd)
+    	for(Item item : toAdd)
     	{
     		for (int i = 0; i < items.length; i++)
     		{

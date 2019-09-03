@@ -26,6 +26,7 @@ import wolrdbuilding.*;
 
 public class Entity implements Serializable
 {
+	private static final int DEFAULT_VISION_RADIUS = 5;
 	//public enum Direction()
 	
 	// Context Variables
@@ -195,6 +196,12 @@ public class Entity implements Serializable
     	else
     		return null;
     }
+
+    public void setSpark()
+	{
+		if(Math.random() > 0.9)
+			world.changeTile(new Point(x, y, z), Tile.getFire(), true);
+	}
     public void useDevice()
     {
     	notify("Device out!");
@@ -290,6 +297,10 @@ public class Entity implements Serializable
         	other.modifyHp(-amount);
         	
     }
+    public void addEffect(Effect e)
+	{
+
+	}
     public void testMethod()
     {
     	System.out.println("testing");
@@ -589,6 +600,7 @@ public class Entity implements Serializable
 				drop(i, true);
 				inventory.remove(inventory.get(i));
 			}
+
 		}
     }
 	public void drop(int i, boolean fromInventory)
@@ -634,4 +646,13 @@ public class Entity implements Serializable
 	}
 
 
+	public void updateStats()
+	{
+		if(inventory.getVisionRadius() != null)
+			this.setVisionRadius(inventory.getVisionRadius().value());
+		else
+		{
+			this.setVisionRadius(DEFAULT_VISION_RADIUS);
+		}
+	}
 }

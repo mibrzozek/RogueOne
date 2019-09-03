@@ -24,7 +24,10 @@ public class World implements Serializable
 	
 	private ArrayList<Point> insideSpawns;
 	private ArrayList<Point> startingPoints;
-    
+	private ArrayList<Point> firePoints;
+
+	private ArrayList<Fire> fireCenters;
+
     private int width;
     public int width() { return width; }
     
@@ -46,6 +49,9 @@ public class World implements Serializable
 		
 		this.entities = new ArrayList<Entity>();
 		this.projectiles = new ArrayList<Projectile>();
+		this.firePoints = new ArrayList<Point>();
+
+		this.fireCenters = new ArrayList<>();
 		
 		this.itemMap = new Item[width][height][depth];
 		this.projectileMap = new Projectile[width][height][depth];
@@ -53,6 +59,24 @@ public class World implements Serializable
 		this.insideSpawns = spawns;
 		this.startingPoints = startingPoints;
 		//System.out.println(startingPoints.size());
+	}
+	public Entity getPlayer()
+	{
+		return player;
+	}
+	public void changeTile(Point p, Tile t, boolean newFire)
+	{
+		if(p.x >= width || p.x < 0 || p.y >= height || p.y < 0)
+			return;
+
+		tiles[p.x][p.y][p.z] = new TileV(t);
+
+		if(t.isFire() ) //
+		{
+				if(newFire || newFire) // gets newest fires points and sees if new poiint is already ther
+					fireCenters.add(new Fire(p, this));
+		}
+
 	}
     public void animate()
     {
@@ -267,8 +291,19 @@ public class World implements Serializable
         {
             entity.update();
         }
-    	
-
+    	if(!fireCenters.isEmpty()) // Animates fire
+		{
+			for(int i = 0; i < fireCenters.size();i++)
+			{
+				fireCenters.get(i).blaze();
+				if(fireCenters.get(i).getFirePoints().isEmpty())
+				{
+					fireCenters.remove(i);
+				}
+				else
+					System.out.println(fireCenters.size() + " fires in world");
+			}
+		}
     	
     }
     public Tile processCollision(Entity e, Projectile p)

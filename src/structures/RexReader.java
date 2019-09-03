@@ -24,6 +24,7 @@ public class RexReader
     public RexReader()
     {
         loadStructures();
+        getDecorations();
         /*
         try
         {
@@ -55,6 +56,37 @@ public class RexReader
             System.out.println("Retrieving structures  || IN RETRIEVE METHOD");
         }
         objectInputStream.close();
+    }
+    public HashMap<Integer , ArrayList<TilePoint>> getDecorations()
+    {
+        HashMap<Integer , ArrayList<TilePoint>> partsMap= new HashMap<>();
+
+        ArrayList<TilePoint> tbwDecor = new ArrayList();
+        if(structureMap.containsKey("tbwDecor.csv"))
+            tbwDecor = structureMap.get("tbwDecor.csv");
+
+        ArrayList<TilePoint> temp = new ArrayList();
+
+        for(TilePoint t : tbwDecor)
+        {
+            if(t.ascii() == 32)
+                continue;
+            if(partsMap.containsKey(t.y()))
+            {
+                temp = partsMap.get(t.y());
+                temp.add(t);
+                partsMap.put(t.y(), temp);
+            }
+            else
+            {
+                temp = new ArrayList<>();
+                temp.add(t);
+                partsMap.put(t.y(), temp);
+            }
+        }
+
+
+        return partsMap;
     }
     public static void loadStructures()
     {
@@ -93,6 +125,7 @@ public class RexReader
 
                     structureTiles.add(new TilePoint(x, y, ascii, fColor, bColor));
                 }
+
                 structureMap.put(files[i], new ArrayList<>(structureTiles));
                 structureTiles.clear();
 

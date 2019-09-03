@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import screens.KeyInputScreen;
+import wolrdbuilding.Palette;
 
 public class Statistics implements Serializable
 {
@@ -36,9 +37,10 @@ public class Statistics implements Serializable
 	private double rLeg;
 	
 	private double stealth;
-	
-	private ArrayList<String> traits;	
-	private ArrayList<String> effects;	
+
+	private ArrayList<Effect> effects;
+
+	private ArrayList<String> traits;
 	private ArrayList<String> skills;
 	
 	public Statistics()
@@ -53,6 +55,9 @@ public class Statistics implements Serializable
 		this.rLeg = 100;
 		
 		this.stealth = 0;
+
+		this.effects = new ArrayList<>();
+		effects.add(new Effect(Effect.Effects.SATITATED, "FULL", Palette.green));
 		
 		this.vitals = head + torso + lHand + rHand + lLeg + rLeg;
 	}
@@ -99,7 +104,7 @@ public class Statistics implements Serializable
 	public void setrLeg(double rLeg){this.rLeg = checkForNegative(rLeg);}
 	public void setStealth(double stealth){this.stealth = stealth;}
 	public void setTraits(ArrayList<String> traits){	this.traits = traits;}
-	public void setEffects(ArrayList<String> effects)	{	this.effects = effects;	}
+	public void setEffects(ArrayList<Effect> effects)	{	this.effects = effects;	}
 	public void setSkills(ArrayList<String> skills)		{	this.skills = skills;	}	
 	
 	
@@ -123,9 +128,14 @@ public class Statistics implements Serializable
 	public double getrLeg(){return rLeg;}
 	public double getStealth(){return stealth;}
 	public ArrayList<String> getTraits(){return traits;}
-	public ArrayList<String> getEffects()	{return effects;	}
+	public ArrayList<Effect> getEffects()	{return effects;	}
 	public ArrayList<String> getSkills()	{	return skills;	}
-	
+
+	public void addEffect(Effect e)
+	{
+		effects.add(e);
+	}
+
 	public double checkForNegative(double newVal)
 	{
 		if(newVal >= 0)

@@ -68,6 +68,7 @@ public class TileV implements Serializable
     }
     public void setGlyph(Tile t)
     {
+        this.t = t;
         this.glyph = t.glyph();
         this.colorF = t.color();
     }

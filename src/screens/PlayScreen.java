@@ -17,6 +17,7 @@ import entities.FieldOfView;
 import entities.Statistics;
 import items.Item;
 import items.ItemFactory;
+import structures.Console;
 import structures.TileEngine;
 import wolrdbuilding.PlanetPrinter;
 import wolrdbuilding.Projectile;
@@ -25,6 +26,8 @@ import wolrdbuilding.World;
 
 public class PlayScreen implements Screen 
 {
+	private Console console;
+
 	private World world;
 	private int centerX;
     private int centerY;
@@ -100,6 +103,8 @@ public class PlayScreen implements Screen
         player = entityFactory.newPlayer(messages, stats);
         world.addPlayer(player);
 
+        console = new Console(world);
+
         createEntities(entityFactory, itemFactory);
         createItems(itemFactory);     
     }
@@ -127,6 +132,15 @@ public class PlayScreen implements Screen
         createEntities(entityFactory, itemFactory);
         createItems(itemFactory);     
     }
+    public void writeToConsole(String cmd)
+	{
+		String response = console.writeAndRespond(cmd);
+
+		if(response != null)
+		{
+			messages.add(response);
+		}
+	}
     private void createItems(ItemFactory itemFactory) 
     {
         for (int z = 0; z < world.depth(); z++)
@@ -196,6 +210,8 @@ public class PlayScreen implements Screen
 
 	     displayTiles(terminal, leftOffset, topOffset);
 	     TileEngine.renderStats(terminal, screenWidth, screenHeight, 0, 0, player);
+		 TileEngine.displayMessages(terminal, messages, screenWidth, screenHeight);
+
 	   
 	     if(subScreen instanceof CraftingScreen)
 	    	 ((CraftingScreen) subScreen).write(terminal);
@@ -228,7 +244,7 @@ public class PlayScreen implements Screen
 	     if(subScreen instanceof InteractScreen)
 	    	 ((InteractScreen) subScreen).displayOutput(terminal);
 	     
-	     TileEngine.displayMessages(terminal, messages, screenWidth, screenHeight);
+
 	}
 	public int getLeftOffset() { return leftOffset;}
 	public int getTopOffset() { return topOffset;}
@@ -305,13 +321,15 @@ public class PlayScreen implements Screen
 			{	switch (key.getKeyCode())
 				{
 				// Special Keys
+
+					case KeyEvent.VK_0: subScreen = new KeyInputScreen(terminal, this, 10, 2, 1, console);	break;
 				case KeyEvent.VK_SHIFT: subScreen = new CharacterSheet(player); break;
 				case KeyEvent.VK_T:
 				{
 					if(player.fov().getEntities().size() > 0)
 						subScreen = new TargetingScreen(player, this);
 					break;
-				}case KeyEvent.VK_L: subScreen = new KeyInputScreen(terminal,this, 20, 15, 8); break;
+				}case KeyEvent.VK_L: subScreen = new KeyInputScreen(terminal,this, 20, 15, 8, null); break;
         		case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(player,terminal, this); break;
         		case KeyEvent.VK_ENTER: return new WinScreen(terminal);
         		case KeyEvent.VK_F: 

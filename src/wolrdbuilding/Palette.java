@@ -23,8 +23,11 @@ public class Palette
 	public static Color lightRed = new Color(255,90,102, 0);
 	public static Color red = new Color(255,51,51, 0);
 	public static Color darkRed = new Color(180, 0, 0, 0);
-	
-	public static Color lightBlue = new Color(51, 204,255, 0);
+	public static Color darkerRed = new Color(220, 0, 0, 0);
+
+	public static Color methane = new Color(1, 20,50, 200); // darkBlue
+
+	public static Color lightBlue = new Color(51, 150,150, 0);
 	public static Color blue = new Color(51,153,255, 0);
 	public static Color darkBlue = new Color(0,0,255, 0);
 	
@@ -32,7 +35,6 @@ public class Palette
 	public static Color green = new Color(0,204,0, 0);
 	
 	public static Color brown = new Color(100 ,42 ,42, 0);
-	
 	
 
 	public static Random r =  new Random();

@@ -278,6 +278,12 @@ public class Entity implements Serializable
     			world.queueProjectile(p);
     			notify("Die suckers!");
     		}
+    		else if(inventory.isItemEquiped(new ItemFactory().newWaterCannon()))
+    		{
+    			p = new Projectile(direction, new Point(x, y, z), Tile.WATER);
+    			world.queueProjectile(p);
+    			notify("It's quite a blaze!");
+    		}
     }
     // Attacking, modifying HP, messages
     public void attack(Entity other)

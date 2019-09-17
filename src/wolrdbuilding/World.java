@@ -221,9 +221,14 @@ public class World implements Serializable
     	Entity entity = entity(x, y, z);
     	Projectile p = projectile(x, y, z);
     	
-    	if(entity!= null && p != null)
+    	if(entity != null && p != null)
     		return processCollision(entity, p).glyph();
-    	
+    	else if(entity == null && p != null && p.glyph() == Tile.WATER.glyph() && tile(x, y, z).getTile().isFire())
+    	{
+    		changeTile(new Point(x, y, z), Tile.STEAM, false);
+    		p.terminate();
+    		return Tile.STEAM.glyph();
+    	}
    
         if(p != null)
         	return p.glyph();
@@ -304,12 +309,36 @@ public class World implements Serializable
 					System.out.println(fireCenters.size() + " fires in world");
 			}
 		}
-    	
     }
+    public Tile douseFire()
+    {
+    	
+    	return null;
+    }
+    
+    
     public Tile processCollision(Entity e, Projectile p)
     {
+    	Point pp = p.point();
+    	
+    	System.out.println("Prcessing collision");
+    	
+    	if(e == null && p.glyph() != Tile.WATER.glyph())
+    	{
+    		return p.tile();
+    	}
+    	else if(e == null && p.glyph() == Tile.WATER.glyph() && tile(pp.x, pp.y, pp.z).getTile().isFire())
+    	{
+    		System.out.println("Steaming!");
+    		
+    		changeTile(pp, Tile.STEAM, false);
+    		
+    		return Tile.STEAM;
+    	}
+
+    	
     	if(e != null && !e.stats.getName().equals("Trader")
-    			&& !e.stats.getName().equals(e.stats.getName()))
+    			&& !e.stats.getName().equals(e.stats.getName())) // if collision doesn't hit trader or self, apply damage
     	{
     		int dmg = 0;
     		if(p.glyph() == Tile.Y_SMALL.glyph())
@@ -317,6 +346,7 @@ public class World implements Serializable
     		player.setTarget(e); 
     		e.modifyHp(-99);
     	}
+    	
     	if(!e.stats.getName().equals(e.stats.getName()))
     		return Tile.TAGGED;
     	else

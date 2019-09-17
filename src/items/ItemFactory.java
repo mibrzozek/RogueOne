@@ -50,6 +50,19 @@ public class ItemFactory implements Serializable
 		itemList.add(newSparklingBoots());
 		itemList.add(newReflectiveShall());
 		itemList.add(newMiningBeam());
+		itemList.add(newWaterCannon());
+	}
+	
+	public Item newWaterCannon()
+	{
+		Item waterCannon = new Item((char)121, AsciiPanel.brightBlue, Type.GUN,
+				"Water Cannon", 
+				"Bonds two hydrogen atoms with one oxygen two produce dyhrdogen monoxide. Usefull for fires.",
+				0, 0
+				, 25);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), waterCannon);
+		return waterCannon;
 	}
 	public Item newReflectiveShall()
 	{

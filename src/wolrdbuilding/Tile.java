@@ -50,6 +50,14 @@ public enum Tile
     
     R_MED((char) 248, Palette.purple),
     G_SMALL((char) 4, Palette.purple),
+    
+    
+    WATER((char) 9, Palette.blue),
+    
+    
+    STEAM((char)46, Palette.paleWhite),
+    
+    
 
     /*  STRUCTURES
 
@@ -75,7 +83,10 @@ public enum Tile
 
     CARROT_UP_ARROW((char)94, Color.RED, true),
     DOUBLE_RIGHT_ARROW((char)175, Palette.purple, true),
+    
+    
     // Fire
+    
     FIRE_ONE((char)34, Palette.yellow),
     FIRE_TWO((char)39, Palette.lightRed),
     FIRE_THREE((char)157, Palette.darkRed),
@@ -174,6 +185,9 @@ public enum Tile
 	ROGUE( (char)146, Palette.red, Palette.lightRed),
 	MECH('M', Palette.paleWhite, Palette.lightRed),
 	JUNKIE('J', Palette.blue, Palette.lightRed),
+	
+	// COMBUSTABLE TILES
+	
     METHANE('m',Palette.methane, Palette.darkestGray);
 	
 	private boolean swapable;
@@ -354,7 +368,8 @@ public enum Tile
         return this ==  Tile.FLOOR || this ==  Tile.INSIDE_FLOOR
         		|| this ==  Tile.BLASTED_TERRAIN || this == Tile.STAIRS_DOWN
         		|| this == Tile.STAIRS_UP		 || this == Tile.TERMINAL_ACESS
-                || this == Tile.METHANE || this == Tile.FIRE_ONE
+                || this == Tile.METHANE 
+                || this == Tile.FIRE_ONE
                 || this == Tile.FIRE_TWO
                 || this == Tile.FIRE_THREE
                 || this == Tile.FIRE_FOUR
@@ -362,6 +377,8 @@ public enum Tile
                 || this == Tile.BURNED_FLOOR_2
                 || this == Tile.BURNED_FLOOR_3
                 || this == Tile.BURNED_FLOOR_4
+                || this == Tile.STEAM
+       
                 ;
     }
     public boolean isDiggable() 
@@ -380,7 +397,8 @@ public enum Tile
     }
     public boolean isFire()
     {
-        return this == Tile.FIRE_ONE || this == Tile.FIRE_TWO || this == Tile.FIRE_THREE;
+        return this == Tile.FIRE_ONE || this == Tile.FIRE_TWO || this == Tile.FIRE_THREE 
+        		|| this == Tile.FIRE_FOUR;
     }
 
     public boolean isWall() 

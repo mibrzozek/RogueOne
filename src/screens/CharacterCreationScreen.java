@@ -191,7 +191,6 @@ public class CharacterCreationScreen implements Screen
     	{
     		
     	}
-    	
     }
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
@@ -248,7 +247,6 @@ public class CharacterCreationScreen implements Screen
 	public void animate()
 	{
 		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -16,6 +16,7 @@ import static java.awt.Color.*;
 public class RexReader
 {
     private static String filePath ="D:\\06 SOURCE\\01 JAVA PROJECTS\\02 JAVA PROJECTS\\RogueOne\\resources\\structures\\";
+    private static String filePath1 ="C:\\Users\\Michal\\Desktop\\tilda\\01 JAVA 18 SOURCE\\RogueOne\\resources\\structures\\";
 
 
     private static ArrayList<TilePoint> structureTiles = new ArrayList<>();
@@ -43,7 +44,7 @@ public class RexReader
 
     public static void retrieveStructures() throws IOException
     {
-        FileInputStream fileInputStream = new FileInputStream(filePath + "loadedStructures");
+        FileInputStream fileInputStream = new FileInputStream(filePath1 + "loadedStructures");
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
         try
@@ -97,7 +98,7 @@ public class RexReader
         int x, y, ascii;
         Color fColor, bColor;
 
-        File file = new File(filePath);
+        File file = new File(filePath1);
         String[] files = file.list(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -109,7 +110,7 @@ public class RexReader
 
         for(int i = 0; i < files.length; i++)
         {
-            try (Scanner fileScan = new Scanner(new File(filePath + files[i]), "UTF-8"))
+            try (Scanner fileScan = new Scanner(new File(filePath1 + files[i]), "UTF-8"))
             {
                 while (fileScan.hasNextLine())
                 {

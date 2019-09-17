@@ -29,7 +29,7 @@ public class Console
 
         if(s.equals("1"))
         {
-            player.inventory().equipAll(iF.newDevSword(), iF.newRifle(), iF.newWallBomb());
+            player.inventory().equipAll(iF.newDevSword(), iF.newRifle(), iF.newWallBomb(), iF.newWaterCannon());
             response = "Added";
         }
         else if(s.equals("empty"))

@@ -23,6 +23,8 @@ public class Projectile implements Serializable
 		this.color = tile.color();
 		this.glyph = tile.glyph();
 		this.tile = tile;
+		this.movement = -1;
+		
 		
 		if(glyph == Tile.Y_SMALL.glyph())
 			movement = -1;
@@ -30,8 +32,6 @@ public class Projectile implements Serializable
 			movement = -8;
 		else if(glyph == Tile.G_SMALL.glyph())
 			movement = -3;
-		else
-			movement = -4;
 		
 		if(direction == 0 || direction == 4 )
 		{			
@@ -130,11 +130,9 @@ public class Projectile implements Serializable
 		p.y= -1;
 		p.z= -1;
 	}
+	public Tile tile()		{ return tile;	}
 	public char glyph() 	{ return glyph; }
 	public Color color()	{ return color; }
 	public int direction() 	{ return direction; }
 	public Point point()	{ return p; }
-
-	
-
 }

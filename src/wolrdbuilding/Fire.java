@@ -80,7 +80,7 @@ public class Fire
                     {
                         np = new Point(np.x + d.getMovement(d), np.y, p.z);
                     }
-                    if(w.tile(np.x, np.y, np.z).getTile().isGround())
+                    if(w.tile(np.x, np.y, np.z).getTile().isGround() && !w.tile(np.x, np.y, np.z).getTile().isFire())
                     {
                         found = true;
                     }

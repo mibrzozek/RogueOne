@@ -66,6 +66,24 @@ public class Point implements Serializable
         	return false;
         return true;
     }
+    public List<Point> gridXbyX(Point p, int boxWidth)
+    {
+        List<Point> points = new ArrayList<Point>();
+
+        for (int ox = p.x; ox < p.x + boxWidth; ox++)
+        {
+            for (int oy = p.y; oy < p.y + boxWidth; oy++)
+            {
+                if (ox < 0 && oy < 0)
+                    continue;
+
+                points.add(new Point(x+ox, y+oy, z));
+            }
+        }
+
+        Collections.shuffle(points);
+        return points;
+    }
     public List<Point> neighbors8()
     {
         List<Point> points = new ArrayList<Point>();

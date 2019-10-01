@@ -98,7 +98,7 @@ public class RexReader
         int x, y, ascii;
         Color fColor, bColor;
 
-        File file = new File(filePath1);
+        File file = new File(filePath);
         String[] files = file.list(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -110,7 +110,7 @@ public class RexReader
 
         for(int i = 0; i < files.length; i++)
         {
-            try (Scanner fileScan = new Scanner(new File(filePath1 + files[i]), "UTF-8"))
+            try (Scanner fileScan = new Scanner(new File(filePath + files[i]), "UTF-8"))
             {
                 while (fileScan.hasNextLine())
                 {
@@ -151,6 +151,5 @@ public class RexReader
             e.printStackTrace();
             System.out.println("Saving structures FAILED");
         }
-
     }
 }

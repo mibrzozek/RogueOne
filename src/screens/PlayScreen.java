@@ -169,6 +169,8 @@ public class PlayScreen implements Screen
 				/// entityFactory.newMech();
 				*/
 				entityFactory.newPlasmaJunkie(0, player);
+				entityFactory.newPlasmaJunkie(0, player);
+				entityFactory.newPlasmaJunkie(0, player);
 			}
 		}
 	}
@@ -243,6 +245,8 @@ public class PlayScreen implements Screen
 	    	 ((AnimationScreen) subScreen).displayOutput(terminal);
 	     if(subScreen instanceof InteractScreen)
 	    	 ((InteractScreen) subScreen).displayOutput(terminal);
+		if(subScreen instanceof MapScreen)
+			((MapScreen) subScreen).displayOutput(terminal);
 	     
 
 	}
@@ -321,7 +325,7 @@ public class PlayScreen implements Screen
 			{	switch (key.getKeyCode())
 				{
 				// Special Keys
-
+					case KeyEvent.VK_M: subScreen = new MapScreen(terminal, world); break;
 					case KeyEvent.VK_0: subScreen = new KeyInputScreen(terminal, this, 10, 2, 1, console);	break;
 				case KeyEvent.VK_SHIFT: subScreen = new CharacterSheet(player); break;
 				case KeyEvent.VK_T:

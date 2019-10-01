@@ -12,13 +12,20 @@ import items.Item;
 
 public class World implements Serializable
 {
+	private static final int MINI_CELL = 3;
+
+	private Point playerCell;
+
 	Random random;
 	private Entity player;
-	
+
+	private MiniMap mini;
+
 	private List<Entity> entities;
 	private ArrayList<Projectile> projectiles;
 	
 	private TileV[][][] tiles;
+	private TileV[][][] miniMap;
 	private Item[][][] itemMap;
 	private Projectile[][][] projectileMap;
 	
@@ -55,11 +62,25 @@ public class World implements Serializable
 		
 		this.itemMap = new Item[width][height][depth];
 		this.projectileMap = new Projectile[width][height][depth];
+
+		this.miniMap = new TileV[width/MINI_CELL][height/MINI_CELL][depth];
+		this.mini = new MiniMap(this);
 		
 		this.insideSpawns = spawns;
 		this.startingPoints = startingPoints;
+
 		//System.out.println(startingPoints.size());
 	}
+	public TileV[][][] getTileMap()
+	{
+		return tiles;
+	}
+	public MiniMap getMiniMap()
+	{
+		return mini;
+	}
+
+
 	public Entity getPlayer()
 	{
 		return player;
@@ -217,7 +238,6 @@ public class World implements Serializable
     
     public char glyph(int x, int y, int z)
     {
-        
     	Entity entity = entity(x, y, z);
     	Projectile p = projectile(x, y, z);
     	

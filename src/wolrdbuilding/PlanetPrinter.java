@@ -1,5 +1,6 @@
 package wolrdbuilding;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -9,12 +10,14 @@ import structures.Dungeon;
 
 public class PlanetPrinter
 {
+	private static final int MINI_CELL = 3;
 	private static int width;
 	private static int height;
 	private int depth;
 	
 	private Entity player;
 	private TileV[][][] tiles;
+	private TileV[][][] miniMap;
 
 	private ArrayList<Point> spawnPoints;
 	private static ArrayList<Point> occupiedPoints;
@@ -40,6 +43,7 @@ public class PlanetPrinter
 		
 		this.player = player;
 		this.tiles = new TileV[width][height][depth];
+		this.tiles = new TileV[width/MINI_CELL][height/MINI_CELL][depth];
 		
 		this.spawnPoints = new ArrayList<>();
 		this.occupiedPoints = new ArrayList<>();
@@ -122,12 +126,8 @@ public class PlanetPrinter
 	public PlanetPrinter makeDungeons()
 	{
 		Dungeon d = new Dungeon(width, height, depth);
-		
 
 		tiles = d.getNewDungeon();
-		
-		
-		
 		// Done after dungeon is done
 		spawnPoints = d.getSpawnPoints();
 		occupiedPoints = d.getOccupiedPoints();
@@ -164,6 +164,7 @@ public class PlanetPrinter
 		*/
 		return this;
 	}
+
 	// DUNGEON HELPERS
 	public RoomPoint getPointRelativeTo(Point rp, Direction d)
 	{

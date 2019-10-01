@@ -15,8 +15,8 @@ public class CorridorPoint extends Point
     public void checkHallLength(int moveX, int moveY, Tile[][][] tiles) {
         int mx = x;
         int my = y;
-        System.out.println("Starting Loop in " + dOfWall + " " + moveX + " " + moveY);
-        System.out.println(" " + tiles[mx + moveX][my + moveY][z]);
+        //System.out.println("Starting Loop in " + dOfWall + " " + moveX + " " + moveY);
+        //System.out.println(" " + tiles[mx + moveX][my + moveY][z]);
     }
     public boolean isCorridor(TileV[][][] tiles)
     {
@@ -66,7 +66,7 @@ public class CorridorPoint extends Point
             hallLength++;
             mx += moveX;
             my += moveY;
-            System.out.println("From check hall length " +  tiles[mx + moveX][my + moveY][z].isGround());
+            //System.out.println("From check hall length " +  tiles[mx + moveX][my + moveY][z].isGround());
             //System.out.println("From check hall length " +  tiles[mx + moveX][my + moveY][z].isGround());
         }
 
@@ -93,7 +93,7 @@ public class CorridorPoint extends Point
         {
             checkHallLength(-1, 0, tiles);
         }
-        System.out.print("Check space ");
+        //System.out.print("Check space ");
         //System.out.print("Check space ");
         return hallLength;
     }

@@ -1,15 +1,10 @@
 package screens;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import asciiPanel.AsciiPanel;
 import entities.Entity;
-import items.Item;
-import wolrdbuilding.Tile;
 
 public abstract class ScrollingBasedScreen implements Screen
 {
@@ -19,8 +14,9 @@ public abstract class ScrollingBasedScreen implements Screen
     
     protected Screen OptionScreen = null;
     private Random r = new Random();
-    
-    protected int index;
+
+	protected int invIndex;
+    protected int equipIndex;
     
     protected int scrollX;
     protected int scrollY;
@@ -79,7 +75,7 @@ public abstract class ScrollingBasedScreen implements Screen
 			reRoll = false;
 
 	        
-	        index = 0;
+	        equipIndex = 0;
 		}
 
 		for(int i = 0; i < ry; i++)
@@ -121,7 +117,7 @@ public abstract class ScrollingBasedScreen implements Screen
     		scrollY = ry;
     	else
     		scrollY++;
-    	index = scrollY-ry;
+    	equipIndex = scrollY-ry;
     }
     public void scrollUp()
     {	
@@ -130,7 +126,7 @@ public abstract class ScrollingBasedScreen implements Screen
     		scrollY = ry+19;
     	else
     		scrollY--;
-    	index = scrollY-ry;
+    	equipIndex = scrollY-ry;
     }
     public void selectItem()
     {
@@ -177,12 +173,12 @@ public abstract class ScrollingBasedScreen implements Screen
         	}
         	else if(key.getKeyCode() == KeyEvent.VK_RIGHT)
         	{
-        		if(!isSelected && index >= 0)
+        		if(!isSelected && equipIndex >= 0)
         		{
         			selectItem();
         			return this;
         		}
-        		if(index < 0)
+        		if(equipIndex < 0)
         		{
         			selectItem();
         			selectingFromLeft = false;

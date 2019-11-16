@@ -1,5 +1,6 @@
 package screens;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -30,6 +31,7 @@ public class EscapeScreen extends singleListScrollingBasedScreen
 		options.add("Resume");
 		options.add("Save");
 		options.add("Main menu");
+		options.add("New theme");
 		
 	}
 	public static void write(AsciiPanel terminal)
@@ -69,7 +71,12 @@ public class EscapeScreen extends singleListScrollingBasedScreen
 			else if(index == 2)
 			{
 				((PlayScreen)screen).returnStartScreen();
-			}	
+			}
+			else if(index == 3)
+			{
+				((PlayScreen)screen).setNewTheme();
+			}
+
 		}
 	}
 
@@ -79,5 +86,16 @@ public class EscapeScreen extends singleListScrollingBasedScreen
 		// TODO Auto-generated method stub
 		
 	}
-	
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
+	}
+
 }

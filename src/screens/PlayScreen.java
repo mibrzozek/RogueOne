@@ -1,6 +1,6 @@
 package screens;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -17,15 +17,23 @@ import entities.FieldOfView;
 import entities.Statistics;
 import items.Item;
 import items.ItemFactory;
+import items.Type;
 import structures.Console;
+import structures.MainFrame;
+import structures.Theme;
 import structures.TileEngine;
-import wolrdbuilding.PlanetPrinter;
-import wolrdbuilding.Projectile;
-import wolrdbuilding.Tile;
-import wolrdbuilding.World;
+import wolrdbuilding.*;
+import wolrdbuilding.Point;
+
+import javax.swing.*;
 
 public class PlayScreen implements Screen 
 {
+	private JFrame main;
+
+	private Color fore = Theme.PASTEL.getFore();
+	private Color back = Theme.PASTEL.getBack();
+
 	private Console console;
 
 	private World world;
@@ -82,10 +90,12 @@ public class PlayScreen implements Screen
         createEntities(entityFactory, itemFactory);
         createItems(itemFactory); 
     }
-    public PlayScreen(Statistics stats)
+    public PlayScreen(Statistics stats, JFrame main)
     {
         screenWidth = 85;
         screenHeight = 50;
+
+        this.main = main;
         
         introMessages = new ArrayList<String>();
         introMessages.add("You wake from a deep slumber.");
@@ -103,7 +113,7 @@ public class PlayScreen implements Screen
         player = entityFactory.newPlayer(messages, stats);
         world.addPlayer(player);
 
-        console = new Console(world);
+        console = new Console(world, this);
 
         createEntities(entityFactory, itemFactory);
         createItems(itemFactory);     
@@ -196,11 +206,15 @@ public class PlayScreen implements Screen
 
 	            if(player.canSee(wx, wy, player.z))
 	            {
-	                terminal.write(world.glyph(wx, wy, player.z), x, y,
-	                		world.color(wx, wy, player.z), world.backColor(wx, wy, player.z));
+	            	if(player.inventory().getTypeDuration(Type.HELMET) > 0)
+	                	terminal.write(world.glyph(wx, wy, player.z), x, y,world.color(wx, wy, player.z));
+	            	else
+						terminal.write(world.glyph(wx, wy, player.z), x, y,fore, back);
+
+	                //world.color(wx, wy, player.z)
 	            }
 	            else
-	                terminal.write(fov.tile(wx, wy, player.z).glyph(), x, y, Color.darkGray);
+	                terminal.write(fov.tile(wx, wy, player.z).glyph(), x, y, fore);
 			}
 		}
 	}
@@ -211,27 +225,28 @@ public class PlayScreen implements Screen
 	     topOffset = getScrollY();
 
 	     displayTiles(terminal, leftOffset, topOffset);
-	     TileEngine.renderStats(terminal, screenWidth, screenHeight, 0, 0, player);
+	     TileEngine.renderStats(terminal, screenWidth, screenHeight, 0, 0, world);
 		 TileEngine.displayMessages(terminal, messages, screenWidth, screenHeight);
 
 	   
 	     if(subScreen instanceof CraftingScreen)
 	    	 ((CraftingScreen) subScreen).write(terminal);
-	     
+	     /*
 	     if(subScreen instanceof TradeScreen)
 	     {
 	    	 ((TradeScreen) subScreen).displayOutput(terminal);
 	    	 ((TradeScreen) subScreen).write(terminal); 
 	     }
+	     */
 	     if(subScreen instanceof EscapeScreen)
 	     {
 	    	 ((EscapeScreen) subScreen).displayOutput(terminal);
 	    	 ((EscapeScreen) subScreen).write(terminal); 
 	     }
-	     if (subScreen instanceof InventoryScreen)
+	     if (subScreen instanceof NInventoryScreen)
 	     {
-	    	 ((InventoryScreen) subScreen).write(terminal);
-	    	 ((InventoryScreen) subScreen).displayOutput(terminal);
+	    	 ((NInventoryScreen) subScreen).write(terminal);
+	    	 ((NInventoryScreen) subScreen).displayOutput(terminal);
 	     }
 	     if(subScreen instanceof InspectScreen)
 	    	 ((InspectScreen) subScreen).displayOutput(terminal);
@@ -247,8 +262,8 @@ public class PlayScreen implements Screen
 	    	 ((InteractScreen) subScreen).displayOutput(terminal);
 		if(subScreen instanceof MapScreen)
 			((MapScreen) subScreen).displayOutput(terminal);
-	     
-
+		if(subScreen instanceof DoorScreen)
+			((DoorScreen) subScreen).displayOutput(terminal);
 	}
 	public int getLeftOffset() { return leftOffset;}
 	public int getTopOffset() { return topOffset;}
@@ -266,9 +281,9 @@ public class PlayScreen implements Screen
         for (Item item : player.inventory().getItems())
         {
             if (item != null && item.name().equals("Teddy Bear"))
-                return new WinScreen(terminal);
+                return new WinScreen(terminal, main);
         }
-        return new LoseScreen(terminal);
+        return new LoseScreen(terminal, world, main);
     }
     public void saveGame()
     {
@@ -299,7 +314,7 @@ public class PlayScreen implements Screen
     public void returnStartScreen()     { exitGame = true; 	}
 	@Override
 	public Screen respondToUserInput(KeyEvent key) 
-	{	
+	{
 		if(screenTicks < introMessages.size())
 		{
 			player.notify("The level is " + player.z);
@@ -327,21 +342,40 @@ public class PlayScreen implements Screen
 				// Special Keys
 					case KeyEvent.VK_M: subScreen = new MapScreen(terminal, world); break;
 					case KeyEvent.VK_0: subScreen = new KeyInputScreen(terminal, this, 10, 2, 1, console);	break;
-				case KeyEvent.VK_SHIFT: subScreen = new CharacterSheet(player); break;
+				case KeyEvent.VK_SHIFT: subScreen = new CharacterSheet(world, main
+				); break;
 				case KeyEvent.VK_T:
 				{
 					if(player.fov().getEntities().size() > 0)
-						subScreen = new TargetingScreen(player, this);
+						subScreen = new TargetingScreen(player, this, main);
 					break;
 				}case KeyEvent.VK_L: subScreen = new KeyInputScreen(terminal,this, 20, 15, 8, null); break;
         		case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(player,terminal, this); break;
-        		case KeyEvent.VK_ENTER: return new WinScreen(terminal);
+        		case KeyEvent.VK_ENTER: break;
         		case KeyEvent.VK_F: 
         		{
         			if(world.tile(player.x, player.y, player.z).getTile() == Tile.TERMINAL_ACESS)
-        				subScreen = new InteractScreen(player, this, null);
-        			else
-        				player.pickup(); break;
+        				subScreen = new InteractScreen(player, this, null, main);
+        			else if(world.item(player.x, player.y, player.z) != null)
+        				player.pickup();
+
+        			// this point is the one in front of the player
+					// in the direction they are looking
+					Point np = Point.transform(player.getCardinal(), player.point());
+        			if(world.getTile(np.x, np.y, np.z).equals(Tile.OPEN_DOOR)
+							|| world.getTile(np.x, np.y, np.z).equals(Tile.CLOSED_DOOR))
+					{
+						player.setDoorPoint(np);
+
+						int doorX  = 0;
+						if(player.x - leftOffset + 1 + 10 < screenWidth)
+							doorX = player.x - leftOffset + 1;
+						else
+							doorX = player.x - leftOffset - 7;
+
+						subScreen = new DoorScreen(world, 7, 4, doorX, player.y - topOffset -1, this, main);
+					}
+					break;
         		}
         		case KeyEvent.VK_E: player.rotateClockwise(); break;
         		case KeyEvent.VK_Q: player.rotateCounterClockwise(); break;
@@ -359,38 +393,68 @@ public class PlayScreen implements Screen
         				Entity other = world.entity(player.tradersPosition().x
         						,player.tradersPosition().y
         						,player.tradersPosition().z);
-        				subScreen = new TradeScreen(player, other, terminal);
+        				//subScreen = new TradeScreen(player, other, terminal);
         			}	
         			else
-        				subScreen = new InventoryScreen(player, terminal, true); break;
+        				subScreen = new NInventoryScreen(player, terminal, true);
+
+        			break;
         		}
         		case KeyEvent.VK_1: ; break;
         		// Planar Scrolling
+					case KeyEvent.VK_NUMPAD5:
+						world.update();
+						break;
         		case KeyEvent.VK_NUMPAD4:
         		case KeyEvent.VK_LEFT:
-        		case KeyEvent.VK_A: player.moveBy(-1, 0, 0);world.update(); break;
+        		case KeyEvent.VK_A: player.moveBy(-1, 0, 0);
+							world.update();
+							player.setDirection(6);
+							break;
         		case KeyEvent.VK_NUMPAD6:
         		case KeyEvent.VK_RIGHT:
-        		case KeyEvent.VK_D: player.moveBy( 1, 0, 0);world.update(); break;
+        		case KeyEvent.VK_D: player.moveBy( 1, 0, 0);
+        					world.update();
+							player.setDirection(2);
+							break;
         		case KeyEvent.VK_NUMPAD8:
         		case KeyEvent.VK_UP:
-        		case KeyEvent.VK_W: player.moveBy( 0,-1, 0);world.update(); break;
+        		case KeyEvent.VK_W: player.moveBy( 0,-1, 0);
+        					world.update();
+							player.setDirection(0);
+							break;
         		case KeyEvent.VK_DOWN:
-        		case KeyEvent.VK_S: player.moveBy( 0, 1, 0);world.update(); break;
+        		case KeyEvent.VK_S: player.moveBy( 0, 1, 0);
+        					world.update();
+							player.setDirection(4);
+        					break;
         			
         		// Diagonal scrolling
         		case KeyEvent.VK_NUMPAD2:
-        		case KeyEvent.VK_J: player.moveBy( 0, 1, 0);world.update(); break;
+        		case KeyEvent.VK_J: player.moveBy( 0, 1, 0);
+        					world.update();
+							player.setDirection(4);
+        					break;
         		case KeyEvent.VK_NUMPAD7:
-        		case KeyEvent.VK_Y: player.moveBy(-1,-1, 0);world.update(); break;
+        		case KeyEvent.VK_Y: player.moveBy(-1,-1, 0);
+        					world.update();
+        					player.setDirection(7);
+        					break;
         		case KeyEvent.VK_NUMPAD9:
-        		case KeyEvent.VK_U: player.moveBy( 1,-1, 0);world.update(); break;
+        		case KeyEvent.VK_U: player.moveBy( 1,-1, 0);
+        					world.update();
+							player.setDirection(1);
+        					break;
         		case KeyEvent.VK_NUMPAD1:
-        		case KeyEvent.VK_B: player.moveBy(-1, 1, 0);world.update(); break;
+        		case KeyEvent.VK_B: player.moveBy(-1, 1, 0);
+        					world.update();
+							player.setDirection(5);
+        					break;
         		case KeyEvent.VK_NUMPAD3:
-        		case KeyEvent.VK_N: player.moveBy( 1, 1, 0);world.update(); break;
-        		
-
+        		case KeyEvent.VK_N: player.moveBy( 1, 1, 0);
+        					world.update();
+							player.setDirection(3);
+        					break;
 				}
 				switch (key.getKeyChar())
 				{
@@ -405,13 +469,14 @@ public class PlayScreen implements Screen
 				}
 			}
 		}
-		if (player.stats.getVitals() < 1)
-		    return new LoseScreen(terminal);
+		if(player.isDead())
+			return new LoseScreen(terminal, world, main);
+
 		
 		if(exitGame)
 		{
 			exitGame = false;
-			return new StartScreen(terminal);
+			return new StartScreen(terminal, main);
 		}
 		return this;	
 	}
@@ -424,6 +489,33 @@ public class PlayScreen implements Screen
 	public void animate()
 	{
 		world.animate();
-		
+	}
+
+	@Override
+	public Color getForeColor()
+	{
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor()
+	{
+		return back;
+	}
+
+	public void setNewTheme()
+	{
+		this.fore = Palette.paperPink;
+		this.back = Palette.theNewMagenta;
+	}
+
+	public void changeTheme(Theme theme)
+	{
+		this.fore = theme.getFore();
+		this.back = theme.getBack();
+	}
+	public void changeUiTheme(Theme t)
+	{
+		((MainFrame)main).setTheme(t);
 	}
 }

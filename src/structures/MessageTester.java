@@ -3,6 +3,8 @@ package structures;
 import java.util.ArrayList;
 
 import screens.Message;
+import wolrdbuilding.Door;
+import wolrdbuilding.Point;
 
 public class MessageTester
 {
@@ -40,7 +42,14 @@ public class MessageTester
 			System.out.println("\n");
 			
 		}
-		
+
+		System.out.println(" Testing doors ");
+
+		Door d = new Door(new Point(0,0,0),new Point(1,0,0) , Door.Clearance.PURPLE);
+		Door s = new Door(new Point(0,0,0),new Point(1,0,0) , Door.Clearance.PURPLE);
+
+		if(d.equals(new Point(0,0,0)))
+			System.out.print("These doors are the same");
 		
 	}
 }

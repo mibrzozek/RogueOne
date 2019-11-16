@@ -15,11 +15,11 @@ public enum Tile
 	UNKNOWN(' ', Palette.white),
     FLOOR((char)250, Palette.randomNewColor()),
     TERMINAL_ACESS((char)249, Palette.white),
-    INSIDE_FLOOR((char)250, Palette.gray),
+    INSIDE_FLOOR((char)250, Palette.morePaleWhite),
     BLASTED_TERRAIN((char)176, Palette.brown),
     WHITE_TERRAIN((char)176, Palette.white),
-    WALL((char)177, Palette.randomColor()),
-    RED_WALL((char)177, Palette.black),
+    WALL((char)177, Palette.monoGrayTeal),
+    RED_WALL((char)177, Palette.monoGrayBlue),
     BROWN_WALL((char)177, Palette.randomColor()),
     SILVER_WALL((char)177, Palette.randomColor()),
     BOUNDS('X', Palette.black),
@@ -155,7 +155,8 @@ public enum Tile
     dblLRW((char)186, Palette.paleWhite),
     dblTBW((char)205, Palette.paleWhite),
 
-    DOOR((char)240, Color.WHITE),
+    CLOSED_DOOR((char)240, Palette.manaTeal),
+    OPEN_DOOR((char)240, Palette.monoRed),
     
 	lrWall((char)186, Color.WHITE),
 	tbWall((char)205, Color.WHITE),
@@ -378,7 +379,7 @@ public enum Tile
                 || this == Tile.BURNED_FLOOR_3
                 || this == Tile.BURNED_FLOOR_4
                 || this == Tile.STEAM
-       
+                || this == Tile.OPEN_DOOR
                 ;
     }
     public boolean isDiggable() 
@@ -444,6 +445,7 @@ public enum Tile
     {
     	return Tile.values()[new Random().nextInt(Tile.values().length)];
     }
+
 
 
 }

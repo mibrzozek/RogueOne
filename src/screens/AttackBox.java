@@ -5,13 +5,15 @@ import entities.Entity;
 import entities.PlayerAi;
 import items.Type;
 
+import javax.swing.*;
+
 public class AttackBox extends UIScreen 
 {
 	private Entity enemy;
 	
-	public AttackBox(Entity player, int bw, int bh, int bx, int by, Entity enemy, PlayScreen ps)
+	public AttackBox(Entity player, int bw, int bh, int bx, int by, Entity enemy, PlayScreen ps, JFrame main)
 	{
-		super(player, ps);
+		super(player, ps, main);
 		
 		this.bw = bw;
 		this.bx = bx;
@@ -22,7 +24,7 @@ public class AttackBox extends UIScreen
 		PlayerAi  ai = (PlayerAi)player.getEntityAi();
 		
 		setList(ai.getAttacks());
-		setTopBottomBounds(by, by + itemList.size() - 1);
+		setTopBottomBounds(by + 1, by + itemList.size());
 		setScrollX(bx);
 		setScrollY(by +1 );
 	}
@@ -38,7 +40,7 @@ public class AttackBox extends UIScreen
 		{
 			if (!player.inventory().get(Type.GUN).isEmpty())
 			{
-				double dmg = player.inventory().getGunDamage();
+				double dmg = player.inventory().getTypeDuration(Type.GUN);
 
 				System.out.println(dmg);
 

@@ -1,21 +1,41 @@
 package items;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class Inventory implements Serializable
 {
-	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
-	
-    private Item[] items;
-    private Item[] equipped;
 
-    private int max;
-    
+	public void checkCapacity()
+	{
+		this.max = (int) getTypeDuration(Type.INVENTORY)+ STARTING_INV_CAP;
+		this.maxEquip = (int)getTypeDuration(Type.HELMET) + (int)getTypeDuration(Type.TORSO)
+				+ (int)getTypeDuration(Type.ARMS) + (int)getTypeDuration(Type.LEGS) + STARTING_EQP_CAP;
+	}
+
+	public int getEquippedMax() {
+		return maxEquip;
+	}
+
+	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
+
+	private Item[] equiped;
+    private Item[] items;
+
+    public static final int STARTING_INV_CAP = 10;
+	public static final int STARTING_EQP_CAP = 25;
+
+
+	private int max, maxEquip;
+
+
+	private List<Item> inventory;
+	private List<Item> equipped;
+
+	private Map<Type, List<Item>> inventoryMap;
+	private Map<Type, List<Item>> equippedMap;
+
     private List<Item> devices;
 	private List<Item> opticalEnhancers;
 
@@ -28,26 +48,82 @@ public class Inventory implements Serializable
     public Inventory(int max)
     {
     	this.max = max;
+    	this.maxEquip = STARTING_EQP_CAP;
+
         items = new Item[max];
-        equipped = new Item[7];
+
+        inventory = new ArrayList<>();
+		equipped = new ArrayList<>();
+
+        inventoryMap = new HashMap<>();
+		equippedMap = new HashMap<>();
     }
-    
-    public Item[] getItems() { return items; }
-    public Item[] getEquipped() { return equipped; }
+    public ArrayList<Item> getItems() { return (ArrayList<Item>) inventory; }
+    public ArrayList<Item> getEquipped() { return (ArrayList<Item>) equipped; }
 
-    public List<Item> getItemList() { return Arrays.asList(items);}
-	public List<Item> getEquippedList() { return Arrays.asList(equipped);}
+    public Map getInventoryMap()
+	{
+		inventoryMap.clear();
 
-    public Item getEquipped(int index) { return equipped[index]; }
+		for(Item i :  inventory)
+		{
+			if(inventoryMap.containsKey(i.type()))
+			{
+				List<Item> list = inventoryMap.get(i.type());
+				list.add(i);
+				inventoryMap.put(i.type(), list);
+			}
+			else
+			{
+				List<Item> list = new ArrayList<>();
+				list.add(i);
+				inventoryMap.put(i.type(), list);
+			}
+
+		}
+		return inventoryMap;
+	}
+	public Map getEquippedMap()
+	{
+		equippedMap.clear();
+
+		for(Item i :  equipped)
+		{
+			if(equippedMap.containsKey(i.type()))
+			{
+				List<Item> list = equippedMap.get(i.type());
+				list.add(i);
+				equippedMap.put(i.type(), list);
+			}
+			else
+			{
+				List<Item> list = new ArrayList<>();
+				list.add(i);
+				equippedMap.put(i.type(), list);
+			}
+
+		}
+		return equippedMap;
+	}
+	public void setMax(int max)
+	{
+		this.max = max;
+	}
+	public void setMaxEquip(int max)
+	{
+		this.maxEquip = max;
+	}
+	public Item get(int index)
+	{
+		if(index < inventory.size())
+    		return inventory.get(index);
+		else
+			return null;
+	}
+    public Item getEquipped(int index) { return equipped.get(index); }
+
     public boolean isFullyEquiped() { return fullyEquiped; }
-    
-    public Item get(int index) 
-    {
-    	if(index <= (items.length -1))
-    			return items[index];
-    	else
-    		return null;
-    }
+
     public void cycleDevice()
     {
     	if(devices.isEmpty())
@@ -88,38 +164,30 @@ public class Inventory implements Serializable
     {
     	ArrayList<Item> specifiedItems =  new ArrayList<>();
     	
-    	for(int i = 0; i < equipped.length; i++)
+    	for(Item i : equipped)
     	{
-    		if(equipped[i] != null && equipped[i].type().equals(type))
-    			specifiedItems.add(equipped[i]);
+    		if(i != null && i.type().equals(type))
+    			specifiedItems.add(i);
     	}
     	//System.out.println(specifiedItems.size() + " items on " + type.toString());
     	
     	return specifiedItems;
     }
-    public double getGunDamage()
+	public double getTypeDuration(Type type)
 	{
-		double dmg = 0;
-		for(int i = 0; i < equipped.length; i++)
-		{
-			if(equipped[i] != null && equipped[i].type() == Type.GUN)
-				dmg += equipped[i].value();
+
+		double  value = 0.0;
+		equippedMap = getEquippedMap();
+
+		if(equippedMap.containsKey(type)) {
+			value = equippedMap.get(type).get(0).value();
+			//System.out.println("There is this type " + type.name());
 		}
-		return dmg;
+
+		//System.out.println("Type misssing" + type.name());
+
+		return value;
 	}
-    public double getStealthNumber()
-    {
-    	Stream str = get(Type.STEALTH).stream();
-    	
-    	double stealth = 0;
-    	for(int i = 0; i < equipped.length; i++)
-    	{
-    		if(equipped[i] != null && equipped[i].type() == Type.STEALTH)
-    			stealth += equipped[i].value();
-    	}
-    	
-    	return stealth;
-    }
     public double getArmorNumber(EquipmentSlot slot, double damage)
     {
     	double d = damage;
@@ -151,132 +219,88 @@ public class Inventory implements Serializable
     }
     public boolean isItemEquiped(Item item)
     {
-    	boolean contains = false;
-    	
-    	for(int i = 0; i < equipped.length; i++)
-    	{
-    		if(item.equals(equipped[i]))
-    			contains = true;
-    	}
-    	return contains;
+		return equipped.contains(item);
     }
     public boolean containsInInventory(Item item)
     {
-    	boolean contains = false;
-    	
-    	for(int i = 0; i < items.length; i++)
-    	{
-    		if(item.equals(items[i]))
-    			contains = true;
-    	}
-    	return contains;
+		return inventory.contains(item);
     }
     public void moveToInventory(int index)
     {
-    	for(int i = 0; i < items.length; i++)
+    	if(inventory.size() + 1 <= max)
     	{
-    		if(items[i] == null)
-    		{
-    			items[i] = equipped[index];
-    			removeEquiped(equipped[index]);
-    		}
-    		
-    		if(items[items.length - 1] != null)
-    			fullyEquiped = true;
-    	}
+			Item i = equipped.remove(index);
+			inventory.add(i);
+			equippedMap = getEquippedMap();
+			inventoryMap = getInventoryMap();
+		}
+
     }
     public void moveToEquiped(int index)
     {
-    	for(int i = 0; i < equipped.length; i++)
-    	{
-    		if(equipped[i] == null)
-    		{
-    			equipped[i] = items[index];
-    			remove(items[index]);
+		if(equipped.size() + 1 <= maxEquip)
+		{
+			Item i = inventory.remove(index);
+			equipped.add(i);
 
-    		}
-    		if(equipped[equipped.length - 1] != null)
-    			fullyEquiped = true;
-    	}
+			equippedMap = getEquippedMap();
+			inventoryMap = getInventoryMap();
+		}
+
     }
     public void equipAll(Item ... toAdd)
 	{
 		for(Item item : toAdd)
 		{
-			for (int i = 0; i < equipped.length; i++)
+			if(equipped.size() + 1 <= maxEquip)
 			{
-				if (equipped[i] == null)
-				{
-					equipped[i] = item;
-					break;
-				}
+				equipped.add(item);
 			}
 		}
 	}
 	public void emptyBag()
 	{
-		items = new Item[max];
-		equipped = new Item[7];
+		inventory.clear();
+		equipped.clear();
 	}
     public void add(Item ... toAdd)
     {
-    	for(Item item : toAdd)
-    	{
-    		for (int i = 0; i < items.length; i++)
-    		{
-    			if (items[i] == null)
-    			{
-    				items[i] = item;
-    				break;
-    			}
-    		}
-    	}
+		for(Item i : toAdd)
+		{
+			if(inventory.size() + 1 < max)
+			{
+				inventory.add(i);
+			}
+		}
     }
     public void removeEquiped(Item item)
     {
-        for (int i = 0; i < equipped.length; i++)
+        for (Item i : equipped)
         {
-            if (equipped[i] == item)
+            if (i == item)
             {
-                 equipped[i] = null;
+                 i = null;
                  return;
             }
         }
     }
     public void remove(Item item)
     {
-        for (int i = 0; i < items.length; i++)
-        {
-            if (items[i] == item)
-            {
-                 items[i] = null;
-                 return;
-            }
-        }
+		inventory.remove(item);
     }
     public boolean isFull()
     {
-        int size = 0;
-        for (int i = 0; i < items.length; i++)
-        {
-            if (items[i] != null)
-                 size++;
-        }
-        return size == items.length;
+		if(inventory.size() >= max)
+			return true;
+		else return false;
     }
     public int getCapacity()
     {
-    	return items.length;
+    	return max;
     }
     public int getItemCount()
     {
-    	int itemCount = 0;;
-    	for(int i = 0; i < getCapacity(); i++)
-    	{
-    		if(items[i] != null)
-    			itemCount++;
-    	}
-    	return itemCount;
+    	return inventory.size();
     }
 	
 	

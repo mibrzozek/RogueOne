@@ -5,6 +5,7 @@ import entities.Entity;
 import structures.TileEngine;
 import wolrdbuilding.*;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class MapScreen implements Screen
@@ -43,14 +44,17 @@ public class MapScreen implements Screen
         int mx = 32;
         int my = 32;
 
-        TileEngine.renderBox(terminal, mw + 2, mh + 2, mx-1, my-1, TileSet.SIMPLE, Palette.paleWhite);
+        miniMap = mini.getTileMiniMap();
+
+
+        TileEngine.renderBox(terminal, mw + 2, mh + 2, mx-1, my-1, TileSet.SIMPLE, true);
 
         for(int x = 0; x < mw; x++)
         {
             for(int y = 0; y < mh; y++)
             {
                 if(x+offsetX < mini.miniW() && y+offsetY < mini.miniH())
-                    terminal.write(miniMap[x+offsetX][y+offsetY][0].getTile().glyph(), x + mx, y + my, Palette.darkerGray);
+                    terminal.write(miniMap[x+offsetX][y+offsetY][0].getTile().glyph(), x + mx, y + my, Palette.monoGrayTeal);
             }
         }
 
@@ -152,5 +156,16 @@ public class MapScreen implements Screen
     @Override
     public void animate() {
 
+    }
+    private Color fore = Palette.paleWhite;
+    private Color back = Palette.theNewBlue;
+    @Override
+    public Color getForeColor() {
+        return fore;
+    }
+
+    @Override
+    public Color getBackColor() {
+        return back;
     }
 }

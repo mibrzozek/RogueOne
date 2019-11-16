@@ -2,11 +2,13 @@ package screens;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import items.Item;
+import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
 
 public class CraftingScreen extends ScrollingBasedScreen
@@ -56,22 +58,24 @@ public class CraftingScreen extends ScrollingBasedScreen
 	}
     public void renderItemList(AsciiPanel terminal)
     {
-    	ArrayList<String> lines = getList(player.inventory().getItems());
+    	/*
+    	ArrayList<Item> lines = getList(player.inventory().getItems());
     	
     	
     	int limit = 18;
         int x = rx+1;
         int y = ry+1;
     	
-    	if(moreToDisplay && index-17 >= 0)
+    	if(moreToDisplay && equipIndex-17 >= 0)
     	{
-    		lines = updateList(index-17);
+    		lines = updateList(equipIndex-17);
     	}
     	
         for (int i = 0; i < limit; i++)	
         {
             terminal.write(lines.get(i), x, y++, Color.white);
         }
+        */
     }
     private ArrayList<String> getList(Item[] list) 
     {
@@ -94,15 +98,15 @@ public class CraftingScreen extends ScrollingBasedScreen
     }
     private ArrayList<String> updateList(int startingIndex)
     {
-    	Item[] items = player.inventory().getItems();
+		List<Item> inventory = player.inventory().getItems();
     	ArrayList<String> toDisplay = new ArrayList<>();
     	
     	int counter =  startingIndex +1;
     	
     	for(int i = 0; i <= 17; i++)
     	{
-    		if(items[startingIndex] != null)
-    			toDisplay.add(" " + (char)175 + items[startingIndex].name());
+    		if(inventory.get(startingIndex) != null)
+    			toDisplay.add(" " + (char)175 + inventory.get(startingIndex).name());
     		else
     			toDisplay.add("+"); 
     		startingIndex++;
@@ -149,6 +153,17 @@ public class CraftingScreen extends ScrollingBasedScreen
 		// TODO Auto-generated method stub
 		
 	}
-	
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
+	}
+
 
 }

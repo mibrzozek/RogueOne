@@ -66,13 +66,13 @@ public class Point implements Serializable
         	return false;
         return true;
     }
-    public List<Point> gridXbyX(Point p, int boxWidth)
+    public List<Point> gridXbyX(Point p, int boxWidth, int boxHeight)
     {
         List<Point> points = new ArrayList<Point>();
 
-        for (int ox = p.x; ox < p.x + boxWidth; ox++)
+        for (int ox = 0; ox < boxWidth; ox++)
         {
-            for (int oy = p.y; oy < p.y + boxWidth; oy++)
+            for (int oy = 0; oy < boxHeight; oy++)
             {
                 if (ox < 0 && oy < 0)
                     continue;
@@ -106,5 +106,43 @@ public class Point implements Serializable
     public String toString()
     {
     	return "x : " + x + " y : " + y + " z : " + z + "\n";
+    }
+
+    public static Point transform(Direction cardinal, Point np)
+    {
+        if(cardinal.equals(Direction.NORTH))
+        {
+            np = new Point(np.x, np.y-1, np.z);
+        }
+        else if(cardinal.equals(Direction.NORTH_EAST))
+        {
+            np = new Point(np.x+1, np.y-1, np.z);
+        }
+        else if(cardinal.equals(Direction.EAST))
+        {
+            np = new Point(np.x+1, np.y, np.z);
+        }
+        else if(cardinal.equals(Direction.SOUTH_EAST))
+        {
+            np = new Point(np.x+1, np.y+1, np.z);
+        }
+        else if(cardinal.equals(Direction.SOUTH))
+        {
+            np = new Point(np.x, np.y+1, np.z);
+        }
+        else if(cardinal.equals(Direction.SOUTH_WEST))
+        {
+            np = new Point(np.x-1, np.y+1, np.z);
+        }
+        else if(cardinal.equals(Direction.WEST))
+        {
+            np = new Point(np.x-1, np.y, np.z);
+        }
+        else if(cardinal.equals(Direction.NORTH_WEST))
+        {
+            np = new Point(np.x-1, np.y-1, np.z);
+        }
+
+        return np;
     }
 }

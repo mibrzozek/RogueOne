@@ -1,8 +1,9 @@
 package screens;
-
+/*
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import items.Item;
+import wolrdbuilding.Palette;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -34,10 +35,10 @@ public class TradingScreen extends ScrollingBasedScreen
 	{
 		if(scrollY - 3 >= 0)
     	{
-    		if(other.inventory().get(index) != null)
+    		if(other.inventory().get(equipIndex) != null)
     		{
     			isSelected = true;
-    			OptionScreen = new  OptionsScreen( rx+17, ry, index, terminal, player, other);
+    			OptionScreen = new  OptionsScreen( rx+17, ry, equipIndex, terminal, player, other);
     			isSelected = false;
     		}
     	}
@@ -68,10 +69,7 @@ public class TradingScreen extends ScrollingBasedScreen
         {
             Item item = items[i];
             String line;
-            /*
-            if (item == null || !isAcceptable(item))
-                continue;
-            */
+
         	if(item != null)
         		line = item.glyph() + " - " + item.name() + " : " + item.value();
         	else 
@@ -93,7 +91,18 @@ public class TradingScreen extends ScrollingBasedScreen
 		// TODO Auto-generated method stub
 		
 	}
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
+	}
 
 
-	
 }
+*/

@@ -14,6 +14,8 @@ public class PlanetPrinter
 	private static int width;
 	private static int height;
 	private int depth;
+
+	private Dungeon dungeon;
 	
 	private Entity player;
 	private TileV[][][] tiles;
@@ -51,7 +53,7 @@ public class PlanetPrinter
 	}
 	public World build()
 	{
-		return new World(tiles, spawnPoints, startingPoints, player);
+		return new World(tiles, spawnPoints, startingPoints, player, dungeon);
 	}
 	static boolean isValidPoint(Point p, int w, int h)
 	{
@@ -125,13 +127,13 @@ public class PlanetPrinter
 	// 	DUNGEON GEN
 	public PlanetPrinter makeDungeons()
 	{
-		Dungeon d = new Dungeon(width, height, depth);
+		dungeon = new Dungeon(width, height, depth);
 
-		tiles = d.getNewDungeon();
+		tiles = dungeon.getNewDungeon();
 		// Done after dungeon is done
-		spawnPoints = d.getSpawnPoints();
-		occupiedPoints = d.getOccupiedPoints();
-		startingPoints = d.getStartingPoints();
+		spawnPoints = dungeon.getSpawnPoints();
+		occupiedPoints = dungeon.getOccupiedPoints();
+		startingPoints = dungeon.getStartingPoints();
 
 
 		/*

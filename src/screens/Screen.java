@@ -1,5 +1,6 @@
 package screens;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.Serializable;
 
@@ -14,4 +15,6 @@ public interface Screen extends Serializable
 	public Screen respondToUserInput(KeyEvent key);
 	public Screen returnScreen(Screen screen);
 	public void animate();
+	public Color getForeColor();
+	public Color getBackColor();
 }

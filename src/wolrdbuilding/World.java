@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import entities.Effect;
 import entities.Entity;
 import entities.Mech;
 import items.Item;
+import items.Type;
+import structures.Air;
+import structures.Dungeon;
 
 public class World implements Serializable
 {
@@ -32,20 +36,27 @@ public class World implements Serializable
 	private ArrayList<Point> insideSpawns;
 	private ArrayList<Point> startingPoints;
 	private ArrayList<Point> firePoints;
+	private ArrayList<Door> doorPoints;
+
+
+	private Air air;
 
 	private ArrayList<Fire> fireCenters;
 
+	private int turns;
+	public int turns() 	{ return turns; }
+
     private int width;
-    public int width() { return width; }
+    public int width() 	{ return width; }
     
     private int height;
     public int height() { return height; }
 	
     private int depth;
-	public int depth() { return depth; }
+	public int depth() 	{ return depth; }
     
     // Constructor
-	public World(TileV[][][] tiles, ArrayList<Point> spawns, ArrayList<Point> startingPoints, Entity player)
+	public World(TileV[][][] tiles, ArrayList<Point> spawns, ArrayList<Point> startingPoints, Entity player, Dungeon d)
 	{
 		this.tiles = tiles;
 		this.player = player;
@@ -53,10 +64,13 @@ public class World implements Serializable
 		this.width = tiles.length;
 		this.height = tiles[0].length;
 		this.depth = tiles[0][0].length;
+
+		this.turns = 0;
 		
 		this.entities = new ArrayList<Entity>();
 		this.projectiles = new ArrayList<Projectile>();
 		this.firePoints = new ArrayList<Point>();
+		this.doorPoints  = d.getDoorPoints();
 
 		this.fireCenters = new ArrayList<>();
 		
@@ -69,8 +83,14 @@ public class World implements Serializable
 		this.insideSpawns = spawns;
 		this.startingPoints = startingPoints;
 
+		this.air = new Air(this);
 		//System.out.println(startingPoints.size());
 	}
+	public Air getAir()
+	{
+		return air;
+	}
+
 	public TileV[][][] getTileMap()
 	{
 		return tiles;
@@ -97,7 +117,6 @@ public class World implements Serializable
 				if(newFire || newFire) // gets newest fires points and sees if new poiint is already ther
 					fireCenters.add(new Fire(p, this));
 		}
-
 	}
     public void animate()
     {
@@ -297,6 +316,8 @@ public class World implements Serializable
     // Updates entity list; Used for when things are killed
     public void update()
     {
+    	turnManagement();
+
     	List<Projectile> projUpdate = new ArrayList<>(projectiles);
     	
     	for (Projectile p : projUpdate)
@@ -330,13 +351,36 @@ public class World implements Serializable
 			}
 		}
     }
+    public void turnManagement()
+	{
+		turns++;
+
+		// Logic for giving out EFFECTS over time spent in the world
+		if(turns % 100 == 0)
+		{
+			player.stats.addEffect(new Effect(Effect.Effects.TRAUMA, "Tired", Palette.purple));
+		}
+		// World changes over time
+		if(turns % 5 == 0)
+		{
+			air.modifyAir(-100);
+		}
+
+		if(air.getOxygen() < 0 && player.inventory().getTypeDuration(Type.OXYGEN) < 1 )
+		{
+			player.stats.setBreathing(false);
+			player.stats.addEffect(new Effect(Effect.Effects.SUFFOCATION, "Suffocating", Palette.red));
+			player.setAlert(true);
+
+			player.notify("It's hard to breathe.");
+		}
+
+	}
     public Tile douseFire()
     {
     	
     	return null;
     }
-    
-    
     public Tile processCollision(Entity e, Projectile p)
     {
     	Point pp = p.point();
@@ -535,4 +579,62 @@ public class World implements Serializable
             }
         }
     }
+
+	public int getTurns() {
+		return turns;
+	}
+
+    public void showDoorUi() {
+    }
+
+	public void openDoor(Point p)
+	{
+		for(Door d : doorPoints)
+		{
+			if(d.getPoints().contains(p))
+			{
+				for(Point ap : d.getPoints())
+				{
+					tiles[ap.x][ap.y][ap.z] = new TileV(Tile.OPEN_DOOR);
+				}
+				d.open();
+			}
+			else
+				System.out.print(p.toString());
+		}
+	}
+
+	public Tile getTile(int x, int y, int z)
+	{
+		return tiles[x][y][z].getTile();
+	}
+
+	public void closeDoor(Point p)
+	{
+		for(Door d : doorPoints)
+		{
+			if(d.getPoints().contains(p))
+			{
+				for(Point ap : d.getPoints())
+				{
+					tiles[ap.x][ap.y][ap.z] = new TileV(Tile.CLOSED_DOOR);
+				}
+				d.close();
+			}
+			else
+				System.out.print(p.toString());
+		}
+	}
+
+	public Door getDoor(Point p)
+	{
+		for(Door d : doorPoints)
+		{
+			if(d.getPoints().contains(p))
+			{
+				return d;
+			}
+		}
+		return null;
+	}
 }

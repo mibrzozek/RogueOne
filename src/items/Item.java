@@ -3,11 +3,12 @@ package items;
 import java.awt.*;
 import java.io.Serializable;
 
+import entities.Effect;
 import entities.Entity;
+import wolrdbuilding.Palette;
 
 public class Item implements Serializable
 {
-
     private char glyph;
     private Color color;
     
@@ -60,7 +61,16 @@ public class Item implements Serializable
     	else if(this.type == Type.CONSUMABLE)
     	{
     		other.notify("Mmmmm, i love bio food!");
+
+    		other.stats.addEffect(new Effect(Effect.Effects.MEGA_RELAXED, "Relaxed", Palette.monoPerfect));
     	}
+        else if(this.type == Type.HEALING)
+        {
+            other.notify("This will stop the bleeding");
+
+            other.stats.healAllVitals(this.value);
+
+        }
     }
     @Override
     public String toString()

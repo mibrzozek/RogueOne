@@ -7,17 +7,13 @@ import java.io.Serializable;
 public class TileV implements Serializable
 {
     private int asciiValue;
-
     private Tile t;
 
     private char glyph;
-
     private Color colorF;
     private Color colorB;
 
     private boolean isStructure, isFloor;
-
-
 
     public TileV(Tile t)
     {

@@ -60,7 +60,7 @@ public class KeyInputScreen implements Screen
 				bh = 50;
 			}
 
-			TileEngine.renderBox(terminal, 20, bh, x - 2, y-1, TileSet.SIMPLE);
+			TileEngine.renderBox(terminal, 20, bh, x - 2, y-1, TileSet.SIMPLE, true);
 
 
 			for(int i = 0; i < c.getLog().size(); i++)
@@ -206,5 +206,16 @@ public class KeyInputScreen implements Screen
 		// TODO Auto-generated method stub
 		
 	}
-	
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
+	}
+
 }

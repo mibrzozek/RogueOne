@@ -1,5 +1,6 @@
 package screens;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +8,10 @@ import java.util.List;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import structures.TileEngine;
+import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
+
+import javax.swing.*;
 
 public class UIScreen implements Screen
 {
@@ -33,9 +37,11 @@ public class UIScreen implements Screen
 	protected int by;
 	
 	private TileSet ts;
+	private JFrame main;
 	
-	public UIScreen(Entity player, PlayScreen ps)
+	public UIScreen(Entity player, PlayScreen ps, JFrame main)
 	{
+		this.main = main;
 		this.ps = ps;
 		this.player = player;
 		this.index = 0;
@@ -82,7 +88,7 @@ public class UIScreen implements Screen
 		if(exitSubScreen ==  true)
 			return;
 
-		TileEngine.renderBox(terminal, bw, bh, bx, by, ts);
+		TileEngine.renderBox(terminal, bw, bh, bx, by, ts, true);
 		render(terminal);
 		terminal.write((char) 16, scrollX, scrollY);
 	}
@@ -106,6 +112,7 @@ public class UIScreen implements Screen
 				index--;
 			}
 		}
+		System.out.print("Scrolling");
 	}
 	public void scrollDown()
 	{
@@ -129,6 +136,9 @@ public class UIScreen implements Screen
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
 	{
+		if(this instanceof DoorScreen)
+			System.out.println("This is a door screen bruh");
+
 		if(exitSubScreen)
 		{
 			return null;
@@ -151,10 +161,17 @@ public class UIScreen implements Screen
 			{
 				case KeyEvent.VK_UP:  scrollUp(); break;
 				case KeyEvent.VK_DOWN: scrollDown(); break;
-				case KeyEvent.VK_RIGHT:	select(); break;
+				case KeyEvent.VK_RIGHT:
+							select();
+							if(this instanceof DoorScreen)
+								return null;
+							break;
 				
 				case KeyEvent.VK_T:
-				case KeyEvent.VK_LEFT: return null;
+				case KeyEvent.VK_LEFT:
+					if(this instanceof DoorScreen)
+						player.setShowUI(false);
+					return null;
 			
 				case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(terminal, this); break;
 	      		case KeyEvent.VK_ENTER:  break;
@@ -163,7 +180,7 @@ public class UIScreen implements Screen
 		if(exitGame)
 		{
 			exitGame = false;
-			return new StartScreen(terminal);
+			return new StartScreen(terminal, main);
 		}
 	return this;
 
@@ -179,5 +196,16 @@ public class UIScreen implements Screen
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
 	}
 }

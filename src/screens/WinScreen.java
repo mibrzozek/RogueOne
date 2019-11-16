@@ -1,15 +1,21 @@
 package screens;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 import asciiPanel.AsciiPanel;
 
+import javax.swing.*;
+
 public class WinScreen implements Screen 
 {
 	AsciiPanel terminal;
+	private JFrame main;
 
-	public WinScreen(AsciiPanel terminal)
+	public WinScreen(AsciiPanel terminal, JFrame main)
+
 	{
+		this.main = main;
 		this.terminal = terminal;
 	}
 
@@ -23,7 +29,7 @@ public class WinScreen implements Screen
 	@Override
 	public Screen respondToUserInput(KeyEvent key) 
 	{
-		return key.getKeyCode() == KeyEvent.VK_ENTER ? new StartScreen(terminal) : this;
+		return key.getKeyCode() == KeyEvent.VK_ENTER ? new StartScreen(terminal, main) : this;
 		
 	}
 
@@ -39,6 +45,16 @@ public class WinScreen implements Screen
 	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Color getForeColor() {
+		return null;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return null;
 	}
 
 

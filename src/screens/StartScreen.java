@@ -17,26 +17,52 @@ import wolrdbuilding.Tile;
 import wolrdbuilding.TilePoint;
 import wolrdbuilding.TileSet;
 
+import javax.swing.*;
+
 public class StartScreen implements Screen
 {
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
+	}
+
 	AsciiPanel terminal;
 	private HashMap<String, ArrayList<TilePoint>> structureMap;
 	ArrayList<TilePoint> testStructure;
 	//playScreen
 	private boolean rendered = false;
 	private Screen subscreen;
+	private JFrame main;
 	
 	
-	public StartScreen(AsciiPanel terminal)
+	public StartScreen(AsciiPanel terminal, JFrame main)
 	{
+		this.main = main;
 		this.terminal = terminal;
 		testStructure = new ArrayList<>();
 		structureMap = new RexReader().getStructures();
+
+		//subscreen = new AnimationScreen(testStructure, terminal);
+		//Thread t = new Thread(new AnimationScreen(testStructure, terminal));
+		//t.start();
+
 	}
 	
 	@Override
 	public void displayOutput(AsciiPanel terminal) 
-	{	this.terminal = terminal;
+	{
+
+		this.terminal = terminal;
+
+
 		if(!rendered)
 		{
 			testStructure = structureMap.get("ascciWorld.csv");
@@ -90,10 +116,11 @@ public class StartScreen implements Screen
 	{
 		switch (key.getKeyCode())
 		{
-	    	case KeyEvent.VK_ESCAPE: return new LoseScreen(terminal);
+			case KeyEvent.VK_SHIFT: ((AnimationScreen)subscreen).animate();
+	    	case KeyEvent.VK_ESCAPE: return new LoseScreen(terminal, null, main);
 	      	case KeyEvent.VK_ENTER:
 			{
-				return new CharacterCreationScreen();
+				return new CharacterCreationScreen(main);
 			}
 			case KeyEvent.VK_SPACE:
 			{

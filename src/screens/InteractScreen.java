@@ -11,6 +11,8 @@ import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
 
+import javax.swing.*;
+
 public class InteractScreen extends UIScreen
 {
 	private Entity entity;
@@ -23,9 +25,9 @@ public class InteractScreen extends UIScreen
 	private ArrayList<ArrayList> responses;
 	private ArrayList<ArrayList> replies;
 
-	public InteractScreen(Entity player, PlayScreen ps, Entity entity)
+	public InteractScreen(Entity player, PlayScreen ps, Entity entity, JFrame main)
 	{
-		super(player, ps);
+		super(player, ps, main);
 		this.bw = 50;
 		this.bh = 15;
 		this.bx = 1;
@@ -69,14 +71,14 @@ public class InteractScreen extends UIScreen
 	}
 	public void processSelect()
 	{
-		System.out.println("index " + index );
+		System.out.println("equipIndex " + index );
 		if(script.getProgressLevel(Script.Type.TERMINAL) + 1 < script.getNumLevels(Script.Type.TERMINAL))
 		{ // Increments progress if there is more dialgue to be had
 			script.processDecision(Script.Type.TERMINAL, player, index);
 		}
 		else if(script.getProgressLevel(Script.Type.TERMINAL) + 1 == script.getNumLevels(Script.Type.TERMINAL))
 		{ // Proceces but doesn't increment b/c no more progress to be had
-			//script.processDecision(Script.Type.TERMINAL, player, index);
+			//script.processDecision(Script.Type.TERMINAL, player, equipIndex);
 		}
 	}
 	@Override

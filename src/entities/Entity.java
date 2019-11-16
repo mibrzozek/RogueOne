@@ -27,6 +27,7 @@ import wolrdbuilding.*;
 public class Entity implements Serializable
 {
 	private static final int DEFAULT_VISION_RADIUS = 5;
+	private boolean showUI = false;
 	//public enum Direction()
 	
 	// Context Variables
@@ -40,7 +41,7 @@ public class Entity implements Serializable
     
     // Describers   
     public Tile tagged = Tile.TAGGED;
-    private String name;
+    private String name, lastMessage = "";
     private Tile tile;
     private int visionRadius;
     // Abstract
@@ -48,6 +49,7 @@ public class Entity implements Serializable
     private Inventory inventory;
     private boolean equiped = false;
     private boolean tradeMode = false;
+	private boolean dead = false;
     // Stats
     public Statistics stats;
     private int maxHP;
@@ -68,8 +70,9 @@ public class Entity implements Serializable
     private ArrayList<Projectile> projectiles;
     
     private Random r = new Random();
-    
-    public Entity(Statistics stats, World world, Tile tile)
+	private Point doorPoint;
+
+	public Entity(Statistics stats, World world, Tile tile)
     {
     	this.stats = stats;
     	this.world = world;
@@ -114,10 +117,12 @@ public class Entity implements Serializable
         stats.setName(name);
         
         this.projectiles = null;
-        this.inventory = new Inventory(20);
+        this.inventory = new Inventory(30);
         this.crypto = 100;
     }
 
+    public boolean getAlert(){ return stats.getAlert(); }
+    public void setAlert(boolean alert){ stats.setAlert(alert);}
     public void setScript(Script script)		{	this.script = script;	}
     public void setTile(Tile t)					{ 	this.tile = tile;	}						
     public void addFOV(FieldOfView fov)			{   ((PlayerAi)ai).setFOV(fov); }
@@ -153,7 +158,7 @@ public class Entity implements Serializable
     public boolean tradeMode()		{ return tradeMode; }
     public Point tradersPosition()  { return tradersPosition; }
     public Entity lastTargeted()	{ return lastTargetedEnemy;}
-    public double getStealth()		{ return inventory.getStealthNumber();}
+    public double getStealth()		{ return inventory.getTypeDuration(Type.STEALTH);}
     public FieldOfView fov()		{ if( ai instanceof PlayerAi)
     										return ((PlayerAi) ai).getFOV();
     									else return null;
@@ -173,6 +178,11 @@ public class Entity implements Serializable
     {
         return world.entity(wx, wy, wz);
     }
+
+    public void setDead(boolean dead)
+	{
+		this.stats.setDead(dead);
+	}
     public void equipItem(Item item)
     {
     	if(item != null && !inventory.isFullyEquiped())
@@ -292,21 +302,17 @@ public class Entity implements Serializable
         int amount = Math.max(0, attackValue());
     
         amount = (int)(Math.random() * amount) + 1;
+        amount = r.nextInt(93) + 7;
         
         other.notify("The '%s' attacks you for %d damage.", name, amount);
-        
         notify("You deal '%s' damage to the enemy", amount);
         
         if(other.ai instanceof PlayerAi)
         	other.dealDamage(-100);
         else
         	other.modifyHp(-amount);
-        	
-    }
-    public void addEffect(Effect e)
-	{
 
-	}
+    }
     public void testMethod()
     {
     	System.out.println("testing");
@@ -365,7 +371,9 @@ public class Entity implements Serializable
     	damage = inventory.getArmorNumber(slot, damage);
     	// check attributes, negate or cause more damage
     	modifyLimbHealth(slot, damage);
-    	
+
+    	if(stats.getVitals() <  1)
+    		dead = true;
     }
     public void modifyLimbHealth(EquipmentSlot slot, double damage)
     {
@@ -517,13 +525,23 @@ public class Entity implements Serializable
 	
 	public void moveBy(int mx, int my, int mz)
 	{
+
 		if (mx == 0 && my == 0 && mz == 0)
 		    return;
+
 		if(shieldValue + 5 < 80)
 			shieldValue += 1;
-		
+
+		//Point p =  new Point(x+mx, y+my, z+mz);
 		TileV tile = world.tile(x+mx, y+my, z+mz);
-		
+
+		/*
+		if(tile.getTile().equals(Tile.CLOSED_DOOR))
+		{
+			setDoorPoint(p);
+		}
+		*/
+
 		if (mz == -1)
 		{
 			if (tile.getTile() == Tile.STAIRS_DOWN)
@@ -582,6 +600,15 @@ public class Entity implements Serializable
 			tradersPosition = new Point(x+mx, y+my,z+mz);
 		}	
 	}
+	public void setShowUI(boolean b)
+	{
+		showUI = b;
+	}
+	public boolean showDoorUi()
+	{
+		return showUI;
+	}
+
 	public void pickup()
 	{
         Item item = world.item(x, y, z);
@@ -615,14 +642,14 @@ public class Entity implements Serializable
 		{
 			doAction("drop a " + inventory.get(i).name());
 			world.addAtEmptySpace(inventory.get(i),x,y,z);
-			inventory.remove(inventory.get(i));
+			inventory.getItems().remove(inventory.get(i));
 			
 		}
 		else
 		{
 			doAction("drop a " + inventory.getEquipped(i).name());
 			world.addAtEmptySpace(inventory.getEquipped(i),x,y,z);
-			inventory.removeEquiped(inventory.getEquipped(i));
+			inventory.getEquipped().remove(inventory.getEquipped(i));
 			
 		}
     }
@@ -632,7 +659,6 @@ public class Entity implements Serializable
 	}
 	public boolean equals(Object obj)
 	{
-
 		Entity entity = null;
 		
 		if(obj instanceof Entity)
@@ -650,7 +676,10 @@ public class Entity implements Serializable
 			return false;
 		
 	}
-
+	public boolean isDead()
+	{
+		return stats.isDead();
+	}
 
 	public void updateStats()
 	{
@@ -660,5 +689,35 @@ public class Entity implements Serializable
 		{
 			this.setVisionRadius(DEFAULT_VISION_RADIUS);
 		}
+	}
+	public void processStates()
+	{
+		stats.processEffects();
+		stats.processVitals();
+		inventory.checkCapacity();
+
+
+		if(inventory.getTypeDuration(Type.OXYGEN) > 0 || world.getAir().getOxygen() > 0)
+		{
+			stats.setBreathing(true);
+		}
+		else
+		{
+			stats.setBreathing(false);
+		}
+	}
+
+	public void setDoorPoint(Point doorPoint)
+	{
+		this.doorPoint = doorPoint;
+	}
+	public Point getDoorPoint()
+	{
+		return this.doorPoint;
+	}
+
+	public Point point()
+	{
+		return new Point(x, y, z);
 	}
 }

@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import screens.KeyInputScreen;
 import wolrdbuilding.Palette;
@@ -38,6 +39,10 @@ public class Statistics implements Serializable
 	
 	private double stealth;
 
+	private boolean dead = false;
+	private boolean breathing = true;
+	private boolean alert = false;
+
 	private ArrayList<Effect> effects;
 
 	private ArrayList<String> traits;
@@ -57,7 +62,7 @@ public class Statistics implements Serializable
 		this.stealth = 0;
 
 		this.effects = new ArrayList<>();
-		effects.add(new Effect(Effect.Effects.SATITATED, "FULL", Palette.green));
+		effects.add(new Effect(Effect.Effects.SATITATED, "Full", Palette.green));
 		
 		this.vitals = head + torso + lHand + rHand + lLeg + rLeg;
 	}
@@ -105,9 +110,10 @@ public class Statistics implements Serializable
 	public void setStealth(double stealth){this.stealth = stealth;}
 	public void setTraits(ArrayList<String> traits){	this.traits = traits;}
 	public void setEffects(ArrayList<Effect> effects)	{	this.effects = effects;	}
-	public void setSkills(ArrayList<String> skills)		{	this.skills = skills;	}	
-	
-	
+	public void setSkills(ArrayList<String> skills)		{	this.skills = skills;	}
+	public void setDead(boolean dead)					{ 	this.dead = dead;}
+	public void setBreathing(boolean b){ this.breathing = b;}
+
 	public String getName()				{	return name;			}
 	public String getRole()				{	return role;			}
 	public int getPoints()				{	return points;			}
@@ -130,12 +136,70 @@ public class Statistics implements Serializable
 	public ArrayList<String> getTraits(){return traits;}
 	public ArrayList<Effect> getEffects()	{return effects;	}
 	public ArrayList<String> getSkills()	{	return skills;	}
+	public boolean isDead()					{	return dead;	}
+	public boolean isBreathing()			{	return breathing;	}
 
+	public void healAllVitals(int value)
+	{
+		int sl = 0;
+		int hv = 0;
+
+		if(lHand > 0)
+			sl++;
+		if(rHand > 0)
+			sl++;
+		if(rLeg > 0)
+			sl++;
+		if(lLeg > 0)
+			sl++;
+		if(head > 0)
+			sl++;
+		if(torso > 0)
+			sl++;
+
+		hv = value/sl;
+
+		if(lHand > 0)
+			lHand += hv;
+		if(rHand > 0)
+			rHand += hv;
+		if(rLeg > 0)
+			rLeg += hv;
+		if(lLeg > 0)
+			lLeg += hv;
+		if(head > 0)
+			head += hv;
+		if(torso > 0)
+			torso += hv;
+
+
+	}
+	public void removeEffect(Effect e)
+	{
+		if(effects.contains(e))
+		{
+			effects.remove(e);
+		}
+	}
 	public void addEffect(Effect e)
 	{
-		effects.add(e);
+		if(!effects.contains(e))
+		{
+			effects.add(e);
+			System.out.println(e.getEffectTag());
+		}
+		else
+		{
+			for(int i = 0; i < effects.size(); i++)
+			{
+				if(effects.get(i).getEffectTag().equals(e.getEffectTag())
+						&& effects.get(i).getEffectLength() > 0)
+				{
+					effects.get(i).modifyLength(e.getEffects().getValue());
+				}
+			}
+		}
 	}
-
 	public double checkForNegative(double newVal)
 	{
 		if(newVal >= 0)
@@ -145,14 +209,14 @@ public class Statistics implements Serializable
 	}
 	// Allows to add attributes iteratively
 	// in the character creation screen
-	// Th index
+	// Th equipIndex
 	public void setAttribute(int index, String s)
 	{	
 		Integer parsed = 0;
 		try {
 			parsed = Integer.parseInt(s);
 		}
-		catch(Exception NumberFormartException)
+		catch(Exception NumberFormatException)
 		{
 			
 		}
@@ -241,6 +305,97 @@ public class Statistics implements Serializable
 	    {
 	    	
 	    }
-	}	
-	
+	}
+	/*
+		PROCESSING EFFECTS
+
+		Various checks to see if an effect is still active
+		Cancels and starts new effects depending on conditions
+
+	 */
+	public void processEffects()
+	{
+		System.out.println(getVitals() + " health\n");
+		/*
+
+		 */
+		ArrayList<Effect> l = getEffects();
+		List<Effect> indexToRemove = new ArrayList();
+
+		for(Effect e : l) // update and queue done effects
+		{
+			e.update();
+
+			if(e.getEffectLength() == 0) // zero is the condition in which effects end
+			{
+
+				if(e.getEffectTag().equals("Suffocating"))
+				{
+					System.out.println(e.getEffectLength() + "  tis is the effect length");
+					setDead(true);
+				}
+				if(!dead) // saves the cause of death for lose screen
+					indexToRemove.add(e);
+			}
+
+			if(breathing && e.getEffectTag().equals("Suffocating"))
+			{
+				indexToRemove.add(e);
+				setAlert(false);
+			}
+		}
+		if(!indexToRemove.isEmpty()) // remove done effects
+		{
+			for(Effect es : indexToRemove)
+			{
+				getEffects().remove(es);
+			}
+		}
+	}
+	public Effect getMostDangerousEffect()
+	{
+		Effect e = null;
+
+		for(Effect es : effects)
+		{
+			if(es.getGolor().equals(Palette.red)) // red effects are dangerous ones
+			{
+				if(e == null) // make the first red effect we look at the most dangerous
+					e = es;
+				else
+				{
+					if(e.getTotalLength() > es.getTotalLength()) // compare next red effect length to current red effect length
+					{
+						e = es;
+					}
+				}
+			}
+		}
+
+		return e;
+	}
+	public boolean getAlert() {
+		return alert;
+	}
+
+	public void setAlert(boolean alert) {
+		this.alert = alert;
+	}
+
+	public void processVitals()
+	{
+		if(getVitals() < 1)
+		{
+			setDead(true);
+			System.out.println(getVitals() + " setting DEAD\n");
+		}
+
+		if(getlHand() + getrHand() < 0)
+		{
+			addEffect(new Effect(Effect.Effects.DESTROYED_HANDS, "Broken Arm", Palette.red));
+		}
+
+
+
+	}
 }

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import asciiPanel.AsciiPanel;
 import items.ItemFactory;
+import items.Type;
 import wolrdbuilding.Tile;
 import wolrdbuilding.World;
 
@@ -101,7 +102,7 @@ public class EntityFactory implements Serializable
 		player.inventory().add(new ItemFactory().newBioLard());
 		player.inventory().add(new ItemFactory().newMacroUzi());
 		
-		player.stats.setStealth(player.inventory().getStealthNumber());
+		player.stats.setStealth(player.inventory().getTypeDuration(Type.STEALTH));
 		
 		return player;
 	}

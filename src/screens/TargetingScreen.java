@@ -1,5 +1,6 @@
 package screens;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
@@ -9,6 +10,8 @@ import entities.PlayerAi;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
+
+import javax.swing.*;
 
 public class TargetingScreen implements Screen
 {
@@ -21,9 +24,12 @@ public class TargetingScreen implements Screen
 	private List<Entity> inView;
 	
 	private int index, lastSize, scrollY, scrollX;
+
+	private JFrame main;
 	
-	public TargetingScreen(Entity player, PlayScreen ps)
+	public TargetingScreen(Entity player, PlayScreen ps, JFrame main)
 	{
+		this.main = main;
 		this.ps = ps;
 		this.player = player;
 		inView = player.fov().getEntities();
@@ -77,14 +83,15 @@ public class TargetingScreen implements Screen
 		int x = 0;
 		int y = 49 - inView.size() -1;
 		
-		TileEngine.renderBox(terminal, 31, inView.size() + 2 ,x, y,  TileSet.SIMPLE);
+		TileEngine.renderBox(terminal, 31, inView.size() + 2 ,x, y,  TileSet.SIMPLE, true);
 		
 		y += 1;
 		for(Entity e : inView)
 		{	
 			if(e.name() != null)
 				terminal.write(e.name(), 1, y);
-				TileEngine.renderPercentBlocks(terminal, Palette.green, e.name().length() + 2, y++, e.hp(), e.maxHP());
+				TileEngine.renderPercentBlocksV2(terminal, 1, y++, e.name(), e.hp() , e.maxHP(), Palette.pastelGreen);
+			//TileEngine.renderPercentBlocks(terminal, Palette.green, Palette.monoGreen, e.name().length() + 2, y++, e.hp(), e.maxHP(), true);
 		}
 	}
 	public void select()
@@ -92,7 +99,7 @@ public class TargetingScreen implements Screen
 		PlayerAi  ai = (PlayerAi)player.getEntityAi();
 		Entity enemy = inView.get(index);
 
-		subScreen = new AttackBox(player, 31, ai.getAttacks().size() + 2, 31, 49 - ai.getAttacks().size() - 1, enemy, ps);
+		subScreen = new AttackBox(player, 31, ai.getAttacks().size() + 2, 31, 49 - ai.getAttacks().size() - 1, enemy, ps, main);
 	}
 	public void scrollUp()
 	{
@@ -152,7 +159,7 @@ public class TargetingScreen implements Screen
 		if(exitGame)
 		{
 			exitGame = false;
-			return new StartScreen(terminal);
+			return new StartScreen(terminal, main);
 		}
 	return this;
 
@@ -168,5 +175,16 @@ public class TargetingScreen implements Screen
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
 	}
 }

@@ -15,6 +15,8 @@ public class PlayerAi extends EntityAi
 	private List<String> messages;
 	private FieldOfView fov;
 	private boolean canMine = false;
+
+	private String lastMessage = "";
 	
 	private List<String> attacks;
 	 
@@ -33,7 +35,27 @@ public class PlayerAi extends EntityAi
     	this.entity.tagged = Tile.TAGGED_PLAYER;
     	this.entity.setScript(new Script());
 
-    	this.entity.inventory().add(new ItemFactory().newDevSword());
+    	entity.inventory().setMax(30);
+
+		this.entity.inventory().add(new ItemFactory().newRedVisor());
+
+
+		this.entity.inventory().add(new ItemFactory().newGR7());
+		this.entity.inventory().add(new ItemFactory().newMedicinal());
+		this.entity.inventory().add(new ItemFactory().newConKit());
+		this.entity.inventory().add(new ItemFactory().newBandages());
+		this.entity.inventory().add(new ItemFactory().newHelmet2());
+		this.entity.inventory().add(new ItemFactory().newClearanceGold());
+
+
+    	this.entity.stats.addEffect(new Effect(Effect.Effects.STONED, "High", Palette.lightBlue));
+		this.entity.stats.addEffect(new Effect(Effect.Effects.FRIENDLY, "Social", Palette.monoYellow));
+		this.entity.stats.addEffect(new Effect(Effect.Effects.HAPPY, "Happy", Palette.pastelPink));
+		this.entity.stats.addEffect(new Effect(Effect.Effects.BROKEN_ARM, "Broken Arm", Palette.red));
+		this.entity.stats.addEffect(new Effect(Effect.Effects.DESTROYED_HANDS, "Broken Fingers", Palette.red));
+		this.entity.stats.addEffect(new Effect(Effect.Effects.SATITATED, "Stuffed", Palette.green));
+
+
     }
     public ArrayList<String> getAttacks()
     {
@@ -42,7 +64,9 @@ public class PlayerAi extends EntityAi
     
     public void setFOV(FieldOfView fov) 	{	this.fov = fov;	}
     public FieldOfView getFOV()				{	return fov;     }
-    
+
+
+
     public void onEnter(int x, int y, int z, Tile tile)
     {
     	entity.setTradeMode(false);
@@ -80,7 +104,10 @@ public class PlayerAi extends EntityAi
     }
     public void onNotify(String message)
     {
-    	messages.add(message);
+    	if(!lastMessage.equals(message)) // won't send duplicate messages
+    		messages.add(message);
+
+    	lastMessage = message;
     }
     @Override
 	public boolean canSee(int wx, int wy, int wz)

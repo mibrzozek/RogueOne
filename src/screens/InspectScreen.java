@@ -22,7 +22,9 @@ public class InspectScreen implements Screen
 	private int X = 4;
 	private int Y = 2;
 	
-	Item[] items;
+	//Item[] items;
+
+	List<Item> inventory;
 
 	
 	int index;
@@ -33,13 +35,12 @@ public class InspectScreen implements Screen
 	public InspectScreen(Item item)
 	{
 		this.item = item;
-		this.items = null;
 		rx = 4;
 		ry = 2;
 	}
-	public InspectScreen(Item[] items, int index, int rx, int ry)
+	public InspectScreen(List<Item> inv, int index, int rx, int ry)
 	{
-		this.items = items;
+		this.inventory = inv;
 		this.index = index;
 		this.rx = rx;
 		this.ry = ry;
@@ -63,8 +64,8 @@ public class InspectScreen implements Screen
 	{
 		//renderGrayBackground(terminal);
 		TileEngine.renderBox(terminal, 45, 19, rx, ry+1, TileSet.SIMPLE, Palette.white);
-		if(items != null)
-			item = items[index];
+		if(inventory != null)
+			item = inventory.get(index);
 			
 		renderTitleDescription(terminal, item);
 
@@ -132,9 +133,9 @@ public class InspectScreen implements Screen
 	}
     public void scrollDown()
     {	
-    	if(items !=null)
+    	if(!inventory.isEmpty())
     	{
-    		if(index + 1 == items.length)
+    		if(index + 1 == inventory.size())
     			index = 0;
     		else
     			index++;
@@ -142,10 +143,10 @@ public class InspectScreen implements Screen
     }
     public void scrollUp()
     {	
-    	if(items !=null)
+    	if(!inventory.isEmpty())
     	{
     		if(index - 1 == -1)
-    			index = items.length - 1;
+    			index = inventory.size() - 1;
     		else
     			index--;
     	}
@@ -178,5 +179,16 @@ public class InspectScreen implements Screen
 	{
 		// TODO Auto-generated method stub
 		
-	}	
+	}
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
+	}
 }

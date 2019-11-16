@@ -9,7 +9,10 @@ import asciiPanel.AsciiPanel;
 import entities.Entity;
 import items.Item;
 import items.Type;
+import structures.TileEngine;
+import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
+import wolrdbuilding.TileSet;
 
 public class OptionsScreen extends ScrollingBasedScreen
 {
@@ -22,9 +25,9 @@ public class OptionsScreen extends ScrollingBasedScreen
 	private int index;
 	private int itemIndex;
 	
-	private static Item[] items;
-	private static Item[] equiped;
-	private static Item[] tradersItems;
+	private List<Item> inventory;
+	private List<Item> equipped;
+	private List<Item> tradersItems;
 	
 	private String mode;
 	private Screen inspectScreen = null;
@@ -37,8 +40,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 	// optionss for dialog
 	
 	// Inventory Options Constructor
-	public OptionsScreen(Entity player, int scrollX, int scrollY, int itemIndex, boolean fromInventory, AsciiPanel terminal)
-	{
+	public OptionsScreen(Entity player, int scrollX, int scrollY, int itemIndex, boolean fromInventory, AsciiPanel terminal) {
 		super(player, terminal, fromInventory);
 		this.player = player;
 		this.selectingFromInventory = fromInventory;
@@ -47,34 +49,44 @@ public class OptionsScreen extends ScrollingBasedScreen
 		renderX = scrollX;
 		renderY = scrollY;
 		this.itemIndex = itemIndex;
-		
-	    items = player.inventory().getItems();
-	    equiped = player.inventory().getEquipped();
-	    tradersItems = null;
-		
-	    optionList = new ArrayList<String>();
+
+		inventory = player.inventory().getItems();
+		equipped = player.inventory().getEquipped();
+		tradersItems = null;
+
+		optionList = new ArrayList<String>();
 		optionList.add("Inspect");
 		optionList.add("equipUnequip");
 		optionList.add("Drop");
 		optionList.add("Craft");
 
-		if(selectingFromInventory)
+		if (selectingFromInventory)
 		{
-			if(items[itemIndex].type().equals(Type.APLASMA))
+			if (inventory.get(itemIndex).type().equals(Type.APLASMA))
 				optionList.add("Use");
-			else if(items[itemIndex].type().equals(Type.CONSUMABLE))
+			else if (inventory.get(itemIndex).type().equals(Type.CONSUMABLE))
 				optionList.add("Eat");
-			else if(items[itemIndex].type().equals(Type.VILE))
+			else if (inventory.get(itemIndex).type().equals(Type.VILE))
 				optionList.add("Drink");
+			else if (inventory.get(itemIndex).type().equals(Type.HEALING)
+					|| inventory.get(itemIndex).type().equals(Type.HEAD_HEALING)
+					|| inventory.get(itemIndex).type().equals(Type.PASSIVE_HEALING)
+					)
+				optionList.add("Heal");
 		}
 		else
 		{
-			if(equiped[itemIndex].type().equals(Type.APLASMA))
+			if (equipped.get(itemIndex).type().equals(Type.APLASMA))
 				optionList.add("Use");
-			else if(equiped[itemIndex].type().equals(Type.CONSUMABLE))
+			else if (equipped.get(itemIndex).type().equals(Type.CONSUMABLE))
 				optionList.add("Eat");
-			else if(equiped[itemIndex].type().equals(Type.VILE))
+			else if (equipped.get(itemIndex).type().equals(Type.VILE))
 				optionList.add("Drink");
+			else if (equipped.get(itemIndex).type().equals(Type.HEALING)
+					|| equipped.get(itemIndex).type().equals(Type.HEAD_HEALING)
+					|| equipped.get(itemIndex).type().equals(Type.PASSIVE_HEALING)
+					)
+				optionList.add("Heal");
 		}
 	}
 	// Trading Options Constructor
@@ -89,7 +101,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 		renderX = scrollX;
 		renderY = scrollY;
 		
-	    items = player.inventory().getItems();
+	    inventory = player.inventory().getItems();
 	    tradersItems = other.inventory().getItems();
 	    
 		optionList = new ArrayList<String>();
@@ -105,10 +117,12 @@ public class OptionsScreen extends ScrollingBasedScreen
 		this.scrollX = scrollX;
 		this.scrollY = scrollY;
 		this.itemIndex = itemIndex;
+
 		renderX = scrollX;
 		renderY = scrollY;
 		
-	    items = player.inventory().getItems();
+	    inventory = player.inventory().getItems();
+
 		optionList = new ArrayList<String>();
 		optionList.add("Inspect");
 		optionList.add("Craft");
@@ -131,8 +145,8 @@ public class OptionsScreen extends ScrollingBasedScreen
 	{
 		int x = renderX+1;
 		int y = renderY+1;
-	
-		renderBox(terminal);
+
+		TileEngine.renderBox(terminal, 15, optionList.size() + 2, renderX, renderY, TileSet.SIMPLE, true);
 
 		if(selectingFromInventory)
 			optionList.set(1, "Equip");
@@ -144,40 +158,18 @@ public class OptionsScreen extends ScrollingBasedScreen
 		
 		for(int i = 0; i < optionList.size(); i++)
 		{
-				terminal.write(""+ optionList.get(i), x+1, y++ );
+				terminal.write(""+ optionList.get(i), x, y++ );
 		}
-		terminal.write((char)16 + "" +  index , scrollX+1, scrollY+1, AsciiPanel.brightGreen);
+		terminal.write((char)16 + "" +  index , scrollX, scrollY+1, AsciiPanel.brightGreen);
 		
 		if(inspectScreen != null)
 			inspectScreen.displayOutput(terminal);
 	}
-	public void renderBox(AsciiPanel terminal)
-	{
-		int xo = 14;
-		int yo = 5;
-		
-		for(int x = renderX; x <= renderX + xo; x++)
-		{
-			for(int y = renderY; y <= renderY +yo; y++)
-			{
-				if(x == renderX || x == renderX + xo)
-    				terminal.write((char) 179, x, y, Color.CYAN);
-				else if (y == renderY || y == renderY+yo)
-					terminal.write((char) 196, x, y,  Color.CYAN);
-				else
-					terminal.write(' ', x, y,  Color.WHITE);
-			}
-		}
-    	terminal.write((char) 194, renderX, renderY);
-    	terminal.write((char) 194, renderX-1, renderY);
-    	terminal.write(Tile.trCorner.glyph(), renderX+xo , renderY);
-    	terminal.write(Tile.brCorner.glyph(), renderX+xo, renderY+yo);
-    	terminal.write((char) 192, renderX, renderY + yo);
-	}
+
     public void scrollDown()
     {	
   
-    	if(scrollY + 1 != renderY+5)
+    	if(scrollY + 1 != renderY+optionList.size())
     		scrollY++;
     	
     	index = scrollY - renderY;
@@ -198,18 +190,18 @@ public class OptionsScreen extends ScrollingBasedScreen
 			if(selectingFromInventory)
 			{
 				inspectScreen = new InspectScreen(player.inventory().getItems()
-						, itemIndex, renderX-45, renderY);
+						, itemIndex, renderX, renderY);
 			}
 			else
 			{
 				inspectScreen = new InspectScreen(player.inventory().getEquipped()
-						, itemIndex, renderX-45, renderY);
+						, itemIndex, renderX, renderY);
 			}
 		}
 		else
 		{
 			inspectScreen = new InspectScreen(other.inventory().getItems()
-					, itemIndex, renderX-45, renderY);
+					, itemIndex, renderX, renderY);
 		}
 
 	}
@@ -220,12 +212,12 @@ public class OptionsScreen extends ScrollingBasedScreen
 		
 		if(selectingFromInventory)
 		{
-			items[itemIndex].useItemOn(player);
-			player.inventory().remove(items[itemIndex]);
+			inventory.get(itemIndex).useItemOn(player);
+			player.inventory().remove(inventory.get(itemIndex));
 		}
 		else
 		{
-			equiped[itemIndex].useItemOn(player);
+			equipped.get(itemIndex).useItemOn(player);
 			//player.inventory().removeEquiped(equiped[itemIndex]);
 		}	
 		System.out.println(player.name());
@@ -234,17 +226,16 @@ public class OptionsScreen extends ScrollingBasedScreen
 	{
 		if(selectingFromInventory)
 		{
-			player.equipItem(items[itemIndex]);
+			player.equipItem(inventory.get(itemIndex));
 			player.inventory().moveToEquiped(itemIndex);
 			
 		}
 		else
 		{
-			player.uniequipItem(equiped[itemIndex]);
+			player.uniequipItem(equipped.get(itemIndex));
 			player.inventory().moveToInventory(itemIndex);
 		}			
 		player.updateStats();
-		
 	}
 	public void dropItem()
 	{
@@ -321,7 +312,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 				else if(index == 3)
 				{
 					if(tradersItems == null)
-						addToCraftingTable(items[index]);
+						addToCraftingTable(inventory.get(index));
 					
 					return null;	
 				}
@@ -330,10 +321,10 @@ public class OptionsScreen extends ScrollingBasedScreen
 					if(tradersItems == null)
 					{	
 						if(optionList.get(index).equals("Use")
-							|| optionList.get(index).equals("Eat"))	
+							|| optionList.get(index).equals("Eat")
+								|| optionList.get(index).equals("Heal"))
 						{
 							useItem();
-							System.out.println("Insisde use");
 						}
 						
 					}
@@ -358,6 +349,17 @@ public class OptionsScreen extends ScrollingBasedScreen
 	{
 		// TODO Auto-generated method stub
 		
+	}
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
 	}
 
 

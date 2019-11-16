@@ -7,7 +7,10 @@ import asciiPanel.AsciiPanel;
 import entities.Entity;
 import items.Item;
 import jdk.internal.org.objectweb.asm.tree.analysis.Value;
+import wolrdbuilding.Palette;
 
+
+/*
 public class TradeScreen extends singleListScrollingBasedScreen
 {
 	private int lastY = 0;
@@ -25,7 +28,7 @@ public class TradeScreen extends singleListScrollingBasedScreen
 		renderDialog(terminal);
 		renderTradersItems(terminal);
 
-		terminal.write((char) 16 + "" +  index , scrollX, scrollY+8, Color.GREEN);
+		terminal.write((char) 16 + "" +  equipIndex , scrollX, scrollY+8, Color.GREEN);
 	
 		terminal.write(player.crypto() + "", rx+ boxWidth -10, ry+ boxHeight-1, Color.GREEN);
 		
@@ -34,12 +37,12 @@ public class TradeScreen extends singleListScrollingBasedScreen
 	}
 	public void selectItem()
 	{
-	    if(index >= 0 )
+	    if(equipIndex >= 0 )
 	    {
-	    	if(other.inventory().get(index) != null)
+	    	if(other.inventory().get(equipIndex) != null)
 	    	{
 	    		isSelected = true;
-	    		OptionScreen = new  OptionsScreen(rx+boxWidth, ry, index, terminal, player, other);
+	    		OptionScreen = new  OptionsScreen(rx+boxWidth, ry, equipIndex, terminal, player, other);
 	    		isSelected = false;
 	    	}
 	    }
@@ -54,10 +57,10 @@ public class TradeScreen extends singleListScrollingBasedScreen
         int x = rx+2;
         int y = lastY+2;;
     	
-    	if(moreToDisplay && index-9 >= 0)
+    	if(moreToDisplay && equipIndex-9 >= 0)
     	{
-    		lines = updateList(index-9, true);
-    		itemCost = updateList(index-9, false);
+    		lines = updateList(equipIndex-9, true);
+    		itemCost = updateList(equipIndex-9, false);
     	}
     	
         for (int i = 0; i < limit; i++)	
@@ -117,10 +120,7 @@ public class TradeScreen extends singleListScrollingBasedScreen
         		Item item = list[i];
         		String line;
         		String cost = "+";
-        		/*
-            	if (item == null || !isAcceptable(item))
-                	continue;
-        		 */
+
         		if(item != null)
         		{
         			line = " " +(char)175 +  item.name();
@@ -186,11 +186,11 @@ public class TradeScreen extends singleListScrollingBasedScreen
 	}
     public void scrollDown()
     {	
-    	if(index >= 9 && index <= other.inventory().getCapacity())
+    	if(equipIndex >= 9 && equipIndex <= other.inventory().getCapacity())
     	{
     		moreToDisplay = true;
-    		if (index+1 < other.inventory().getCapacity()) 
-    			index++;
+    		if (equipIndex+1 < other.inventory().getCapacity())
+    			equipIndex++;
     	}
     	else
     	{
@@ -198,15 +198,15 @@ public class TradeScreen extends singleListScrollingBasedScreen
     		
     		if(ry - scrollY  < 20)
     			scrollY++;
-    		index = scrollY-ry-1;
+    		equipIndex = scrollY-ry-1;
     	}
     }
 
     public void scrollUp()
     {	
-    	if(index >= 10)
+    	if(equipIndex >= 10)
     	{
-    		index--;
+    		equipIndex--;
     	}
     	else
     	{
@@ -214,7 +214,7 @@ public class TradeScreen extends singleListScrollingBasedScreen
     		
     		if(ry-scrollY + 1!= 0)
     			scrollY--;
-    		index = scrollY-ry-1;
+    		equipIndex = scrollY-ry-1;
 
     	}
     }
@@ -225,4 +225,16 @@ public class TradeScreen extends singleListScrollingBasedScreen
 		// TODO Auto-generated method stub
 		
 	}
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
+	}
 }
+*/

@@ -19,8 +19,13 @@ import wolrdbuilding.TilePoint;
 import wolrdbuilding.TileSet;
 import wolrdbuilding.World;
 
+import javax.swing.*;
+
 public class CharacterCreationScreen implements Screen
 {
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+
 	private static final String DEFAULT_NAME = "Killing Smokes";
 	private static final String DEFAULT_ROLE = "Naysayer";
 	private transient AsciiPanel terminal;
@@ -42,10 +47,14 @@ public class CharacterCreationScreen implements Screen
 
 	ArrayList<TilePoint> background;
 
+	private JFrame main;
+
 	private boolean rendered =  false;
 	
-	public CharacterCreationScreen()
+	public CharacterCreationScreen(JFrame main)
 	{
+		this.main = main;
+
 		fields = new ArrayList<String>();
 		fields.add("Name");
 		fields.add("Role");
@@ -225,14 +234,14 @@ public class CharacterCreationScreen implements Screen
 	      				stats.setName(DEFAULT_NAME);
 	      				stats.setRole(DEFAULT_ROLE);
 	      			}
-	      			return new PlayScreen(stats);
+	      			return new PlayScreen(stats, main);
 	      		}
 	      	}
 		}
 		if(exitGame)
 		{
 			exitGame = false;
-			return new StartScreen(terminal);
+			return new StartScreen(terminal, main);
 		}
 		return this;
 	}
@@ -247,6 +256,16 @@ public class CharacterCreationScreen implements Screen
 	public void animate()
 	{
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
 	}
 
 }

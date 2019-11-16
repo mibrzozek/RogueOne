@@ -5,6 +5,7 @@ import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,8 +42,6 @@ public class EntityAi implements Serializable
         
         entity.moveBy(mx, my, 0);
     }
-    
-    
     public void onEnter(int x, int y, int z, Tile tile) 
     { 
     	if (tile != null && tile.isGround())
@@ -57,7 +56,6 @@ public class EntityAi implements Serializable
         	entity.doAction("bump into a wall");
         }
     }
-
 	public boolean canSee(int wx, int wy, int wz) 
 	{
         if (entity.z != wz)
@@ -71,8 +69,6 @@ public class EntityAi implements Serializable
         
             return false;
         }
-        
-    
         return true;
     }
 	public boolean canMine()
@@ -81,11 +77,39 @@ public class EntityAi implements Serializable
 	}
 	public void onUpdate() 
 	{
-		
+	    /*
+        ArrayList<Effect> l = entity.stats.getEffects();
+        List<Effect> indexToRemove = new ArrayList();
+
+        for(Effect e : l) // update and queue done effects
+        {
+            e.update();
+
+            if(e.getEffectLength() == 0) // zero is the condition in which effects end
+            {
+
+                if(e.getEffectTag().equals("Suffocating"))
+                {
+                    System.out.println(e.getEffectLength() + "  tis is the effect length");
+                    entity.setDead(true);
+                }
+                indexToRemove.add(e);
+            }
+        }
+        if(!indexToRemove.isEmpty()) // remove done effects
+        {
+            for(Effect es : indexToRemove)
+            {
+                entity.stats.getEffects().remove(es);
+            }
+        }
+
+        */
+        entity.processStates();
+
 	}
 	public void onNotify(String message)
 	{
 		
 	}
-	
 }

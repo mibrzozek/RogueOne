@@ -39,7 +39,8 @@ public class MiniMap
         this.playerCell = new Point(0, 0, 0);
     }
 
-    public TileV[][][] getTileMiniMap() {
+    public TileV[][][] getTileMiniMap()
+    {
         return miniMap;
     }
     public Point getPlayerPoint()
@@ -54,9 +55,8 @@ public class MiniMap
     }
     public static TileV[][][] getNewMiniMap(TileV[][][] tiles, int width, int height, int depth, int cellSize)
     {
-
-        int miniW = width/cellSize;
-        int miniH = height/cellSize;
+        int miniW = width/cellSize + 1;
+        int miniH = height/cellSize + 1;
 
         TileV[][][] newMiniMap = new TileV[miniW][miniH][depth];
 
@@ -77,6 +77,8 @@ public class MiniMap
 
         for(int z = 0; z < depth; z++)
         {
+            miniX = 0;
+            miniY = 0;
             for (int y = 0; y < height; y += MINI_CELL)
             {
                 for (int x = 0; x < width; x += MINI_CELL)
@@ -84,8 +86,8 @@ public class MiniMap
                     Boolean isPlayer = false;
                     Point p = new Point(x, y, z);
                     int floorCount = 0;
-                    List<Point> cell = p.gridXbyX(p, boxWidth);
-                    System.out.println("This is a point " + p.toString());
+                    List<Point> cell = p.gridXbyX(p, boxWidth, boxWidth);
+                    //System.out.println("This is a point " + p.toString());
 
                     //System.out.println("x : " + x + " y : " + y );
                     //System.out.println("mini x : " + miniX + " mini y : " + miniY );
@@ -109,16 +111,16 @@ public class MiniMap
                         }
                     }
                     //System.out.println(playerCell.toString() + " this is  player cell");
+
                     if (miniX < miniW)
                         miniX++;
                     else
                         miniX = 0;
-
-                    if (miniX == miniH) {
-                        miniY++;
-                    }
                 }
-            }}
+                if(miniY + 1 < miniH)
+                    y++;
+            }
+        }
         return newMiniMap;
     }
     public void makeMiniMap(TileV[][][] tiles)
@@ -148,8 +150,8 @@ public class MiniMap
                     Boolean isPlayer = false;
                     Point p = new Point(x, y, z);
                     int floorCount = 0;
-                    List<Point> cell = p.gridXbyX(p, boxWidth);
-                    System.out.println("This is a point " + p.toString());
+                    List<Point> cell = p.gridXbyX(p, boxWidth, boxWidth);
+                    //System.out.println("This is a point " + p.toString());
 
                     //System.out.println("x : " + x + " y : " + y );
                     //System.out.println("mini x : " + miniX + " mini y : " + miniY );
@@ -162,6 +164,7 @@ public class MiniMap
                         {
                             //System.out.println("\n" + x + " " + y + " " + z);
                             //System.out.println(cell.toString());
+
 
 
                             if (tiles[p.x][p.y][p.z].getTile().isGround())
@@ -179,7 +182,8 @@ public class MiniMap
                         } else {
                             miniMap[miniX][miniY][z] = new TileV(Tile.RED_WALL);
                         }
-                        if (isPlayer) {
+                        if (isPlayer)
+                        {
                             miniMap[miniX][miniY][z] = new TileV(Tile.PLAYER);
                             playerCell = new Point(miniX, miniY, z);
                         }

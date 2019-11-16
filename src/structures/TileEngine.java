@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Random;
 
 import asciiPanel.AsciiPanel;
+import entities.Effect;
 import entities.Entity;
 import items.Item;
+import items.Type;
 import screens.Message;
 import wolrdbuilding.*;
 
@@ -16,6 +18,7 @@ public class TileEngine
 	private static Random r = new Random();
 	private static final Color DEFAULT_F_COLOR = Palette.darkGray;
 	private static Color fColor = DEFAULT_F_COLOR;
+	private static boolean fillBox = false;
 
 
 	public static void loadingAnimation(AsciiPanel terminal)
@@ -253,6 +256,13 @@ public class TileEngine
 		fColor = DEFAULT_F_COLOR;
 		return null;
 	}
+	public static ArrayList<TilePoint> renderBox(AsciiPanel terminal, int bw, int bh, int bx, int by, TileSet ts, boolean filledBox)
+	{
+		fillBox = filledBox;
+		renderBox(terminal, bw, bh,bx, by, ts);
+		fillBox = false;
+		return null;
+	}
 	public static ArrayList<TilePoint> renderBox(AsciiPanel terminal, int bw, int bh, int bx, int by, TileSet ts)
 	{
 		ArrayList<TilePoint> tileMap = new ArrayList<>();
@@ -271,8 +281,10 @@ public class TileEngine
 				}
 				else
 				{
-					if(bw < 85)
+
+					if(fillBox)
 						terminal.write(" ", x, y);
+					/*
 					else
 					{
 						char glyph = Tile.randomTile().glyph();
@@ -281,6 +293,7 @@ public class TileEngine
 						terminal.write(glyph, x, y, color);
 						tileMap.add(new TilePoint(glyph, color, x, y));
 					}
+					*/
 				}
 			}
 		}
@@ -333,12 +346,16 @@ public class TileEngine
 	 * Below are all the methods used to render the PlayScreen area
 	 * 
 	 *
+	 *
+	 *
+	 *
+	 *
 	 */
 	public static void displayMessages(AsciiPanel terminal, List<String> messages, int screenWidth, int screenHeight) 
 	{
 		int top = screenHeight - messages.size();
 		int msgSpace = 10;
-		int xo = 31;
+		int xo = 32;
 		
 		ArrayList<String> toDisplay = new ArrayList<>(10);
 		ArrayList<Message> msgList = new ArrayList<>();
@@ -351,7 +368,10 @@ public class TileEngine
 		// lastIndex is the message counter
 		// j in the loop is incremented if multi line message
 		int lastIndex = msgList.size()-1;
-		
+
+
+		TileEngine.renderBox(terminal, screenWidth-(xo) +1, 12, xo-1, 50, TileSet.SIMPLE, Palette.gray);
+
 		for (int i = 0; i < 10; i++)
 		{
 			if(lastIndex > -1)
@@ -359,7 +379,7 @@ public class TileEngine
 				if(i == 0) // Prints top message in white
 				{	
 					if(msgList.get(lastIndex).numLines() == 1)
-						terminal.write(msgList.get(lastIndex).toString(), xo, screenHeight+i+1, Color.WHITE);	
+						terminal.write(msgList.get(lastIndex).toString(), xo, screenHeight+i+1, Color.WHITE);
 					else
 					{
 						ArrayList<String> lines = msgList.get(lastIndex).getLines();
@@ -393,109 +413,342 @@ public class TileEngine
 			}
 		}
 	}
-    public static void renderTarget(AsciiPanel terminal, int screenWidth, int screenHeight, Entity player)
-    {
-    	if(player.lastTargetedEnemy != null && player.lastTargetedEnemy.hp() > 0)
-    	{
-    		
-        	for(int x = 0; x < 25; x++)
-        	{
-        		for(int y = screenHeight-5; y < screenHeight-2; y++)
-        		{
-        			
-        			if(x == 0 || x == 25-1)
-        				terminal.write(Tile.lrWall.glyph(), x, y, Color.DARK_GRAY);
-    				else if (y == screenHeight-5 || y == screenHeight-2-1)
-    					terminal.write(Tile.tbWall.glyph(), x, y,  Color.DARK_GRAY);
-    				else
-    					terminal.write(' ', x, y,  Color.WHITE);
-        		}
-        	}
-        	
-        	terminal.write("Target /", 1, screenHeight-4);
-        	terminal.write(player.lastTargetedEnemy.name(), player.lastTargetedEnemy.tile().color());
-        	terminal.write("/ " +player.lastTargetedEnemy.hp() + " hp");
-        	
-        	
-        	terminal.write(Tile.tlCorner.glyph(), 0, screenHeight-5);
-        	terminal.write(Tile.trCorner.glyph(), 24, screenHeight-5);
-        	terminal.write(Tile.brCorner.glyph(), 24, -2+screenHeight-1);
-        	terminal.write(Tile.blCorner.glyph(), 0, -2+screenHeight-1);
-    	}
-    }
-	
-    public static void renderStats(AsciiPanel terminal, int screenWidth, int screenHeight, int sh, int sw, Entity player )
+    public static void renderStats(AsciiPanel terminal, int screenWidth, int screenHeight, int sh, int sw, World w )
     {
     	int statsW = screenWidth;
     	int statsH = 12;
-    	
+		Entity player = w.getPlayer();
+
+		//TileEngine.renderBox(terminal, screenWidth, 12, 0, 50, TileSet.SIMPLE, Palette.darkerGray);
     	for(int x = 0; x < statsW; x++)
     	{
     		for(int y = 0; y < statsH; y++)
     		{
     			
     			if(x == 0 || x == statsW-1)
-    				terminal.write(Tile.lrWall.glyph(), x, y+screenHeight, Color.DARK_GRAY);
+    				terminal.write(Tile.simpleLRW.glyph(), x, y+screenHeight, Color.DARK_GRAY);
 				else if (y == 0 || y == statsH-1)
-					terminal.write(Tile.tbWall.glyph(), x, y+screenHeight,  Color.DARK_GRAY);
+					terminal.write(Tile.simpleTBW.glyph(), x, y+screenHeight,  Color.DARK_GRAY);
 				else
 					terminal.write(' ', x, y+screenHeight,  Color.WHITE);
     		}
     	}
-    	terminal.write(Tile.tlCorner.glyph(), 0, screenHeight);
-    	terminal.write(Tile.trCorner.glyph(), screenWidth-1, screenHeight);
-    	terminal.write(Tile.brCorner.glyph(), screenWidth-1, statsH+screenHeight-1);
-    	terminal.write(Tile.blCorner.glyph(), 0, statsH+screenHeight-1);
-    	
-    	terminal.write("Shield [", 1, screenHeight+ 1);
-    		renderPercentBlocks(terminal, Color.GREEN, 9, screenHeight+1, player.shield(), 100);
-    	terminal.write("Vitals [", 1, screenHeight+ 2);
-    		renderPercentBlocks(terminal, Color.PINK, 9, screenHeight+2, (int)player.stats.getVitals(), 1000);
-    	terminal.write("Plasma [", 1, screenHeight+ 3);
-    		renderPercentBlocks(terminal, Color.CYAN, 9, screenHeight+3, player.plasma(), 10000);
-    	terminal.write("Crypto [" + player.crypto(), 1, screenHeight+ 4);
-    	terminal.write("Dirctn [" + player.getCardinal().getDirection(), 1, screenHeight+ 5);
-    	terminal.write("Stlth  [" + player.getStealth(), 1, screenHeight+ 6);
-    	
-    	
-    	// Write the player name at bottom
-    	terminal.write((char)187, 13, screenHeight + 11, Palette.darkGray);
-    	for(int i = 0; i < player.stats.getName().length() ; i++)
-    		terminal.write(" ");
-    	terminal.write((char)201, Palette.darkGray);
-    	terminal.write(player.stats.getName(), 14, screenHeight + 11, Palette.lightRed);
-    
-    	
+    	terminal.write(Tile.simpleTLC.glyph(), 0, screenHeight, Color.DARK_GRAY);
+    	terminal.write(Tile.simpleTRC.glyph(), screenWidth-1, screenHeight, Color.DARK_GRAY);
+    	terminal.write(Tile.simpleBRC.glyph(), screenWidth-1, statsH+screenHeight-1, Color.DARK_GRAY);
+    	terminal.write(Tile.simpleBLC.glyph(), 0, statsH+screenHeight-1, Color.DARK_GRAY);
+
+
+
+    	terminal.write("Shield " + (char)218, 1, screenHeight+ 1);
+			renderPercentBlocksV2(terminal, 1, screenHeight+1, "Shield", (int)player.shield(), 250, Palette.monoPerfect);
+    	terminal.write("Vitals " + (char)179, 1, screenHeight+ 2);
+    		renderPercentBlocksV2(terminal, 1, screenHeight+2, "Vitals", (int)player.stats.getVitals(), 1000, Palette.monoPurple);
+    	terminal.write("Plasma " + (char)179, 1, screenHeight+ 3);
+			renderPercentBlocksV2(terminal, 1, screenHeight+3, "Plasma", (int)player.plasma(), 10000, Palette.monoGreen);
+		terminal.write("02 Air " + (char)179 , 1, screenHeight+ 4);
+			renderPercentBlocksV2(terminal, 1, screenHeight+4, "Ambient 02", (int)w.getAir().getOxygen(), 10000, Palette.lightBlue);
+		terminal.write("02 Rsrv" + (char)179 , 1, screenHeight+ 5);
+			renderPercentBlocksV2(terminal, 1, screenHeight+5, "Reserve 02", (int)player.inventory().getTypeDuration(Type.OXYGEN), 1000, Palette.lightBlue);
+
+
+		TileEngine.renderBox(terminal, 31, 12, 0, 50, TileSet.SIMPLE, Palette.gray);
+
+		terminal.write((char)36+ "" + player.crypto() + " ", 1, screenHeight + 11);
+
+		String ns;
+
+		terminal.write(w.getTurns() + "",30 - new String(String.valueOf(w.getTurns())).length(), screenHeight + 11);
+
+		String cardinal = player.getCardinal().toString();
+		cardinal = cardinal.replaceAll("_", " ");
+		int center = 15 - (cardinal.length()/2);
+		terminal.write(cardinal + "",center , screenHeight + 11);
+
+
+		if(player.getAlert())
+		{
+			renderEffectBlocks(terminal, 29, screenHeight + 10, player.stats.getMostDangerousEffect());
+		}
+
     	renderLogScreenArea(terminal, screenHeight, screenWidth);
     	
     }
-    public static void renderPercentBlocks(AsciiPanel terminal, Color color, int x, int y, int value, int max)
-    {
-    	double percent = 10 * ((double)value/max);
-    	double xi;
+	public static void renderPercentBlocksV2(AsciiPanel terminal, int x, int y, String name, double value, double outOf, Color c)
+	{
+		String display = name;
 
-    	for(int i = 0; i < percent; i++)
-    	{
-    		terminal.write((char) 223, x+i, y, color);
-    		xi=i;
-    	}
-    	terminal.write(" "+ String.format("%.2f",percent*10) + " %", color);
-    }
+		char block = (char)178;
+
+		String fs = "";
+		int center = 14;
+		int stringStart = 1;
+		double percent = value / outOf;
+		double numBlocks = 29 * percent;
+
+		Color barB = Palette.morePaleWhite;
+		Color barF = Palette.darkerGray;
+
+		String ps = String.format("%.2f", percent * 100) + " %";
+
+		if(percent < 0)
+			ps = "0.00 %";
+
+		for(int i =  1; i < 30; i++) // fill string w/ blocks
+		{
+			//terminal.write((char)178, i, ey, Palette.morePaleWhite, Palette.monoRed);
+			fs += block;
+		}
+
+		char[] ec = display.toCharArray();
+		char[] fsc = fs.toCharArray();
+		char[] pc = ps.toCharArray();
+
+
+		int ie = 0;
+		for(int i = stringStart; i < stringStart + display.length(); i++)	// stamp effect onto percent
+		{
+			fsc[i] = ec[ie++];
+		}
+		for(int i = 0; i < pc.length; i++) // stamp percent
+		{
+			fsc[fsc.length - (pc.length - i)] = pc[i];
+		}
+
+		int px = x;
+		for(int i = 0; i < fsc.length; i++) // print all
+		{
+			if(i < stringStart || i >= stringStart + display.length()) // bar color
+			{
+				terminal.write(fsc[i], px, y, barB, barF); // just the bar
+
+				if(i >= fsc.length - ps.length() && i < fsc.length) // for printing percent value
+				{
+					terminal.write(fsc[i], px, y, barF, barB);
+				}
+			}
+			else if(i >= stringStart && i < stringStart + display.length()) // Left aligned word color
+			{
+				terminal.write(fsc[i], px, y, barF, barB);
+
+			}
+			px++;
+		}
+		int cx = x;
+
+		if(numBlocks > 1 && numBlocks <= 29) // print percent blocks
+		{
+			int startColor = 0;
+
+			//System.out.println(numBlocks);
+
+			for(int i = 0; i < numBlocks; i++)
+			{
+				if(Character.isAlphabetic(fsc[startColor]) || Character.isDigit(fsc[startColor])
+						|| fsc[startColor] == ' ' || fsc[startColor] == '.' || fsc[startColor] == '%')
+				{
+					terminal.write(fsc[startColor], cx, y, barF, c);
+				}
+				else
+					terminal.write(fsc[startColor], cx, y, c, c);
+
+				startColor++;
+				cx++;
+			}
+		}
+
+		String print = new String(fsc);
+	}
+	public static void renderDisplayPlate(AsciiPanel terminal, int x, int y, int length, String s, boolean centered, Color f, Color b)
+	{
+			String fs = "";
+			int stringStart = 1;
+			int mid = (length/2) -1;
+			if(centered)
+			{
+				stringStart = mid - (s.length()/2);
+			}
+
+			for(int i = 0; i < length; i++)
+			{
+					fs += (char) 178;
+			}
+
+
+			char[] fsc = fs.toCharArray();
+			char[] sc = s.toCharArray();
+
+
+			for(int i = 0; i < length; i++)
+			{
+				if(i >= stringStart && i < stringStart + s.length())
+				{
+					fsc[i] = sc[i-stringStart];
+				}
+			}
+
+			for(int i = 0; i < fsc.length; i++)
+			{
+				terminal.write(fsc[i], x + i, y, f, b);
+			}
+	}
+    public static void renderEffectBlocks(AsciiPanel terminal, int x, int y, Effect e)
+	{
+		String effect = e.getEffectTag() + " "
+				+ e.getEffectLength();
+
+
+
+
+		String fs = "";
+		int center = 14;
+		int stringStart = center - (effect.length()/2);
+		int numBlocks = Math.abs(e.getEffectLength()) / 100;
+
+		for(int i =  1; i < 30; i++) // fill string w/ blocks
+		{
+			//terminal.write((char)178, i, ey, Palette.morePaleWhite, Palette.monoRed);
+			fs += (char)178;
+		}
+
+		char[] ec = effect.toCharArray();
+		char[] fsc = fs.toCharArray();
+
+		int ie = 0;
+		for(int i = stringStart; i < stringStart + effect.length(); i++)	// stamp effect onto percent
+		{
+			fsc[i] = ec[ie++];
+		}
+
+		int px = 1;
+		for(int i = 0; i < fsc.length; i++) // print all
+		{
+			if(i < stringStart || i >= stringStart + effect.length()) // bar color
+			{
+				terminal.write(fsc[i], px, y, Palette.morePaleWhite, Palette.monoPurple);
+			}
+			else if(i >= stringStart && i < stringStart + effect.length()) // word color
+			{
+				terminal.write(fsc[i], px, y, Palette.darkerGray, Palette.morePaleWhite);
+			}
+			px++;
+		}
+		terminal.write(fsc[28], --px, y, e.getGolor(), Palette.morePaleWhite); // print last block
+
+		int cx = 29 - numBlocks;
+
+		if(numBlocks > 1) // print percent blocks
+		{
+			int startColor = 28 - numBlocks;
+
+			for(int i = 0; i < numBlocks; i++)
+			{
+				if(Character.isAlphabetic(fsc[startColor]) || Character.isDigit(fsc[startColor])
+						|| fsc[startColor] == ' ' )
+				{
+					terminal.write(fsc[startColor], cx, y, Palette.darkerGray, e.getGolor());
+				}
+				else
+					terminal.write(fsc[startColor], cx, y, e.getGolor(), Palette.morePaleWhite);
+
+				startColor++;
+				cx++;
+			}
+		}
+
+		String print = new String(fsc);
+	}
+
     public static void renderLogScreenArea(AsciiPanel terminal, int screenHeight, int screenWidth)
     {
     	// Produces divider
     	int ox = 30;
-    	
-    	for (int i = 0; i < 12; i++)
-    		terminal.write((char)186, ox, screenHeight + i, Color.DARK_GRAY);
 
-    	terminal.write((char)203, ox, screenHeight , Color.DARK_GRAY);
-    	terminal.write((char)202, ox, screenHeight+11, Color.DARK_GRAY );
+    	/*
+    	for (int i = 0; i < 12; i++)
+    		terminal.write(Tile.simpleLRW.glyph(), ox, screenHeight + i, Color.DARK_GRAY);
+
+    	terminal.write((char)194, ox, screenHeight , Color.DARK_GRAY);
+    	terminal.write((char)193, ox, screenHeight+11, Color.DARK_GRAY );
     	// Updates display array
-    	
-    	terminal.write((char)187 + "     " + (char)201, ox + 45, screenHeight + 11, Palette.darkGray);
+    	*/
+    	terminal.write((char)191 + "     " + (char)218, ox + 45, screenHeight + 11, Color.DARK_GRAY);
     	terminal.write(" LOG ", ox + 46, screenHeight + 11, Palette.lightBlue);
-    		
+
+
     }
+	public static void renderPercentBlocks(AsciiPanel terminal, Color fc, int x, int y, int value, int max, boolean showPercent)
+	{
+		renderPercentBlocks(terminal, fc, Palette.darkestGray, x, y, value, max, showPercent);
+	}
+	public static void renderPercentBlocks(AsciiPanel terminal, Color fc, Color bc, int x, int y, int value, int max, boolean showPercent)
+	{
+		double percent = 10 * ((double)value/max);
+		double xi;
+
+		for(int i = 0; i < percent; i++)
+		{
+			terminal.write((char) 223, x+i, y, fc, bc);
+			xi=i;
+		}
+		if(showPercent)
+		{
+			if(percent > 0)
+				terminal.write(" " + String.format("%.2f", percent * 10) + " %");
+			else
+				terminal.write(" " + String.format("%.2f", 0 * 10.0) + " %");
+		}
+	}
+	public static void renderItemPlate(AsciiPanel terminal, int x, int y, Item i, int limit)
+	{
+		String s = i.name();
+		String value = String.valueOf(i.value());
+
+		String fs = "";
+		char[] sc = s.toCharArray();
+		char[] vc = value.toCharArray();
+
+
+		Color c = Palette.morePaleWhite;
+		Color d = Palette.theNewBluesShadow;
+
+		//if(s.length() < limit)
+		{
+			int vx = 0;
+			for(int j = 0; j <  limit; j++)
+			{
+
+
+				if(j < s.length() + 1 && j > 0)
+					terminal.write(sc[j-1], x + j, y, Palette.morePaleWhite, d); //writes text
+				else
+					terminal.write((char)178 + "", x + j, y, d, Palette.darkerGray);
+
+				if(j > limit - 6)
+				{
+					if(j == limit-5)
+					{
+						terminal.write((char) 178 + "", x + j, y, i.color(), Palette.morePaleWhite);
+					}
+					else {
+						if (vx < value.length()) {
+							terminal.write(vc[vx++] + "", x + j, y, Palette.darkerGray, i.color());
+						} else {
+							terminal.write((char) 178 + "", x + j, y, i.color(), Palette.morePaleWhite);
+						}
+					}
+				}
+
+			}
+
+			sc = fs.toCharArray();
+		}
+		//else
+		{
+
+		}
+		System.out.println(fs);
+
+	}
 
 }

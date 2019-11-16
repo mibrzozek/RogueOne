@@ -1,6 +1,5 @@
 package structures;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -9,30 +8,26 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import asciiPanel.AsciiFont;
 import asciiPanel.AsciiPanel;
-import asciiPanel.TileTransformer;
-import screens.InventoryScreen;
 import screens.Screen;
 import screens.StartScreen;
 import wolrdbuilding.Palette;
-import wolrdbuilding.Tile;
 import wolrdbuilding.World;
 
 
 public class MainFrame extends JFrame implements KeyListener 
 {	
 	protected static final String FILE_PATH = "D:\\06 SOURCE\\01 JAVA PROJECTS\\Rogue One\\resources\\icon.png";
-	
-	private static final Color DEFAULT_BACK = Palette.darkestGray;
+
+	private static final Color DEFAULT_BACK = Palette.theNewBlue;
 	private static final Color DEFAULT_FORE = Palette.paleWhite;
+
+	private Theme t = Theme.PASTEL;
 	
 	private AsciiPanel terminal;
 	
@@ -61,26 +56,36 @@ public class MainFrame extends JFrame implements KeyListener
 	{
 		super(" Abandoned");
 		this.setResizable(false);
-		this.setSize(1026, 777);
+		this.setSize(1366, 1022);
+
 		// Starts app in center of screen
 		Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-		this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+		//this.setLocation(0, 0);
+		this.setLocation(dim.width/2-this.getSize().width/2, 0);
 
-		terminal = new AsciiPanel(85, 75, AsciiFont.CP437_12x12);
-		screen = new StartScreen(terminal);
+		t = Theme.MIDNIGHT_PURPLE;
+
+		terminal = new AsciiPanel(85, 75, AsciiFont.CP437_16x16);
+		screen = new StartScreen(terminal, this);
 		
-		terminal.setDefaultBackgroundColor(DEFAULT_BACK);
-		terminal.setDefaultForegroundColor(DEFAULT_FORE);
+		terminal.setDefaultBackgroundColor(t.b);
+		terminal.setDefaultForegroundColor(t.f);
 
 		this.addKeyListener(this);
 		this.add(terminal);
 		this.repaint();
 	}
-
+	public void setTheme(Theme t)
+	{
+		this.t = t;
+	}
     public void repaint()
     {
         terminal.clear();
         screen.displayOutput(terminal);
+        terminal.setDefaultForegroundColor(t.getFore());
+		terminal.setDefaultBackgroundColor(t.getBack());
+
         super.repaint();
     }
 	

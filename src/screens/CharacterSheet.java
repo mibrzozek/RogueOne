@@ -7,9 +7,14 @@ import java.util.ArrayList;
 import asciiPanel.AsciiPanel;
 import entities.Effect;
 import entities.Entity;
+import items.Type;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
+import wolrdbuilding.Tile;
 import wolrdbuilding.TileSet;
+import wolrdbuilding.World;
+
+import javax.swing.*;
 
 public class CharacterSheet implements Screen
 {
@@ -19,10 +24,13 @@ public class CharacterSheet implements Screen
 	private int width, height;
 	
 	private Entity player;
-	
-	public CharacterSheet(Entity player)
+	private World w;
+	private JFrame main;
+
+	public CharacterSheet(World w, JFrame main)
 	{
-		this.player = player;
+		this.w = w;
+		this.player = w.getPlayer();
 		this.width = 31;
 		this.height = 40;
 	}
@@ -30,60 +38,46 @@ public class CharacterSheet implements Screen
 	@Override
 	public void displayOutput(AsciiPanel terminal)
 	{
-		TileEngine.renderBox(terminal, 31 ,40 ,0, 22,  TileSet.SIMPLE);
-		
-		terminal.write(player.stats.getName(), 1, 22, Palette.lightRed);
-		terminal.write(player.stats.getRole(), 1, 61, Palette.lightRed);// name
-		terminal.write("Shield "+(char)195, 1, 23);
-		TileEngine.renderPercentBlocks(terminal, Color.GREEN, 9, 23, player.shield(), 100);
-		terminal.write("Vitals "+(char)195, 1, 24);
-		TileEngine.renderPercentBlocks(terminal, Palette.lightRed, 9, 24, (int)player.stats.getVitals(), 1000);
-		
-		terminal.write("Head   "+(char)195, 1, 25);
-		TileEngine.renderPercentBlocks(terminal, Color.PINK, 9, 25, (int)player.stats.getHead(), 300);
-		terminal.write("Torso  "+(char)195, 1, 26);
-		TileEngine.renderPercentBlocks(terminal, Color.PINK, 9, 26, (int)player.stats.getTorso(), 300);
-		terminal.write("Arms   "+(char)195, 1, 27);
-		TileEngine.renderPercentBlocks(terminal, Color.PINK, 9, 27, (int)player.stats.getlHand() + (int)player.stats.getlHand() , 200);
-		terminal.write("Legs   "+(char)195, 1, 28);
-		TileEngine.renderPercentBlocks(terminal, Color.PINK, 9, 28, (int)player.stats.getlLeg() + (int)player.stats.getrLeg(), 200);
-		
-		terminal.write("Strgnth"+(char)195, 1, 29);
-		TileEngine.renderPercentBlocks(terminal, Palette.blue, 9, 29, player.stats.getStrength(), 20);
-		terminal.write("Dxtrty "+(char)195, 1, 30);
-		TileEngine.renderPercentBlocks(terminal, Palette.blue, 9, 30, player.stats.getDexterity(), 20);
-		terminal.write("Intlgnc"+(char)195, 1, 31);
-		TileEngine.renderPercentBlocks(terminal, Palette.blue, 9, 31, player.stats.getInteligence(), 20);
-		terminal.write("Charism"+(char)195, 1, 32);
-		TileEngine.renderPercentBlocks(terminal, Palette.blue, 9, 32, player.stats.getCharisma(), 20);
+		int sheetH =  11 + player.stats.getEffects().size() + 1;
 
-		terminal.write("Effcts :", 1, 33);
+		TileEngine.renderBox(terminal, 31 , sheetH ,0, 62-sheetH,  TileSet.SIMPLE, true);
+		
+		//terminal.write(player.stats.getName(), 1, 22, Palette.lightRed);
+		//write(player.stats.getRole(), 1, 61, Palette.lightRed);// name
+
+		Color a = Palette.monoPurple;
+		Color b = Palette.monoGrayTeal;
+		int y = 62 - (11 + player.stats.getEffects().size());
+
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Shield", player.shield(), 1000, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Vitals", player.stats.getVitals(), 1000, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Head", player.stats.getHead(), 300, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Torso", player.stats.getTorso(), 300, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Arms", (int)player.stats.getlHand() + (int)player.stats.getrHand(), 200, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Legs", (int)player.stats.getlLeg() + (int)player.stats.getrLeg(), 200, a);
+		
+		terminal.write("Oxygen Sources", 8, y++);
+
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Ambient 02", w.getAir().getOxygen(), 1000, b);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Reserve 02", (int)player.inventory().getTypeDuration(Type.OXYGEN), 200, b);
+
+		terminal.write("Effects", 12, y++);
 
 		ArrayList<Effect> effects = player.stats.getEffects();
 
 		if(!player.stats.getEffects().isEmpty())
 		{
-			int ex = 8;
-			int ey = 33;
+			int ex = 1;
+			int ey = y;
+
 			for(Effect e : effects)
 			{
-				if(ex + e.getEffectTag().length() < width-1)
-				{
-					ex += e.getEffectTag().length() + 1;
-					terminal.write(e.getEffectTag() + " ", ex , ey, e.getGolor());
-				}
-				else
-				{
-					ey++;
-					ex = 1;
-					terminal.write(e.getEffectTag() + " ", ex, ey, e.getGolor());
-				}
+				TileEngine.renderEffectBlocks(terminal, ex, ey++, e);
 			}
-
 		}
-		
-	}
 
+		//TileEngine.renderBox(terminal, 31 ,40 ,0, 22,  TileSet.SIMPLE, false);
+	}
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
 	{
@@ -117,12 +111,10 @@ public class CharacterSheet implements Screen
 		if(exitGame)
 		{
 			exitGame = false;
-			return new StartScreen(terminal);
+			return new StartScreen(terminal, main);
 		}
 	return this;
-
 	}
-
 	@Override
 	public Screen returnScreen(Screen screen)
 	{
@@ -134,7 +126,17 @@ public class CharacterSheet implements Screen
 	public void animate()
 	{
 		// TODO Auto-generated method stub
-		
+	}
+	private Color fore = Palette.paleWhite;
+	private Color back = Palette.theNewBlue;
+	@Override
+	public Color getForeColor() {
+		return fore;
+	}
+
+	@Override
+	public Color getBackColor() {
+		return back;
 	}
 
 }

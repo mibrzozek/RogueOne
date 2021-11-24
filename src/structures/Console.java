@@ -4,9 +4,11 @@ import entities.Entity;
 import items.ItemFactory;
 import screens.PlayScreen;
 import screens.Screen;
+import wolrdbuilding.Point;
 import wolrdbuilding.World;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Console
 {
@@ -44,7 +46,7 @@ public class Console
             player.inventory().emptyBag();
             player.inventory().equipAll(iF.newRifle(), iF.newWallBomb(),
                     iF.newWaterCannon(), iF.newOxygenMask(), iF.newClearanceGold(),
-                        iF.newBlueVisor());
+                        iF.newBlueVisor(), iF.newTerrainMapper(), iF.newClearanceRed());
             response = "Comfortable mode";
         }
         else if(s.equals("3"))
@@ -178,6 +180,43 @@ public class Console
             Theme t = Theme.MURDER;
             ((PlayScreen)playScreen).changeUiTheme(t);
             response = t.toString().toLowerCase().replaceAll("_", " ");
+        }
+        else if(s.startsWith("tel")) // 'tel 0' teleports you to level 0
+        {
+            String[] args = s.split(" ");
+
+            if(Integer.parseInt(args[1]) < world.depth())
+            {
+                player.modifyZLevel(Integer.parseInt(args[1]));
+                response = "Teleported to level " + Integer.parseInt(args[1]);
+            }
+            else
+            {
+                response = "Failed to teleport";
+            }
+        }
+        else if(s.startsWith("pos")) //  pos x y z
+        {
+            String args[] = s.split(" ");
+            Point p = new Point(Integer.parseInt(args[1]),Integer.parseInt(args[2]),Integer.parseInt(args[3]));
+
+            if(p.x < world.width() && p.y < world.height() && p.z < world.depth())
+            {
+                player.modifyCoordinates(p);
+                response = "New player coordinates are " + p.toString();
+            }
+            else
+            {
+                response = "Invalid location";
+            }
+        }
+        else if(s.startsWith("showPoints")) //  pos x y z
+        {
+            List<Point> sPoints = world.getStairPoints();
+            for(Point p : sPoints)
+            {
+                response += p.x + " " + p.y + " " + p.z + " \n";
+            }
         }
 
 

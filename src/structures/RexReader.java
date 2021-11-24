@@ -15,13 +15,14 @@ import static java.awt.Color.*;
 
 public class RexReader
 {
-    private static String filePath ="D:\\06 SOURCE\\01 JAVA PROJECTS\\02 JAVA PROJECTS\\RogueOne\\resources\\structures\\";
-    private static String filePath1 ="C:\\Users\\Michal\\Desktop\\tilda\\01 JAVA 18 SOURCE\\RogueOne\\resources\\structures\\";
+    private static String filePath ="C:\\006 SOURCE\\01 JAVA PROJECTS\\02 JAVA PROJECTS\\RogueOne\\resources\\structures\\";
+    private static String filePath1 ="C:\\006 SOURCE\\01 JAVA PROJECTS\\02 JAVA PROJECTS\\RogueOne\\resources\\structures\\";
 
 
     private static ArrayList<TilePoint> structureTiles = new ArrayList<>();
     private static Map<String, ArrayList<TilePoint>> structureMap =  new HashMap<>();
 
+    
     public RexReader()
     {
         loadStructures();

@@ -1,23 +1,19 @@
 package screens;
 
-import java.awt.Color;
+import asciiPanel.AsciiPanel;
+import structures.MainFrame;
+import structures.RexReader;
+import wolrdbuilding.Palette;
+import wolrdbuilding.TilePoint;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import asciiPanel.AsciiPanel;
-import structures.RexReader;
-import structures.TileEngine;
-import wolrdbuilding.Palette;
-import wolrdbuilding.Tile;
-import wolrdbuilding.TilePoint;
-import wolrdbuilding.TileSet;
-
-import javax.swing.*;
 
 public class StartScreen implements Screen
 {
@@ -62,25 +58,26 @@ public class StartScreen implements Screen
 
 		this.terminal = terminal;
 
-
+		/*
 		if(!rendered)
 		{
 			testStructure = structureMap.get("ascciWorld.csv");
-			testStructure = TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 15, 5, 35, 18, Palette.darkGray);
+//			testStructure = TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 15, 5, 35, 18, Palette.darkGray);
 			System.out.println(testStructure.size());
 
 			testStructure.addAll(TileEngine.renderFrame(terminal, 16, 7, 34, 17, TileSet.DOUBLE, Palette.gray));
-			System.out.println(testStructure.size());
+		//	System.out.println(testStructure.size());
 			testStructure.addAll(TileEngine.renderBox(terminal, 14, 5, 35, 18, TileSet.SIMPLE));
-			System.out.println(testStructure.size());
+		//	System.out.println(testStructure.size());
 			rendered = true;
 		}
 		else
 		{
-			System.out.println("From rendered " + testStructure.size());
-			TileEngine.sparkleAnime(testStructure);
-			TileEngine.displayTilesWithTransparentBox(terminal, testStructure, null, null, null, null, null);
+		//	System.out.println("From rendered " + testStructure.size());
+		//	TileEngine.sparkleAnime(testStructure);
+		//	TileEngine.displayTilesWithTransparentBox(terminal, testStructure, null, null, null, null, null);
 		}
+		*/
 		terminal.writeCenter("PLAY [enter]", 19);
 		terminal.writeCenter("LOAD [space]", 20);
 		terminal.writeCenter("LOSE [ esc ]", 21);
@@ -116,11 +113,17 @@ public class StartScreen implements Screen
 	{
 		switch (key.getKeyCode())
 		{
-			case KeyEvent.VK_SHIFT: ((AnimationScreen)subscreen).animate();
+			case KeyEvent.VK_SHIFT: //((AnimationScreen)subscreen).animate();
+				break;
 	    	case KeyEvent.VK_ESCAPE: return new LoseScreen(terminal, null, main);
 	      	case KeyEvent.VK_ENTER:
 			{
-				return new CharacterCreationScreen(main);
+				return new CharacterCreationScreen((MainFrame) main);
+			}
+			case KeyEvent.VK_BACK_SPACE:
+			{
+				//Statistics stats = new Statistics();
+				//return new PlayScreen(stats, (MainFrame) main, World.Map.TURKEY);
 			}
 			case KeyEvent.VK_SPACE:
 			{

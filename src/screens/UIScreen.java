@@ -2,6 +2,7 @@ package screens;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,10 +16,10 @@ import javax.swing.*;
 
 public class UIScreen implements Screen
 {
-	private Screen subScreen;
+	protected Screen subScreen;
 	protected PlayScreen ps;
 	private boolean exitGame;
-	private boolean exitSubScreen;
+	protected boolean exitSubScreen;
 	protected boolean cursorOn;
 	private AsciiPanel terminal;
 	
@@ -35,6 +36,8 @@ public class UIScreen implements Screen
 	protected int bh;
 	protected int bx;
 	protected int by;
+
+	protected int inputNumber;
 	
 	private TileSet ts;
 	private JFrame main;
@@ -49,6 +52,7 @@ public class UIScreen implements Screen
 		this.scrollY = 0;
 		this.cursorOn = true;
 		this.ts = TileSet.SIMPLE;
+		this.inputNumber = 0;
 	}
 	public void setList(ArrayList<String> list)
 	{
@@ -133,12 +137,18 @@ public class UIScreen implements Screen
 		ps.updateWorld();
 
 	}
+	public void setInputNumber(int enemyIndex)
+	{
+		this.inputNumber = enemyIndex;
+	}
+
+	public void exitSubScreen()
+	{
+		this.exitSubScreen = true;
+	}
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
 	{
-		if(this instanceof DoorScreen)
-			System.out.println("This is a door screen bruh");
-
 		if(exitSubScreen)
 		{
 			return null;
@@ -146,6 +156,7 @@ public class UIScreen implements Screen
 		if(subScreen != null)
 		{
 			subScreen = subScreen.respondToUserInput(key);
+
 			if(subScreen instanceof EscapeScreen)
 			{
 				if(((EscapeScreen)subScreen).exit == true)
@@ -163,7 +174,8 @@ public class UIScreen implements Screen
 				case KeyEvent.VK_DOWN: scrollDown(); break;
 				case KeyEvent.VK_RIGHT:
 							select();
-							if(this instanceof DoorScreen)
+							if(this instanceof DoorScreen
+									|| this instanceof EntityInteractScreen)
 								return null;
 							break;
 				
@@ -175,6 +187,21 @@ public class UIScreen implements Screen
 			
 				case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(terminal, this); break;
 	      		case KeyEvent.VK_ENTER:  break;
+
+				case KeyEvent.VK_1:
+				case KeyEvent.VK_2:
+				case KeyEvent.VK_3:
+				case KeyEvent.VK_4:
+				case KeyEvent.VK_5:
+				case KeyEvent.VK_6:
+				case KeyEvent.VK_7:
+				case KeyEvent.VK_8:
+				case KeyEvent.VK_9:
+					char ascii = key.getKeyChar();
+					String as = new String(String.valueOf(ascii));
+					inputNumber = Integer.parseInt(as) -1;
+					update();
+
 			}
 		}
 		if(exitGame)
@@ -183,6 +210,10 @@ public class UIScreen implements Screen
 			return new StartScreen(terminal, main);
 		}
 	return this;
+
+	}
+	public void update()
+	{
 
 	}
 	@Override

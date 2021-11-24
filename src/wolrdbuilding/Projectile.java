@@ -26,13 +26,15 @@ public class Projectile implements Serializable
 		this.movement = -1;
 		
 		
-		if(glyph == Tile.Y_SMALL.glyph())
+		if(glyph == Tile.Y_SMALL.glyph() || tile.equals(Tile.PRO_PISTOL))
 			movement = -1;
 		else if(glyph == Tile.R_SNIPER.glyph())
 			movement = -8;
 		else if(glyph == Tile.G_SMALL.glyph())
 			movement = -3;
-		
+		else if(tile.equals(Tile.PRO_SHOTGUN))
+			movement = -3;
+
 		if(direction == 0 || direction == 4 )
 		{			
 			diagonalMovement = false;

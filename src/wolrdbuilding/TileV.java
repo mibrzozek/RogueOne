@@ -27,12 +27,16 @@ public class TileV implements Serializable
         this.asciiValue = asciiValue;
         this.glyph = (char) asciiValue;
         this.colorF = c;
+
+        this.t = Tile.CUSTOM;
     }
     public TileV(char glyph, Color f)
     {
         this.asciiValue = asciiValue;
         this.glyph = (char) asciiValue;
         this.colorF = f;
+
+        this.t = Tile.CUSTOM;
     }
     public TileV(char glyph, Color f, Color b)
     {
@@ -40,7 +44,8 @@ public class TileV implements Serializable
         this.glyph = (char) asciiValue;
         this.colorF = f;
         this.colorB = b;
-        this.t = null;
+
+        this.t = Tile.CUSTOM;
     }
 
     public char getGlyph()
@@ -61,6 +66,11 @@ public class TileV implements Serializable
     public Color getBackColor()
     {
         return t.backColor();
+    }
+    public Color getColorB(){return colorB; }
+    public void setGlyph(char glyph)
+    {
+        this.glyph = glyph;
     }
     public void setGlyph(Tile t)
     {
@@ -141,4 +151,7 @@ public class TileV implements Serializable
         return this.t;
     }
 
+    public void setBackColor(Color backColor) {
+        this.colorB = backColor;
+    }
 }

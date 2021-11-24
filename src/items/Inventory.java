@@ -18,7 +18,12 @@ public class Inventory implements Serializable
 		return maxEquip;
 	}
 
-	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
+    public int getRoom()
+	{
+        return getCapacity() - inventory.size();
+    }
+
+    public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
 
 	private Item[] equiped;
     private Item[] items;
@@ -120,7 +125,13 @@ public class Inventory implements Serializable
 		else
 			return null;
 	}
-    public Item getEquipped(int index) { return equipped.get(index); }
+    public Item getEquipped(int index)
+	{
+    	if(!equipped.isEmpty())
+    		return equipped.get(index);
+    	else
+    		return null;
+    }
 
     public boolean isFullyEquiped() { return fullyEquiped; }
 
@@ -175,11 +186,11 @@ public class Inventory implements Serializable
     }
 	public double getTypeDuration(Type type)
 	{
-
 		double  value = 0.0;
 		equippedMap = getEquippedMap();
 
-		if(equippedMap.containsKey(type)) {
+		if(equippedMap.containsKey(type))
+		{
 			value = equippedMap.get(type).get(0).value();
 			//System.out.println("There is this type " + type.name());
 		}
@@ -212,7 +223,7 @@ public class Inventory implements Serializable
     	double d = damage;
     	for(Item i : slotItems)
     	{
-    		d = (d +  ((i.defense()/(r.nextInt(3) +5))));
+    		d = (d +  ((i.value()/(r.nextInt(3) +5))));
     		System.out.println(i.name() + " this is the item name" +  i.type().toString() + "is the slot");
     	}
     	return d;
@@ -275,6 +286,7 @@ public class Inventory implements Serializable
     }
     public void removeEquiped(Item item)
     {
+    	equipped.remove(item);
         for (Item i : equipped)
         {
             if (i == item)
@@ -290,9 +302,10 @@ public class Inventory implements Serializable
     }
     public boolean isFull()
     {
-		if(inventory.size() >= max)
+		if(inventory.size() > max)
 			return true;
-		else return false;
+		else
+			return false;
     }
     public int getCapacity()
     {

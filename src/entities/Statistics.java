@@ -1,11 +1,12 @@
 package entities;
 
+import wolrdbuilding.Palette;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import screens.KeyInputScreen;
-import wolrdbuilding.Palette;
+import static wolrdbuilding.Palette.r;
 
 public class Statistics implements Serializable
 {
@@ -14,7 +15,11 @@ public class Statistics implements Serializable
 	
 	private int points;
 	private static final int MAX_POINTS = 22;
-	
+
+	private int height;
+	private int weight;
+	private int focus;
+
 	private int strength;
 	private int dexterity;
 	private int inteligence;
@@ -51,6 +56,9 @@ public class Statistics implements Serializable
 	public Statistics()
 	{
 		this.points = MAX_POINTS;
+
+		this.name = "Maynard Buckson";
+		this.role = "";
 		
 		this.head = 300;
 		this.torso = 300;
@@ -58,7 +66,21 @@ public class Statistics implements Serializable
 		this.rHand = 100;
 		this.lLeg = 100;
 		this.rLeg = 100;
-		
+
+		this.height = r.nextInt(19) + 62;
+		if(height <68)
+		{
+			weight = 120 + r.nextInt(45);
+		}
+		else if (height <74)
+		{
+			weight = 165 + r.nextInt(45);
+		}
+		else
+		{
+			weight = 210 + r.nextInt(65);
+		}
+
 		this.stealth = 0;
 
 		this.effects = new ArrayList<>();
@@ -86,7 +108,18 @@ public class Statistics implements Serializable
 	
 	public void dealDamage(int amount)
 	{
-		
+		if(head > 0)
+			head -= amount;
+		else if(torso > 0)
+			torso -= amount;
+		else if(lHand > 0)
+			lHand -= amount;
+		else if(rHand > 0)
+			rHand -= amount;
+		else if(rLeg > 0)
+			rLeg -= amount;
+		else if(lLeg > 0)
+			lLeg -= amount;
 	}
 	
 	public void setName(String name)	{	this.name = name;		}
@@ -96,6 +129,9 @@ public class Statistics implements Serializable
 	public void setDexterity(int dexterity){	this.dexterity = dexterity;	}
 	public void setInteligence(int inteligence){this.inteligence = inteligence;}
 	public void setCharisma(int charisma){	this.charisma = charisma;}
+	public void setFocus(int focus){	this.focus = focus;}
+	public void setHeight(int in)	{	this.height = in;}
+	public void setWeight(int lbs)	{	this.weight = lbs;}
 	public void setHunger(int hunger){this.hunger = hunger;}
 	public void setThirst(int thirst){this.thirst = thirst;}
 	public void setBurden(int burden){	this.burden = burden;}
@@ -123,6 +159,9 @@ public class Statistics implements Serializable
 	public int getCharisma(){return charisma;}
 	public int getHunger(){return hunger;}
 	public int getThirst()	{return thirst;}
+	public int getFocu(){return focus;}
+	public int getHeight() { return height; }
+	public int getWeight() { return weight; }
 	public int getBurden(){return burden;}
 	public int getCrypto(){return crypto;}
 	public double getVitals(){	return head + torso + lHand + rHand + lLeg + rLeg;}
@@ -159,20 +198,30 @@ public class Statistics implements Serializable
 
 		hv = value/sl;
 
-		if(lHand > 0)
+		if(lHand > 0 && lHand + hv < 101)
 			lHand += hv;
-		if(rHand > 0)
+		else
+			lHand = 100;
+		if(rHand > 0 && rHand + hv < 101)
 			rHand += hv;
-		if(rLeg > 0)
+		else
+			rHand = 100;
+		if(rLeg > 0 && rLeg + hv < 101)
 			rLeg += hv;
-		if(lLeg > 0)
+		else
+			rLeg = 100;
+		if(lLeg > 0 && lLeg + hv < 101)
 			lLeg += hv;
-		if(head > 0)
+		else
+			lLeg = 100;
+		if(head > 0 && head + hv < 301)
 			head += hv;
-		if(torso > 0)
+		else
+			head = 300;
+		if(torso > 0 && torso + hv < 301)
 			torso += hv;
-
-
+		else
+			torso = 300;
 	}
 	public void removeEffect(Effect e)
 	{
@@ -186,7 +235,7 @@ public class Statistics implements Serializable
 		if(!effects.contains(e))
 		{
 			effects.add(e);
-			System.out.println(e.getEffectTag());
+			//System.out.println(e.getEffectTag());
 		}
 		else
 		{
@@ -315,7 +364,7 @@ public class Statistics implements Serializable
 	 */
 	public void processEffects()
 	{
-		System.out.println(getVitals() + " health\n");
+		//System.out.println(getVitals() + " health\n");
 		/*
 
 		 */
@@ -331,7 +380,7 @@ public class Statistics implements Serializable
 
 				if(e.getEffectTag().equals("Suffocating"))
 				{
-					System.out.println(e.getEffectLength() + "  tis is the effect length");
+					//System.out.println(e.getEffectLength() + "  tis is the effect length");
 					setDead(true);
 				}
 				if(!dead) // saves the cause of death for lose screen
@@ -387,15 +436,22 @@ public class Statistics implements Serializable
 		if(getVitals() < 1)
 		{
 			setDead(true);
-			System.out.println(getVitals() + " setting DEAD\n");
+			//System.out.println(getVitals() + " setting DEAD\n");
 		}
 
 		if(getlHand() + getrHand() < 0)
 		{
 			addEffect(new Effect(Effect.Effects.DESTROYED_HANDS, "Broken Arm", Palette.red));
 		}
-
-
-
 	}
+
+    public void fullHeal()
+	{
+		this.lLeg = 100;
+		this.rLeg = 100;
+		this.lHand = 100;
+		this.rHand = 100;
+		this. torso = 300;
+		this.head = 300;
+    }
 }

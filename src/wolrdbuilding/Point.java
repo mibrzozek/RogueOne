@@ -66,6 +66,22 @@ public class Point implements Serializable
         	return false;
         return true;
     }
+    public static Point getPointForCircle(int r, int w, int h)
+    {
+        Point p = new Point(0,0,0);
+
+        Random re = new Random();
+        do
+        {
+            p = new Point(re.nextInt((w-(r*2))) + r, re.nextInt((h-(r*2))) + r, 0);
+
+        }while(p.x + r > w && p.x-r < 0
+                && p.y > h && p.y < 0);
+
+        System.out.println(p.toString() + " that was the new circle point");
+
+        return p;
+    }
     public List<Point> gridXbyX(Point p, int boxWidth, int boxHeight)
     {
         List<Point> points = new ArrayList<Point>();

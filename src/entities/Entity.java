@@ -1,9 +1,5 @@
 package entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Random;
-
 import items.Inventory;
 import items.Inventory.EquipmentSlot;
 import items.Item;
@@ -11,6 +7,11 @@ import items.ItemFactory;
 import items.Type;
 import structures.Script;
 import wolrdbuilding.*;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /*
  *  Damage :
@@ -26,7 +27,7 @@ import wolrdbuilding.*;
 
 public class Entity implements Serializable
 {
-	private static final int DEFAULT_VISION_RADIUS = 5;
+	private static final int DEFAULT_VISION_RADIUS = 12;
 	private boolean showUI = false;
 	//public enum Direction()
 	
@@ -58,7 +59,7 @@ public class Entity implements Serializable
     private int attackValue;
     private int defenseValue;
     private int plasmaValue = 0;
-    private int shieldValue = 100;
+    private int shieldValue = 0;
     private int crypto;
     
     private Point tradersPosition;
@@ -121,7 +122,7 @@ public class Entity implements Serializable
         this.crypto = 100;
     }
 
-    public boolean getAlert(){ return stats.getAlert(); }
+    public boolean getAlert(){ return stats.getAlert();}
     public void setAlert(boolean alert){ stats.setAlert(alert);}
     public void setScript(Script script)		{	this.script = script;	}
     public void setTile(Tile t)					{ 	this.tile = tile;	}						
@@ -137,6 +138,8 @@ public class Entity implements Serializable
     public void modifyDefense(int amount) 		{ 	defenseValue += amount;	}
     public void modidyShield(int amount) 		{	shieldValue += amount; }
     public Tile hitTile()						{   return Tile.TAGGED;			}
+	public void modifyZLevel(int newLevel)		{	this.z = newLevel;		}
+	public void modifyCoordinates(Point p)		{	this.x = p.x; this.y = p.y; this.z = p.z;	}
 	
 	public int hp() 				{ return hp; }
 	
@@ -187,16 +190,16 @@ public class Entity implements Serializable
     {
     	if(item != null && !inventory.isFullyEquiped())
     	{	
-    		modifyAttack((int)item.attack());
-    		modifyDefense((int)item.defense());
+    		modifyAttack((int)item.value());
+    		modifyDefense((int)item.value());
     	}
     }
     public void uniequipItem(Item item)
     {
     	if(item != null && !inventory.isFullyEquiped())
     	{	
-    		modifyAttack(-(int)item.attack());
-    		modifyDefense(-(int)item.defense());
+    		modifyAttack(-(int)item.value());
+    		modifyDefense(-(int)item.value());
     	}
     }
     public ArrayList<Projectile> getProjectiles()
@@ -294,6 +297,52 @@ public class Entity implements Serializable
     			world.queueProjectile(p);
     			notify("It's quite a blaze!");
     		}
+    		else if(inventory.isItemEquiped(new ItemFactory().newPistol()))
+			{
+				p = new Projectile(direction, new Point(x, y, z), Tile.PRO_PISTOL);
+				world.queueProjectile(p);
+				notify("Eat bullets!");
+			}
+			else if(inventory.isItemEquiped(new ItemFactory().newShotgun()))
+			{
+				List<Projectile> pellets = new ArrayList<>();
+
+				if(direction == 0 || direction == 4)
+				{
+					p = new Projectile(direction, Point.transform(Direction.EAST, new Point(x, y, z)), Tile.PRO_SHOTGUN);
+					pellets.add(p);
+					p = new Projectile(direction, Point.transform(Direction.WEST, new Point(x, y, z)), Tile.PRO_SHOTGUN);
+					pellets.add(p);
+				}
+				else if(direction == 2 || direction == 6)
+				{
+					p = new Projectile(direction, Point.transform(Direction.NORTH, new Point(x, y, z)), Tile.PRO_SHOTGUN);
+					pellets.add(p);
+					p = new Projectile(direction, Point.transform(Direction.SOUTH, new Point(x, y, z)), Tile.PRO_SHOTGUN);
+					pellets.add(p);
+				}
+				else if(direction == 1 || direction == 5)
+				{
+					p = new Projectile(direction, Point.transform(Direction.NORTH_WEST, new Point(x, y, z)), Tile.PRO_SHOTGUN);
+					pellets.add(p);
+					p = new Projectile(direction, Point.transform(Direction.SOUTH_EAST, new Point(x, y, z)), Tile.PRO_SHOTGUN);
+					pellets.add(p);
+				}
+				else if(direction == 3 || direction == 7)
+				{
+					p = new Projectile(direction, Point.transform(Direction.NORTH_EAST, new Point(x, y, z)), Tile.PRO_SHOTGUN);
+					pellets.add(p);
+					p = new Projectile(direction, Point.transform(Direction.SOUTH_WEST, new Point(x, y, z)), Tile.PRO_SHOTGUN);
+					pellets.add(p);
+				}
+				p = new Projectile(direction, new Point(x, y, z), Tile.PRO_SHOTGUN);
+				world.queueProjectile(p);
+
+				for(Projectile pj : pellets)
+					world.queueProjectile(pj);
+
+				notify("Shotgun fun!");
+			}
     }
     // Attacking, modifying HP, messages
     public void attack(Entity other)
@@ -535,12 +584,6 @@ public class Entity implements Serializable
 		//Point p =  new Point(x+mx, y+my, z+mz);
 		TileV tile = world.tile(x+mx, y+my, z+mz);
 
-		/*
-		if(tile.getTile().equals(Tile.CLOSED_DOOR))
-		{
-			setDoorPoint(p);
-		}
-		*/
 
 		if (mz == -1)
 		{
@@ -633,7 +676,15 @@ public class Entity implements Serializable
 				drop(i, true);
 				inventory.remove(inventory.get(i));
 			}
-
+		}
+		for(int i = 0; i < inventory.getEquippedMax(); i++)
+		{
+			if(inventory.getEquipped(i) != null)
+			{
+				// doAction("drop a " + inventory.get(i).name());
+				drop(i, false);
+				inventory.removeEquiped(inventory.getEquipped(i));
+			}
 		}
     }
 	public void drop(int i, boolean fromInventory)

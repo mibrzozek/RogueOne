@@ -1,17 +1,9 @@
 package screens;
 
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import asciiPanel.AsciiPanel;
-import entities.Entity;
-import entities.EntityFactory;
-import entities.FieldOfView;
 import entities.Statistics;
-import items.ItemFactory;
+import structures.MainFrame;
+import structures.NameGenerator;
 import structures.RexReader;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
@@ -20,6 +12,9 @@ import wolrdbuilding.TileSet;
 import wolrdbuilding.World;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class CharacterCreationScreen implements Screen
 {
@@ -35,11 +30,11 @@ public class CharacterCreationScreen implements Screen
 	ArrayList<String> fields;
 	
 	private Statistics stats;
-	private String customString = "Press enter to type...";
+	private String customString = "";
 	
 	private int scrollX = 19;
 	private int scrollY = 8;
-	private int index = 0;
+	private int index = 0, sw, sh, center, bx, by, bw, bh, cx, cx2;
 	
 	ArrayList<TilePoint> m1;
 	ArrayList<TilePoint> m2;
@@ -50,8 +45,11 @@ public class CharacterCreationScreen implements Screen
 	private JFrame main;
 
 	private boolean rendered =  false;
+	private NameGenerator nameGen;
+	private static final String NAME_PATH = "C:\\006 SOURCE\\01 JAVA PROJECTS\\02 JAVA PROJECTS\\RogueOne\\resources\\lsv\\first_names.txt";
+	private static final String NAME_PATH_1 = "C:\\006 SOURCE\\01 JAVA PROJECTS\\02 JAVA PROJECTS\\RogueOne\\resources\\lsv\\short_names.txt";
 	
-	public CharacterCreationScreen(JFrame main)
+	public CharacterCreationScreen(MainFrame main)
 	{
 		this.main = main;
 
@@ -65,8 +63,34 @@ public class CharacterCreationScreen implements Screen
 		fields.add("Traits");
 		fields.add("Effects");
 		fields.add("Skills");
+
+		this.sw = main.getScreenWidth();
+		this.sh = main.getScreenHeight();
+
+		int paddingX = 20;
+		int paddingY = 4;
+
+		if(sw > 100)
+		{
+			paddingX = 60;
+		}
+		this.center = sw / 2;
+		this.bx = center - ((sw - paddingX)/2);
+		this.by = paddingY;
+		this.bw = sw - paddingX;
+		this.bh = sh - (paddingY*2);
+
+		this.cx = 0;
+		this.cx2 = bx + 2;
+		this.scrollX = cx2-1;
+
+		nameGen = new NameGenerator();
+		nameGen.setFileToUse(NAME_PATH_1);
 		
 		stats = new Statistics();
+		stats.setName(nameGen.getRandomName());
+		customString = stats.getName();
+
 		RexReader rex = new RexReader();
 		background = new ArrayList<>();
 		background = (ArrayList<TilePoint>) rex.getStructures().get("ascciWorld.csv");
@@ -77,36 +101,38 @@ public class CharacterCreationScreen implements Screen
 
 		if(!rendered)
 		{
-			m1 = TileEngine.renderBox(terminal, 85,  62, 0, 0, TileSet.SIMPLE);
-			m2 = TileEngine.renderBox(terminal, 70, 50, 7, 6, TileSet.SIMPLE);
-			m3 = TileEngine.renderBox(terminal, 20, 3, 10, 5, TileSet.SIMPLE);
+			((MainFrame)main).getScreenWidth();
+			m1 = TileEngine.renderBox(terminal, ((MainFrame)main).getScreenWidth(),  ((MainFrame)main).getScreenHeight(), 0, 0, TileSet.SIMPLE);
 			rendered = true;
 		}
 		
 		if(rendered)
 		{
 			TileEngine.sparkleAnime(m1);
-			TileEngine.renderBox(terminal, 50, 53, 18, 4, TileSet.SIMPLE);
-			TileEngine.displayTilesWithTransparentBox(terminal, m1, 50, 53, 18, 5, Palette.darkestGray);
+			TileEngine.renderBox(terminal, bw, bh, bx, by, TileSet.SIMPLE);
+			//TileEngine.displayTilesWithTransparentBox(terminal, m1, 40, ((MainFrame)main).getScreenHeight() - 15, 8, 5, Palette.darkestGray);
 			
 			//TileEngine.renderBox(terminal, 20, 20, 10, 6, null);
 			//TileEngine.renderBox(terminal, 70, 50, 7, 6, null);
 			//TileEngine.renderBox(terminal, 20, 3, 10, 5, null);
 		}
-		terminal.write("Character Creation", 34, 6, Palette.lightRed);
+		String title = "Character Creation";
+		cx = center - (title.length() / 2);
+
+		terminal.write(title, cx, 6, Palette.lightRed);
 		
 		ArrayList display = stats.displayStats();
 		
-		terminal.write(stats.getPoints() + "", 20, 6);
+		terminal.write(stats.getPoints() + "", cx2, 6);
 		for(int i = 0; i < fields.size(); i++) // Displays all the fields
 		{
 			int y = 8+i;
 			
-			terminal.write(fields.get(i), 20, y);
-			terminal.write("", 32,  y);
+			terminal.write(fields.get(i), cx2, y);
+			terminal.write("", cx,  y);
 			
 			if(display.get(i) != null)
-				terminal.write(display.get(i).toString(), 34, y);
+				terminal.write(display.get(i).toString(), cx, y);
 			
 			if(y == 11)
 				y++;
@@ -114,20 +140,13 @@ public class CharacterCreationScreen implements Screen
 
 		// Story synopsis
 
-		String story = "\tThe year is unknown. Your origin is unknown. Your earliest memories reach back to the day you were" +
-				" given your mission; get of the uninhabitable Earth. What made the Earth uninhabitable is vague, at the most." +
-				"The logs show this facility was constructed long after the events which damaged Earths magnetic field. " +
-				"One thing is certain, the motion of the Earth has slowed and the gravity has decreased. The logs always mention" +
-				" the 'Long War' as something partially responsible for the near extinction of humanity.\n" +
-				"\t'Near extinciton', you always remember. You're still here. Sector 2994, operated by Laura, the only companion you've" +
-				" had your entire life. You always thought there was another person on the other side of the screen when you talked" +
-				" to her. ";
+		String story = "Here goes the story. It is very interesting. Enjoy it";
 
-		Message m = new Message(story, 47);
+		Message m = new Message(story, bw - 6);
 		ArrayList<String> print = m.getLines();
 
 		int ys = 20;
-		int xs = 20;
+		int xs = cx2;
 
 		for(String s : print)
 		{
@@ -135,6 +154,7 @@ public class CharacterCreationScreen implements Screen
 		}
 			
 		terminal.write((char)175 + "", scrollX, scrollY, Palette.lightRed); // Cursor
+
 		if(customString != null)
 		{
 			stats.setAttribute(index, customString);
@@ -186,11 +206,11 @@ public class CharacterCreationScreen implements Screen
     {
     	if(index == 0 || index == 1)
     	{
-    		subScreen = new KeyInputScreen(terminal, this, 30, 34, scrollY, null);
+    		subScreen = new KeyInputScreen(terminal, this, 30, cx, scrollY, null);
     	}
     	else if(index == 2 || index == 3 || index == 4 || index == 5)
     	{
-    		subScreen = new KeyInputScreen(terminal, this, 34, scrollY);
+    		subScreen = new KeyInputScreen(terminal, this, cx, scrollY);
     	}
     	else if(index == 6)
     	{
@@ -224,7 +244,8 @@ public class CharacterCreationScreen implements Screen
 				case KeyEvent.VK_DOWN: scrollDown(); break;
 				case KeyEvent.VK_RIGHT: selectItem(); break;
 				case KeyEvent.VK_LEFT: break;
-			
+
+				case KeyEvent.VK_CAPS_LOCK: getNewRandomName(); break;
 				case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(terminal, this); break;
 	      		case KeyEvent.VK_ENTER: selectItem(); break;
 	      		case KeyEvent.VK_BACK_SPACE:
@@ -234,7 +255,7 @@ public class CharacterCreationScreen implements Screen
 	      				stats.setName(DEFAULT_NAME);
 	      				stats.setRole(DEFAULT_ROLE);
 	      			}
-	      			return new PlayScreen(stats, main);
+	      			return new PlayScreen(stats, (MainFrame) main, World.Map.DUNGEON);
 	      		}
 	      	}
 		}
@@ -245,7 +266,6 @@ public class CharacterCreationScreen implements Screen
 		}
 		return this;
 	}
-
 	@Override
 	public Screen returnScreen(Screen screen)
 	{
@@ -268,4 +288,7 @@ public class CharacterCreationScreen implements Screen
 		return back;
 	}
 
+	public void getNewRandomName() {
+		this.stats.setName(nameGen.getRandomName());
+	}
 }

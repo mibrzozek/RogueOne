@@ -2,12 +2,14 @@ package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import asciiPanel.AsciiPanel;
 import entities.Effect;
 import entities.Entity;
 import items.Type;
+import structures.MainFrame;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
@@ -29,6 +31,7 @@ public class CharacterSheet implements Screen
 
 	public CharacterSheet(World w, JFrame main)
 	{
+		this.main = main;
 		this.w = w;
 		this.player = w.getPlayer();
 		this.width = 31;
@@ -40,14 +43,14 @@ public class CharacterSheet implements Screen
 	{
 		int sheetH =  11 + player.stats.getEffects().size() + 1;
 
-		TileEngine.renderBox(terminal, 31 , sheetH ,0, 62-sheetH,  TileSet.SIMPLE, true);
+		TileEngine.renderBox(terminal, 31 , sheetH ,0, ((MainFrame)main).getDisplayHeight()-sheetH,  TileSet.SIMPLE, true);
 		
 		//terminal.write(player.stats.getName(), 1, 22, Palette.lightRed);
 		//write(player.stats.getRole(), 1, 61, Palette.lightRed);// name
 
 		Color a = Palette.monoPurple;
 		Color b = Palette.monoGrayTeal;
-		int y = 62 - (11 + player.stats.getEffects().size());
+		int y = ((MainFrame) main).getDisplayHeight() - (11 + player.stats.getEffects().size());
 
 		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Shield", player.shield(), 1000, a);
 		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Vitals", player.stats.getVitals(), 1000, a);

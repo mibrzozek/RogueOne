@@ -85,8 +85,12 @@ public class Palette
     public static Color brightBlue = AsciiPanel.brightBlue;
 	public static Color cyan = AsciiPanel.cyan;
 	public static Color pink = Color.pink;
+	public static Color darkGreen = new Color(87 ,146 ,9);
+	public static Color darkerGreen = new Color(61 ,104 ,6);
+	public static Color darkBrown = new Color(94,70,37);
+    public static Color lightBrown = new Color(192,108,35);
 
-	public static Color randomColor()
+    public static Color randomColor()
 	{
 		ArrayList<Color> colors = new ArrayList<>();
 		colors.add(white);

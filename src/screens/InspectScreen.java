@@ -2,6 +2,7 @@ package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,8 @@ public class InspectScreen implements Screen
 	public void displayOutput(AsciiPanel terminal)
 	{
 		//renderGrayBackground(terminal);
-		TileEngine.renderBox(terminal, 45, 19, rx, ry+1, TileSet.SIMPLE, Palette.white);
+		TileEngine.renderBox(terminal, 45, 19, rx, ry+1, TileSet.SIMPLE, true);
+
 		if(inventory != null)
 			item = inventory.get(index);
 			
@@ -75,26 +77,38 @@ public class InspectScreen implements Screen
 	{
 		if(item != null)
 		{
-			TileEngine.renderBox(terminal, 44, 3, rx, ry+1, TileSet.SIMPLE, Color.pink);
+			TileEngine.renderBox(terminal, 45, 5, rx, ry, TileSet.SIMPLE, true);
 
 			title = item.name();
 			description = item.description();
 			int bx = rx + 1;
-			int by = ry + 2;
-			terminal.write(title, bx, by, Palette.white);
-			terminal.write(item.type().toString() + " : " + item.value(), bx + 23, by, item.type().setColor());
+			int by = ry + 1;
+			//terminal.write(title, bx, by, Palette.white);
+			//TileEngine.renderItemPlate(terminal, bx, by, item, 43);
+			TileEngine.renderDisplayPlate(terminal, bx, by++, 43, item.name(), false, Palette.darkestGray, item.color());
+			TileEngine.renderDisplayPlate(terminal, bx, by++, 43, "" + item.value(), false, Palette.darkestGray, item.color());
+			TileEngine.renderDisplayPlate(terminal, bx, by, 43, "" + item.type(), false, Palette.darkestGray, item.color());
+			//terminal.write(item.type().toString() + " : " + item.value(), bx + 23, by, item.type().setColor());
 		
 			String[] split = description.split(" ");
 			int count = 0;
 
-			for (int y = ry+4; y < ry+22; y++)
+
+			TileEngine.renderBox(terminal, 45, 15, rx, ry+ 5, TileSet.SIMPLE, true);
+
+			for (int y = ry+6; y < ry+22; y++)
 			{	
 				int charCount= 0;
-				int cx = rx+2;
+				int cx = rx+1;
+
+				String word = "";
+
+				if(count <  split.length)
+					word = split[count];
 		
-				while(charCount < 38  && count < split.length)
+				while(charCount + word.length() < 39  && count < split.length)
 				{
-					String word = split[count++];
+					word = split[count++];
 					word += " ";
 					charCount += word.length();
 					terminal.write(word, cx, y, Palette.paleWhite);

@@ -1,15 +1,14 @@
 package screens;
 
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-
 import asciiPanel.AsciiPanel;
 import structures.Console;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
-import wolrdbuilding.Tile;
 import wolrdbuilding.TileSet;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class KeyInputScreen implements Screen
 {
@@ -74,9 +73,7 @@ public class KeyInputScreen implements Screen
 
 
 		terminal.write((char)221, x, y, Palette.lightRed); 			// Cursor
-		terminal.write((char)175, x-1, y, Palette.lightRed);		// input begin
-
-
+		terminal.write((char)175, x - 1, y, Palette.lightRed);		// input begin
 		
 		int x1 = x;
 		
@@ -193,7 +190,6 @@ public class KeyInputScreen implements Screen
 		}
 		return this;
 	}
-
 	@Override
 	public Screen returnScreen(Screen screen)
 	{

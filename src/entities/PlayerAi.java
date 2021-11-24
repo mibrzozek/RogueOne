@@ -1,14 +1,14 @@
 package entities;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import items.Item;
 import items.ItemFactory;
 import structures.Script;
 import wolrdbuilding.Palette;
 import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerAi extends EntityAi
 {
@@ -23,7 +23,7 @@ public class PlayerAi extends EntityAi
     public PlayerAi(Entity entity, List<String> messages, FieldOfView fov) 
     {
     	super(entity);
-    	this.entity.setVisionRadius(12);
+    	this.entity.setVisionRadius(6);
     	this.messages = messages;
     	this.fov = fov;
     	attacks = new ArrayList<String>();
@@ -35,17 +35,18 @@ public class PlayerAi extends EntityAi
     	this.entity.tagged = Tile.TAGGED_PLAYER;
     	this.entity.setScript(new Script());
 
-    	entity.inventory().setMax(30);
+    	entity.inventory().setMax(8);
 
-		this.entity.inventory().add(new ItemFactory().newRedVisor());
-
-
-		this.entity.inventory().add(new ItemFactory().newGR7());
-		this.entity.inventory().add(new ItemFactory().newMedicinal());
-		this.entity.inventory().add(new ItemFactory().newConKit());
-		this.entity.inventory().add(new ItemFactory().newBandages());
-		this.entity.inventory().add(new ItemFactory().newHelmet2());
-		this.entity.inventory().add(new ItemFactory().newClearanceGold());
+		this.entity.inventory().add(new ItemFactory().newFarmAxe());
+		this.entity.inventory().add(new ItemFactory().newClothPack());
+		this.entity.inventory().add(new ItemFactory().newPickAxe());
+		this.entity.inventory().add(new ItemFactory().newQuiver());
+		this.entity.inventory().add(new ItemFactory().newLongBow());
+		this.entity.inventory().add(new ItemFactory().newArrow());
+		this.entity.inventory().add(new ItemFactory().newArrow());
+		this.entity.inventory().add(new ItemFactory().newArrow());
+		this.entity.inventory().add(new ItemFactory().newArrow());
+		this.entity.inventory().add(new ItemFactory().newArrow());
 
 
     	this.entity.stats.addEffect(new Effect(Effect.Effects.STONED, "High", Palette.lightBlue));

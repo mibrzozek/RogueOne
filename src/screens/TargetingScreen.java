@@ -2,11 +2,13 @@ package screens;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import entities.PlayerAi;
+import structures.MainFrame;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
@@ -23,11 +25,12 @@ public class TargetingScreen implements Screen
 	private Entity player;
 	private List<Entity> inView;
 	
-	private int index, lastSize, scrollY, scrollX;
+	private int index, lastSize, scrollY, scrollX, bx, by, bw, bh, dh;
+
 
 	private JFrame main;
 	
-	public TargetingScreen(Entity player, PlayScreen ps, JFrame main)
+	public TargetingScreen(Entity player, PlayScreen ps, MainFrame main)
 	{
 		this.main = main;
 		this.ps = ps;
@@ -35,7 +38,13 @@ public class TargetingScreen implements Screen
 		inView = player.fov().getEntities();
 		this.lastSize = inView.size();
 		this.scrollX = 0;
-		this.scrollY = 48 - inView.size() + 1;
+		this.scrollY = main.getDisplayHeight() - inView.size() - 1;
+
+		this.bx = 0;
+		this.by = main.getDisplayHeight() - (inView.size() + 2 );
+
+		this.dh = main.getDisplayHeight();
+
 		this.exitScreen = false;
 	}
 	public void refresh()
@@ -43,7 +52,7 @@ public class TargetingScreen implements Screen
 		inView = player.fov().getEntities();
 		this.lastSize = inView.size();
 		this.scrollX = 0;
-		this.scrollY = 48 - inView.size() + 1;
+		this.scrollY = dh  - inView.size() - 1;
 		this.index = 0;
 	}
 	@Override
@@ -60,7 +69,8 @@ public class TargetingScreen implements Screen
 		//System.out.println("screen null size change");
 
 		Entity enemy;
-		if(subScreen == null){
+		if(subScreen == null)
+		{
 			enemy = inView.get(index);
 			renderEnemyList(terminal);
 			terminal.write((char) 16 + "", scrollX, scrollY);
@@ -73,17 +83,17 @@ public class TargetingScreen implements Screen
 
 		}
 
-		terminal.write(enemy.tile().glyph(), enemy.x-ps.getLeftOffset(), enemy.y - ps.getTopOffset(), Palette.white, Palette.darkRed);
+		terminal.write(enemy.tile().glyph(), enemy.x-ps.getLeftOffset()+ps.getPlayAreaOffset(), enemy.y - ps.getTopOffset(), Palette.white, Palette.darkRed);
 
 		if(subScreen instanceof AttackBox)
 			((AttackBox) subScreen).displayOutput(terminal);
 	}
 	public void renderEnemyList(AsciiPanel terminal)
 	{
-		int x = 0;
-		int y = 49 - inView.size() -1;
+		int x = bx;
+		int y = by;
 		
-		TileEngine.renderBox(terminal, 31, inView.size() + 2 ,x, y,  TileSet.SIMPLE, true);
+		TileEngine.renderBox(terminal, 31, inView.size() + 2 ,bx, by,  TileSet.SIMPLE, true);
 		
 		y += 1;
 		for(Entity e : inView)
@@ -99,7 +109,7 @@ public class TargetingScreen implements Screen
 		PlayerAi  ai = (PlayerAi)player.getEntityAi();
 		Entity enemy = inView.get(index);
 
-		subScreen = new AttackBox(player, 31, ai.getAttacks().size() + 2, 31, 49 - ai.getAttacks().size() - 1, enemy, ps, main);
+		subScreen = new AttackBox(player, 31, ai.getAttacks().size() + 2, 31, dh - ai.getAttacks().size() - 2, index, ps, main);
 	}
 	public void scrollUp()
 	{
@@ -164,6 +174,7 @@ public class TargetingScreen implements Screen
 	return this;
 
 	}
+
 	@Override
 	public Screen returnScreen(Screen screen)
 	{

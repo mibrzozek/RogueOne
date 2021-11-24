@@ -1,21 +1,38 @@
 package wolrdbuilding;
 
+import entities.Effect;
+import entities.Entity;
+import entities.Mech;
+import items.Item;
+import items.Stash;
+import items.Type;
+import structures.Air;
+import structures.Dungeon;
+
 import java.awt.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import entities.Effect;
-import entities.Entity;
-import entities.Mech;
-import items.Item;
-import items.Type;
-import structures.Air;
-import structures.Dungeon;
-
 public class World implements Serializable
 {
+	public int getCircleRadius()
+	{
+		return radius;
+	}
+
+	public List<Point> getStairPoints()
+	{
+		return stairPoints;
+	}
+
+	public enum Map
+	{
+		TURKEY(),
+		DUNGEON();
+	}
+
 	private static final int MINI_CELL = 3;
 
 	private Point playerCell;
@@ -37,7 +54,14 @@ public class World implements Serializable
 	private ArrayList<Point> startingPoints;
 	private ArrayList<Point> firePoints;
 	private ArrayList<Door> doorPoints;
+	private ArrayList<Stash> stashPoints;
+	private ArrayList<Point> stairPoints;
 
+
+	private Point circleCenter;
+	private Point circleStartingPoint;
+
+	private int radius;
 
 	private Air air;
 
@@ -71,6 +95,8 @@ public class World implements Serializable
 		this.projectiles = new ArrayList<Projectile>();
 		this.firePoints = new ArrayList<Point>();
 		this.doorPoints  = d.getDoorPoints();
+		this.stashPoints = d.getStashes();
+		this.stairPoints = (ArrayList<Point>) d.getStairPoints();
 
 		this.fireCenters = new ArrayList<>();
 		
@@ -78,13 +104,13 @@ public class World implements Serializable
 		this.projectileMap = new Projectile[width][height][depth];
 
 		this.miniMap = new TileV[width/MINI_CELL][height/MINI_CELL][depth];
-		this.mini = new MiniMap(this);
+		this.circleStartingPoint = Point.getPointForCircle(25,width/MINI_CELL, height/MINI_CELL);
 		
 		this.insideSpawns = spawns;
 		this.startingPoints = startingPoints;
 
 		this.air = new Air(this);
-		//System.out.println(startingPoints.size());
+		random  = new Random();
 	}
 	public Air getAir()
 	{
@@ -97,7 +123,7 @@ public class World implements Serializable
 	}
 	public MiniMap getMiniMap()
 	{
-		return mini;
+		return  new MiniMap(this);
 	}
 
 
@@ -114,7 +140,7 @@ public class World implements Serializable
 
 		if(t.isFire() ) //
 		{
-				if(newFire || newFire) // gets newest fires points and sees if new poiint is already ther
+				if(newFire) // gets newest fires points and sees if new poiint is already ther
 					fireCenters.add(new Fire(p, this));
 		}
 	}
@@ -134,7 +160,9 @@ public class World implements Serializable
 		if (x < 0 || x >= width || y < 0 || y >= height || z < 0 || z >= depth)
 			return new TileV(Tile.BOUNDS.glyph(), Tile.BOUNDS.color());
 		else
+		{
 			return tiles[x][y][z];
+		}
 	}
     // Checks if there's an entity in given coordinate
 	public Projectile projectile(int x, int y, int z)
@@ -215,7 +243,9 @@ public class World implements Serializable
 		
 		for(int i = 0; i < distance; i++)
 		{
-			System.out.println(tiles[player.x +mx][player.y + my][player.z].getTile().toString());
+			//System.out.println(tiles[player.x +mx][player.y + my][player.z].getTile().toString());
+			if(player.x + mx >= width || player.x + mx < 0 || player.y + my >= height || player.y + my < 0)
+				continue;
 
 			if(!tiles[player.x +mx][player.y + my][player.z].isGround() && !tiles[player.x +mx][player.y + my][player.z].isStructure())
 			{
@@ -242,7 +272,7 @@ public class World implements Serializable
 		if(x < 0 || x >= width ||y < 0|| y >= height || z < 0 || z >= depth)
 		{
 			player.notify("We're digging through another dimmmension!");
-			System.out.println("x : " + x + "y : " + y +"z : " + z);
+			//System.out.println("x : " + x + "y : " + y +"z : " + z);
 		}
 		else
 		{
@@ -257,6 +287,10 @@ public class World implements Serializable
     
     public char glyph(int x, int y, int z)
     {
+    	//System.out.println(x +  " " + y + " in glyph");
+    	if(x >= width || y >=width)
+    		return 'X';
+
     	Entity entity = entity(x, y, z);
     	Projectile p = projectile(x, y, z);
     	
@@ -316,6 +350,12 @@ public class World implements Serializable
     // Updates entity list; Used for when things are killed
     public void update()
     {
+    	if(mini == null)
+    	{
+			mini = getMiniMap();
+			mini.update();
+		}
+
     	turnManagement();
 
     	List<Projectile> projUpdate = new ArrayList<>(projectiles);
@@ -355,17 +395,28 @@ public class World implements Serializable
 	{
 		turns++;
 
-		// Logic for giving out EFFECTS over time spent in the world
+		/*
+					PASSIVE HEALING
+		 */
+		if(player.stats.getEffects().contains(Effect.Effects.PASSIVE_HEALING))
+		{
+			player.stats.healAllVitals(10);
+		}
+		/*
+					EFFECTS
+		 */
 		if(turns % 100 == 0)
 		{
 			player.stats.addEffect(new Effect(Effect.Effects.TRAUMA, "Tired", Palette.purple));
 		}
-		// World changes over time
+
+		/*
+					BREATHING AIR
+		 */
 		if(turns % 5 == 0)
 		{
-			air.modifyAir(-100);
+			//air.modifyAir(-100);
 		}
-
 		if(air.getOxygen() < 0 && player.inventory().getTypeDuration(Type.OXYGEN) < 1 )
 		{
 			player.stats.setBreathing(false);
@@ -373,6 +424,54 @@ public class World implements Serializable
 			player.setAlert(true);
 
 			player.notify("It's hard to breathe.");
+		}
+
+		/*
+					PLAYER SAFE ZONE
+		 */
+		if(!mini.isPlayerInSafeZone())
+		{
+			if(!player.stats.isBreathing())
+				player.stats.dealDamage(2);
+		}
+		int f1 = 1;
+		int f2 = 100;
+		int f3 = 200;
+		int f4 = 400;
+		int f5 = 1000;
+
+		if(turns == f5)
+		{
+			radius = 2;
+			circleStartingPoint = mini.getPointInsideCircle();
+			mini.update();
+		}
+		else if(turns == f4)
+		{
+			radius = 4;
+			circleStartingPoint = mini.getPointInsideCircle();
+			mini.update();
+		}
+		else if(turns == f3)
+		{
+			radius = 8;
+			circleStartingPoint = mini.getPointInsideCircle();
+			mini.update();
+		}
+		else if(turns == f2)
+		{
+			radius = 16;
+			circleStartingPoint = mini.getPointInsideCircle();
+			mini.update();
+
+		}
+		else if(turns == f1)
+		{
+			radius = 27;
+			circleStartingPoint = mini.getPointInsideCircle();
+			mini.update();
+
+			System.out.println("we are iffing at phase 1");
 		}
 
 	}
@@ -384,33 +483,31 @@ public class World implements Serializable
     public Tile processCollision(Entity e, Projectile p)
     {
     	Point pp = p.point();
+
+		System.out.println("Collision has occured!");
+		System.out.println(e.name() + " ");
     	
-    	System.out.println("Prcessing collision");
+    	//System.out.println("Processing collision");
     	
-    	if(e == null && p.glyph() != Tile.WATER.glyph())
+
+    	if(e == null && p.glyph() == Tile.WATER.glyph() && tile(pp.x, pp.y, pp.z).getTile().isFire()) // if water hitting fire
     	{
-    		return p.tile();
-    	}
-    	else if(e == null && p.glyph() == Tile.WATER.glyph() && tile(pp.x, pp.y, pp.z).getTile().isFire())
-    	{
-    		System.out.println("Steaming!");
-    		
+    		//System.out.println("Steaming!")
     		changeTile(pp, Tile.STEAM, false);
     		
     		return Tile.STEAM;
     	}
-
-    	
-    	if(e != null && !e.stats.getName().equals("Trader")
-    			&& !e.stats.getName().equals(e.stats.getName())) // if collision doesn't hit trader or self, apply damage
+    	if(e != null && !e.stats.getName().equals("Trader")) // if collision doesn't hit trader or self, apply damage
     	{
+    		System.out.println("We;re modifying hp!");
+
     		int dmg = 0;
     		if(p.glyph() == Tile.Y_SMALL.glyph())
     			dmg = 100;
     		player.setTarget(e); 
     		e.modifyHp(-99);
     	}
-    	
+
     	if(!e.stats.getName().equals(e.stats.getName()))
     		return Tile.TAGGED;
     	else
@@ -427,7 +524,7 @@ public class World implements Serializable
     public void spawnPlayer(Entity player)
 	{
 		Random r = new Random();
-		System.out.println(startingPoints.size() + " world s pints spawn");
+		//System.out.println(startingPoints.size() + " spawn points size");
 		Point p = startingPoints.get(r.nextInt(startingPoints.size()));
 
 		player.x = p.x;
@@ -452,7 +549,9 @@ public class World implements Serializable
 			}
 			else
 				depth = null;
-			*/				
+			*/
+
+			//System.out.println(insideSpawns.size() + " spawn size");
 			if(insideSpawns.size() > 0)
 			{
 				do 
@@ -600,7 +699,9 @@ public class World implements Serializable
 				d.open();
 			}
 			else
-				System.out.print(p.toString());
+			{
+				//System.out.print(p.toString());
+			}
 		}
 	}
 
@@ -636,5 +737,36 @@ public class World implements Serializable
 			}
 		}
 		return null;
+	}
+
+    public void addEntityAt(Point p, Entity e)
+	{
+		//System.out.println(p.toString() + " this is the droid point");
+
+		e.x = p.x;
+		e.y = p.y;
+		e.z = p.z;
+
+		entities.add(e);
+    }
+	public void addAtStartingPoint(Entity turkey)
+	{
+		//tem.out.println(insideSpawns.size());
+
+		Point p = insideSpawns.get(random.nextInt(insideSpawns.size()));
+
+		turkey.x = p.x;
+		turkey.y = p.y;
+		turkey.z = 0;
+
+		entities.add(turkey);
+	}
+
+	public Point getCirclePoint() {
+		return circleStartingPoint;
+	}
+	public List<Stash> getStashes()
+	{
+		return stashPoints;
 	}
 }

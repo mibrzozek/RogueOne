@@ -56,20 +56,53 @@ public class Script implements Serializable
             }
             else if(progressMap.get(d) == 1) // Choose Weapon
             {
-                if(decisionNum == 2 && player.plasma() > 2000)
+                if(decisionNum == 2 && player.plasma() > 1000)
                 {
-                    player.modifyPlasma(-2000);
+                    player.modifyPlasma(-1000);
 
                     incrementProgress(d);
                     player.notify("Your plasma depletes!");
                 }
-                else if(decisionNum == 2 && player.plasma() < 2000)
+                else if(decisionNum == 2 && player.plasma() < 1000)
                 {
                     player.notify("You don't have enough!");
                 }
                 else
                 {
                     player.notify("To compute this I need more plasma");
+                }
+            }
+            else if(progressMap.get(d) == 2) // Choose Weapon
+            {
+                if(decisionNum == 0)
+                {
+                    player.notify("That's why you're getting dizzy. Don't forget to check your 02 levels or you might die from suffocating.");
+                }
+                else if(decisionNum == 1)
+                {
+                    player.notify("It's in that one place you haven't checked yet.");
+                }
+                else if(decisionNum == 2)
+                {
+                    player.notify("This needs a condition to be satisfied to be progressed.");
+                    incrementProgress(d);
+                }
+            }
+            else if(progressMap.get(d) == 3) // Choose Weapon
+            {
+                if(decisionNum == 0)
+                {
+                    player.notify("No the smell is from the failed plumbing system. My data is corrupted, but my intuition is telling me we're many floors below" +
+                            " the surface of wherever we are, so it's all flowing down here you know. Who know what's actually going on up there.");
+                }
+                else if(decisionNum == 1)
+                {
+                    player.notify("The security systems are non operational currently so we'll have to check manually.");
+                }
+                else if(decisionNum == 2)
+                {
+                    player.notify("This needs a condition to be satisfied to be progressed.");
+                    incrementProgress(d);
                 }
             }
         }
@@ -101,6 +134,16 @@ public class Script implements Serializable
         r2.add(" That sounds like bullshit ...");
         r2.add(" When are you going to get to the good part ...?");
 
+        ArrayList<String> r3 = new ArrayList<>();
+        r3.add("Is that why i'm getting dizzy?");
+        r3.add("Where is it located?");
+        r3.add("Fuck you and your mother!");
+
+        ArrayList<String> r4 = new ArrayList<>();
+        r4.add("Is that why it's so smelly in here?");
+        r4.add("What you don't have a camera there or something?");
+        r4.add("On my way my love!");
+
         ArrayList<String> last = new ArrayList<>();
         last.add(" ...");
         last.add(" ...");
@@ -111,6 +154,9 @@ public class Script implements Serializable
         listOfLists.add((ArrayList) r0);
         listOfLists.add((ArrayList) r1);
         listOfLists.add((ArrayList) r2);
+        listOfLists.add((ArrayList) r3);
+        listOfLists.add((ArrayList) r4);
+
 
         listOfLists.add((ArrayList) last);
         responseMap.put(Type.TERMINAL, listOfLists);
@@ -136,7 +182,12 @@ public class Script implements Serializable
                 " 'We were one of the last to be effected by the plague, and we're right next to the lifeline so our supplies won't be running " +
                 "thin anytime soon', that's one of my programmed lines! Anyway the point is this place has gone to shit so be careful out there, this level is " +
                 "riddled with plasma junkies!");
-        terminalD.add("Wow, that sure filled me up!");
+        terminalD.add("Wow, that sure filled me up! My systems are running now and it seems we're suffering a serious 02 leak somewhere. " +
+                "Go find it and patch it up while I send some repair droids to check on the life support and auxiliary systems.");
+        terminalD.add("Cutting it close there with the leak. The droids reported back with good news on the life support but our ventilation systems seems" +
+                " to be failing at the moment. Go see if you can see anything visibly wrong with it.");
+        terminalD.add("I did a thourough scan of this level and we don't have any thorium in the regolith. If we don't the fusion reactor won't  have a way to balance itself out" +
+                " and we'll all be fried!");
 
         scriptMap.put(Type.TERMINAL, terminalD);
 

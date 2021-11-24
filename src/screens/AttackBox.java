@@ -3,7 +3,9 @@ package screens;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import entities.PlayerAi;
+import items.ItemFactory;
 import items.Type;
+import wolrdbuilding.Palette;
 
 import javax.swing.*;
 
@@ -11,15 +13,16 @@ public class AttackBox extends UIScreen
 {
 	private Entity enemy;
 	
-	public AttackBox(Entity player, int bw, int bh, int bx, int by, Entity enemy, PlayScreen ps, JFrame main)
+	public AttackBox(Entity player, int bw, int bh, int bx, int by, int enemyIndex, PlayScreen ps, JFrame main)
 	{
 		super(player, ps, main);
+		setInputNumber(enemyIndex);
 		
 		this.bw = bw;
 		this.bx = bx;
 		this.bh = bh;
 		this.by = by;
-		this.enemy = enemy;
+		this.enemy = (Entity)player.fov().getEntities().get(enemyIndex);
 		
 		PlayerAi  ai = (PlayerAi)player.getEntityAi();
 		
@@ -32,7 +35,6 @@ public class AttackBox extends UIScreen
 	{
 		return enemy;
 	}
-
 	@Override
 	public void select()
 	{
@@ -42,16 +44,31 @@ public class AttackBox extends UIScreen
 			{
 				double dmg = player.inventory().getTypeDuration(Type.GUN);
 
-				System.out.println(dmg);
-
 				enemy.modifyHp(-dmg);
-				System.out.println("Shooting");
+
 				if (enemy.hp() < 0)
 					setNull();
 			}
+			else if(!player.inventory().get(Type.RANGED).isEmpty())
+			{
+				if(!player.inventory().get(Type.ARROW).isEmpty()) // if arrows equipped
+				{
+					System.out.println("Were shooting arrows");
+					double dmg = player.inventory().getTypeDuration(Type.RANGED);
+					player.inventory().removeEquiped(new ItemFactory().newArrow());
+					enemy.modifyHp(-dmg);
+
+					if (enemy.hp() < 0)
+						setNull();
+				}
+				else
+				{
+					player.notify("You're out of bows!");
+				}
+			}
 			else
 			{
-				player.notify("You try shooting but don't seem to have a gun!");
+				player.notify("You try shooting but don't seem to have a ranged weapon!");
 			}
 			ps.updateWorld();
 		}
@@ -64,7 +81,18 @@ public class AttackBox extends UIScreen
 		
 		for(String i : itemList)
 			terminal.write(i,x, y++ );
+
+		terminal.write(enemy.tile().glyph(), enemy.x-ps.getLeftOffset()+ps.getPlayAreaOffset(), enemy.y - ps.getTopOffset(), Palette.white, Palette.darkRed);
 	}
+	@Override
+	public void update()
+	{
+		if(inputNumber < player.fov().getEntities().size())
+			this.enemy = (Entity)player.fov().getEntities().get(inputNumber);
+
+		System.out.println(inputNumber);
+	}
+
 
 
 }

@@ -20,48 +20,63 @@ public class MapScreen implements Screen
     private Entity player;
     private MiniMap mini;
 
+    private int sw, sh, displayZ;
+
     private TileV[][][] miniMap;
 
-    public MapScreen(AsciiPanel t, World w)
+    public MapScreen(AsciiPanel t, World w, int screenWidth, int screenHeight)
     {
+        this.sw = screenWidth;
+        this.sh = screenHeight;
+        this.displayZ = w.getPlayer().z;
+
         this.mini = w.getMiniMap();
+        this.mini.update();
         this.terminal = t;
         this.world = w;
         this.miniMap = mini.getTileMiniMap();
         this.player = w.getPlayer();
-        this.scrollX = 51/2;
-        this.scrollY = 29/2;
-        this.offsetX = mini.getPlayerPoint().x;
-        this.offsetY = mini.getPlayerPoint().y;
+        this.scrollX = mini.miniW()/2;
+        this.scrollY = mini.miniH()/2;
+        this.offsetX = 0;
+        this.offsetY = 0;
     }
 
 
     @Override
     public void displayOutput(AsciiPanel terminal)
     {
-        int mw = 52;
-        int mh = 29;
+        int mw = sw - 33;
+        int mh = sh - 2;
         int mx = 32;
-        int my = 32;
-
+        int my = 1;
         miniMap = mini.getTileMiniMap();
 
-
         TileEngine.renderBox(terminal, mw + 2, mh + 2, mx-1, my-1, TileSet.SIMPLE, true);
+        terminal.write("LEVEL : " + displayZ, 1, 1);
 
         for(int x = 0; x < mw; x++)
         {
             for(int y = 0; y < mh; y++)
             {
                 if(x+offsetX < mini.miniW() && y+offsetY < mini.miniH())
-                    terminal.write(miniMap[x+offsetX][y+offsetY][0].getTile().glyph(), x + mx, y + my, Palette.monoGrayTeal);
+                {
+                    TileV t = miniMap[x+offsetX][y+offsetY][displayZ];
+                    terminal.write(t.getTile().glyph(), x + mx, y + my, t.getColorF(), t.getColorB());
+                }
             }
         }
+        TileV t = miniMap[scrollX][scrollY][0];
+        terminal.write((char)179, mx+scrollX, my+scrollY, Palette.lightGreen, t.getColorB());
 
-        terminal.write((char)179, mx+scrollX, my+scrollY, Palette.lightGreen);
-        terminal.write((char)179, mx+scrollX, my+scrollY+2, Palette.lightGreen);
-        terminal.write((char)196, mx+scrollX-1, my+scrollY+1, Palette.lightGreen);
-        terminal.write((char)196, mx+scrollX+1, my+scrollY+1, Palette.lightGreen);
+        t = miniMap[scrollX][scrollY+2][0];
+        terminal.write((char)179, mx+scrollX, my+scrollY+2, Palette.lightGreen, t.getColorB());
+
+        t = miniMap[scrollX-1][scrollY+1][0];
+        terminal.write((char)196, mx+scrollX-1, my+scrollY+1, Palette.lightGreen, t.getColorB());
+
+        t = miniMap[scrollX+1][scrollY+1][0];
+        terminal.write((char)196, mx+scrollX+1, my+scrollY+1, Palette.lightGreen, t.getColorB());
     }
     public void scroll(int x, int y)
     {
@@ -138,8 +153,18 @@ public class MapScreen implements Screen
                 case KeyEvent.VK_RIGHT: scroll(1, 0);break;
                 case KeyEvent.VK_LEFT:  scroll(-1, 0); break;
 
-                case KeyEvent.VK_SHIFT:
                 case KeyEvent.VK_M: return null;
+
+                case KeyEvent.VK_Z:
+                    if(displayZ + 1 < world.depth())
+                        displayZ += 1;
+                    mini = mini.getTilesFromZ(displayZ);
+                    break;
+                case KeyEvent.VK_X:
+                    if(displayZ - 1  > -1)
+                        displayZ -= 1;
+                    mini = mini.getTilesFromZ(displayZ);
+                    break;
 
                 case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(terminal, this); break;
                 case KeyEvent.VK_ENTER:  break;
@@ -147,7 +172,6 @@ public class MapScreen implements Screen
         }
         return this;
     }
-
     @Override
     public Screen returnScreen(Screen screen) {
         return null;

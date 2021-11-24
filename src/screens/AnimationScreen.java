@@ -2,6 +2,7 @@ package screens;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import asciiPanel.AsciiPanel;
@@ -12,6 +13,7 @@ import wolrdbuilding.TileSet;
 
 public class AnimationScreen implements Screen, Runnable
 {
+
 	private Color fore = Palette.paleWhite;
 	private Color back = Palette.theNewBlue;
 
@@ -51,7 +53,6 @@ public class AnimationScreen implements Screen, Runnable
 		}
 		return null;
 	}
-
 	@Override
 	public Screen returnScreen(Screen screen)
 	{

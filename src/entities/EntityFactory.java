@@ -1,14 +1,12 @@
 package entities;
-import java.awt.Color;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Random;
-
-import asciiPanel.AsciiPanel;
 import items.ItemFactory;
 import items.Type;
 import wolrdbuilding.Tile;
 import wolrdbuilding.World;
+
+import java.io.Serializable;
+import java.util.List;
+import java.util.Random;
 
 public class EntityFactory implements Serializable
 {
@@ -29,13 +27,38 @@ public class EntityFactory implements Serializable
         this.fov = fov;
     }
     // name, world, glyph, color, maxHP, attack, defense
+	public Entity newTurkeyGuardian(int depth, Entity player)
+	{
+		Entity turkeyG = new Entity("Turkey Guardian", world, Tile.TRADER, 200, 5, 30);
+		if(world != null)
+			world.addAtEmptyLocation(depth, turkeyG);
+
+		new HitmanAi(turkeyG, player);
+		return turkeyG;
+	}
+	public Entity newTurkey(int depth, Entity player)
+	{
+		Entity turkey = new Entity("Turkey", world, Tile.TRADER, 200, 5, 30);
+		if(world != null)
+			world.addAtEmptyLocation(0, turkey);
+
+		new TurkeyAI(turkey, player);
+		return turkey;
+	}
+	public Entity newDroidSkeleton(int depth, Entity player)
+	{
+		Entity droidSkeleton = new Entity("Droid Skeleton", world, Tile.DROID, 200, 5, 30);
+		if(world != null)
+			world.addAtEmptyLocation(depth, droidSkeleton);
+
+		new DroidAI(droidSkeleton, player);
+		return droidSkeleton;
+	}
     public Entity newPlasmaJunkie(int depth, Entity player)
 	{
 		Entity plasmaJunkie = new Entity("Plasma Junkie", world, Tile.JUNKIE, 200, 15, 15);
 		if(world != null)
 			world.addAtEmptyLocation(depth, plasmaJunkie);
-
-		plasmaJunkie.inventory().add(nullFactory.newCyberneticSyringe());
 		
 		new JunkieAi(plasmaJunkie, player);
 		return plasmaJunkie;
@@ -46,6 +69,7 @@ public class EntityFactory implements Serializable
         
         if(world!= null)
         	world.addAtEmptyLocation(1, hitman);
+
         new HitmanAi(hitman, player);
         return hitman;
     }
@@ -55,11 +79,8 @@ public class EntityFactory implements Serializable
 	    
 	    if(world!= null)
 	    	world.addAtEmptyLocation(1, mutant);
+
 	    new RogueAi(mutant, this);
-	    mutant.inventory().add(nullFactory.newPlasmaPack());
-	    mutant.inventory().add(nullFactory.newPlasmaPack());
-	    mutant.inventory().add(nullFactory.newPlasmaPack());
-	    mutant.inventory().add(nullFactory.newVileOfBioReactant());
 	    return mutant;
 	}
 	public Entity newDroid()
@@ -69,10 +90,7 @@ public class EntityFactory implements Serializable
 	    if(world!= null)
 	    	world.addAtEmptyLocation(1, droid);
 	    new RogueAi(droid, this);
-	    droid.inventory().add(nullFactory.newPlasmaPack());
-	    droid.inventory().add(nullFactory.newPlasmaPack());
-	    droid.inventory().add(nullFactory.newPlasmaPack());
-	    droid.inventory().add(nullFactory.newStickOfRam());
+
 	    return droid;
 	}
 	public Entity newRogue()
@@ -82,10 +100,6 @@ public class EntityFactory implements Serializable
 	    if(world!= null)
 	    	world.addAtEmptyLocation(1, rogue);
 	    new RogueAi(rogue, this);
-	    rogue.inventory().add(nullFactory.newPlasmaPack());
-	    rogue.inventory().add(nullFactory.newPlasmaPack());
-	    rogue.inventory().add(nullFactory.newPlasmaPack());
-	    rogue.inventory().add(nullFactory.newHeatShieldShard());
 	    
 	    return rogue;
 	}
@@ -98,10 +112,6 @@ public class EntityFactory implements Serializable
 		player.modifyPlasma(1500);
 		player.modifyCrypto(1000);
 		
-		player.inventory().add(new ItemFactory().newWallBomb());
-		player.inventory().add(new ItemFactory().newBioLard());
-		player.inventory().add(new ItemFactory().newMacroUzi());
-		
 		player.stats.setStealth(player.inventory().getTypeDuration(Type.STEALTH));
 		
 		return player;
@@ -113,9 +123,6 @@ public class EntityFactory implements Serializable
 	    if(world!= null)
 	    	world.addAtEmptyLocation(5, fungus);
 	    new FungusAi(fungus, this);
-	    fungus.inventory().add(nullFactory.newPlasmaPod());
-	    fungus.inventory().add(nullFactory.newPlasmaPod());
-	    fungus.inventory().add(nullFactory.newPlasmaPod());
 	    
 	    return fungus;
 	}
@@ -126,7 +133,6 @@ public class EntityFactory implements Serializable
 	    if(world!= null)
 	    	world.addAtEmptyLocation(5, trader);
 	    new TraderAi(trader, this);
-	    trader.inventory().add(new ItemFactory().newVictoryItem(0));
 	    
 	    return trader;
 	}
@@ -138,7 +144,6 @@ public class EntityFactory implements Serializable
 	    	world.addMech((Mech)mech);
 	    new TraderAi(mech, this);
 
-	    
 	    return mech;
 	}
 

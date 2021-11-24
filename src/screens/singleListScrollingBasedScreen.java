@@ -26,6 +26,7 @@ public abstract class singleListScrollingBasedScreen implements Screen
 	private int armYMax = 10;
 	private int armXMin = 5;
 	private int armYMin = 5;
+
 	protected int boxWidth = 45;
 	protected int boxHeight = 20;
 	

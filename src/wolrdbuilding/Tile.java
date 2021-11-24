@@ -2,11 +2,7 @@ package wolrdbuilding;
 
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Random;
-
-import asciiPanel.AsciiPanel;
-import wolrdbuilding.Palette;
 
 public enum Tile 
 {
@@ -26,6 +22,23 @@ public enum Tile
     CURSOR('x', Palette.purple),
 
 
+
+    // Earth Tiles
+    GRASS_0('.', Palette.green, Palette.darkGreen),
+    GRASS_1(',', Palette.green, Palette.darkGreen),
+    BUSH_0((char)128, Palette.green, Palette.darkerGreen),
+    BUSH_1((char)153, Palette.darkGreen, Palette.darkerGreen),
+    TREE_0((char)7, Palette.brown, Palette.darkGreen),
+    TREE_1((char)7, Palette.darkBrown, Palette.darkerGreen),
+
+    ROCK_0((char)219, Palette.gray, Palette.gray),
+    ROCK_1((char)219, Palette.darkGray, Palette.gray),
+
+    DIRT_FLOOR((char)178, Palette.darkBrown, Palette.brown),
+    STONE_FLOOR((char)176, Palette.darkGray, Palette.gray),
+
+    WOOD_WALL((char)176, Palette.lightBrown, Palette.darkBrown),
+
     // TRAPS / OBSTACLES / LAVA
     UP_DOWN_DBL_LASER((char)186, Palette.purple),
     LEFT_RIGHT_DBL_LASER((char)205, Palette.purple),
@@ -41,7 +54,13 @@ public enum Tile
     DEAD('X', Palette.purple),
     TAGGED('x', Palette.purple),
     TAGGED_PLAYER('@', Palette.darkRed),
-    
+
+    PRO_PISTOL((char)42, Palette.morePaleWhite),
+    PRO_SHOTGUN((char)15, Palette.darkRed),
+    PRO_SNIPER((char)233, Palette.darkYellow),
+    PRO_ASSAULT((char)42, Palette.red),
+
+
     Y_SMALL('.', Palette.purple),
     R_SNIPER((char) 15, Palette.purple),
     
@@ -52,9 +71,8 @@ public enum Tile
     G_SMALL((char) 4, Palette.purple),
     
     
-    WATER((char) 9, Palette.blue),
-    
-    
+    WATER((char) 176, Palette.blue),
+
     STEAM((char)46, Palette.paleWhite),
     
     
@@ -189,7 +207,8 @@ public enum Tile
 	
 	// COMBUSTABLE TILES
 	
-    METHANE('m',Palette.methane, Palette.darkestGray);
+    METHANE('m',Palette.methane, Palette.darkestGray),
+    STASH((char)1,Palette.darkYellow);
 	
 	private boolean swapable;
 	public Random r =  new Random();
@@ -380,6 +399,13 @@ public enum Tile
                 || this == Tile.BURNED_FLOOR_4
                 || this == Tile.STEAM
                 || this == Tile.OPEN_DOOR
+                || this == Tile.GRASS_0
+                || this == Tile.GRASS_1
+                || this == Tile.BUSH_0
+                || this == Tile.BUSH_1
+                || this == Tile.DIRT_FLOOR
+                || this == Tile.STONE_FLOOR
+                || this == Tile.STAIRS_EXIT
                 ;
     }
     public boolean isDiggable() 
@@ -394,7 +420,11 @@ public enum Tile
     {
         return this == Tile.simpleBLC || this == Tile.simpleBRC
         		|| this == Tile.simpleLRW || this == Tile.simpleTBW
-        		|| this == Tile.simpleTLC || this == Tile.simpleTRC;
+        		|| this == Tile.simpleTLC || this == Tile.simpleTRC
+                || this == Tile.dblBLC || this == Tile.dblBRC
+                || this == Tile.dblLRW || this == Tile.dblTBW
+                || this == Tile.dblTLC || this == Tile.dblTRC
+                ;
     }
     public boolean isFire()
     {
@@ -419,10 +449,9 @@ public enum Tile
     }
     public Color backColor() 
     {
-        if(targetted)
+
             return backColor;
-        else
-            return Palette.darkestGray;
+
         /*
     	if(backColor == Palette.darkestGray)
     	{	
@@ -447,5 +476,12 @@ public enum Tile
     }
 
 
+    public boolean isGrassy() {
+        return this == Tile.GRASS_1 || this == Tile.GRASS_0;
+    }
 
+    public boolean isDoor()
+    {
+        return this == Tile.CLOSED_DOOR || this == Tile.OPEN_DOOR;
+    }
 }

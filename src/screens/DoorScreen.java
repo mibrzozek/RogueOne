@@ -1,7 +1,6 @@
 package screens;
 
 import asciiPanel.AsciiPanel;
-import entities.Entity;
 import items.Type;
 import wolrdbuilding.Door;
 import wolrdbuilding.Point;
@@ -21,6 +20,7 @@ public class DoorScreen extends UIScreen
     public DoorScreen(World w, int bw, int bh, int bx, int by, PlayScreen ps, JFrame main)
     {
         super(w.getPlayer(), ps, main);
+
         this.w = w;
         this.p = w.getPlayer().getDoorPoint();
         this.d = w.getDoor(p);
@@ -46,14 +46,21 @@ public class DoorScreen extends UIScreen
     {
         if(itemList.get(index).equals("Open"))
         {
-            if (player.inventory().getTypeDuration(Type.GOLD) > 0)
+            if (player.inventory().getTypeDuration(Type.GOLD) > 0
+                && d.getClearance().equals(Door.Clearance.GOLD))
+            {
+                w.openDoor(p);
+                player.notify("Looks like we have clearance Clarance.");
+            }
+            else if(player.inventory().getTypeDuration(Type.RED) > 0
+                    && d.getClearance().equals(Door.Clearance.RED))
             {
                 w.openDoor(p);
                 player.notify("Looks like we have clearance Clarance.");
             }
             else
             {
-                player.notify("You don't have the right clearance.");
+                player.notify("You need " + d.getClearance().toString() + " clearance to get it.");
             }
         }
         else if(itemList.get(index).equals("Close"))

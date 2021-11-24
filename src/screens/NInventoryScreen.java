@@ -9,6 +9,7 @@ import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.util.*;
 import java.util.List;
 
@@ -24,6 +25,7 @@ public class NInventoryScreen extends ScrollingBasedScreen
     int scrollingLength = 17;
     int equipementListSize = 0;
 
+    private List types;
 
     private boolean selectingFromInventory = true;
     private boolean moreToDisplay = false;
@@ -31,23 +33,26 @@ public class NInventoryScreen extends ScrollingBasedScreen
     List<EquipmentSlot> equipementList;
     private int bo = 16;
 
-    public NInventoryScreen(Entity player, AsciiPanel terminal, boolean selectingFromInventory)
+    public NInventoryScreen(Entity player, AsciiPanel terminal, boolean selectingFromInventory, int dHeight)
     {
         super(player, terminal, selectingFromInventory);
+        by = dHeight - bh;
         this.scrollX = bx;
         this.scrollY = by + 1;
         this.equipIndex = 0;
-        this.invIndex = 0;
+        //this.invIndex = 0;
+
+        Set<Type> set =  player.inventory().getEquippedMap().keySet();
+        types = Arrays.asList(set.toArray());
 
         equipementList = new ArrayList<>();
     }
-
     public void write(AsciiPanel terminal) // gets called from parent class
     {
         TileEngine.renderBox(terminal,bw, bh, bx, by, TileSet.SIMPLE, true);
         renderItemList(terminal);
         Set<Type> set =  player.inventory().getEquippedMap().keySet();
-        List types = Arrays.asList(set.toArray());
+        types = Arrays.asList(set.toArray());
 
         if(player.inventory().getEquipped().size() > 0)
         {
@@ -57,7 +62,12 @@ public class NInventoryScreen extends ScrollingBasedScreen
                 TileEngine.renderBox(terminal, (bw/2) + 1, bh, eo + 15 + 1, by, TileSet.SIMPLE, true);
             }
         }
-        terminal.write("" + (char)16, scrollX, scrollY, Palette.red); // CURSOR
+        terminal.write("" + (char)16, scrollX, scrollY); // CURSOR
+
+        if(equipIndex < 0 && selectingFromInventory)
+            TileEngine.renderDisplayPlate(terminal, scrollX, scrollY, 31, "Inventory", true, getBackColor(), getForeColor());
+        else if(equipIndex < 0 && !selectingFromInventory)
+            TileEngine.renderDisplayPlate(terminal, scrollX, scrollY, 16, "Equipment", true, getBackColor(), getForeColor());
 
         int x = bx + eo + 1;
         int y = by + 1;
@@ -100,12 +110,10 @@ public class NInventoryScreen extends ScrollingBasedScreen
                 }
             }
         }
-
         String equippCap = player.inventory().getEquipped().size() + "/" + player.inventory().getEquippedMax();
 
-        terminal.write(equippCap, (bx+eo)-equippCap.length(), by + bh -2);
-
-        System.out.println(equipementList.size() +" slots size ");
+        if(player.inventory().getEquipped().size() > 0)
+            terminal.write(equippCap, (bx+eo)-equippCap.length() + 15, by + bh - 1);
 
         terminal.repaint();
     }
@@ -121,9 +129,6 @@ public class NInventoryScreen extends ScrollingBasedScreen
         {
             if(i != null)
             {
-                //terminal.write("+" + Tile.INVENTORY_TYPE_ICON.glyph(), x, y, i.type().setColor(), Palette.darkestGray);
-                //terminal.write(i.name());
-
                 TileEngine.renderItemPlate(terminal, x, y, i, 14);
                 y++;
             }
@@ -132,10 +137,6 @@ public class NInventoryScreen extends ScrollingBasedScreen
                 //terminal.write("+", x, y++, Palette.white, Palette.darkestGray);
             }
         }
-
-
-        terminal.write("Equipment", bx + eo + 3, by);
-        terminal.write(TileSet.SIMPLE.brc().glyph(), bx + eo -1, by + bh-1, Palette.gray);
     }
     public void renderItemList(AsciiPanel terminal)
     {
@@ -154,18 +155,18 @@ public class NInventoryScreen extends ScrollingBasedScreen
 
         for (int i = 0; i < limit; i++)
         {
-            //terminal.write(lines.get(i).name(), x, y, Color.white);
-
             if(equipIndex < scrollingLength)
             {
                 if( i < player.inventory().getItems().size())
                     TileEngine.renderItemPlate(terminal, x, y, lines.get(i), 29);
-
             }
             else if(equipIndex >= scrollingLength)
             {
                 if(selectingFromInventory)
-                    TileEngine.renderItemPlate(terminal, x, y, player.inventory().getItems().get(equipIndex - scrollingLength + i), 29);
+                {
+                    if(equipIndex - scrollingLength + i < player.inventory().getItems().size())
+                        TileEngine.renderItemPlate(terminal, x, y, player.inventory().getItems().get(equipIndex - scrollingLength + i), 29);
+                }
                 else
                 {
                     if(i < player.inventory().getItems().size())
@@ -174,13 +175,9 @@ public class NInventoryScreen extends ScrollingBasedScreen
             }
             y++;
         }
-        terminal.write("Inventory", bx + 1 + 3, by);
-
+        //terminal.write("Inventory", bx + 1 + 3, by);
         String itemCount = player.inventory().getItemCount() + "/" + player.inventory().getCapacity();
-
-        terminal.write(itemCount, bx + bw-itemCount.length(), by+bh-1);
-
-        //TileEngine.renderItemList(terminal, new ArrayList<Item>(player.inventory().getItemList()), x, y);
+        terminal.write(itemCount, bx + bw-itemCount.length() -1, by+bh-1);
     }
     private List<Item> getList(List<Item> list)
     {
@@ -214,9 +211,6 @@ public class NInventoryScreen extends ScrollingBasedScreen
     @Override
     public void selectItem()
     {
-
-        System.out.println("selecting from inventory " + selectingFromInventory);
-
         if(equipIndex >= 0 )
         {
             if(selectingFromInventory)
@@ -258,7 +252,6 @@ public class NInventoryScreen extends ScrollingBasedScreen
         equipIndex = -1;
         isSelected = false;
         selectingFromInventory = true;
-
     }
     public void scrollDown()
     {
@@ -286,13 +279,13 @@ public class NInventoryScreen extends ScrollingBasedScreen
                     scrollY++;
                     equipIndex = scrollY - by - 1;
                 }
-                else if(equipIndex == 17 && player.inventory().getEquipped().size() > 17)
+                else if(equipIndex == 17 && player.inventory().getEquipped().size() + types.size() > 17)
                 {
                     equipIndex++;
                     scrollY = by + 1;
                     scrollX = bx + eo + bo;
                 }
-                else if(equipIndex > 17 && player.inventory().getEquipped().size() > 17 && equipIndex < 35)
+                else if(equipIndex > 17 && player.inventory().getEquipped().size() + types.size() > 17 && equipIndex < 35)
                 {
                     equipIndex++;
                     scrollY++;
@@ -317,7 +310,6 @@ public class NInventoryScreen extends ScrollingBasedScreen
                         scrollY = by + bh - 2;
                     }
                 }
-
             }
             else
             {
@@ -330,6 +322,7 @@ public class NInventoryScreen extends ScrollingBasedScreen
                 //invIndex = scrollY-by-1;
             }
     }
+
     @Override
     public Screen returnScreen(Screen screen) {
         return null;

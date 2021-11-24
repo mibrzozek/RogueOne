@@ -1,12 +1,10 @@
 package wolrdbuilding;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import entities.Entity;
 import structures.Dungeon;
+
+import java.util.ArrayList;
+import java.util.Random;
 
 public class PlanetPrinter
 {
@@ -24,6 +22,7 @@ public class PlanetPrinter
 	private ArrayList<Point> spawnPoints;
 	private static ArrayList<Point> occupiedPoints;
 	private static ArrayList<Point> startingPoints;
+	private static ArrayList<Point> stairPoints;
 	private Random r;
 	
 	private Point lastPoint;
@@ -49,10 +48,14 @@ public class PlanetPrinter
 		
 		this.spawnPoints = new ArrayList<>();
 		this.occupiedPoints = new ArrayList<>();
+		this.stairPoints = new ArrayList<>();
 		r = new Random();
 	}
 	public World build()
 	{
+
+		System.out.println("before retuning world");
+
 		return new World(tiles, spawnPoints, startingPoints, player, dungeon);
 	}
 	static boolean isValidPoint(Point p, int w, int h)
@@ -125,16 +128,16 @@ public class PlanetPrinter
 		return this;
 	}
 	// 	DUNGEON GEN
-	public PlanetPrinter makeDungeons()
+	public PlanetPrinter makeDungeons(World.Map m)
 	{
 		dungeon = new Dungeon(width, height, depth);
 
-		tiles = dungeon.getNewDungeon();
 		// Done after dungeon is done
-		spawnPoints = dungeon.getSpawnPoints();
-		occupiedPoints = dungeon.getOccupiedPoints();
+		tiles = dungeon.getNewDungeon(m);
+		spawnPoints = dungeon.getSpawnPoints();				//
+		occupiedPoints = dungeon.getOccupiedPoints();		//
 		startingPoints = dungeon.getStartingPoints();
-
+		stairPoints = (ArrayList<Point>) dungeon.getStairPoints();
 
 		/*
 		Direction d = null;

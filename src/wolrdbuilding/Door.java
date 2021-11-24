@@ -1,7 +1,5 @@
 package wolrdbuilding;
 
-import entities.Entity;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,13 +10,15 @@ public class Door
     public List<Point> getPoints() {
         return points;
     }
-
     public Clearance getClearance()
     {
         return c;
     }
+    public void setClearance(Clearance clearance) {
+        this.c = clearance;
+    }
 
-    public enum Clearance{BLUE, RED, PURPLE};
+    public enum Clearance{BLUE, RED, PURPLE, GOLD};
 
     Point p, dp;
     Direction d;
@@ -60,8 +60,10 @@ public class Door
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o instanceof Point) {
+    public boolean equals(Object o)
+    {
+        if (o instanceof Point)
+        {
             if (points.contains((Point) o))
                 return true;
             else

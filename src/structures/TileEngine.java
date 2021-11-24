@@ -1,10 +1,5 @@
 package structures;
 
-import java.awt.Color;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import asciiPanel.AsciiPanel;
 import entities.Effect;
 import entities.Entity;
@@ -12,6 +7,12 @@ import items.Item;
 import items.Type;
 import screens.Message;
 import wolrdbuilding.*;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 public class TileEngine
 {
@@ -351,7 +352,7 @@ public class TileEngine
 	 *
 	 *
 	 */
-	public static void displayMessages(AsciiPanel terminal, List<String> messages, int screenWidth, int screenHeight) 
+	public static void displayMessagesUI(AsciiPanel terminal, List<String> messages, int screenWidth, int screenHeight)
 	{
 		int top = screenHeight - messages.size();
 		int msgSpace = 10;
@@ -370,7 +371,7 @@ public class TileEngine
 		int lastIndex = msgList.size()-1;
 
 
-		TileEngine.renderBox(terminal, screenWidth-(xo) +1, 12, xo-1, 50, TileSet.SIMPLE, Palette.gray);
+		TileEngine.renderBox(terminal, screenWidth-(xo) +1, 12, xo-1, screenHeight, TileSet.SIMPLE, Palette.gray);
 
 		for (int i = 0; i < 10; i++)
 		{
@@ -403,7 +404,11 @@ public class TileEngine
 
 						for(int q = 0; q < lines.size(); q++)
 						{
+							if(screenHeight+ i + 1 > terminal.getHeight() || xo > terminal.getWidth())
+								continue;
+
 							terminal.write(lines.get(q), xo, screenHeight + (i) + 1, Color.DARK_GRAY);
+
 							if(q != lines.size()-1)
 								i += 1;
 						}
@@ -413,13 +418,14 @@ public class TileEngine
 			}
 		}
 	}
-    public static void renderStats(AsciiPanel terminal, int screenWidth, int screenHeight, int sh, int sw, World w )
+    public static void displayStatsUI(AsciiPanel terminal, int screenWidth, int screenHeight, int sh, int sw, World w )
     {
     	int statsW = screenWidth;
     	int statsH = 12;
 		Entity player = w.getPlayer();
 
 		//TileEngine.renderBox(terminal, screenWidth, 12, 0, 50, TileSet.SIMPLE, Palette.darkerGray);
+		/*
     	for(int x = 0; x < statsW; x++)
     	{
     		for(int y = 0; y < statsH; y++)
@@ -433,14 +439,13 @@ public class TileEngine
 					terminal.write(' ', x, y+screenHeight,  Color.WHITE);
     		}
     	}
+
     	terminal.write(Tile.simpleTLC.glyph(), 0, screenHeight, Color.DARK_GRAY);
     	terminal.write(Tile.simpleTRC.glyph(), screenWidth-1, screenHeight, Color.DARK_GRAY);
     	terminal.write(Tile.simpleBRC.glyph(), screenWidth-1, statsH+screenHeight-1, Color.DARK_GRAY);
     	terminal.write(Tile.simpleBLC.glyph(), 0, statsH+screenHeight-1, Color.DARK_GRAY);
-
-
-
-    	terminal.write("Shield " + (char)218, 1, screenHeight+ 1);
+		*/
+    	terminal.write("Shield " + (char)218, 1, screenHeight + 1);
 			renderPercentBlocksV2(terminal, 1, screenHeight+1, "Shield", (int)player.shield(), 250, Palette.monoPerfect);
     	terminal.write("Vitals " + (char)179, 1, screenHeight+ 2);
     		renderPercentBlocksV2(terminal, 1, screenHeight+2, "Vitals", (int)player.stats.getVitals(), 1000, Palette.monoPurple);
@@ -451,12 +456,9 @@ public class TileEngine
 		terminal.write("02 Rsrv" + (char)179 , 1, screenHeight+ 5);
 			renderPercentBlocksV2(terminal, 1, screenHeight+5, "Reserve 02", (int)player.inventory().getTypeDuration(Type.OXYGEN), 1000, Palette.lightBlue);
 
-
-		TileEngine.renderBox(terminal, 31, 12, 0, 50, TileSet.SIMPLE, Palette.gray);
+		TileEngine.renderBox(terminal, 31, 12, 0, screenHeight, TileSet.SIMPLE, Palette.gray);
 
 		terminal.write((char)36+ "" + player.crypto() + " ", 1, screenHeight + 11);
-
-		String ns;
 
 		terminal.write(w.getTurns() + "",30 - new String(String.valueOf(w.getTurns())).length(), screenHeight + 11);
 
@@ -472,7 +474,6 @@ public class TileEngine
 		}
 
     	renderLogScreenArea(terminal, screenHeight, screenWidth);
-    	
     }
 	public static void renderPercentBlocksV2(AsciiPanel terminal, int x, int y, String name, double value, double outOf, Color c)
 	{
@@ -672,8 +673,8 @@ public class TileEngine
     	terminal.write((char)193, ox, screenHeight+11, Color.DARK_GRAY );
     	// Updates display array
     	*/
-    	terminal.write((char)191 + "     " + (char)218, ox + 45, screenHeight + 11, Color.DARK_GRAY);
-    	terminal.write(" LOG ", ox + 46, screenHeight + 11, Palette.lightBlue);
+    	//terminal.write((char)191 + "     " + (char)218, ox + 45, screenHeight - 11, Color.DARK_GRAY);
+    	//terminal.write(" LOG ", ox + 46, screenHeight - 11, Palette.lightBlue);
 
 
     }
@@ -749,6 +750,73 @@ public class TileEngine
 		}
 		System.out.println(fs);
 
+	}
+
+	public static void displayCharSheet(AsciiPanel terminal, World w, JFrame main)
+	{
+		Entity player = w.getPlayer();
+
+		int sheetH =  11 + player.stats.getEffects().size() + 1;
+
+		TileEngine.renderBox(terminal, 31 , sheetH ,0, ((MainFrame)main).getDisplayHeight()-sheetH,  TileSet.SIMPLE, true);
+
+		//terminal.write(player.stats.getName(), 1, 22, Palette.lightRed);
+		//write(player.stats.getRole(), 1, 61, Palette.lightRed);// name
+
+		Color a = Palette.monoPurple;
+		Color b = Palette.monoGrayTeal;
+		int y = ((MainFrame) main).getDisplayHeight() - (11 + player.stats.getEffects().size());
+
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Shield", player.shield(), 1000, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Vitals", player.stats.getVitals(), 1000, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Head", player.stats.getHead(), 300, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Torso", player.stats.getTorso(), 300, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Arms", (int)player.stats.getlHand() + (int)player.stats.getrHand(), 200, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Legs", (int)player.stats.getlLeg() + (int)player.stats.getrLeg(), 200, a);
+
+		terminal.write("Oxygen Sources", 8, y++);
+
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Ambient 02", w.getAir().getOxygen(), 1000, b);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Reserve 02", (int)player.inventory().getTypeDuration(Type.OXYGEN), 200, b);
+
+		terminal.write("Effects", 12, y++);
+
+		ArrayList<Effect> effects = player.stats.getEffects();
+
+		if(!player.stats.getEffects().isEmpty())
+		{
+			int ex = 1;
+			int ey = y;
+
+			for(Effect e : effects)
+			{
+				TileEngine.renderEffectBlocks(terminal, ex, ey++, e);
+			}
+		}
+	}
+	public static void displayDynamicEnemyPopUp(AsciiPanel terminal, World w, JFrame main)
+	{
+		int ex = 0, ey = 0;
+		int offset = 4;
+		int count = 1;
+
+		Entity player = w.getPlayer();
+		List<Entity> entities = player.fov().getEntities();
+
+		ey = ((MainFrame)main).getDisplayHeight() - (entities.size() * 3 + 1);
+
+		for(Entity e : entities)
+		{
+			TileEngine.renderBox(terminal, 31, offset, ex, ey, TileSet.SIMPLE, true);
+			TileEngine.renderPercentBlocksV2(terminal, ex + 1, ey + 1, e.name(), e.hp(), e.maxHP(), Palette.pastelGreen);
+			terminal.write(" " + count++ + " ", ex+1, ey+2, Palette.paleWhite, Palette.red);
+
+			TileEngine.renderDisplayPlate(terminal, ex+4, ey+2, 4, (int)e.inventory().getTypeDuration(Type.GUN) + "", true, Palette.morePaleWhite, Palette.monoRed);
+			TileEngine.renderDisplayPlate(terminal, ex+4+4, ey+2, 4, (int)e.inventory().getTypeDuration(Type.MELEE) + "", true, Palette.morePaleWhite, Palette.monoGrayTeal);
+			TileEngine.renderDisplayPlate(terminal, ex+4+8, ey+2, 4, (int)e.inventory().getTypeDuration(Type.ARMOR) + "", true, Palette.morePaleWhite, Palette.darkerGray);
+
+			ey += offset -1;
+		}
 	}
 
 }

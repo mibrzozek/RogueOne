@@ -2,6 +2,7 @@ package screens;
 
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +72,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 			else if (inventory.get(itemIndex).type().equals(Type.HEALING)
 					|| inventory.get(itemIndex).type().equals(Type.HEAD_HEALING)
 					|| inventory.get(itemIndex).type().equals(Type.PASSIVE_HEALING)
+					|| inventory.get(itemIndex).type().equals(Type.FULL_HEAL)
 					)
 				optionList.add("Heal");
 		}
@@ -85,6 +87,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 			else if (equipped.get(itemIndex).type().equals(Type.HEALING)
 					|| equipped.get(itemIndex).type().equals(Type.HEAD_HEALING)
 					|| equipped.get(itemIndex).type().equals(Type.PASSIVE_HEALING)
+					|| equipped.get(itemIndex).type().equals(Type.FULL_HEAL)
 					)
 				optionList.add("Heal");
 		}
@@ -146,21 +149,19 @@ public class OptionsScreen extends ScrollingBasedScreen
 		int x = renderX+1;
 		int y = renderY+1;
 
-		TileEngine.renderBox(terminal, 15, optionList.size() + 2, renderX, renderY, TileSet.SIMPLE, true);
+		TileEngine.renderBox(terminal, 16, optionList.size() + 2, renderX, renderY, TileSet.SIMPLE, true);
 
 		if(selectingFromInventory)
 			optionList.set(1, "Equip");
 		else
 			optionList.set(1, "Unequip");
-
-		
 		//renderBackground(terminal);
 		
 		for(int i = 0; i < optionList.size(); i++)
 		{
-				terminal.write(""+ optionList.get(i), x, y++ );
+				terminal.write(""+ optionList.get(i), x, y++, Palette.morePaleWhite);
 		}
-		terminal.write((char)16 + "" +  index , scrollX, scrollY+1, AsciiPanel.brightGreen);
+		terminal.write((char)16 + "", scrollX, scrollY+1, Palette.morePaleWhite);
 		
 		if(inspectScreen != null)
 			inspectScreen.displayOutput(terminal);
@@ -326,7 +327,6 @@ public class OptionsScreen extends ScrollingBasedScreen
 						{
 							useItem();
 						}
-						
 					}
 					return null;
 				}
@@ -338,6 +338,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 		}
 		return this;
 	 }
+
 	@Override
 	public Screen returnScreen(Screen screen)
 	{

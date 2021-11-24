@@ -18,6 +18,10 @@ public class EntityAi implements Serializable
         this.entity = entity;
         this.entity.setEntityAi(this);
     }
+    public void getToCircle()
+    {
+
+    }
     public void wander()
     {
         int mx = (int)(Math.random() * 3) - 1;
@@ -33,14 +37,24 @@ public class EntityAi implements Serializable
         else
         	entity.moveBy(mx, my, 0);
     }
+    public void moveTowardsSaveZone()
+    {
+
+    }
     public void hunt(Entity target)
     {
-        List<Point> points = new Path(entity, target.x, target.y).points();
-    
-        int mx = points.get(0).x - entity.x;
-        int my = points.get(0).y - entity.y;       
-        
-        entity.moveBy(mx, my, 0);
+        if(target != null && entity != null)
+        {
+            List<Point> points = new Path(entity, target.x, target.y).points();
+
+            if(points != null)
+            {
+
+                int mx = points.get(0).x - entity.x;
+                int my = points.get(0).y - entity.y;
+                entity.moveBy(mx, my, 0);
+            }
+        }
     }
     public void onEnter(int x, int y, int z, Tile tile) 
     { 

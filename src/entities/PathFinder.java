@@ -75,7 +75,8 @@ public class PathFinder
         private Point getClosestPoint(Point end) 
         {
             Point closest = open.get(0);
-            for (Point other : open){
+            for (Point other : open)
+            {
                 if (totalCost(other, end) < totalCost(closest, end))
                     closest = other;
             }

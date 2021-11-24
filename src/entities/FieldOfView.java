@@ -39,13 +39,16 @@ public class FieldOfView implements Serializable
     }
     public Tile tile(int x, int y, int z)
     {
-        return tiles[x][y][z].getTile();
+        if(x < world.width() && y < world.height())
+            return tiles[x][y][z].getTile();
+        else
+            return null;
     }
     public boolean isVisible(int x, int y, int z)
     {
         return z == depth && x >= 0 && y >= 0 && x < visible.length && y < visible[0].length && visible[x][y];
     }
-    public ArrayList getEntities()
+    public List getEntities()
     {
     	return (ArrayList) visibleEntities;
     }

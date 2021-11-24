@@ -93,10 +93,10 @@ public class InteractScreen extends UIScreen
 		int mx = bx + mo + 1;
 		int my = by + 1;
 
-		terminal.write(name + ":", bx + 1, by + 1, Palette.lightRed);
+		terminal.write(name + ":", bx + 1, by + 1);
 		for (String x : msgLineList)
 		{
-			terminal.write(x, mx, my++);
+			terminal.write(x, mx, my++, Palette.morePaleWhite);
 		}
 		int mry = ry, brh = 0;
 		List<Message> mResponses = new ArrayList<>();
@@ -106,7 +106,7 @@ public class InteractScreen extends UIScreen
 			brh += m.getMsgLineCount();
 			mResponses.add(m);
 		}
-		TileEngine.renderBox(terminal, bw, brh + 2, bx, by + bh - 1, TileSet.DOUBLE);
+		TileEngine.renderBox(terminal, bw, brh + 2, bx, by + bh - 1, TileSet.DOUBLE, true);
 		for (Message m : mResponses)
 		{
 			if (index == mResponses.indexOf(m))

@@ -9,30 +9,44 @@ import wolrdbuilding.Palette;
 
 public class Item implements Serializable
 {
+    public enum Rarity
+    {
+        COMMON(),
+        TYPICAL(),
+        UNCOMMON(),
+        RARE(),
+        ULTRA_RARE(),
+        ONE_OF_A_KIND();
+
+        Rarity()
+        {
+        }
+    }
+
     private char glyph;
     private Color color;
     
     private Type type;
     private String name;
     private String description;
-    
-    private int attack;
-    private int defense;
+
+    private Rarity r;
+
     private int value;
     
     private boolean usable = false;
     private boolean equiped = false;
    
-    public Item(char glyph, Color color, Type type, String name, String description, int attack, int defense, int value)
+    public Item(char glyph, Color color, Type type, String name, String description, int value, Rarity r)
     {
         this.glyph = glyph;
         this.color = color;
         this.type = type;
         this.name = name;
         this.description = description;
-        this.attack = attack;
-        this.defense = defense;
         this.value = value;
+        this.r = r;
+
         if(this.type.equals("plasma"))
         	this.usable = true; 
     }
@@ -41,14 +55,14 @@ public class Item implements Serializable
     public Color color() 			{ return color; }
     public char glyph() 			{ return glyph; }
     public String description()		{ return description; }
-    public int attack() 			{ return attack;}
-    public int defense() 			{ return defense;}
     public int value() 				{ return value; }
     public boolean usable()			{ return usable; }
+    public Rarity rarity()          { return r;}
     
     public boolean isEquiped() { return equiped; }
     public void equip() { equiped = true; }
     public void unEquip() { equiped = false; }
+
     
     public void useItemOn(Entity other)
     {
@@ -69,7 +83,14 @@ public class Item implements Serializable
             other.notify("This will stop the bleeding");
 
             other.stats.healAllVitals(this.value);
-
+        }
+        else if(this.type == Type.FULL_HEAL)
+        {
+            other.stats.fullHeal();
+        }
+        else if(this.type == Type.PASSIVE_HEALING)
+        {
+            other.stats.addEffect(new Effect(Effect.Effects.PASSIVE_HEALING, "Healing", Palette.green));
         }
     }
     @Override

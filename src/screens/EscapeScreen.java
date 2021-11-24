@@ -2,6 +2,7 @@ package screens;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import asciiPanel.AsciiPanel;
@@ -17,12 +18,11 @@ public class EscapeScreen extends singleListScrollingBasedScreen
 	public EscapeScreen(AsciiPanel terminal, Screen ccs)
 	{
 		super(null, terminal, 15, 10);
-		this.screen = ccs; 
+		this.screen = ccs;
 		options = new ArrayList<>();
 		options.add("Resume");
 		options.add("Main Menu");
 	}
-	
 	public EscapeScreen(Entity player, AsciiPanel terminal, Screen ps)
 	{
 		super(player, terminal, 15, 10);
@@ -32,6 +32,7 @@ public class EscapeScreen extends singleListScrollingBasedScreen
 		options.add("Save");
 		options.add("Main menu");
 		options.add("New theme");
+		options.add("Set fullscreen");
 		
 	}
 	public static void write(AsciiPanel terminal)
@@ -41,13 +42,12 @@ public class EscapeScreen extends singleListScrollingBasedScreen
 	public static void renderOptionsList(AsciiPanel terminal)
 	{
 		terminal.write("Options " + index, rx + 1, ry, Palette.lightBlue);
-		terminal.write(">", scrollX, scrollY, Palette.lightBlue);
+		terminal.write((char)16, scrollX, scrollY, Palette.lightBlue);
 		int oy = ry+1;
 		
 		for(String s : options)
 			terminal.write(s, rx+ 2, oy++);
 	}
-	
 	@Override
 	public Screen returnScreen(Screen screen)
 	{

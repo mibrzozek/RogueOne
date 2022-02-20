@@ -62,9 +62,8 @@ public class HitmanAi extends EntityAi
     	  entity.setDirection(1);
       else if(mx > 0 || my < 0)
     	  entity.setDirection(5);
-      
-      
-      entity.useWeapon();
+
+      entity.useWeapon(target);
       entity.moveBy(mx, my, 0);
   }
 }

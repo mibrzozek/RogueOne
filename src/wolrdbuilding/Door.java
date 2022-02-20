@@ -18,11 +18,16 @@ public class Door
         this.c = clearance;
     }
 
-    public enum Clearance{BLUE, RED, PURPLE, GOLD};
+    public RoomV getRoom() {
+        return room;
+    }
+
+    public enum Clearance{BLUE, RED, PURPLE, GREEN, GOLD};
 
     Point p, dp;
     Direction d;
     Clearance c;
+    RoomV room;
     
     List<Point> points;
     
@@ -51,6 +56,7 @@ public class Door
     {
         return p;   
     }
+    public void setRoom(RoomV room){this.room = room;}
 
     public static Clearance getRandomClearance()
     {

@@ -13,6 +13,27 @@ public class Dungeon
 		return stairPoints;
 	}
 
+	public TileV[][][] getTiles()
+	{
+		return tiles;
+	}
+
+	public List<RoomV> getRedRooms() { return redRooms;
+	}
+	public List<RoomV> getGreenRooms()
+	{
+		return greenRooms;
+	}
+	public List<RoomV> getGoldRooms()
+	{
+		return goldRooms;
+	}
+
+	public ArrayList<Point> getMainRegionPointS()
+	{
+		return mainRegionPoints;
+	}
+
 	public enum Terrain
 	{
 		WATER(.15),
@@ -22,7 +43,6 @@ public class Dungeon
 		WOODS(.30);
 
 		private double percent;
-
 		Terrain(double d)
 		{
 			this.percent = d;
@@ -48,9 +68,11 @@ public class Dungeon
 	private ArrayList<Stash> stashes;
 	private ArrayList<Point> doorCandidates;
 	private ArrayList<Point> stairPoints;
-
 	private ArrayList<Point> wallPoints;
 	private ArrayList<Point> rockPoints;
+
+	private ArrayList<Point> mainRegionPoints;
+	private ArrayList<Point> lockedRoomPoints;
 
 	private List<List> regionList;
 	private List<List> regionMapOfFloor;
@@ -59,7 +81,7 @@ public class Dungeon
 
 	List<RoomV> redRooms;
 	List<RoomV> goldRooms;
-	List<RoomV> purpleRooms;
+	List<RoomV> greenRooms;
 
 	private Map<Integer, List<List>> regionMap;
 
@@ -73,6 +95,10 @@ public class Dungeon
 	
 	static final int MAX_ROOM_LENGTH = 30;
 	static final int MIN_ROOM_LENGTH = 5;
+
+	static final int MAX_ROOM_WIDTH = 20;
+	static final int MAX_ROOM_HEIGHT = 20;
+	static final int LOCKED_ROOM_LOOP = 600;
 	
 	public Dungeon(int width, int height, int depth)
 	{
@@ -95,11 +121,14 @@ public class Dungeon
 		this.rockPoints = new ArrayList<>();
 		this.stairPoints = new ArrayList<>();
 
+		this.mainRegionPoints = new ArrayList<>();
+		this.lockedRoomPoints = new ArrayList<>();
+
 		this.allRooms = new ArrayList<>();
 
 		this.redRooms = new ArrayList<>();
 		this.goldRooms = new ArrayList<>();
-		this.purpleRooms = new ArrayList<>();
+		this.greenRooms = new ArrayList<>();
 
 		this.regionMapOfFloor = new ArrayList<>();
 		this.regionMap = new HashMap<>();
@@ -457,11 +486,13 @@ public class Dungeon
 		{
 			for(int j = 0; j < depth; j++)
 			{
-
 				p = getFirstRoomPoint(j);
 				RoomPoint rp = new RoomPoint(p, p.w, p.h, null);
 				if(rp!= null)
+				{
 					buildRoom(rp, TileSet.ALL_GROUND_ROOM);
+					mainRegionPoints.addAll(p.gridXbyX(rp.point(), rp.w, rp.h));
+				}
 			}
 		}
 	}
@@ -472,6 +503,7 @@ public class Dungeon
 		randomStamping();
 		smooth();
 		createRegions();
+
 		connectRegions();
 
 		makeStartingRoom();
@@ -479,51 +511,27 @@ public class Dungeon
 		fillDungeonWithWall(TileSet.SIMPLE);
 
 		makeLockedRooms();
-		//calculateRoomClearance();
+		calculateRoomClearance();
 
 		makeStairsDown();
 		addExitStairs();
 		//makeLaserTraps();
 		addRoomDecor();
 		//spawnMethane();
-		//spawnStashes();
-
-
-
-		System.out.println("red rooms : " + redRooms.size());
-
-		for(RoomV r : allRooms)
-		{
-			//System.out.println("Looking through room rooms! !");
-			List<Point> floors = r.getFloorPoints();
-			for(Point p : floors)
-			{
-				tiles[p.x][p.y][p.z] = new TileV(Tile.GRASS_1);
-				//System.out.println("\tLooking through room Points !"  + p.toString());
-			}
-		}
-
-		System.out.println("Red :" + redRooms.size() + " Purple :" + purpleRooms.size() +  "Gold :" + goldRooms.size());
 
 	}
 	private void calculateRoomClearance()
 	{
-		System.out.println("Calculating all rooms : " + allRooms.size() );
-		for(RoomV room : allRooms)
+		System.out.println("Room count " + allRooms.size());
+		for(RoomV rooms : allRooms)
 		{
-			room.calculateClearance(tiles);
-
-			if (room.getClearance().equals(Door.Clearance.GOLD))
-			{
-				goldRooms.add(room);
-			} else if (room.getClearance().equals(Door.Clearance.RED))
-			{
-				redRooms.add(room);
-			} else if (room.getClearance().equals(Door.Clearance.PURPLE))
-			{
-				purpleRooms.add(room);
-			}
+			rooms.calculateClearance(this);
+			System.out.println("\tFirst wall point " + rooms.getWallPoints().get(0));
+			System.out.println("\tRoom point : " + rooms.getRoomPoint());
 		}
+		System.out.println("Red room " + redRooms.size());
+		System.out.println("Green room " + greenRooms.size());
+		System.out.println("Gold room " + goldRooms.size());
 	}
 	private void connectRegions()
 	{
@@ -635,6 +643,7 @@ public class Dungeon
 			{
 				RoomPoint nrp = new RoomPoint(westBorderLookingWest.get(r.nextInt(westBorderLookingWest.size())),
 						westBorderLookingWest.get(0).x - eastBorderCandidates.get(0).x +2, tunnelWidth);
+				buildRoom(nrp, TileSet.INSIDE_TILE);
 			}
 			if(!southBorderLookingSouth.isEmpty() && !southBorderCandidates.isEmpty())
 			{
@@ -653,7 +662,7 @@ public class Dungeon
 	private Point lookForInDirectionFrom(Tile tile, Direction d, Point p, Boolean branch, int depth)
 	{
 		//System.out.println("Looking in direction ");
-		int search = 50;
+		int search = 70;
 		Point rp = null;
 
 		if(d.equals(Direction.EAST))
@@ -754,8 +763,6 @@ public class Dungeon
 
 		return rp;
 	}
-
-
 	private void removeRegion(List<Point> list)
 	{
 		for(Point p : list)
@@ -763,7 +770,11 @@ public class Dungeon
 			tiles[p.x][p.y][p.z] = new TileV(Tile.WALL);
 		}
 	}
-
+	public void addStash(Point p, Stash s, Tile tile)
+	{
+		stashes.add(s);
+		tiles[p.x][p.y][p.z] = new TileV(tile);
+	}
 	public void spawnStashes()
 	{
 		for(int i = 0; i < 30; i++)
@@ -821,10 +832,7 @@ public class Dungeon
 
 		fillDungeonWithWall(TileSet.SIMPLE);
 		makeLockedRooms();
-
-
 	}
-
 	private void addStructures()
 	{
 		makeStructure("pt_s1_01");
@@ -863,10 +871,9 @@ public class Dungeon
 		int newRoom = 0;
 
 		//System.out.println(p.toString() + " before search");
-		for(int i = 0; i < 500; i++)
+		for(int i = 0; i < LOCKED_ROOM_LOOP; i++)
 		{
 			found  = false;
-
 			do // look for a point with a room to the right or below it
 			{
 				do
@@ -875,7 +882,6 @@ public class Dungeon
 				} while (p.z < 0 || p.x < 1 || p.y < 1 || p.x > width - 2 || p.y > height - 2); // from zero floor for testing, and a little buffer to make sure everything stays positive
 
 				Direction d = null;
-
 				//System.out.println(tiles[p.x][p.y][p.z].getTile().toString() + " is the tile a wall?    ***********************************");
 				//System.out.println(allWalls.size() + " all walls size" + wallPoints.size() + " wallPoints size");
 				//System.out.println(p.toString() + "       in search");
@@ -906,15 +912,12 @@ public class Dungeon
 						for (int x = 23; x > 8; x--) // width
 						{
 							//System.out.println(x + " " + y + " " + "loop points " + count++ + " count");
-
 							if (p.x + x >= 200 || p.y + y >= 200) // what is 200????
 							{
 								//System.out.println("Out of bounds, lets try next one");
 								//System.out.println(p.toString());
 								continue;
 							}
-
-
 							List<Point> room = p.gridXbyX(p, x, y); // each iteration x gets smaller
 
 							int other = 0;
@@ -947,14 +950,13 @@ public class Dungeon
 					}
 				}
 				//System.out.println("We might be stuck in finding point " +  count);
-			} while (!found && count++ < 500);
+			} while (!found && count++ < LOCKED_ROOM_LOOP);
 			//System.out.println(i + " this is I");
 
 			if(found)
 			{
 				//System.out.println("Something has been found!\n\t\t" +
 				//				 roomPoint.toString() + "\n");
-
 				buildLockedRoom(roomPoint, TileSet.DOUBLE);
 			}
 		}
@@ -963,12 +965,13 @@ public class Dungeon
 	public void buildLockedRoom(RoomPoint rp, TileSet t)
 	{
 		//System.out.println("**************************** We're building a locked room *********************************");
-
 		RoomV room = buildRoom(rp, t);
+
 		if(room == null)
 		{
 			return;
 		}
+
 		boolean south = false;
 		boolean north = false;
 		boolean east = false;
@@ -1024,9 +1027,7 @@ public class Dungeon
 				}
 			}
 		}
-
 		//System.out.println(np.toString() + sp.toString() + ep.toString() + wp.toString());
-
 		int w = 4, h = 4;
 
 		if(!np.equals(new Point(0, 0, 0)) && north)
@@ -1036,8 +1037,8 @@ public class Dungeon
 			tiles[np.x][np.y-1][np.z].setTile(Tile.CLOSED_DOOR);
 			door = new Door(np, new Point(np.x, np.y-1,np.z), Door.Clearance.GOLD);
 			doors.add(door);
-			//room.addDoor(door);
-			//buildRoom(new RoomPoint(new Point(np.x, np.y-1, np.z), w, h), TileSet.UP_DOWN_TUNNEL_S);
+			room.addDoor(door);
+			door.setRoom(room);
 		}
 		if(!sp.equals(new Point(0, 0, 0)) && south)
 		{
@@ -1046,8 +1047,8 @@ public class Dungeon
 			tiles[sp.x][sp.y+1][sp.z].setTile(Tile.CLOSED_DOOR);
 			door = new Door(sp, new Point(sp.x, sp.y+1,sp.z), Door.Clearance.GOLD);
 			doors.add(door);
-			//room.addDoor(door);
-			//buildRoom(new RoomPoint(new Point(sp.x, sp.y, sp.z), w, h), TileSet.UP_DOWN_TUNNEL_S);
+			room.addDoor(door);
+			door.setRoom(room);
 		}
 		if(!ep.equals(new Point(0, 0, 0)) && east)
 		{
@@ -1056,8 +1057,8 @@ public class Dungeon
 			tiles[ep.x+1][ep.y][ep.z].setTile(Tile.CLOSED_DOOR);
 			door = new Door(ep, new Point(ep.x+1, ep.y,ep.z), Door.Clearance.GOLD);
 			doors.add(door);
-			//room.addDoor(door);
-			//buildRoom(new RoomPoint(new Point(ep.x, ep.y, ep.z), w, h), TileSet.LEFT_RIGHT_TUNNEL_S);
+			room.addDoor(door);
+			door.setRoom(room);
 		}
 		if(!wp.equals(new Point(0, 0, 0)) && west)
 		{
@@ -1066,19 +1067,21 @@ public class Dungeon
 			tiles[wp.x-1][wp.y][wp.z].setTile(Tile.CLOSED_DOOR);
 			door = new Door(wp, new Point(wp.x-1, wp.y,wp.z), Door.Clearance.GOLD);
 			doors.add(door);
-			//room.addDoor(door);
-			//buildRoom(new RoomPoint(new Point(wp.x-1, wp.y, wp.z), w, h), TileSet.LEFT_RIGHT_TUNNEL_S);
+			room.addDoor(door);
+			door.setRoom(room);
 		}
 		north = false;
 		south = false;
 		east = false;
 		west = false;
 		// here we are done building a locked, therefore the number of doors have been set
-		// and the clearance tpye is baes on the number of door, so we calculate
-		room.setWallPoints(doorCandidates);
+		// and the clearance type is based on the number of door, so we calculate
+		//room.setWallPoints(doorCandidates);
 		allRooms.add(room);
-
-		System.out.println(room.getDoorPoints().size() + "  door count");
+		for(Point p : room.getWallPoints())
+		{
+			//tiles[p.x][p.y][p.z] = new TileV(Tile.GRASS_1);
+		}
 	}
 	public void narrow(int factor)
 	{
@@ -1094,7 +1097,6 @@ public class Dungeon
 				{
 					for (int x2 = 0; x2 < width; x2++)
 					{
-
 						if (tiles[x2][y2][z2].getTile().isRoom()) // if room
 						{
 							if (x2 + offset < width && x2 - offset > 0 && y2 + offset < height && y2 - offset > 0) // and within bound
@@ -1206,7 +1208,6 @@ public class Dungeon
 					}
 					if(floors > 3) // if floor count  higher then 3 stamp cell with all floor
 					{
-
 						for(Point  p : cell)
 						{
 							if(p.x < width && p.y < height && p.z < depth)
@@ -1226,7 +1227,6 @@ public class Dungeon
 				}
 				if(miniY + 1 < 67)
 					miniY++;
-
 			}
 		}
 		tiles = newTiles;
@@ -1303,7 +1303,6 @@ public class Dungeon
 
 		//System.out.println("\t\t All point where decor goes" + "\n" + builtP.toString());
 		//System.out.println(p.toString() + " " + tiles[p.x][p.y][0].getTile());
-
 		//System.out.println(partsMap.size() + " map size");
 	}
 	public void buildStructure(ArrayList<TilePoint> structure, Point p)
@@ -1322,7 +1321,6 @@ public class Dungeon
 		}
 		structure = copy;
 	}
-	
 	public ArrayList<Point> getOpenPointFromRegion(Point p, int w, int h)
 	{
 		ArrayList<Point> available = new ArrayList<>();
@@ -1474,38 +1472,6 @@ public class Dungeon
 				count++;
 			} while (found == false && count < 100);
 		}
-
-		/*
-		ArrayList<Point> allRegionPoints = new ArrayList<>();
-		for(List list : regionList)
-		{
-			for(Object o : list)
-			{
-				allRegionPoints.add((Point) o);
-			}
-		}
-		for(List list : regionList)
-		{
-			boolean truth = false;
-			int count  =  0;
-			do
-			{
-				
-				Point p = (Point)list.get(r.nextInt(list.size()));
-				
-				if(tiles[p.x][p.y][p.z].isGround() 
-						&& p.z +1 < depth && tiles[p.x][p.y][p.z + 1].isGround())
-				{
-					tiles[p.x][p.y][p.z].setTile(Tile.STAIRS_DOWN);
-					tiles[p.x][p.y][p.z + 1].setTile(Tile.STAIRS_UP);
-				
-					truth = true;
-				}
-				count++;
-			} while (truth == false && count < 100);
-		}
-
-		*/
 	}
 	private void createRegions()
 	{
@@ -1543,12 +1509,10 @@ public class Dungeon
                 }
             }
         }
-       // System.out.println("regions : " +  nextRegion + " Largest Region :" + largestRegion);
+        // System.out.println("regions : " +  nextRegion + " Largest Region :" + largestRegion);
 		//System.out.println(regionList.size() + " new regions!");
-
 		Point p = new Point(1, 1, 1);
 		List<Point> fromZero = new ArrayList<Point>();
-
 		/*
 		for(int i =0; i <  3; i++)
 		{
@@ -1574,8 +1538,6 @@ public class Dungeon
 		//System.out.println("Regions list info: \n\t\t Size :" + regionList.size());
 		//System.out.println(regionList.get(0).toString());
 		List<Point> testRegion = regionList.get(0);
-
-
     }
 	private void removeRegion(int region, int z)
 	{
@@ -1599,10 +1561,8 @@ public class Dungeon
 		
 		open.add(new Point(x,y,z));
 		regions[x][y][z] = region;
-
 		//System.out.println("filling regions   ************************");
 		//System.out.println(region + " "  + "  ************************");
-
 		while (!open.isEmpty())
 		{
 			Point p = open.remove(0);
@@ -1711,7 +1671,7 @@ public class Dungeon
 
 							if(isWall)
 							{
-								wallPoints.add(new Point(x, y, z));
+								//wallPoints.add(new Point(x, y, z));
 							}
 						}
 					}
@@ -1719,8 +1679,6 @@ public class Dungeon
 			}
 		}
 		fillLeftOverCorners(set);
-		//System.out.println(wallPoints.size());
-
 	}
 	public void fillLeftOverCorners(TileSet set)
 	{ 	// Fills corners with floor OUTSIDE the corner
@@ -1744,7 +1702,6 @@ public class Dungeon
 						if((tiles[x][y+1][z].getTile() == set.lrw || tiles[x][y+1][z].getTile() == set.brc) //done
 								&& (tiles[x+1][y][z].getTile() == set.tbw || tiles[x+1][y][z].getTile() == set.brc))
 								tiles[x][y][z].setTile(set.tlc);
-						
 					}
 				}
 			}
@@ -1804,8 +1761,8 @@ public class Dungeon
 	
 		do
 		{
-			int w = r.nextInt(25)+5;
-			int h = r.nextInt(25)+5;
+			int w = r.nextInt(MAX_ROOM_WIDTH)+5;
+			int h = r.nextInt(MAX_ROOM_HEIGHT)+5;
 			
 			int x = r.nextInt(width-w); 
 			int y = r.nextInt(height-h); 
@@ -1861,7 +1818,8 @@ public class Dungeon
 			// but we can track them as all walls for building locked rooms
 			// door candidates is just a fancy term for walls
 			allWalls.addAll(doorCandidates);
-			//room.addRoomPoints(doorCandidates);
+			System.out.println("door candidates list INSIDE BUILDROOM " + doorCandidates.toString() + " rp point : "  + rp.point().toString());
+			//room.addWallPoints(doorCandidates);
 
 			return room;
 		}
@@ -1906,11 +1864,9 @@ public class Dungeon
 	public ArrayList<Point> getStartingPoints() {
 		return startingPoints;
 	}
-
 	public ArrayList<Door> getDoorPoints() {
 		return doors;
 	}
-
 	public ArrayList<Stash> getStashes()
 	{
 		return stashes;

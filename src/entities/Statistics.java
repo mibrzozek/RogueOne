@@ -5,6 +5,8 @@ import wolrdbuilding.Palette;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import static wolrdbuilding.Palette.r;
 
@@ -16,33 +18,30 @@ public class Statistics implements Serializable
 	private int points;
 	private static final int MAX_POINTS = 22;
 
+
 	private int height;
 	private int weight;
-	private int focus;
-
-	private int strength;
-	private int dexterity;
-	private int inteligence;
-	private int charisma;
-	
 	private int hunger;
 	private int thirst;
+	private int focus;
+	// Character determined attributes
+	private int strength;
+	private int agility;
+	private int intelligence;
+	private int charisma;
+	// Randomized attributes
 	private int burden;
-	
+	private double stealth;
+
+
 	private int crypto;
-	
 	private double vitals;
-	
 	private double head;
 	private double torso;
-	
 	private double lHand;
 	private double rHand;
-	
 	private double lLeg;
 	private double rLeg;
-	
-	private double stealth;
 
 	private boolean dead = false;
 	private boolean breathing = true;
@@ -50,8 +49,9 @@ public class Statistics implements Serializable
 
 	private ArrayList<Effect> effects;
 
-	private ArrayList<String> traits;
+	private ArrayList<Traits> traits;
 	private ArrayList<String> skills;
+	private Map<String, Integer> attributeMap;
 	
 	public Statistics()
 	{
@@ -80,15 +80,60 @@ public class Statistics implements Serializable
 		{
 			weight = 210 + r.nextInt(65);
 		}
-
-		this.stealth = 0;
-
+		rollCharacter();
 		this.effects = new ArrayList<>();
 		effects.add(new Effect(Effect.Effects.SATITATED, "Full", Palette.green));
 		
 		this.vitals = head + torso + lHand + rHand + lLeg + rLeg;
 	}
-	
+	public void rollCharacter()
+	{
+		distributeAttributePoints();
+		rollTraits();
+		this.stealth = 5 + r.nextInt(10);
+		this.burden = 3 + r.nextInt(5);
+
+	}
+
+	private void rollTraits()
+	{
+		traits = new ArrayList<>();
+		int traitCount = r.nextInt(5) -1;
+		for(int i = 0; i < traitCount; i++)
+		{
+			Traits t = Traits.getRandomTrait();
+
+			if(!traits.contains(t))
+				traits.add(t);
+		}
+	}
+	private void distributeAttributePoints()
+	{
+		Random r = new Random();
+
+		for(int i = 0; i < MAX_POINTS; i++)  // for every point to distribute
+		{
+			int attribute = r.nextInt(4); // choose random attribute defined by index
+
+			if(attribute == 0) // strength
+			{
+					strength += 1;
+			}
+			else if(attribute == 1) // agility
+			{
+					agility += 1;
+			}
+			else if(attribute == 2) // intelligence
+			{
+					intelligence += 1;
+			}
+			else if(attribute == 3) // charisma
+			{
+					charisma += 1;
+			}
+		}
+	}
+
 	public ArrayList displayStats()
 	{
 		ArrayList list = new ArrayList();
@@ -96,12 +141,16 @@ public class Statistics implements Serializable
 		list.add(name);
 		list.add(role);
 		list.add(strength);
-		list.add(dexterity);
-		list.add(inteligence);
+		list.add(agility);
+		list.add(intelligence);
 		list.add(charisma);
+		list.add(stealth);
+		list.add(burden);
 		list.add(traits);
 		list.add(effects);
 		list.add(skills);
+		list.add(height);
+		list.add(weight);
 	
 		return list;
 	}
@@ -126,8 +175,8 @@ public class Statistics implements Serializable
 	public void setRole(String role)	{	this.role = role;		}
 	public void setPoints(int points)	{	this.points = points;	}
 	public void setStrength(int strength)	{	this.strength = strength;	}
-	public void setDexterity(int dexterity){	this.dexterity = dexterity;	}
-	public void setInteligence(int inteligence){this.inteligence = inteligence;}
+	public void setAgility(int agility){	this.agility = agility;	}
+	public void setIntelligence(int intelligence){this.intelligence = intelligence;}
 	public void setCharisma(int charisma){	this.charisma = charisma;}
 	public void setFocus(int focus){	this.focus = focus;}
 	public void setHeight(int in)	{	this.height = in;}
@@ -144,7 +193,7 @@ public class Statistics implements Serializable
 	public void setlLeg(double lLeg){this.lLeg = checkForNegative(lLeg);}
 	public void setrLeg(double rLeg){this.rLeg = checkForNegative(rLeg);}
 	public void setStealth(double stealth){this.stealth = stealth;}
-	public void setTraits(ArrayList<String> traits){	this.traits = traits;}
+	public void setTraits(ArrayList<Traits> traits){	this.traits = traits;}
 	public void setEffects(ArrayList<Effect> effects)	{	this.effects = effects;	}
 	public void setSkills(ArrayList<String> skills)		{	this.skills = skills;	}
 	public void setDead(boolean dead)					{ 	this.dead = dead;}
@@ -154,8 +203,8 @@ public class Statistics implements Serializable
 	public String getRole()				{	return role;			}
 	public int getPoints()				{	return points;			}
 	public int getStrength()			{	return strength;		}
-	public int getDexterity()			{	return dexterity;		}
-	public int getInteligence(){return inteligence;}
+	public int getAgility()			{	return agility;		}
+	public int getIntelligence(){return intelligence;}
 	public int getCharisma(){return charisma;}
 	public int getHunger(){return hunger;}
 	public int getThirst()	{return thirst;}
@@ -172,7 +221,7 @@ public class Statistics implements Serializable
 	public double getlLeg(){return lLeg;}
 	public double getrLeg(){return rLeg;}
 	public double getStealth(){return stealth;}
-	public ArrayList<String> getTraits(){return traits;}
+	public ArrayList<Traits> getTraits(){return traits;}
 	public ArrayList<Effect> getEffects()	{return effects;	}
 	public ArrayList<String> getSkills()	{	return skills;	}
 	public boolean isDead()					{	return dead;	}
@@ -303,12 +352,12 @@ public class Statistics implements Serializable
 	   			if(parsed < 0) 
 	   			{
 	   				points -= parsed;
-	   				dexterity += parsed;
+	   				agility += parsed;
 	   			}
 	   			else if(parsed > 0)
 	   			{
 	   				points -= parsed;
-	   				dexterity += parsed;
+	   				agility += parsed;
 	   			}
 	   		}
 	   	}
@@ -320,12 +369,12 @@ public class Statistics implements Serializable
 	   			if(parsed < 0) 
 	   			{
 	   				points -= parsed;
-	   				inteligence += parsed;
+	   				intelligence += parsed;
 	   			}
 	   			else if(parsed > 0)
 	   			{
 	   				points -= parsed;
-	   				inteligence += parsed;
+	   				intelligence += parsed;
 	   			}
 	   		}
 	    }
@@ -454,4 +503,22 @@ public class Statistics implements Serializable
 		this. torso = 300;
 		this.head = 300;
     }
+
+	public boolean hasEffect(Effect.Effects effect)
+	{
+		boolean truth = false;
+
+		for(Effect e : effects)
+		{
+			if(e.getEffects().equals(effect))
+				truth = true;
+		}
+
+		return truth;
+	}
+
+	public int getMaxPoints()
+	{
+		return MAX_POINTS;
+	}
 }

@@ -1,6 +1,5 @@
 package entities;
 
-import items.Item;
 import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
 
@@ -91,7 +90,7 @@ public class EntityAi implements Serializable
 	}
 	public void onUpdate() 
 	{
-	    /*
+
         ArrayList<Effect> l = entity.stats.getEffects();
         List<Effect> indexToRemove = new ArrayList();
 
@@ -117,10 +116,7 @@ public class EntityAi implements Serializable
                 entity.stats.getEffects().remove(es);
             }
         }
-
-        */
         entity.processStates();
-
 	}
 	public void onNotify(String message)
 	{

@@ -2,7 +2,6 @@ package items;
 
 import java.io.Serializable;
 import java.util.*;
-import java.util.stream.Stream;
 
 public class Inventory implements Serializable
 {
@@ -23,13 +22,38 @@ public class Inventory implements Serializable
         return getCapacity() - inventory.size();
     }
 
-    public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
+	public void clear()
+	{
+		inventory = new ArrayList<>();
+		equipped = new ArrayList<>();
+
+		inventoryMap = new HashMap<>();
+		equippedMap = new HashMap<>();
+	}
+
+	public Item getEquippedItem(Item item)
+	{
+		System.out.println("invItem going in " + item.toString());
+
+		if(equipped.contains(item))
+		{
+			System.out.println("Equipped contains item");
+			for(Item i : equipped)
+			{
+				if(i.equals(item))
+					return i;
+			}
+		}
+		return null;
+	}
+
+	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
 
 	private Item[] equiped;
     private Item[] items;
 
     public static final int STARTING_INV_CAP = 10;
-	public static final int STARTING_EQP_CAP = 25;
+	public static final int STARTING_EQP_CAP = 6;
 
 
 	private int max, maxEquip;
@@ -278,7 +302,7 @@ public class Inventory implements Serializable
     {
 		for(Item i : toAdd)
 		{
-			if(inventory.size() + 1 < max)
+			if(inventory.size() + 1 <= max)
 			{
 				inventory.add(i);
 			}
@@ -302,7 +326,7 @@ public class Inventory implements Serializable
     }
     public boolean isFull()
     {
-		if(inventory.size() > max)
+		if(inventory.size() >= max)
 			return true;
 		else
 			return false;

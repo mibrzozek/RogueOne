@@ -408,6 +408,7 @@ public class TileEngine
 								continue;
 
 							terminal.write(lines.get(q), xo, screenHeight + (i) + 1, Color.DARK_GRAY);
+							terminal.write(lines.get(q), xo, screenHeight + (i) + 1, Color.DARK_GRAY);
 
 							if(q != lines.size()-1)
 								i += 1;
@@ -560,6 +561,50 @@ public class TileEngine
 
 		String print = new String(fsc);
 	}
+	public static void renderCreationPlate(AsciiPanel terminal, int x, int y, int length, String s1, String s2, boolean centered, Color f, Color b)
+	{
+		int column1Width = 12;
+		int columen2Width = 6;
+
+		char[] s1c = s1.toCharArray();
+		char[] s2c = s2.toCharArray();
+
+		String fs = "";
+
+		for(int i = 0; i < length; i++)
+		{
+			fs += (char) 178;
+		}
+
+		char[] fsc = fs.toCharArray();
+		int column2X = 0;
+
+
+		for(int i = 0; i < fsc.length; i++)
+		{
+			if(i < s1c.length)
+			{
+				fsc[i] = s1c[i];
+			}
+			else if(i < 15)
+			{
+				fsc[i] = (char) 176;
+			}
+
+			if(i > 27 && i < 27 + 15) // second column starts at x 36
+			{
+				if(column2X < s2c.length)
+					fsc[i] = s2c[column2X++];
+				else
+					fsc[i] = (char) 176;
+			}
+		}
+
+		for(int i = 0; i < fsc.length; i++)
+		{
+			terminal.write(fsc[i], x + i, y, f, b);
+		}
+	}
 	public static void renderDisplayPlate(AsciiPanel terminal, int x, int y, int length, String s, boolean centered, Color f, Color b)
 	{
 			String fs = "";
@@ -597,9 +642,6 @@ public class TileEngine
 	{
 		String effect = e.getEffectTag() + " "
 				+ e.getEffectLength();
-
-
-
 
 		String fs = "";
 		int center = 14;

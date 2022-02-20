@@ -23,6 +23,7 @@ public class ItemFactory implements Serializable
 	public ItemFactory()
 	{
 		this.world = null;
+		this.r = new Random();
 		initItemList();
 	}
 	public Item getRandomItem()
@@ -33,6 +34,13 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newAluSplint());
+		itemList.add(newClearanceGreen());
+		itemList.add(newMedicalKit());
+		itemList.add(newSurgeryKit());
+		itemList.add(newRustyKnife());
+		itemList.add(newOpticalMagnifier());
+		itemList.add(newVisorDehazer());
 		itemList.add(newClearanceRed());
 		itemList.add(newTerrainMapper());
 		itemList.add(newOre());
@@ -232,7 +240,7 @@ public class ItemFactory implements Serializable
 	}
 	public Item newCyberneticSyringe()
 	{
-		Item cyberneticSyringe = new Item((char)92, Palette.monoGreen, Type.MELEE,
+		Item cyberneticSyringe = new Item((char)127, Palette.monoGreen, Type.MELEE,
 				"Cybernetic Syringe", 
 				"A junkie needle. Blunt like a butter knife, and dirty like the underside of a dead plasma rat. Good for shooting up and passing around diseases.",
 				15,
@@ -342,7 +350,7 @@ public class ItemFactory implements Serializable
 	}
 	public Item newBandages()
 	{
-		Item bandages = new Item((char)43, Palette.paperGreen, Type.HEALING,
+		Item bandages = new Item((char)127, Palette.paperGreen, Type.HEALING,
 				"Brite Aid Bandages", 
 				"Two sticky sides and an absorbent middle. Comes with many skin tone choices. Durable and good for healing small wounds.",
 				50,
@@ -353,7 +361,7 @@ public class ItemFactory implements Serializable
 	}
 	public Item newFirstAid()
 	{
-		Item firstAid = new Item((char)43, Palette.paperGreen, Type.HEALING,
+		Item firstAid = new Item((char)127, Palette.paperGreen, Type.HEALING,
 				"First Aid Kit", 
 				"Gauze. Anesthetic. Probiotic. Sanitizing Alcohol. Needle. Pliers. Nano thread.",
 				150,
@@ -364,7 +372,7 @@ public class ItemFactory implements Serializable
 	}
 	public Item newMedicinal()
 	{
-		Item medicinal = new Item((char)43, Palette.paperGreen, Type.PASSIVE_HEALING,
+		Item medicinal = new Item((char)127, Palette.paperGreen, Type.PASSIVE_HEALING,
 				"Medicinal Herb", 
 				"A synthesized lab grown medicine bio herb which heals slowly over time when smokes or sprinkled into small wounds.",
 				5,
@@ -375,7 +383,7 @@ public class ItemFactory implements Serializable
 	}
 	public Item newConKit()
 	{
-		Item conKit = new Item((char)43, Palette.paperGreen, Type.HEAD_HEALING,
+		Item conKit = new Item((char)127, Palette.paperGreen, Type.HEAD_HEALING,
 				"Concussion Kit", 
 				"Nano compressed neck brace and brain stimulator. Neck brace administers local anesthetic to the back of the neck and connect directly to spine to facilitate brain repair.",
 				500,
@@ -419,10 +427,10 @@ public class ItemFactory implements Serializable
 	}
 	public Item newClearanceGold()
 	{
-		Item clearanceGold = new Item((char)56, Palette.monoYellow, Type.GOLD,
+		Item clearanceGold = new Item((char)173, Palette.monoYellow, Type.GOLD,
 				"Gold Card", 
 				"A circuit like design runs around the bezel of the clearance card. A single biometric identity chip sits at the center of it. A true work of art, and a key into every room.",
-				100,
+				6,
 				Item.Rarity.COMMON);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), clearanceGold);
@@ -617,7 +625,7 @@ public class ItemFactory implements Serializable
 	}
 	public Item newFullHeal()
 	{
-		Item fullHeal = new Item((char)3, Palette.green, Type.FULL_HEAL,
+		Item fullHeal = new Item((char)127, Palette.green, Type.FULL_HEAL,
 				"Adrenaline Regulator", 
 				"Instructions : Place regulator at the back of the neck. Once light is green the regulator is aligned with the spinal cord, hit the apple button and relax, this might hurt for a second.",
 				1000,
@@ -628,7 +636,7 @@ public class ItemFactory implements Serializable
 	}
 	public Item newBlueClearance()
 	{
-		Item blueClearance = new Item((char)56, Palette.blue, Type.BLUE_CARD,
+		Item blueClearance = new Item((char)173, Palette.blue, Type.BLUE_CARD,
 				"Blue Clearance", 
 				"Blue clearance chip. This will open most doors, but looks like it's falling apart quickly.",
 				10,
@@ -793,7 +801,7 @@ public class ItemFactory implements Serializable
 	}
 	public Item newClearanceRed()
 	{
-		Item clearanceRed = new Item((char)56, Palette.red, Type.RED,
+		Item clearanceRed = new Item((char)173, Palette.red, Type.RED,
 				"Red Card", 
 				"A circuit like design runs around the bezel of the clearance card. A single biometric identity chip sits at the center of it. A true work of art, and a key into the red room.",
 				100,
@@ -801,5 +809,82 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), clearanceRed);
 		return clearanceRed;
+	}
+	public Item newVisorDehazer()
+	{
+		Item visorDehazer = new Item((char)56, Palette.purple, Type.VISION,
+				"Visor Dehazer", 
+				"A dehazer desgined to increae your vision through the visor.",
+				15,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), visorDehazer);
+		return visorDehazer;
+	}
+	public Item newOpticalMagnifier()
+	{
+		Item opticalMagnifier = new Item((char)56, Palette.purple, Type.VISION,
+				"Optical Magnifier", 
+				"Visor attachement which allows for optical magnification.",
+				20,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), opticalMagnifier);
+		return opticalMagnifier;
+	}
+	public Item newRustyKnife()
+	{
+		Item rustyKnife = new Item((char)56, Palette.red, Type.MELEE,
+				"Rusty Knife", 
+				"A rusty shank. Good for shanking.",
+				30,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), rustyKnife);
+		return rustyKnife;
+	}
+	public Item newSurgeryKit()
+	{
+		Item surgeryKit = new Item((char)127, Palette.green, Type.HEALTH,
+				"Surgery Kit", 
+				"Comprehensive kit for all things surgery.",
+				10,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), surgeryKit);
+		return surgeryKit;
+	}
+	public Item newMedicalKit()
+	{
+		Item medicalKit = new Item((char)127, Palette.green, Type.FULL_HEAL,
+				"Medical Kit", 
+				"Comprehensive kit for all types of wounds and damages caused to soft tissue.",
+				100,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), medicalKit);
+		return medicalKit;
+	}
+	public Item newClearanceGreen()
+	{
+		Item clearanceGreen = new Item((char)173, Palette.green, Type.GREEN,
+				"Green Card", 
+				"A circuit like design runs around the bezel of the clearance card. A single biometric identity chip sits at the center of it. A true work of art, and a key into the green room.",
+				2,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), clearanceGreen);
+		return clearanceGreen;
+	}
+	public Item newAluSplint()
+	{
+		Item aluSplint = new Item((char)127, Palette.green, Type.SPLINT,
+				"Aluminum Splint", 
+				"A sturdy splint. Good for improving mobility while on a fractured limb.",
+				2,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), aluSplint);
+		return aluSplint;
 	}
 }

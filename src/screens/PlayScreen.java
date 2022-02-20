@@ -148,6 +148,8 @@ public class PlayScreen implements Screen
 	}
     private void createItems(ItemFactory itemFactory) 
     {
+		world.generateLockedRoomLoot();
+		/*
         for (int z = 0; z < world.depth(); z++)
         {
             for (int i = 0; i < world.width() * world.height() / 20000; i++)
@@ -156,19 +158,27 @@ public class PlayScreen implements Screen
             	//world.addAtEmptyLocation(0 , itemFactory.getRandomItem());
             }
         }
+		*/
     }
 	private void createEntities(EntityFactory entityFactory, ItemFactory itemFactory)
 	{
 		ItemFactory nullFactory = new ItemFactory();
+		EntityFactory nullEntityFactory = new EntityFactory(world, null);
 
 		for (int z = 1; z < world.depth(); z++)
 		{
 			for (int i = 0; i < 4; i++)
 			{
-				entityFactory.newTurkey(z, player);
-				entityFactory.newTurkeyGuardian(z, player);
+				//entityFactory.newTurkey(z, player);
+				//entityFactory.newTurkeyGuardian(z, player);
+				//entityFactory.newKamikaze(z, player);
+				Entity ent = nullEntityFactory.newTurkey(0, player);
+				ent.inventory().add(nullFactory.newClearanceRed());
+
+				world.spawnInMainRegion(ent);
 			}
 		}
+
 	}
     private void createWorld(World.Map m)
     {
@@ -364,17 +374,17 @@ public class PlayScreen implements Screen
 				{
 				// Special Keys
 					case KeyEvent.VK_M:
-						if(player.inventory().isItemEquiped(new ItemFactory().newTerrainMapper())) {
+						if(player.inventory().isItemEquiped(new ItemFactory().newTerrainMapper()))
+						{
 							subScreen = new MapScreen(terminal, this.world, main.getScreenWidth(), main.getScreenHeight());
 							break;
 						}
 						else
 						{
 							messages.add("You need a terrain mapper!");
+							break;
 						}
-
-					case KeyEvent.VK_SHIFT: subScreen = new CharacterSheet(world, main
-				); 	break;
+					case KeyEvent.VK_SHIFT: subScreen = new CharacterSheet(world, main); 	break;
 				case KeyEvent.VK_T:
 				{
 					if(player.inventory().getTypeDuration(Type.UTILITY) > 0)
@@ -418,7 +428,9 @@ public class PlayScreen implements Screen
 							subScreen = new EntityInteractScreen(world, this, main, e);
 						}
 					}
-					else if(world.getTile(np.x, np.y, np.z).equals(Tile.STASH)) // STASH INTERACTION
+					else if(world.getTile(np.x, np.y, np.z).equals(Tile.STASH)
+							|| world.getTile(np.x, np.y, np.z).equals(Tile.MED_STASH)
+							|| world.getTile(np.x, np.y, np.z).equals(Tile.RED_STASH)) // STASH INTERACTION
 					{
 						if(world.getStashes().contains(new Stash(np)))
 						{
@@ -446,7 +458,7 @@ public class PlayScreen implements Screen
         		}
         		case KeyEvent.VK_E: player.rotateClockwise(); break;
         		case KeyEvent.VK_Q: player.rotateCounterClockwise(); break;
-        		case KeyEvent.VK_SPACE: player.useWeapon(); world.update();	 break;
+        		case KeyEvent.VK_SPACE: player.useWeapon(null); world.update();	 break;
         		case KeyEvent.VK_G: player.useDevice(); break;
         		case KeyEvent.VK_C: // Inspect item`
         		{	

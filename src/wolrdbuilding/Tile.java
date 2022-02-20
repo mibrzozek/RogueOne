@@ -204,11 +204,16 @@ public enum Tile
 	ROGUE( (char)146, Palette.red, Palette.lightRed),
 	MECH('M', Palette.paleWhite, Palette.lightRed),
 	JUNKIE('J', Palette.blue, Palette.lightRed),
+    KAMIKAZE('k', Palette.red, Palette.darkRed),
+
 	
 	// COMBUSTABLE TILES
 	
     METHANE('m',Palette.methane, Palette.darkestGray),
-    STASH((char)1,Palette.darkYellow);
+    STASH((char)1,Palette.darkYellow),
+    MED_STASH((char)43,Palette.lightGreen),
+    RED_STASH((char)6,Palette.red)
+    ;
 	
 	private boolean swapable;
 	public Random r =  new Random();
@@ -483,5 +488,15 @@ public enum Tile
     public boolean isDoor()
     {
         return this == Tile.CLOSED_DOOR || this == Tile.OPEN_DOOR;
+    }
+
+    public void changeColor(Color purple)
+    {
+
+    }
+
+    public boolean isStash()
+    {
+        return this == Tile.STASH || this == Tile.RED_STASH || this == Tile.MED_STASH;
     }
 }

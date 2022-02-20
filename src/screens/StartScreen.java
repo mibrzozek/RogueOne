@@ -57,12 +57,11 @@ public class StartScreen implements Screen
 	{
 
 		this.terminal = terminal;
-
 		/*
 		if(!rendered)
 		{
 			testStructure = structureMap.get("ascciWorld.csv");
-//			testStructure = TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 15, 5, 35, 18, Palette.darkGray);
+			testStructure = TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 15, 5, 35, 18, Palette.darkGray);
 			System.out.println(testStructure.size());
 
 			testStructure.addAll(TileEngine.renderFrame(terminal, 16, 7, 34, 17, TileSet.DOUBLE, Palette.gray));
@@ -74,8 +73,8 @@ public class StartScreen implements Screen
 		else
 		{
 		//	System.out.println("From rendered " + testStructure.size());
-		//	TileEngine.sparkleAnime(testStructure);
-		//	TileEngine.displayTilesWithTransparentBox(terminal, testStructure, null, null, null, null, null);
+			TileEngine.sparkleAnime(testStructure);
+			TileEngine.displayTilesWithTransparentBox(terminal, testStructure, null, null, null, null, null);
 		}
 		*/
 		terminal.writeCenter("PLAY [enter]", 19);

@@ -47,7 +47,6 @@ public class TileV implements Serializable
 
         this.t = Tile.CUSTOM;
     }
-
     public char getGlyph()
     {
         if(t != Tile.CUSTOM)
@@ -83,7 +82,8 @@ public class TileV implements Serializable
         this.glyph = glyph;
         this.colorF = f;
         this.colorB = b;
-        this.t = Tile.CUSTOM;
+        if(!this.t.isStash())
+            this.t = Tile.CUSTOM;
         this.isStructure = isStructure;
 
         glyphCheck();
@@ -153,5 +153,8 @@ public class TileV implements Serializable
 
     public void setBackColor(Color backColor) {
         this.colorB = backColor;
+    }
+    public void setFrontColor(Color frontColor) {
+        this.colorF = frontColor;
     }
 }

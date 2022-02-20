@@ -1,10 +1,5 @@
 package screens;
 
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
 import asciiPanel.AsciiPanel;
 import entities.Effect;
 import entities.Entity;
@@ -12,11 +7,13 @@ import items.Type;
 import structures.MainFrame;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
-import wolrdbuilding.Tile;
 import wolrdbuilding.TileSet;
 import wolrdbuilding.World;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class CharacterSheet implements Screen
 {
@@ -42,15 +39,26 @@ public class CharacterSheet implements Screen
 	public void displayOutput(AsciiPanel terminal)
 	{
 		int sheetH =  11 + player.stats.getEffects().size() + 1;
-
-		TileEngine.renderBox(terminal, 31 , sheetH ,0, ((MainFrame)main).getDisplayHeight()-sheetH,  TileSet.SIMPLE, true);
-		
-		//terminal.write(player.stats.getName(), 1, 22, Palette.lightRed);
-		//write(player.stats.getRole(), 1, 61, Palette.lightRed);// name
-
+		int y = ((MainFrame) main).getDisplayHeight() - (11 + player.stats.getEffects().size());
+		int secondBoxY = ((MainFrame)main).getDisplayHeight()-(sheetH*2);
 		Color a = Palette.monoPurple;
 		Color b = Palette.monoGrayTeal;
-		int y = ((MainFrame) main).getDisplayHeight() - (11 + player.stats.getEffects().size());
+
+		// Render Boxes //
+
+		TileEngine.renderBox(terminal, 31 , sheetH ,0, ((MainFrame)main).getDisplayHeight()-sheetH,  TileSet.SIMPLE, true);
+		TileEngine.renderBox(terminal, 31 , sheetH ,0, secondBoxY,  TileSet.SIMPLE, true);
+
+		// Top Box //
+		secondBoxY++;
+		terminal.write(player.stats.getName(), 11, secondBoxY++);
+		TileEngine.renderPercentBlocksV2(terminal, 1, secondBoxY++, "Strength", player.stats.getStrength(), 20, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, secondBoxY++, "Agility", player.stats.getAgility(), 20, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, secondBoxY++, "Intelligence", player.stats.getIntelligence(), 20, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, secondBoxY++, "Charisma", player.stats.getCharisma(), 20, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, secondBoxY++, "Burden", player.stats.getBurden(), 10, a);
+
+		// Bottom Box //
 
 		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Shield", player.shield(), 1000, a);
 		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Vitals", player.stats.getVitals(), 1000, a);
@@ -78,9 +86,15 @@ public class CharacterSheet implements Screen
 				TileEngine.renderEffectBlocks(terminal, ex, ey++, e);
 			}
 		}
-
+		renderCharacterAttributes(sheetH, secondBoxY);
 		//TileEngine.renderBox(terminal, 31 ,40 ,0, 22,  TileSet.SIMPLE, false);
 	}
+
+	public void renderCharacterAttributes(int sheetH, int secondBoxY)
+	{
+
+	}
+
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
 	{

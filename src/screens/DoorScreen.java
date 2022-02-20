@@ -1,12 +1,14 @@
 package screens;
 
 import asciiPanel.AsciiPanel;
+import items.Item;
+import items.ItemFactory;
 import items.Type;
-import wolrdbuilding.Door;
 import wolrdbuilding.Point;
-import wolrdbuilding.World;
+import wolrdbuilding.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,6 +46,11 @@ public class DoorScreen extends UIScreen
     @Override
     public void select()
     {
+        ItemFactory iF = new ItemFactory();
+        boolean opened = false;
+        Color c = Palette.paleWhite;
+
+
         if(itemList.get(index).equals("Open"))
         {
             if (player.inventory().getTypeDuration(Type.GOLD) > 0
@@ -51,17 +58,55 @@ public class DoorScreen extends UIScreen
             {
                 w.openDoor(p);
                 player.notify("Looks like we have clearance Clarance.");
+                opened = true;
+                c = Palette.gray;
+                Item i = player.inventory().getEquippedItem(iF.newClearanceGold());
+                if(i != null)
+                {
+                    i.modifyValue(-1, player.inventory());
+                }
             }
             else if(player.inventory().getTypeDuration(Type.RED) > 0
                     && d.getClearance().equals(Door.Clearance.RED))
             {
                 w.openDoor(p);
                 player.notify("Looks like we have clearance Clarance.");
+                opened = true;
+                c = Palette.red;
+            }
+            else if(player.inventory().getTypeDuration(Type.GREEN) > 0
+                    && d.getClearance().equals(Door.Clearance.GREEN))
+            {
+                w.openDoor(p);
+                player.notify("Looks like we have clearance Clarance.");
+                opened = true;
+                c = Palette.lightGreen;
             }
             else
             {
                 player.notify("You need " + d.getClearance().toString() + " clearance to get it.");
             }
+
+            if(opened && !d.getRoom().isIdentified())
+            {
+                d.getRoom().setIdentified(true); // once the room is opened it is identified and therefore the
+                                                 // wall color of the room does not have to get changed
+
+                for(Point p : d.getRoom().getWallPoints())
+                {
+                    Tile t = w.getTile(p.x, p.y, p.z);
+                    if(!t.isDoor())
+                    {
+                        w.getTileV(p.x, p.y, p.z).setTile(t.glyph(), c, t.backColor(), false);
+                    }
+                    else // open all doors if same clearance
+                    {
+                        if(d.getClearance().equals(w.getDoor(p).getClearance()))
+                            w.openDoor(p);
+                    }
+                }
+            }
+
         }
         else if(itemList.get(index).equals("Close"))
         {

@@ -17,15 +17,9 @@ public class DroidAI extends EntityAi
         entity.inventory().add(iF.newPlasmaPack());
         entity.inventory().add(iF.newPlasmaPack());
     }
-
     public void onUpdate()
     {
         if(this.entity.inventory().containsInInventory(iF.newBasicAiUnit()))
             wander();
     }
-    public void shootUp()
-    {
-
-    }
-
 }

@@ -3,9 +3,7 @@ package wolrdbuilding;
 import entities.Effect;
 import entities.Entity;
 import entities.Mech;
-import items.Item;
-import items.Stash;
-import items.Type;
+import items.*;
 import structures.Air;
 import structures.Dungeon;
 
@@ -21,7 +19,6 @@ public class World implements Serializable
 	{
 		return radius;
 	}
-
 	public List<Point> getStairPoints()
 	{
 		return stairPoints;
@@ -39,6 +36,7 @@ public class World implements Serializable
 
 	Random random;
 	private Entity player;
+	private Dungeon dungeon;
 
 	private MiniMap mini;
 
@@ -78,12 +76,12 @@ public class World implements Serializable
 	
     private int depth;
 	public int depth() 	{ return depth; }
-    
-    // Constructor
+
 	public World(TileV[][][] tiles, ArrayList<Point> spawns, ArrayList<Point> startingPoints, Entity player, Dungeon d)
 	{
 		this.tiles = tiles;
 		this.player = player;
+		this.dungeon = d;
 		
 		this.width = tiles.length;
 		this.height = tiles[0].length;
@@ -678,14 +676,9 @@ public class World implements Serializable
             }
         }
     }
-
 	public int getTurns() {
 		return turns;
 	}
-
-    public void showDoorUi() {
-    }
-
 	public void openDoor(Point p)
 	{
 		for(Door d : doorPoints)
@@ -704,11 +697,15 @@ public class World implements Serializable
 			}
 		}
 	}
-
 	public Tile getTile(int x, int y, int z)
 	{
 		return tiles[x][y][z].getTile();
 	}
+
+	public TileV getTileV(int x, int y, int z)
+{
+	return tiles[x][y][z];
+}
 
 	public void closeDoor(Point p)
 	{
@@ -761,12 +758,73 @@ public class World implements Serializable
 
 		entities.add(turkey);
 	}
-
 	public Point getCirclePoint() {
 		return circleStartingPoint;
 	}
 	public List<Stash> getStashes()
 	{
 		return stashPoints;
+	}
+	public void generateLockedRoomLoot()
+	{
+		ItemFactory itemFactory = new ItemFactory();
+		LootTable table =  new LootTable();
+
+		for(RoomV r : dungeon.getGoldRooms()) // Gold room loot
+		{
+			int numItems = random.nextInt(1) + 5; // random number of items to gen
+
+			Point p = r.getFloorPoints().get(random.nextInt(r.getFloorPoints().size()));
+			Stash s = new Stash(p);
+
+			for(int i = 0; i < numItems; i++)
+			{
+				s.addItem(table.getGoldRoomItem());
+			}
+			stashPoints.add(s);
+			dungeon.addStash(p, s, Tile.STASH);
+		}
+		for(RoomV r : dungeon.getGreenRooms()) // Green room loot
+		{
+			int numItems = random.nextInt(3) + 2;
+
+			Point p = r.getFloorPoints().get(random.nextInt(r.getFloorPoints().size()));
+			Stash s = new Stash(p);
+
+			for(int i = 0; i < numItems; i++)
+			{
+				s.addItem(table.getGreenRoomItem());
+			}
+			stashPoints.add(s);
+			dungeon.addStash(p, s, Tile.MED_STASH);
+		}
+		for(RoomV r : dungeon.getRedRooms()) // Green room loot
+		{
+			int numItems = random.nextInt(3) + 2;
+
+			Point p = r.getFloorPoints().get(random.nextInt(r.getFloorPoints().size()));
+			Stash s = new Stash(p);
+
+			for(int i = 0; i < numItems; i++)
+			{
+				s.addItem(table.getRedRoomItem());
+			}
+			stashPoints.add(s);
+			dungeon.addStash(p, s, Tile.RED_STASH);
+		}
+	}
+	public void spawnInMainRegion(Entity e)
+	{
+		Point p = dungeon.getMainRegionPointS().get(random.nextInt(dungeon.getMainRegionPointS().size()));
+
+		if(tiles[p.x][p.y][p.z].isGround())
+		{
+			e.x = p.x;
+			e.y = p.y;
+			e.z = p.z;
+
+			entities.add(e);
+
+		}
 	}
 }

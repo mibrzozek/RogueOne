@@ -1,20 +1,13 @@
 package entities;
 
-import wolrdbuilding.Palette;
-
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Effect
 {
-    public int getTotalLength()
-    {
-        return totalLength;
-    }
-
     public enum Effects
     {
         BURN_1(10),
+        TETNIS(999),
         BROKEN_ARM(10),
         DIZZY(1),
         CONFUSED(1),
@@ -102,5 +95,9 @@ public class Effect
             return true;
         else
             return false;
+    }
+    public int getTotalLength()
+    {
+        return totalLength;
     }
 }

@@ -57,12 +57,16 @@ public class CharacterCreationScreen implements Screen
 		fields.add("Name");
 		fields.add("Role");
 		fields.add("Strength");
-		fields.add("Dexterity");
-		fields.add("Inteligence");
+		fields.add("Agility");
+		fields.add("Intelligence");
 		fields.add("Charisma");
+		fields.add("Stealth");
+		fields.add("Burden");
 		fields.add("Traits");
 		fields.add("Effects");
 		fields.add("Skills");
+		fields.add("Height");
+		fields.add("Weight");
 
 		this.sw = main.getScreenWidth();
 		this.sh = main.getScreenHeight();
@@ -127,13 +131,16 @@ public class CharacterCreationScreen implements Screen
 		for(int i = 0; i < fields.size(); i++) // Displays all the fields
 		{
 			int y = 8+i;
-			
-			terminal.write(fields.get(i), cx2, y);
-			terminal.write("", cx,  y);
-			
+
+			String s1 = fields.get(i);
+			String s2 = "";
 			if(display.get(i) != null)
-				terminal.write(display.get(i).toString(), cx, y);
-			
+				s2 += display.get(i).toString();
+
+			TileEngine.renderCreationPlate(terminal, cx2, y, 56, s1, s2,false, Palette.monoGrayBlue, Palette.morePaleWhite);
+			//terminal.write(fields.get(i), cx2, y);
+			terminal.write("", cx,  y);
+
 			if(y == 11)
 				y++;
 		}
@@ -141,7 +148,6 @@ public class CharacterCreationScreen implements Screen
 		// Story synopsis
 
 		String story = "Here goes the story. It is very interesting. Enjoy it";
-
 		Message m = new Message(story, bw - 6);
 		ArrayList<String> print = m.getLines();
 
@@ -150,7 +156,8 @@ public class CharacterCreationScreen implements Screen
 
 		for(String s : print)
 		{
-			terminal.write(s, xs, ys++);
+			//
+			// terminal.write(s, xs, ys++);
 		}
 			
 		terminal.write((char)175 + "", scrollX, scrollY, Palette.lightRed); // Cursor
@@ -245,7 +252,7 @@ public class CharacterCreationScreen implements Screen
 				case KeyEvent.VK_RIGHT: selectItem(); break;
 				case KeyEvent.VK_LEFT: break;
 
-				case KeyEvent.VK_CAPS_LOCK: getNewRandomName(); break;
+				case KeyEvent.VK_CAPS_LOCK: randomizeCharacter(); break;
 				case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(terminal, this); break;
 	      		case KeyEvent.VK_ENTER: selectItem(); break;
 	      		case KeyEvent.VK_BACK_SPACE:
@@ -265,6 +272,13 @@ public class CharacterCreationScreen implements Screen
 			return new StartScreen(terminal, main);
 		}
 		return this;
+	}
+
+	private void randomizeCharacter()
+	{
+		this.stats = new Statistics();
+
+		this.stats.setName(nameGen.getRandomName());
 	}
 	@Override
 	public Screen returnScreen(Screen screen)
@@ -288,7 +302,4 @@ public class CharacterCreationScreen implements Screen
 		return back;
 	}
 
-	public void getNewRandomName() {
-		this.stats.setName(nameGen.getRandomName());
-	}
 }

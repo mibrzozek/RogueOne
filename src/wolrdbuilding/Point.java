@@ -121,7 +121,7 @@ public class Point implements Serializable
     @Override
     public String toString()
     {
-    	return "x : " + x + " y : " + y + " z : " + z + "\n";
+    	return "x : " + x + " y : " + y + " z : " + z + "";
     }
 
     public static Point transform(Direction cardinal, Point np)

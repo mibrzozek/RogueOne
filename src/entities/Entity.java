@@ -27,7 +27,7 @@ import java.util.Random;
 
 public class Entity implements Serializable
 {
-	private static final int DEFAULT_VISION_RADIUS = 12;
+	private static final int DEFAULT_VISION_RADIUS = 8;
 	private boolean showUI = false;
 	//public enum Direction()
 	
@@ -255,9 +255,10 @@ public class Entity implements Serializable
 		else
 			return true;
 	}
-    public void useWeapon()
+    public void useWeapon(Entity target)
     {
     		Projectile p;
+
     		if((inventory.isItemEquiped(new ItemFactory().newDevSword()) 
     				&& inventory.isItemEquiped(new ItemFactory().newMacroUzi()))
     				&& inventory.isItemEquiped(new ItemFactory().newScopedRifle()))
@@ -340,9 +341,27 @@ public class Entity implements Serializable
 
 				for(Projectile pj : pellets)
 					world.queueProjectile(pj);
-
 				notify("Shotgun fun!");
 			}
+			else if(inventory().isItemEquiped(new ItemFactory().newRustyKnife()))
+			{
+
+				if(target != null)
+				{
+					Item i = new ItemFactory().newRustyKnife();
+
+					System.out.println("Stabbing with rusty");
+					if(!target.stats.getEffects().contains("Tetnis"));
+					{
+						target.stats.addEffect(new Effect(Effect.Effects.TETNIS, "Tetnis", Palette.red));
+						System.out.println("No tetnis");
+					}
+					target.modifyHp(i.value());
+				}
+
+			}
+
+			System.out.println("Using weapon");
     }
     // Attacking, modifying HP, messages
     public void attack(Entity other)
@@ -745,8 +764,8 @@ public class Entity implements Serializable
 	{
 		stats.processEffects();
 		stats.processVitals();
-		inventory.checkCapacity();
 
+		inventory.checkCapacity();
 
 		if(inventory.getTypeDuration(Type.OXYGEN) > 0 || world.getAir().getOxygen() > 0)
 		{
@@ -757,7 +776,6 @@ public class Entity implements Serializable
 			stats.setBreathing(false);
 		}
 	}
-
 	public void setDoorPoint(Point doorPoint)
 	{
 		this.doorPoint = doorPoint;

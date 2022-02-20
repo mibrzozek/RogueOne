@@ -27,6 +27,16 @@ public class EntityFactory implements Serializable
         this.fov = fov;
     }
     // name, world, glyph, color, maxHP, attack, defense
+	public Entity newKamikaze(int z, Entity player)
+	{
+		Entity kami = new Entity("Kamikaze", world, Tile.KAMIKAZE, 300, 100, 30);
+
+		if(world!= null)
+			world.addAtEmptyLocation(z, kami);
+		new KamikazeAi(kami, player);
+
+		return kami;
+	}
 	public Entity newTurkeyGuardian(int depth, Entity player)
 	{
 		Entity turkeyG = new Entity("Turkey Guardian", world, Tile.TRADER, 200, 5, 30);
@@ -146,5 +156,6 @@ public class EntityFactory implements Serializable
 
 	    return mech;
 	}
+
 
 }

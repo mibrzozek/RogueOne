@@ -97,9 +97,13 @@ public class Stash
                 return true;
             else
                 return false;
-
         }
         else
             return false;
+    }
+
+    public void addItem(Item item)
+    {
+        items.add(item);
     }
 }

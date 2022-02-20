@@ -1,11 +1,11 @@
 package items;
 
-import java.awt.*;
-import java.io.Serializable;
-
 import entities.Effect;
 import entities.Entity;
 import wolrdbuilding.Palette;
+
+import java.awt.*;
+import java.io.Serializable;
 
 public class Item implements Serializable
 {
@@ -62,7 +62,15 @@ public class Item implements Serializable
     public boolean isEquiped() { return equiped; }
     public void equip() { equiped = true; }
     public void unEquip() { equiped = false; }
-
+    public void modifyValue(int mod, Inventory inv)
+    {
+        if(mod < 0 && value + mod > -1)
+        {
+            value += mod;
+        }
+        if(value < 1)
+            inv.removeEquiped(this);
+    }
     
     public void useItemOn(Entity other)
     {

@@ -2,6 +2,7 @@ package entities;
 
 import items.Item;
 import items.ItemFactory;
+import items.LootTable;
 import structures.Script;
 import wolrdbuilding.Palette;
 import wolrdbuilding.Point;
@@ -37,16 +38,10 @@ public class PlayerAi extends EntityAi
 
     	entity.inventory().setMax(8);
 
-		this.entity.inventory().add(new ItemFactory().newFarmAxe());
-		this.entity.inventory().add(new ItemFactory().newClothPack());
-		this.entity.inventory().add(new ItemFactory().newPickAxe());
-		this.entity.inventory().add(new ItemFactory().newQuiver());
-		this.entity.inventory().add(new ItemFactory().newLongBow());
-		this.entity.inventory().add(new ItemFactory().newArrow());
-		this.entity.inventory().add(new ItemFactory().newArrow());
-		this.entity.inventory().add(new ItemFactory().newArrow());
-		this.entity.inventory().add(new ItemFactory().newArrow());
-		this.entity.inventory().add(new ItemFactory().newArrow());
+		this.entity.inventory().add(new LootTable().getGoldRoomItem());
+		this.entity.inventory().add(new ItemFactory().newMedicalKit());
+		this.entity.inventory().add(new ItemFactory().newClearanceGold());
+		this.entity.inventory().add(new ItemFactory().newTerrainMapper());
 
 
     	this.entity.stats.addEffect(new Effect(Effect.Effects.STONED, "High", Palette.lightBlue));
@@ -65,8 +60,6 @@ public class PlayerAi extends EntityAi
     
     public void setFOV(FieldOfView fov) 	{	this.fov = fov;	}
     public FieldOfView getFOV()				{	return fov;     }
-
-
 
     public void onEnter(int x, int y, int z, Tile tile)
     {

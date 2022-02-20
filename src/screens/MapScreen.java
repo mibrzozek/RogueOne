@@ -166,7 +166,7 @@ public class MapScreen implements Screen
                     mini = mini.getTilesFromZ(displayZ);
                     break;
 
-                case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(terminal, this); break;
+                case KeyEvent.VK_ESCAPE: return null;
                 case KeyEvent.VK_ENTER:  break;
             }
         }

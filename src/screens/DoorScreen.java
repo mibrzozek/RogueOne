@@ -73,6 +73,11 @@ public class DoorScreen extends UIScreen
                 player.notify("Looks like we have clearance Clarance.");
                 opened = true;
                 c = Palette.red;
+                Item i = player.inventory().getEquippedItem(iF.newClearanceRed());
+                if(i != null)
+                {
+                    i.modifyValue(-1, player.inventory());
+                }
             }
             else if(player.inventory().getTypeDuration(Type.GREEN) > 0
                     && d.getClearance().equals(Door.Clearance.GREEN))
@@ -81,6 +86,11 @@ public class DoorScreen extends UIScreen
                 player.notify("Looks like we have clearance Clarance.");
                 opened = true;
                 c = Palette.lightGreen;
+                Item i = player.inventory().getEquippedItem(iF.newClearanceGreen());
+                if(i != null)
+                {
+                    i.modifyValue(-1, player.inventory());
+                }
             }
             else
             {

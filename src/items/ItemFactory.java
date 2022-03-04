@@ -804,7 +804,7 @@ public class ItemFactory implements Serializable
 		Item clearanceRed = new Item((char)173, Palette.red, Type.RED,
 				"Red Card", 
 				"A circuit like design runs around the bezel of the clearance card. A single biometric identity chip sits at the center of it. A true work of art, and a key into the red room.",
-				100,
+				1,
 				Item.Rarity.RARE);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), clearanceRed);

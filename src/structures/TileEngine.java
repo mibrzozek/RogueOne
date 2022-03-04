@@ -425,27 +425,6 @@ public class TileEngine
     	int statsH = 12;
 		Entity player = w.getPlayer();
 
-		//TileEngine.renderBox(terminal, screenWidth, 12, 0, 50, TileSet.SIMPLE, Palette.darkerGray);
-		/*
-    	for(int x = 0; x < statsW; x++)
-    	{
-    		for(int y = 0; y < statsH; y++)
-    		{
-    			
-    			if(x == 0 || x == statsW-1)
-    				terminal.write(Tile.simpleLRW.glyph(), x, y+screenHeight, Color.DARK_GRAY);
-				else if (y == 0 || y == statsH-1)
-					terminal.write(Tile.simpleTBW.glyph(), x, y+screenHeight,  Color.DARK_GRAY);
-				else
-					terminal.write(' ', x, y+screenHeight,  Color.WHITE);
-    		}
-    	}
-
-    	terminal.write(Tile.simpleTLC.glyph(), 0, screenHeight, Color.DARK_GRAY);
-    	terminal.write(Tile.simpleTRC.glyph(), screenWidth-1, screenHeight, Color.DARK_GRAY);
-    	terminal.write(Tile.simpleBRC.glyph(), screenWidth-1, statsH+screenHeight-1, Color.DARK_GRAY);
-    	terminal.write(Tile.simpleBLC.glyph(), 0, statsH+screenHeight-1, Color.DARK_GRAY);
-		*/
     	terminal.write("Shield " + (char)218, 1, screenHeight + 1);
 			renderPercentBlocksV2(terminal, 1, screenHeight+1, "Shield", (int)player.shield(), 250, Palette.monoPerfect);
     	terminal.write("Vitals " + (char)179, 1, screenHeight+ 2);
@@ -460,7 +439,6 @@ public class TileEngine
 		TileEngine.renderBox(terminal, 31, 12, 0, screenHeight, TileSet.SIMPLE, Palette.gray);
 
 		terminal.write((char)36+ "" + player.crypto() + " ", 1, screenHeight + 11);
-
 		terminal.write(w.getTurns() + "",30 - new String(String.valueOf(w.getTurns())).length(), screenHeight + 11);
 
 		String cardinal = player.getCardinal().toString();
@@ -468,12 +446,10 @@ public class TileEngine
 		int center = 15 - (cardinal.length()/2);
 		terminal.write(cardinal + "",center , screenHeight + 11);
 
-
 		if(player.getAlert())
 		{
 			renderEffectBlocks(terminal, 29, screenHeight + 10, player.stats.getMostDangerousEffect());
 		}
-
     	renderLogScreenArea(terminal, screenHeight, screenWidth);
     }
 	public static void renderPercentBlocksV2(AsciiPanel terminal, int x, int y, String name, double value, double outOf, Color c)
@@ -614,16 +590,12 @@ public class TileEngine
 			{
 				stringStart = mid - (s.length()/2);
 			}
-
 			for(int i = 0; i < length; i++)
 			{
 					fs += (char) 178;
 			}
-
-
 			char[] fsc = fs.toCharArray();
 			char[] sc = s.toCharArray();
-
 
 			for(int i = 0; i < length; i++)
 			{
@@ -632,7 +604,6 @@ public class TileEngine
 					fsc[i] = sc[i-stringStart];
 				}
 			}
-
 			for(int i = 0; i < fsc.length; i++)
 			{
 				terminal.write(fsc[i], x + i, y, f, b);
@@ -701,7 +672,6 @@ public class TileEngine
 
 		String print = new String(fsc);
 	}
-
     public static void renderLogScreenArea(AsciiPanel terminal, int screenHeight, int screenWidth)
     {
     	// Produces divider
@@ -717,8 +687,6 @@ public class TileEngine
     	*/
     	//terminal.write((char)191 + "     " + (char)218, ox + 45, screenHeight - 11, Color.DARK_GRAY);
     	//terminal.write(" LOG ", ox + 46, screenHeight - 11, Palette.lightBlue);
-
-
     }
 	public static void renderPercentBlocks(AsciiPanel terminal, Color fc, int x, int y, int value, int max, boolean showPercent)
 	{
@@ -781,9 +749,7 @@ public class TileEngine
 						}
 					}
 				}
-
 			}
-
 			sc = fs.toCharArray();
 		}
 		//else
@@ -791,9 +757,7 @@ public class TileEngine
 
 		}
 		System.out.println(fs);
-
 	}
-
 	public static void displayCharSheet(AsciiPanel terminal, World w, JFrame main)
 	{
 		Entity player = w.getPlayer();
@@ -801,9 +765,6 @@ public class TileEngine
 		int sheetH =  11 + player.stats.getEffects().size() + 1;
 
 		TileEngine.renderBox(terminal, 31 , sheetH ,0, ((MainFrame)main).getDisplayHeight()-sheetH,  TileSet.SIMPLE, true);
-
-		//terminal.write(player.stats.getName(), 1, 22, Palette.lightRed);
-		//write(player.stats.getRole(), 1, 61, Palette.lightRed);// name
 
 		Color a = Palette.monoPurple;
 		Color b = Palette.monoGrayTeal;
@@ -860,5 +821,4 @@ public class TileEngine
 			ey += offset -1;
 		}
 	}
-
 }

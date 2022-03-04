@@ -30,7 +30,6 @@ public class MainFrame extends JFrame implements KeyListener
 
 	private Resolution r;
 
-
 	public static void main(String args[])
 	{
 		EventQueue.invokeLater(new Runnable()
@@ -51,7 +50,6 @@ public class MainFrame extends JFrame implements KeyListener
 			}
 		});
 	}
-
 	public MainFrame(Resolution r)
 	{
 		super(" Working Title");
@@ -92,7 +90,6 @@ public class MainFrame extends JFrame implements KeyListener
 
 		super.repaint();
 	}
-
 	public Screen getScreen() {
 		return screen;
 	}
@@ -104,11 +101,9 @@ public class MainFrame extends JFrame implements KeyListener
 	}
 	@Override
 	public void keyReleased(KeyEvent e) {
-
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
-
 	}
 	public int getScreenWidth()
 	{
@@ -136,7 +131,6 @@ public class MainFrame extends JFrame implements KeyListener
 
 		this.displayWidth = 89;
 		this.displayHeight = 55;
-
 	}
 	public void setResolution(Resolution res)
 	{
@@ -149,7 +143,6 @@ public class MainFrame extends JFrame implements KeyListener
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 			this.setLocation(0, 0);
 			this.setSize(1280,720 );
-
 
 			this.screenWidth = 80;
 			this.screenHeight = 43;
@@ -170,6 +163,5 @@ public class MainFrame extends JFrame implements KeyListener
 			this.displayWidth = 80;
 			this.displayHeight = screenHeight - 12;
 		}
-
 	}
 }

@@ -2,6 +2,7 @@ package wolrdbuilding;
 
 import entities.Effect;
 import entities.Entity;
+import entities.EntityFactory;
 import entities.Mech;
 import items.*;
 import structures.Air;
@@ -23,6 +24,8 @@ public class World implements Serializable
 	{
 		return stairPoints;
 	}
+
+
 
 	public enum Map
 	{
@@ -813,6 +816,25 @@ public class World implements Serializable
 			dungeon.addStash(p, s, Tile.RED_STASH);
 		}
 	}
+	public void spawnEnemies()
+	{
+		spawnMainRegionEnemies();
+	}
+	public void spawnMainRegionEnemies()
+	{
+		ItemFactory nullFactory = new ItemFactory();
+		EntityFactory nullEntityFactory = new EntityFactory(this, null);
+		int enemiesInMain = 15;
+		for (int z = 1; z < depth(); z++)
+		{
+			for (int i = 0; i < enemiesInMain; i++)
+			{
+				Entity ent = nullEntityFactory.newTurkey(0, player);
+				ent.inventory().add(nullFactory.newClearanceRed());
+				spawnInMainRegion(ent);
+			}
+		}
+	}
 	public void spawnInMainRegion(Entity e)
 	{
 		Point p = dungeon.getMainRegionPointS().get(random.nextInt(dungeon.getMainRegionPointS().size()));
@@ -824,7 +846,6 @@ public class World implements Serializable
 			e.z = p.z;
 
 			entities.add(e);
-
 		}
 	}
 }

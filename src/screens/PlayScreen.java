@@ -149,36 +149,11 @@ public class PlayScreen implements Screen
     private void createItems(ItemFactory itemFactory) 
     {
 		world.generateLockedRoomLoot();
-		/*
-        for (int z = 0; z < world.depth(); z++)
-        {
-            for (int i = 0; i < world.width() * world.height() / 20000; i++)
-            {
-            	//itemFactory.newPlasmaPod();
-            	//world.addAtEmptyLocation(0 , itemFactory.getRandomItem());
-            }
-        }
-		*/
     }
 	private void createEntities(EntityFactory entityFactory, ItemFactory itemFactory)
 	{
-		ItemFactory nullFactory = new ItemFactory();
-		EntityFactory nullEntityFactory = new EntityFactory(world, null);
 
-		for (int z = 1; z < world.depth(); z++)
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				//entityFactory.newTurkey(z, player);
-				//entityFactory.newTurkeyGuardian(z, player);
-				//entityFactory.newKamikaze(z, player);
-				Entity ent = nullEntityFactory.newTurkey(0, player);
-				ent.inventory().add(nullFactory.newClearanceRed());
-
-				world.spawnInMainRegion(ent);
-			}
-		}
-
+		world.spawnEnemies();
 	}
     private void createWorld(World.Map m)
     {

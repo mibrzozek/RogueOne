@@ -108,7 +108,6 @@ public class Inventory implements Serializable
 				list.add(i);
 				inventoryMap.put(i.type(), list);
 			}
-
 		}
 		return inventoryMap;
 	}
@@ -130,7 +129,6 @@ public class Inventory implements Serializable
 				list.add(i);
 				equippedMap.put(i.type(), list);
 			}
-
 		}
 		return equippedMap;
 	}
@@ -218,9 +216,7 @@ public class Inventory implements Serializable
 			value = equippedMap.get(type).get(0).value();
 			//System.out.println("There is this type " + type.name());
 		}
-
 		//System.out.println("Type misssing" + type.name());
-
 		return value;
 	}
     public double getArmorNumber(EquipmentSlot slot, double damage)
@@ -339,6 +335,5 @@ public class Inventory implements Serializable
     {
     	return inventory.size();
     }
-	
-	
+
 }

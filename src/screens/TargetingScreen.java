@@ -1,10 +1,5 @@
 package screens;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.List;
-
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import entities.PlayerAi;
@@ -14,6 +9,9 @@ import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.List;
 
 public class TargetingScreen implements Screen
 {
@@ -100,7 +98,7 @@ public class TargetingScreen implements Screen
 		{	
 			if(e.name() != null)
 				terminal.write(e.name(), 1, y);
-				TileEngine.renderPercentBlocksV2(terminal, 1, y++, e.name(), e.hp() , e.maxHP(), Palette.pastelGreen);
+				TileEngine.renderPercentBlocksV2(terminal, 1, y++, e.name(), e.stats.getVitals() , e.stats.getFullVitals(), Palette.pastelGreen);
 			//TileEngine.renderPercentBlocks(terminal, Palette.green, Palette.monoGreen, e.name().length() + 2, y++, e.hp(), e.maxHP(), true);
 		}
 	}

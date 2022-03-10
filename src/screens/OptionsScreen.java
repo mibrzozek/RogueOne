@@ -1,19 +1,17 @@
 package screens;
 
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import items.Item;
 import items.Type;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
-import wolrdbuilding.Tile;
 import wolrdbuilding.TileSet;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OptionsScreen extends ScrollingBasedScreen
 {
@@ -227,13 +225,10 @@ public class OptionsScreen extends ScrollingBasedScreen
 	{
 		if(selectingFromInventory)
 		{
-			player.equipItem(inventory.get(itemIndex));
 			player.inventory().moveToEquiped(itemIndex);
-			
 		}
 		else
 		{
-			player.uniequipItem(equipped.get(itemIndex));
 			player.inventory().moveToInventory(itemIndex);
 		}			
 		player.updateStats();

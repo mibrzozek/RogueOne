@@ -12,10 +12,7 @@ public class TraderAi extends EntityAi
 	}
 	public void onUpdate() 
 	{
-		entity.modifyHp(entity.maxHP());
 		entity.doAction("wants to trade and barter");
-		
-	
 	}
 	public void onNotify(String message)
 	{

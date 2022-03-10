@@ -1,5 +1,6 @@
 package entities;
 
+import structures.NameGenerator;
 import wolrdbuilding.Palette;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ import static wolrdbuilding.Palette.r;
 
 public class Statistics implements Serializable
 {
+	private static final double FULL_VITALS = 1000;
 	private String name;
 	private String role;
 	
@@ -80,21 +82,20 @@ public class Statistics implements Serializable
 		{
 			weight = 210 + r.nextInt(65);
 		}
-		rollCharacter();
+		rollCharacter(null);
 		this.effects = new ArrayList<>();
 		effects.add(new Effect(Effect.Effects.SATITATED, "Full", Palette.green));
-		
 		this.vitals = head + torso + lHand + rHand + lLeg + rLeg;
 	}
-	public void rollCharacter()
+	public void rollCharacter(NameGenerator nameGen)
 	{
+		if(nameGen != null)
+			this.name = nameGen.getRandomName();
 		distributeAttributePoints();
 		rollTraits();
 		this.stealth = 5 + r.nextInt(10);
 		this.burden = 3 + r.nextInt(5);
-
 	}
-
 	private void rollTraits()
 	{
 		traits = new ArrayList<>();
@@ -520,5 +521,10 @@ public class Statistics implements Serializable
 	public int getMaxPoints()
 	{
 		return MAX_POINTS;
+	}
+
+	public double getFullVitals()
+	{
+		return FULL_VITALS;
 	}
 }

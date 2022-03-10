@@ -38,28 +38,33 @@ public class AttackBox extends UIScreen
 	@Override
 	public void select()
 	{
+		System.out.println("Entity " + enemy.stats.getName() + " Dead : " + enemy.isDead());
+
 		if(itemList.get(index).equals("Shoot"))
 		{
 			if (!player.inventory().get(Type.GUN).isEmpty())
 			{
 				double dmg = player.inventory().getTypeDuration(Type.GUN);
-
-				enemy.modifyHp(-dmg);
-
-				if (enemy.hp() < 0)
+				enemy.dealDamage(-dmg);
+				if (enemy.stats.getVitals() < 1)
+				{
+					enemy.setDead(true);
 					setNull();
+				}
 			}
 			else if(!player.inventory().get(Type.RANGED).isEmpty())
 			{
 				if(!player.inventory().get(Type.ARROW).isEmpty()) // if arrows equipped
 				{
-					System.out.println("Were shooting arrows");
+					System.out.println("We're shooting arrows");
 					double dmg = player.inventory().getTypeDuration(Type.RANGED);
 					player.inventory().removeEquiped(new ItemFactory().newArrow());
-					enemy.modifyHp(-dmg);
-
-					if (enemy.hp() < 0)
+					enemy.dealDamage(-dmg);
+					if (enemy.stats.getVitals() < 1)
+					{
+						enemy.setDead(true);
 						setNull();
+					}
 				}
 				else
 				{

@@ -2,22 +2,41 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc747c38-cb52-4caa-a5c5-4da97bdb7363" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Entity.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/entities/EntityFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/EntityFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/ItemFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/ItemFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/screens/DoorScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/DoorScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/screens/PlayScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/PlayScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/FungusAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/FungusAi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/JunkieAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/JunkieAi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Mech.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Statistics.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Statistics.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/TraderAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/TraderAi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/AttackBox.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/AttackBox.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/CharacterCreationScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/CharacterCreationScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/OptionsScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/OptionsScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/TargetingScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/TargetingScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/RexReader$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/RexReader$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/RexReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/RexReader.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/structures/TileEngine.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/TileEngine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/Tile.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/World$Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/World$Map.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/EntityAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/EntityAi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/EntityFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/EntityFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/ItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/DoorScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/DoorScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/FungusAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/FungusAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/JunkieAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/JunkieAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Mech.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Statistics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Statistics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/TraderAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/TraderAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/AttackBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/AttackBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/CharacterCreationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/CharacterCreationScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/OptionsScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/OptionsScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/PlayScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/PlayScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/structures/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/MainFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/TargetingScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/TargetingScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/UIScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/UIScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/RexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/RexReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/structures/TileEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/TileEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/Tile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/World.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -58,7 +77,10 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../ZoomPanel" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../RogueMakeItems" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
   </component>
   <component name="RunManager">
     <configuration name="MainFrame" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -91,6 +113,17 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -98,14 +131,10 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/entities/EntityFactory.java</url>
-          <line>71</line>
-          <properties class="entities.EntityFactory" method="newMutant">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="2" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/entities/Entity.java</url>
+          <line>418</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

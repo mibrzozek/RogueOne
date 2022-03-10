@@ -3,10 +3,10 @@ package wolrdbuilding;
 import entities.Effect;
 import entities.Entity;
 import entities.EntityFactory;
-import entities.Mech;
 import items.*;
 import structures.Air;
 import structures.Dungeon;
+import structures.NameGenerator;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -25,6 +25,9 @@ public class World implements Serializable
 		return stairPoints;
 	}
 
+	public NameGenerator getNameGenerator() {
+		return nameGenerator;
+	}
 
 
 	public enum Map
@@ -34,6 +37,7 @@ public class World implements Serializable
 	}
 
 	private static final int MINI_CELL = 3;
+	private NameGenerator nameGenerator;
 
 	private Point playerCell;
 
@@ -82,6 +86,9 @@ public class World implements Serializable
 
 	public World(TileV[][][] tiles, ArrayList<Point> spawns, ArrayList<Point> startingPoints, Entity player, Dungeon d)
 	{
+		this.nameGenerator = new NameGenerator();
+		this.nameGenerator.setFileToUse("C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\lsv\\first_names.txt");
+
 		this.tiles = tiles;
 		this.player = player;
 		this.dungeon = d;
@@ -283,9 +290,9 @@ public class World implements Serializable
     // Removes specified entity from EntityList 
     public void remove(Entity other) 
     {
-        entities.remove(other);
+		System.out.println("\tEntity removed ?");
+		entities.remove(other);
     }
-    
     public char glyph(int x, int y, int z)
     {
     	//System.out.println(x +  " " + y + " in glyph");
@@ -371,7 +378,6 @@ public class World implements Serializable
     			p.update(this);
     		
         }
-    	
     	List<Entity> toUpdate = new ArrayList<Entity>(entities);
         
     	for (Entity entity : toUpdate)
@@ -505,8 +511,9 @@ public class World implements Serializable
     		int dmg = 0;
     		if(p.glyph() == Tile.Y_SMALL.glyph())
     			dmg = 100;
-    		player.setTarget(e); 
-    		e.modifyHp(-99);
+    		player.setTarget(e);
+			e.dealDamage(-99);
+    		//e.modifyHp(-99);
     	}
 
     	if(!e.stats.getName().equals(e.stats.getName()))
@@ -582,25 +589,6 @@ public class World implements Serializable
 				itemMap[p.x][p.y][p.z] = item;
 			}
 		}
-    }
-    public void addMech(Mech mech)
-    {
-    	int x;
-    	int y;
-    	int z;
-		do 
-		{
-			x = (int)(Math.random() * width);
-			y = (int)(Math.random() * height);
-			z = (int)(Math.random() * height);
-		} while (!tile(x,y,z).isGround() && !tile(x+1,y,z).isGround() && !tile(x,y+1,z).isGround()
-				&& !tile(x+1,y+1,z).isGround()
-				|| entity(x,y,z) != null);
-		
-		mech.x = player.x + 2;
-		mech.y = player.y;
-		mech.z = player.z;
-		entities.add(mech);
     }
     public void addAtEmptyLocation(int z, Object ... args)
     {
@@ -829,9 +817,9 @@ public class World implements Serializable
 		{
 			for (int i = 0; i < enemiesInMain; i++)
 			{
-				Entity ent = nullEntityFactory.newTurkey(0, player);
-				ent.inventory().add(nullFactory.newClearanceRed());
-				spawnInMainRegion(ent);
+				Entity ents = nullEntityFactory.newGrunt(z, player);
+
+				spawnInMainRegion(ents);
 			}
 		}
 	}

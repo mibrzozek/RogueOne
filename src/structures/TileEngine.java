@@ -811,7 +811,7 @@ public class TileEngine
 		for(Entity e : entities)
 		{
 			TileEngine.renderBox(terminal, 31, offset, ex, ey, TileSet.SIMPLE, true);
-			TileEngine.renderPercentBlocksV2(terminal, ex + 1, ey + 1, e.name(), e.hp(), e.maxHP(), Palette.pastelGreen);
+			TileEngine.renderPercentBlocksV2(terminal, ex + 1, ey + 1, e.name(), e.stats.getVitals(), e.stats.getFullVitals(), Palette.pastelGreen);
 			terminal.write(" " + count++ + " ", ex+1, ey+2, Palette.paleWhite, Palette.red);
 
 			TileEngine.renderDisplayPlate(terminal, ex+4, ey+2, 4, (int)e.inventory().getTypeDuration(Type.GUN) + "", true, Palette.morePaleWhite, Palette.monoRed);

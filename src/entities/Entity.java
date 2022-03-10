@@ -53,19 +53,15 @@ public class Entity implements Serializable
 	private boolean dead = false;
     // Stats
     public Statistics stats;
-    private int maxHP;
-    private int hp;
-    
-    private int attackValue;
-    private int defenseValue;
+
     private int plasmaValue = 0;
     private int shieldValue = 0;
     private int crypto;
     
     private Point tradersPosition;
     private Point enemyPosition;
-    public Entity lastTargetedEnemy = null;
 
+    public Entity lastTargetedEnemy = null;
     public Script script;
     
     private ArrayList<Projectile> projectiles;
@@ -75,6 +71,7 @@ public class Entity implements Serializable
 
 	public Entity(Statistics stats, World world, Tile tile)
     {
+		this.name = stats.getName();
     	this.stats = stats;
     	this.world = world;
     	this.tile = tile;
@@ -82,44 +79,6 @@ public class Entity implements Serializable
         this.projectiles = null;
         this.inventory = new Inventory(20);
         this.crypto = 1000;
-    }
-    
-    public Entity(String name, World world, Tile tile, int maxHP)
-    {
-    	this.name = name;
-        this.world = world;
-        this.tile = tile;
-        this.maxHP = maxHP;
-        this.hp = maxHP;
-        this.attackValue = 0;
-        this.defenseValue = 500;
-        this.visionRadius = 9;
-        
-        this.stats = new Statistics();
-        stats.setName(name);
-        
-        this.projectiles = null;
-        this.inventory = new Inventory(20);
-        this.crypto = 1000;
-    }
-
-    public Entity(String name, World world, Tile tile, int maxHP, int attack, int defense)
-    {
-    	this.name = name;
-        this.world = world;
-        this.tile = tile;
-        this.maxHP = maxHP;
-        this.hp = maxHP;
-        this.attackValue = attack;
-        this.defenseValue = defense;
-        this.visionRadius = 9;
-        
-        this.stats = new Statistics();
-        stats.setName(name);
-        
-        this.projectiles = null;
-        this.inventory = new Inventory(30);
-        this.crypto = 100;
     }
 
     public boolean getAlert(){ return stats.getAlert();}
@@ -134,17 +93,11 @@ public class Entity implements Serializable
 	public void setVisionRadius(int radius) 	{	this.visionRadius  = radius; }
     public void modifyPlasma(int amount)		{	plasmaValue += amount; }
     public void modifyCrypto(int amount)		{	crypto += amount; }
-    public void modifyAttack(int amount) 		{	attackValue += amount; }
-    public void modifyDefense(int amount) 		{ 	defenseValue += amount;	}
     public void modidyShield(int amount) 		{	shieldValue += amount; }
     public Tile hitTile()						{   return Tile.TAGGED;			}
 	public void modifyZLevel(int newLevel)		{	this.z = newLevel;		}
 	public void modifyCoordinates(Point p)		{	this.x = p.x; this.y = p.y; this.z = p.z;	}
-	
-	public int hp() 				{ return hp; }
-	
-	public int attackValue() 		{ return attackValue; }
-	public int defenseValue() 		{ return defenseValue; }
+
 	public int plasma()				{ return plasmaValue; }
 	public int shield()				{ return shieldValue; }
 	
@@ -154,8 +107,7 @@ public class Entity implements Serializable
     public Direction getCardinal()	{ return cardinal;	}
    
     public Tile tile()				{ return tile;	}
-    public int maxHP() 				{ return maxHP; }
-    public String name() 			{ return name; }
+    public String name() 			{ return stats.getName(); }
     public Inventory inventory()	{ return inventory; }
     public EntityAi getEntityAi() 	{ return ai; }
     public boolean tradeMode()		{ return tradeMode; }
@@ -186,22 +138,7 @@ public class Entity implements Serializable
 	{
 		this.stats.setDead(dead);
 	}
-    public void equipItem(Item item)
-    {
-    	if(item != null && !inventory.isFullyEquiped())
-    	{	
-    		modifyAttack((int)item.value());
-    		modifyDefense((int)item.value());
-    	}
-    }
-    public void uniequipItem(Item item)
-    {
-    	if(item != null && !inventory.isFullyEquiped())
-    	{	
-    		modifyAttack(-(int)item.value());
-    		modifyDefense(-(int)item.value());
-    	}
-    }
+
     public ArrayList<Projectile> getProjectiles()
     {
     	if(projectiles != null)
@@ -209,7 +146,6 @@ public class Entity implements Serializable
     	else
     		return null;
     }
-
     public void setSpark()
 	{
 		if(Math.random() > 0.9)
@@ -235,7 +171,6 @@ public class Entity implements Serializable
     }
     public boolean isNextToWall()
 	{
-
 		if(!world.tile(x, y-1, z).getTile().isFloor()) // north
 			return false;
 		else if(!world.tile(x -1, y-1, z).getTile().isFloor()) // north west
@@ -356,7 +291,7 @@ public class Entity implements Serializable
 						target.stats.addEffect(new Effect(Effect.Effects.TETNIS, "Tetnis", Palette.red));
 						System.out.println("No tetnis");
 					}
-					target.modifyHp(i.value());
+					//target.modifyHp(i.value());
 				}
 
 			}
@@ -367,7 +302,7 @@ public class Entity implements Serializable
     public void attack(Entity other)
     {
     	tradeMode=false;
-        int amount = Math.max(0, attackValue());
+        int amount = Math.max(0, 1);
     
         amount = (int)(Math.random() * amount) + 1;
         amount = r.nextInt(93) + 7;
@@ -378,15 +313,16 @@ public class Entity implements Serializable
         if(other.ai instanceof PlayerAi)
         	other.dealDamage(-100);
         else
-        	other.modifyHp(-amount);
-
+		{
+			other.dealDamage(-amount);
+		}
     }
     public void testMethod()
     {
     	System.out.println("testing");
     }
     
-    public void dealDamage(int amount)
+    public void dealDamage(double amount)
     {
     	/*
     	if (shieldValue > 10)
@@ -429,7 +365,6 @@ public class Entity implements Serializable
     	
     	System.out.println(EquipmentSlot.HEAD + " " + Type.HEAD);
     	
-    	
     	System.out.println(" "+ stats.getHead() 
     			+ " "+ stats.getTorso() + " " 
     			+ (stats.getlHand() + stats.getrHand()) + " "     					
@@ -440,8 +375,13 @@ public class Entity implements Serializable
     	// check attributes, negate or cause more damage
     	modifyLimbHealth(slot, damage);
 
-    	if(stats.getVitals() <  1)
-    		dead = true;
+		System.out.println("Vitals : " + stats.getVitals());
+
+    	if(this.stats.getVitals() <  0)
+		{
+			dead = true;
+			System.out.println("Seeting dead :" + isDead());
+		}
     }
     public void modifyLimbHealth(EquipmentSlot slot, double damage)
     {
@@ -469,6 +409,7 @@ public class Entity implements Serializable
     	System.out.println(damage + " damage is dealt to the " + slot.toString());
     	
     }
+	/*
     public void modifyHp(double amount)
     {
         hp += amount;
@@ -480,6 +421,8 @@ public class Entity implements Serializable
         	doAction("Die");
         }
     }
+
+	 */
     public void notify(String message, Object ... params)
     {
         ai.onNotify(String.format(message, params));
@@ -527,8 +470,16 @@ public class Entity implements Serializable
         return ai.canSee(wx, wy, wz);
     }
     public void update()
-    {   
-        ai.onUpdate();  
+    {
+        ai.onUpdate();
+		if(stats.isDead())
+		{
+			dropAll();
+			doAction("dies");
+			world.remove(this);
+
+			System.out.println("Updating world and removing dead entitiy");
+		}
     }
 	public void dig(int wx, int wy, int wz) 
 	{
@@ -649,18 +600,6 @@ public class Entity implements Serializable
 			ai.onEnter(x+mx, y+my, z+mz, tile.getTile());
 			
 		}
-		else if(!other.equals( new EntityFactory().newTrader()) && other != null)
-		{
-			lastTargetedEnemy = other;
-			attack(other);
-		}
-		else if(other.equals( new EntityFactory().newTrader()) 
-				&& other != null
-				&& this.ai instanceof PlayerAi)
-		{
-			tradeMode = true;
-			tradersPosition = new Point(x+mx, y+my,z+mz);
-		}	
 	}
 	public void setShowUI(boolean b)
 	{
@@ -725,7 +664,7 @@ public class Entity implements Serializable
     }
 	public void setName(String name)
 	{
-		this.name = name;
+		this.stats.setName(name);
 	}
 	public boolean equals(Object obj)
 	{

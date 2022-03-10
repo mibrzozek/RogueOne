@@ -152,7 +152,6 @@ public class PlayScreen implements Screen
     }
 	private void createEntities(EntityFactory entityFactory, ItemFactory itemFactory)
 	{
-
 		world.spawnEnemies();
 	}
     private void createWorld(World.Map m)

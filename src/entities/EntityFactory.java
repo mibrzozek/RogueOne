@@ -27,68 +27,59 @@ public class EntityFactory implements Serializable
         this.fov = fov;
     }
     // name, world, glyph, color, maxHP, attack, defense
+	public Entity newGrunt(int z, Entity player)
+	{
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity grunt = new Entity(stats, world, Tile.GRUNT);
+
+		new KamikazeAi(grunt, player);
+		return grunt;
+	}
 	public Entity newKamikaze(int z, Entity player)
 	{
-		Entity kami = new Entity("Kamikaze", world, Tile.KAMIKAZE, 300, 100, 30);
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity ent = new Entity(stats, world, Tile.GRUNT);
 
-		new KamikazeAi(kami, player);
-		return kami;
-	}
-	public Entity newTurkeyGuardian(int depth, Entity player)
-	{
-		Entity turkeyG = new Entity("Turkey Guardian", world, Tile.TRADER, 200, 5, 30);
-
-		new HitmanAi(turkeyG, player);
-		return turkeyG;
-	}
-	public Entity newTurkey(int depth, Entity player)
-	{
-		Entity turkey = new Entity("Turkey", world, Tile.TRADER, 200, 5, 30);
-
-		new TurkeyAI(turkey, player);
-		return turkey;
+		new KamikazeAi(ent, player);
+		return ent;
 	}
 	public Entity newDroidSkeleton(int depth, Entity player)
 	{
-		Entity droidSkeleton = new Entity("Droid Skeleton", world, Tile.DROID, 200, 5, 30);
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity ent = new Entity(stats, world, Tile.DROID);
 
-		new DroidAI(droidSkeleton, player);
-		return droidSkeleton;
+		new DroidAI(ent, player);
+		return ent;
 	}
     public Entity newPlasmaJunkie(int depth, Entity player)
 	{
-		Entity plasmaJunkie = new Entity("Plasma Junkie", world, Tile.JUNKIE, 200, 15, 15);
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity ent = new Entity(stats, world, Tile.JUNKIE);
 
-		new JunkieAi(plasmaJunkie, player);
-		return plasmaJunkie;
+		new JunkieAi(ent, player);
+		return ent;
 	}
     public Entity newHitman(int depth, Entity player)
     {
-        Entity hitman = new Entity("Hitman", world, Tile.HITMAN, 600, 10, 10);  
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity ent = new Entity(stats, world, Tile.HITMAN);
 
-        new HitmanAi(hitman, player);
-        return hitman;
+		new HitmanAi(ent, player);
+		return ent;
     }
-	public Entity newMutant()
+	public Entity newMutant(int depth, Entity player)
 	{
-	    Entity mutant = new Entity("Mutant", world, Tile.MUTANT, 300, 100, 0);
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity ent = new Entity(stats, world, Tile.MUTANT);
 
-	    new RogueAi(mutant, this);
-	    return mutant;
-	}
-	public Entity newDroid()
-	{
-	    Entity droid = new Entity("Droid", world, Tile.DROID , 300, 100, 0);
-
-	    new RogueAi(droid, this);
-	    return droid;
-	}
-	public Entity newRogue()
-	{
-	    Entity rogue = new Entity("Rogue", world, Tile.ROGUE, 300, 100, 0);
-
-	    new RogueAi(rogue, this);
-	    return rogue;
+		new JunkieAi(ent, player);
+		return ent;
 	}
 	public Entity newPlayer(List<String> messages, Statistics stats)
 	{
@@ -103,27 +94,4 @@ public class EntityFactory implements Serializable
 		
 		return player;
 	}
-	public Entity newFungus(int depth)
-	{
-	    Entity fungus = new Entity("Fungus", world, Tile.FUNGUS, 100, 20, 5);
-
-	    new FungusAi(fungus, this);
-	    return fungus;
-	}
-	public Entity newTrader()
-	{
-	    Entity trader = new Entity("Trader", world, Tile.TRADER, 10, 0, 0);
-
-	    new TraderAi(trader, this);
-	    return trader;
-	}
-	public Entity newMech()
-	{
-	    Entity mech = new Mech("Mech", world, Tile.MECH, 500);
-
-	    new TraderAi(mech, this);
-	    return mech;
-	}
-
-
 }

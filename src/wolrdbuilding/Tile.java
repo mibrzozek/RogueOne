@@ -205,6 +205,7 @@ public enum Tile
 	MECH('M', Palette.paleWhite, Palette.lightRed),
 	JUNKIE('J', Palette.blue, Palette.lightRed),
     KAMIKAZE('k', Palette.red, Palette.darkRed),
+    GRUNT('g', Palette.green),
 
 	
 	// COMBUSTABLE TILES
@@ -212,8 +213,7 @@ public enum Tile
     METHANE('m',Palette.methane, Palette.darkestGray),
     STASH((char)1,Palette.darkYellow),
     MED_STASH((char)43,Palette.lightGreen),
-    RED_STASH((char)6,Palette.red)
-    ;
+    RED_STASH((char)6,Palette.red);
 	
 	private boolean swapable;
 	public Random r =  new Random();

@@ -44,10 +44,10 @@ public class FungusAi extends EntityAi
         
         entity.doAction("spawn a child");
   
-        Entity child = factory.newFungus(entity.z);
-        child.x = x;
-        child.y = y;
-        child.z = z;
+        //Entity child = factory.newFungus(entity.z);
+        //child.x = x;
+        //child.y = y;
+        //child.z = z;
         spreadcount++;
     }
 }

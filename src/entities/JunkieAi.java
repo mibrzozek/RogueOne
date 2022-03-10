@@ -18,7 +18,7 @@ public class JunkieAi extends EntityAi
     }
     public void onUpdate()
     {
-    	if(entity.hp() < entity.maxHP())
+    	if(entity.stats.getVitals() < entity.stats.getFullVitals())
     		hunt(player);
     	else
     		wander();

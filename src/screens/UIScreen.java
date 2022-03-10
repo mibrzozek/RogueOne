@@ -1,11 +1,5 @@
 package screens;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import structures.TileEngine;
@@ -13,6 +7,10 @@ import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UIScreen implements Screen
 {
@@ -135,7 +133,6 @@ public class UIScreen implements Screen
 	{
 		exitSubScreen =  true;
 		ps.updateWorld();
-
 	}
 	public void setInputNumber(int enemyIndex)
 	{
@@ -201,7 +198,6 @@ public class UIScreen implements Screen
 					String as = new String(String.valueOf(ascii));
 					inputNumber = Integer.parseInt(as) -1;
 					update();
-
 			}
 		}
 		if(exitGame)
@@ -210,7 +206,6 @@ public class UIScreen implements Screen
 			return new StartScreen(terminal, main);
 		}
 	return this;
-
 	}
 	public void update()
 	{

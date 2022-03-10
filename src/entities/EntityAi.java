@@ -90,7 +90,6 @@ public class EntityAi implements Serializable
 	}
 	public void onUpdate() 
 	{
-
         ArrayList<Effect> l = entity.stats.getEffects();
         List<Effect> indexToRemove = new ArrayList();
 

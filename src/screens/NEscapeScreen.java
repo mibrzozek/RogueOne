@@ -2,8 +2,6 @@ package screens;
 
 import asciiPanel.AsciiPanel;
 import entities.Entity;
-import entities.PlayerAi;
-import items.Type;
 import structures.MainFrame;
 import structures.Theme;
 
@@ -30,6 +28,7 @@ public class NEscapeScreen extends UIScreen
         options.add("New theme");
         options.add("New dungeon");
         options.add("Set fullscreen");
+        options.add("Show key guide");
 
         this.main = main;
         this.bw = 31;
@@ -73,6 +72,10 @@ public class NEscapeScreen extends UIScreen
             {
                 ((MainFrame)main).setFullScreen();
             }
+            else if(itemList.get(index).equals("Show key guide"))
+            {
+                this.subScreen = new KeyGuideScreen();
+            }
     }
     @Override
     public void render(AsciiPanel terminal)
@@ -82,5 +85,8 @@ public class NEscapeScreen extends UIScreen
 
         for(String i : itemList)
             terminal.write(i,x, y++ );
+
+        if(subScreen instanceof KeyGuideScreen)
+            ((KeyGuideScreen)subScreen).displayOutput(terminal);
     }
 }

@@ -30,7 +30,6 @@ public class Entity implements Serializable
 	private static final int DEFAULT_VISION_RADIUS = 8;
 	private boolean showUI = false;
 	//public enum Direction()
-	
 	// Context Variables
 	private World world;
     public int x;

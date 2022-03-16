@@ -97,7 +97,4 @@ public class AttackBox extends UIScreen
 
 		System.out.println(inputNumber);
 	}
-
-
-
 }

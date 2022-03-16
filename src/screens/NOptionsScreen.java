@@ -1,7 +1,6 @@
 package screens;
 
 import asciiPanel.AsciiPanel;
-import entities.Entity;
 import items.Item;
 import items.Stash;
 import structures.MainFrame;
@@ -11,7 +10,6 @@ import wolrdbuilding.World;
 import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class NOptionsScreen extends UIScreen
 {
@@ -59,7 +57,8 @@ public class NOptionsScreen extends UIScreen
 
         if(subScreen instanceof InspectScreen)
             ((InspectScreen)subScreen).displayOutput(terminal);
-
+        else if(subScreen instanceof KeyGuideScreen)
+            ((KeyGuideScreen)subScreen).displayOutput(terminal);
 
     }
     @Override

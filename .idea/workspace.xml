@@ -3,12 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="bc747c38-cb52-4caa-a5c5-4da97bdb7363" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/entities/Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Entity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/screens/NEscapeScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/NEscapeScreen.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/AttackBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/AttackBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/NEscapeScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/NEscapeScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/NOptionsScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/NOptionsScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/CharacterCreationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/CharacterCreationScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/UIScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/UIScreen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

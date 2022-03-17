@@ -3,9 +3,12 @@ package screens;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import entities.PlayerAi;
+import items.Item;
 import items.ItemFactory;
 import items.Type;
+import structures.TileEngine;
 import wolrdbuilding.Palette;
+import wolrdbuilding.TileSet;
 
 import javax.swing.*;
 
@@ -88,6 +91,14 @@ public class AttackBox extends UIScreen
 			terminal.write(i,x, y++ );
 
 		terminal.write(enemy.tile().glyph(), enemy.x-ps.getLeftOffset()+ps.getPlayAreaOffset(), enemy.y - ps.getTopOffset(), Palette.white, Palette.darkRed);
+		TileEngine.renderBox(terminal, 31, 31, 0, 0, TileSet.SIMPLE, Palette.paleWhite);
+		TileEngine.renderPercentBlocksV2(terminal, 1, 1, enemy.name(), enemy.stats.getVitals(), enemy.stats.getFullVitals(), Palette.lightGreen);
+		TileEngine.renderDisplayPlate(terminal, 1, 2, 29, "Equipment", true, Palette.red, Palette.lightGray);
+		int wy = 3;
+		for(Item i : enemy.inventory().getEquipped())
+		{
+			TileEngine.renderDisplayPlate(terminal, 1, wy++, 29, i.name(), false, Palette.paleWhite, Palette.red);
+		}
 	}
 	@Override
 	public void update()

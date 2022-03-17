@@ -109,7 +109,6 @@ public class CharacterCreationScreen implements Screen
 			m1 = TileEngine.renderBox(terminal, ((MainFrame)main).getScreenWidth(),  ((MainFrame)main).getScreenHeight(), 0, 0, TileSet.SIMPLE);
 			rendered = true;
 		}
-		
 		if(rendered)
 		{
 			TileEngine.sparkleAnime(m1);
@@ -150,6 +149,9 @@ public class CharacterCreationScreen implements Screen
 		String story = "Here goes the story. It is very interesting. Enjoy it";
 		Message m = new Message(story, bw - 6);
 		ArrayList<String> print = m.getLines();
+
+		terminal.write("[CAPS]-randomize", bx + 3, bh + 3, Palette.red);
+		terminal.write("[BACKSPACE]-START", bx + 25, bh + 3, Palette.red);
 
 		int ys = 20;
 		int xs = cx2;

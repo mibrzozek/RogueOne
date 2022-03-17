@@ -634,13 +634,14 @@ public class Entity implements Serializable
 				inventory.remove(inventory.get(i));
 			}
 		}
+		System.out.println("Equipped max : " + inventory.getEquippedMax() + " ");
 		for(int i = 0; i < inventory.getEquippedMax(); i++)
 		{
+			System.out.println("Equipped max : " + inventory.getEquippedMax() + " I : " + i + " Equipped size : " + inventory.getEquipped().size());
 			if(inventory.getEquipped(i) != null)
 			{
 				// doAction("drop a " + inventory.get(i).name());
 				drop(i, false);
-				inventory.removeEquiped(inventory.getEquipped(i));
 			}
 		}
     }
@@ -651,14 +652,12 @@ public class Entity implements Serializable
 			doAction("drop a " + inventory.get(i).name());
 			world.addAtEmptySpace(inventory.get(i),x,y,z);
 			inventory.getItems().remove(inventory.get(i));
-			
 		}
 		else
 		{
 			doAction("drop a " + inventory.getEquipped(i).name());
 			world.addAtEmptySpace(inventory.getEquipped(i),x,y,z);
 			inventory.getEquipped().remove(inventory.getEquipped(i));
-			
 		}
     }
 	public void setName(String name)

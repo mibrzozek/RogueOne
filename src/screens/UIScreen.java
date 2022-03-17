@@ -94,14 +94,8 @@ public class UIScreen implements Screen
 		render(terminal);
 		terminal.write((char) 16, scrollX, scrollY);
 	}
-	public void render(AsciiPanel terminal)
-	{
-		
-	}
-	public void select()
-	{
-		
-	}
+	public void render(AsciiPanel terminal) {}
+	public void select() {}
 	public void scrollUp()
 	{
 		if(cursorOn == true)
@@ -221,7 +215,6 @@ public class UIScreen implements Screen
 	public void animate()
 	{
 		// TODO Auto-generated method stub
-		
 	}
 	private Color fore = Palette.paleWhite;
 	private Color back = Palette.theNewBlue;
@@ -229,7 +222,6 @@ public class UIScreen implements Screen
 	public Color getForeColor() {
 		return fore;
 	}
-
 	@Override
 	public Color getBackColor() {
 		return back;

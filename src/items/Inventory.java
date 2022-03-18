@@ -241,11 +241,15 @@ public class Inventory implements Serializable
     public double reduceDamage(ArrayList<Item> slotItems, double damage)
     {
     	double d = damage;
+		System.out.println("Initial damage : " +  d);
     	for(Item i : slotItems)
     	{
-    		d = (d +  ((i.value()/(r.nextInt(3) +5))));
-    		System.out.println(i.name() + " this is the item name" +  i.type().toString() + "is the slot");
+			if(i.value() < 201)
+				d = (d -(d*.3));
+
+    		System.out.println(i.name() + " this is the item name " +  i.type().toString() + " is the slot");
     	}
+		System.out.println("Processed damage : " +  d);
     	return d;
     }
     public boolean isItemEquiped(Item item)

@@ -34,6 +34,8 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newBasicHelmet());
+		itemList.add(newKevlarTorso());
 		itemList.add(newAluSplint());
 		itemList.add(newClearanceGreen());
 		itemList.add(newMedicalKit());
@@ -886,5 +888,27 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), aluSplint);
 		return aluSplint;
+	}
+	public Item newKevlarTorso()
+	{
+		Item kevlarTorso = new Item((char)19, Palette.gray, Type.TORSO,
+				"Kevlar Body Armor", 
+				"Rugged armor made out of kevlar. Good for stopping low caliber bullets",
+				200,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), kevlarTorso);
+		return kevlarTorso;
+	}
+	public Item newBasicHelmet()
+	{
+		Item basicHelmet = new Item((char)19, Palette.gray, Type.HEAD,
+				"Shell Helmet", 
+				"Standard issue helemt. Can stop a low caliber round sometimes.",
+				200,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), basicHelmet);
+		return basicHelmet;
 	}
 }

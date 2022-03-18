@@ -159,8 +159,6 @@ public class Entity implements Serializable
 				)
     	{
     		//inventory.removeEquiped(inventory.getDevice())
-
-
     		if(plasmaValue > 50
 					&& world.tunnelExplosion(this.direction, inventory.getDevice().value()))
     			plasmaValue -= 50;
@@ -279,7 +277,6 @@ public class Entity implements Serializable
 			}
 			else if(inventory().isItemEquiped(new ItemFactory().newRustyKnife()))
 			{
-
 				if(target != null)
 				{
 					Item i = new ItemFactory().newRustyKnife();
@@ -292,9 +289,7 @@ public class Entity implements Serializable
 					}
 					//target.modifyHp(i.value());
 				}
-
 			}
-
 			System.out.println("Using weapon");
     }
     // Attacking, modifying HP, messages
@@ -323,12 +318,6 @@ public class Entity implements Serializable
     
     public void dealDamage(double amount)
     {
-    	/*
-    	if (shieldValue > 10)
-    		shieldValue += amount /2.0;
-    	else
-    		modifyHp(amount);
-		*/
     	double damage = amount;
     	EquipmentSlot slot = null;
     	
@@ -361,7 +350,6 @@ public class Entity implements Serializable
     			slot = EquipmentSlot.HEAD;
     		}
     	}
-    	
     	System.out.println(EquipmentSlot.HEAD + " " + Type.HEAD);
     	
     	System.out.println(" "+ stats.getHead() 
@@ -408,20 +396,6 @@ public class Entity implements Serializable
     	System.out.println(damage + " damage is dealt to the " + slot.toString());
     	
     }
-	/*
-    public void modifyHp(double amount)
-    {
-        hp += amount;
-    
-        if (hp < 1)
-        {
-        	dropAll();
-        	world.remove(this);
-        	doAction("Die");
-        }
-    }
-
-	 */
     public void notify(String message, Object ... params)
     {
         ai.onNotify(String.format(message, params));
@@ -540,7 +514,6 @@ public class Entity implements Serializable
 		
 		cardinal = Direction.fromIntToString(direction);
 	}
-	
 	public void moveBy(int mx, int my, int mz)
 	{
 
@@ -625,24 +598,15 @@ public class Entity implements Serializable
     }
 	public void dropAll()
 	{
-		for(int i = 0; i < inventory.getCapacity(); i++)
+		for(Item i : inventory.getItems())
 		{
-			if(inventory.get(i) != null)
-			{
-				// doAction("drop a " + inventory.get(i).name());
-				drop(i, true);
-				inventory.remove(inventory.get(i));
-			}
+			world.addAtEmptySpace(i,x,y,z);
+			doAction("drop some loot");
 		}
-		System.out.println("Equipped max : " + inventory.getEquippedMax() + " ");
-		for(int i = 0; i < inventory.getEquippedMax(); i++)
+		for(Item it : inventory.getEquipped())
 		{
-			System.out.println("Equipped max : " + inventory.getEquippedMax() + " I : " + i + " Equipped size : " + inventory.getEquipped().size());
-			if(inventory.getEquipped(i) != null)
-			{
-				// doAction("drop a " + inventory.get(i).name());
-				drop(i, false);
-			}
+			world.addAtEmptySpace(it,x,y,z);
+			doAction("drop some loot");
 		}
     }
 	public void drop(int i, boolean fromInventory)
@@ -721,7 +685,6 @@ public class Entity implements Serializable
 	{
 		return this.doorPoint;
 	}
-
 	public Point point()
 	{
 		return new Point(x, y, z);

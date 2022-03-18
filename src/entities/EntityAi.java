@@ -17,10 +17,6 @@ public class EntityAi implements Serializable
         this.entity = entity;
         this.entity.setEntityAi(this);
     }
-    public void getToCircle()
-    {
-
-    }
     public void wander()
     {
         int mx = (int)(Math.random() * 3) - 1;
@@ -35,10 +31,6 @@ public class EntityAi implements Serializable
         	return;
         else
         	entity.moveBy(mx, my, 0);
-    }
-    public void moveTowardsSaveZone()
-    {
-
     }
     public void hunt(Entity target)
     {
@@ -71,6 +63,10 @@ public class EntityAi implements Serializable
     }
 	public boolean canSee(int wx, int wy, int wz) 
 	{
+        //System.out.println("in can see entAI " + wx + " " + wy + " " + wz);
+        if(entity.z == 0)
+            //System.out.println("This entity point : " + entity.x + " " + entity.y + " " + entity.z);
+
         if (entity.z != wz)
             return false;
         if ((entity.x-wx)*(entity.x-wx) + (entity.y-wy)*(entity.y-wy) > entity.visionRadius()*entity.visionRadius())

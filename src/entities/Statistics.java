@@ -14,6 +14,10 @@ import static wolrdbuilding.Palette.r;
 public class Statistics implements Serializable
 {
 	private static final double FULL_VITALS = 1000;
+	private static final double HEAD_MAX = 300;
+	private static final double TORSO_MAX = 300;
+	private static final double ARMS_MAX = 200;
+	private static final double LEGS_MAX = 200;
 	private String name;
 	private String role;
 	
@@ -526,5 +530,24 @@ public class Statistics implements Serializable
 	public double getFullVitals()
 	{
 		return FULL_VITALS;
+	}
+
+	public double getHeadMax() {
+		return HEAD_MAX;
+	}
+	public double getTorsoMax() {
+		return TORSO_MAX;
+	}
+	public double getArmsMax() {
+		return ARMS_MAX;
+	}
+	public double getLegsMax() {
+		return LEGS_MAX;
+	}
+	public double getArms() {
+		return lHand + rHand;
+	}
+	public double getLegs() {
+		return lLeg + rLeg;
 	}
 }

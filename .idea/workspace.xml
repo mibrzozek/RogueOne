@@ -4,9 +4,12 @@
     <list default="true" id="bc747c38-cb52-4caa-a5c5-4da97bdb7363" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/EntityAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/EntityAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/KamikazeAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/KamikazeAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Statistics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Statistics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/ItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/AttackBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/AttackBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/CharacterCreationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/CharacterCreationScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/UIScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/UIScreen.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,11 +103,6 @@
           <properties class="java.lang.NullPointerException" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/entities/Entity.java</url>
-          <line>417</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

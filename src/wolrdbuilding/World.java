@@ -812,14 +812,17 @@ public class World implements Serializable
 	{
 		ItemFactory nullFactory = new ItemFactory();
 		EntityFactory nullEntityFactory = new EntityFactory(this, null);
+		entities.add(player);
 		int enemiesInMain = 15;
 		for (int z = 1; z < depth(); z++)
 		{
 			for (int i = 0; i < enemiesInMain; i++)
 			{
 				Entity ents = nullEntityFactory.newGrunt(z, player);
+				Entity ent = nullEntityFactory.newHitman(z, player);
 
 				spawnInMainRegion(ents);
+				spawnInMainRegion(ent);
 			}
 		}
 	}

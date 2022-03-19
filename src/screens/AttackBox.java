@@ -26,6 +26,7 @@ public class AttackBox extends UIScreen
 		this.bh = bh;
 		this.by = by;
 		this.enemy = (Entity)player.fov().getEntities().get(enemyIndex);
+		this.enemy.identify();
 		
 		PlayerAi  ai = (PlayerAi)player.getEntityAi();
 		
@@ -92,18 +93,18 @@ public class AttackBox extends UIScreen
 
 		terminal.write(enemy.tile().glyph(), enemy.x-ps.getLeftOffset()+ps.getPlayAreaOffset(), enemy.y - ps.getTopOffset(), Palette.white, Palette.darkRed);
 		TileEngine.renderBox(terminal, 31, 31, 0, 0, TileSet.SIMPLE, Palette.paleWhite);
-		TileEngine.renderPercentBlocksV2(terminal, 1, 1, enemy.name(), enemy.stats.getVitals(), enemy.stats.getFullVitals(), Palette.lightGreen);
-		TileEngine.renderPercentBlocksV2(terminal, 1, 2, "HEAD", enemy.stats.getHead(), enemy.stats.getHeadMax(), Palette.monoPurple);
-		TileEngine.renderPercentBlocksV2(terminal, 1, 3, "TORSO", enemy.stats.getTorso(), enemy.stats.getTorsoMax(), Palette.monoPurple);
-		TileEngine.renderPercentBlocksV2(terminal, 1, 4, "ARMS", enemy.stats.getArms(), enemy.stats.getArmsMax(), Palette.monoPurple);
-		TileEngine.renderPercentBlocksV2(terminal, 1, 5, "LEGS", enemy.stats.getLegs(), enemy.stats.getLegsMax(), Palette.monoPurple);
+		TileEngine.renderPercentBlocksV2(terminal, 1, 1, enemy.name(), enemy.stats.getVitals(), enemy.stats.getFullVitals(), Palette.pastelGreen);
+		TileEngine.renderPercentBlocksV2(terminal, 1, 2, "HEAD", enemy.stats.getHead(), enemy.stats.getHeadMax(), Palette.paperBlue);
+		TileEngine.renderPercentBlocksV2(terminal, 1, 3, "TORSO", enemy.stats.getTorso(), enemy.stats.getTorsoMax(), Palette.paperBlue);
+		TileEngine.renderPercentBlocksV2(terminal, 1, 4, "ARMS", enemy.stats.getArms(), enemy.stats.getArmsMax(), Palette.paperBlue);
+		TileEngine.renderPercentBlocksV2(terminal, 1, 5, "LEGS", enemy.stats.getLegs(), enemy.stats.getLegsMax(), Palette.paperBlue);
 
 
-		TileEngine.renderDisplayPlate(terminal, 1, 6, 29, "Equipment", true, Palette.red, Palette.lightGray);
+		TileEngine.renderDisplayPlate(terminal, 1, 6, 29, "Equipment", true, Palette.monoRed, Palette.lightGray);
 		int wy = 7;
 		for(Item i : enemy.inventory().getEquipped())
 		{
-			TileEngine.renderDisplayPlate(terminal, 1, wy++, 29, i.name(), false, Palette.paleWhite, Palette.red);
+			TileEngine.renderDisplayPlate(terminal, 1, wy++, 29, i.name(), false, Palette.paleWhite, Palette.monoRed);
 		}
 	}
 	@Override

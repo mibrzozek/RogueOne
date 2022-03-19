@@ -50,6 +50,7 @@ public class Entity implements Serializable
     private boolean equiped = false;
     private boolean tradeMode = false;
 	private boolean dead = false;
+	private boolean identified = false;
     // Stats
     public Statistics stats;
 
@@ -105,7 +106,15 @@ public class Entity implements Serializable
     
     public Direction getCardinal()	{ return cardinal;	}
    
-    public Tile tile()				{ return tile;	}
+    public Tile tile()
+	{
+
+		if(identified)
+			return tile;
+		else
+			return Tile.UNIDENTIFIED;
+
+	}
     public String name() 			{ return stats.getName(); }
     public Inventory inventory()	{ return inventory; }
     public EntityAi getEntityAi() 	{ return ai; }
@@ -118,11 +127,23 @@ public class Entity implements Serializable
     									else return null;
     								}
 	public Script getScript() 		{ return script; }
-   
-    
-	public Tile tile(int wx, int wy, int wz) 
+
+	public Tile tile(int wx, int wy, int wz)
 	{
 		return world.tile(wx, wy, wz).getTile();
+
+		/*
+		if(identified)
+		{
+			return world.tile(wx, wy, wz).getTile();
+		}
+		else
+		{
+			System.out.println("returning unID");
+			return Tile.UNIDENTIFIED;
+		}
+
+		 */
 	}
 	public boolean isLookingAtStructure(int wx, int wy, int wz)
 	{
@@ -688,5 +709,9 @@ public class Entity implements Serializable
 	public Point point()
 	{
 		return new Point(x, y, z);
+	}
+	public void identify()
+	{
+		identified = true;
 	}
 }

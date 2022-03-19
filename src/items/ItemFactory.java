@@ -1,12 +1,14 @@
 package items;
 
-import wolrdbuilding.Palette;
-import wolrdbuilding.World;
-
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import asciiPanel.AsciiPanel;
+import wolrdbuilding.Palette;
+import wolrdbuilding.World;
 
 public class ItemFactory implements Serializable
 {
@@ -34,6 +36,8 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newHeavyHelmet());
+		itemList.add(newAdvancedHelmet());
 		itemList.add(newBasicHelmet());
 		itemList.add(newKevlarTorso());
 		itemList.add(newAluSplint());
@@ -904,11 +908,33 @@ public class ItemFactory implements Serializable
 	{
 		Item basicHelmet = new Item((char)19, Palette.gray, Type.HEAD,
 				"Shell Helmet", 
-				"Standard issue helemt. Can stop a low caliber round sometimes.",
+				"Standard issue helmet. Can stop a low caliber round sometimes.",
 				200,
 				Item.Rarity.COMMON);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), basicHelmet);
 		return basicHelmet;
+	}
+	public Item newAdvancedHelmet()
+	{
+		Item advancedHelmet = new Item((char)19, Palette.gray, Type.HEAD,
+				"Rugged Helmet", 
+				"Advanced helmet. Can stop low to mid caliber rounds.",
+				400,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), advancedHelmet);
+		return advancedHelmet;
+	}
+	public Item newHeavyHelmet()
+	{
+		Item heavyHelmet = new Item((char)19, Palette.gray, Type.HEAD,
+				"Altyn", 
+				"Extremely armored helmet. Contains small eye holes to look through.",
+				600,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), heavyHelmet);
+		return heavyHelmet;
 	}
 }

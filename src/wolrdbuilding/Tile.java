@@ -21,8 +21,6 @@ public enum Tile
     BOUNDS('X', Palette.black),
     CURSOR('x', Palette.purple),
 
-
-
     // Earth Tiles
     GRASS_0('.', Palette.green, Palette.darkGreen),
     GRASS_1(',', Palette.green, Palette.darkGreen),
@@ -74,11 +72,7 @@ public enum Tile
     WATER((char) 176, Palette.blue),
 
     STEAM((char)46, Palette.paleWhite),
-    
-    
-
     /*  STRUCTURES
-
         The following tiles are to always be displayed
         These are the primary building components for
         all the structures in the game
@@ -101,10 +95,8 @@ public enum Tile
 
     CARROT_UP_ARROW((char)94, Color.RED, true),
     DOUBLE_RIGHT_ARROW((char)175, Palette.purple, true),
-    
-    
+
     // Fire
-    
     FIRE_ONE((char)34, Palette.yellow),
     FIRE_TWO((char)39, Palette.lightRed),
     FIRE_THREE((char)157, Palette.darkRed),
@@ -114,7 +106,6 @@ public enum Tile
     BURNED_FLOOR_2((char)177, Palette.darkerGray),
     BURNED_FLOOR_3((char)178, Palette.darkerGray),
     BURNED_FLOOR_4((char)250, Palette.darkestGray),
-
 
     // SIMPLE TO DOUBLE
     S2D183((char)183, Color.WHITE, true),
@@ -126,9 +117,7 @@ public enum Tile
     S2D213((char)213, Color.WHITE, true),
     S2D214((char)214, Color.WHITE, true),
 
-
     // SIMPLE
-
     simpleLRWS((char)179, Color.WHITE, true),
     simpleLRW_L_KNOB((char)180, Color.WHITE, true),
     simpleLRW_L_DBL_KNOB((char)181, Color.WHITE, true),
@@ -163,7 +152,6 @@ public enum Tile
     dblT_W_FLAT_TOP((char)210, Palette.paleWhite, true),
     dblLRW_DOUBLE_KNOB((char)215, Palette.paleWhite, true),
     dblTBW_DOUBLE_KNOB((char)216, Palette.paleWhite, true),
-
 
     // Room material
     dblTLC((char)201, Palette.paleWhite),
@@ -209,11 +197,11 @@ public enum Tile
 
 	
 	// COMBUSTABLE TILES
-	
     METHANE('m',Palette.methane, Palette.darkestGray),
     STASH((char)1,Palette.darkYellow),
     MED_STASH((char)43,Palette.lightGreen),
-    RED_STASH((char)6,Palette.red);
+    RED_STASH((char)6,Palette.red),
+    UNIDENTIFIED((char)63, Palette.blue, Palette.darkGray);
 	
 	private boolean swapable;
 	public Random r =  new Random();

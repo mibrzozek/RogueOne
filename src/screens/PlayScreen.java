@@ -185,8 +185,9 @@ public class PlayScreen implements Screen
 
 				if(i != null)
 					glyph = i.glyph();
-				if(e != null)
+				if(e != null) {
 					glyph = e.tile().glyph();
+				}
 
 	            if(player.canSee(wx, wy, player.z))
 	            {

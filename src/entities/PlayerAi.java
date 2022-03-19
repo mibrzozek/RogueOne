@@ -25,6 +25,7 @@ public class PlayerAi extends EntityAi
     {
     	super(entity);
     	this.entity.setVisionRadius(6);
+		this.entity.identify();
     	this.messages = messages;
     	this.fov = fov;
     	attacks = new ArrayList<String>();

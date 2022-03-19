@@ -6,8 +6,6 @@ import wolrdbuilding.Tile;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-
 public class EntityAi implements Serializable
 {
 	protected Entity entity;

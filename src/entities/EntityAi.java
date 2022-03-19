@@ -14,6 +14,8 @@ public class EntityAi implements Serializable
     {
         this.entity = entity;
         this.entity.setEntityAi(this);
+
+        this.entity.setVisionRadius(5);
     }
     public void wander()
     {
@@ -49,7 +51,6 @@ public class EntityAi implements Serializable
     { 
     	if (tile != null && tile.isGround())
         {
-    		
         	entity.x = x;
         	entity.y = y;
         	entity.z = z;
@@ -61,19 +62,26 @@ public class EntityAi implements Serializable
     }
 	public boolean canSee(int wx, int wy, int wz) 
 	{
-        //System.out.println("in can see entAI " + wx + " " + wy + " " + wz);
+        //System.out.println("\tentAI, player coordinates : " + wx + " " + wy + " " + wz);
+        //System.out.println("\tenemy coordinates : " + entity.point());
+
         if(entity.z == 0)
             //System.out.println("This entity point : " + entity.x + " " + entity.y + " " + entity.z);
 
-        if (entity.z != wz)
+        if (entity.z != wz) // if this entity and player are not on the same level
             return false;
         if ((entity.x-wx)*(entity.x-wx) + (entity.y-wy)*(entity.y-wy) > entity.visionRadius()*entity.visionRadius())
+        {
+            //System.out.println("\t\t Returning because entity not in vision radius");
+            //System.out.println("\t\t Entity radius : " + entity.visionRadius());
+
             return false;
+        }
         for (Point p : new Line(entity.x, entity.y, wx, wy))
         {
             if (entity.tile(p.x, p.y, wz).isGround() || entity.tile(p.x, p.y, wz).isStructure() || p.x == wx && p.y == wy)
                 continue;
-        
+
             return false;
         }
         return true;

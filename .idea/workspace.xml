@@ -6,12 +6,9 @@
       <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/EntityAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/EntityAi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/KamikazeAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/KamikazeAi.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/PlayerAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/PlayerAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/PathFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/PathFinder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/ItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/AttackBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/AttackBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/PlayScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/PlayScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/World.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/LootTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/LootTable.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +48,7 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../RogueMakeItems" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />

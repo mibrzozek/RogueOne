@@ -131,19 +131,6 @@ public class Entity implements Serializable
 	public Tile tile(int wx, int wy, int wz)
 	{
 		return world.tile(wx, wy, wz).getTile();
-
-		/*
-		if(identified)
-		{
-			return world.tile(wx, wy, wz).getTile();
-		}
-		else
-		{
-			System.out.println("returning unID");
-			return Tile.UNIDENTIFIED;
-		}
-
-		 */
 	}
 	public boolean isLookingAtStructure(int wx, int wy, int wz)
 	{
@@ -311,7 +298,7 @@ public class Entity implements Serializable
 					//target.modifyHp(i.value());
 				}
 			}
-			System.out.println("Using weapon");
+			//System.out.println("Using weapon");
     }
     // Attacking, modifying HP, messages
     public void attack(Entity other)
@@ -332,11 +319,6 @@ public class Entity implements Serializable
 			other.dealDamage(-amount);
 		}
     }
-    public void testMethod()
-    {
-    	System.out.println("testing");
-    }
-    
     public void dealDamage(double amount)
     {
     	double damage = amount;
@@ -413,9 +395,7 @@ public class Entity implements Serializable
     		else
     			stats.setrLeg(stats.getrLeg() + damage);
     	}
-    	
     	System.out.println(damage + " damage is dealt to the " + slot.toString());
-    	
     }
     public void notify(String message, Object ... params)
     {
@@ -450,7 +430,7 @@ public class Entity implements Serializable
     	words[0] = words[0] + "s";
             
         StringBuilder builder = new StringBuilder();
-        for (String word : words)
+        for(String word : words)
         {
         	builder.append(" ");
         	builder.append(word);
@@ -472,7 +452,7 @@ public class Entity implements Serializable
 			doAction("dies");
 			world.remove(this);
 
-			System.out.println("Updating world and removing dead entitiy");
+			//System.out.println("Updating world and removing dead entitiy");
 		}
     }
 	public void dig(int wx, int wy, int wz) 

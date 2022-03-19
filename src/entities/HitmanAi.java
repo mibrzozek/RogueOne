@@ -37,6 +37,8 @@ public class HitmanAi extends EntityAi
   {
       List<Point> points = new Path(entity, target.x, target.y).points();
 
+      if(points ==  null)
+          return;
       if(points.isEmpty())
           return;
 

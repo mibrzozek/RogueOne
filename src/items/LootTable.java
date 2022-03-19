@@ -11,16 +11,44 @@ public class LootTable
     List<Item> greenRoomItems;
     List<Item> redRoomItems;
     List<Item> goldRoomItems;
+    List<Item> armorItems;
 
     public LootTable()
     {
         greenRoomItems =  new ArrayList<>();
         redRoomItems =  new ArrayList<>();
         goldRoomItems =  new ArrayList<>();
+        armorItems = new ArrayList<>();
+
         r = new Random();
         itemFactory = new ItemFactory();
 
         initRoomLists();
+        initArmorLists();
+    }
+    private void initArmorLists()
+    {
+        armorItems.add(itemFactory.newBasicHelmet());
+        armorItems.add(itemFactory.newBasicHelmetII());
+        armorItems.add(itemFactory.newHelmet3());
+        armorItems.add(itemFactory.newHeavyHelmet());
+        armorItems.add(itemFactory.newAdvancedHelmet());
+        armorItems.add(itemFactory.newHelmet2());
+
+        armorItems.add(itemFactory.newBasicTorso());
+        armorItems.add(itemFactory.newCeramicTorso());
+        armorItems.add(itemFactory.newKevlarTorso());
+        armorItems.add(itemFactory.newHybridTorso());
+
+        armorItems.add(itemFactory.newHybridPants());
+        armorItems.add(itemFactory.newKevlarPants());
+        armorItems.add(itemFactory.newArmorPants());
+        armorItems.add(itemFactory.newAdvancedPants());
+
+        armorItems.add(itemFactory.newLeatherSleeves());
+        armorItems.add(itemFactory.newKevlarSleeves());
+        armorItems.add(itemFactory.newArmorSleeves());
+        armorItems.add(itemFactory.newArmorSleevesTwo());
     }
     public void initRoomLists()
     {
@@ -62,5 +90,6 @@ public class LootTable
     {
         return goldRoomItems.get(r.nextInt(goldRoomItems.size()));
     }
+    public Item getArmorItem() { return armorItems.get(r.nextInt(armorItems.size())); }
 
 }

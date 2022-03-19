@@ -1,14 +1,12 @@
 package items;
 
-import java.awt.Color;
+import wolrdbuilding.Palette;
+import wolrdbuilding.World;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import asciiPanel.AsciiPanel;
-import wolrdbuilding.Palette;
-import wolrdbuilding.World;
 
 public class ItemFactory implements Serializable
 {
@@ -36,6 +34,18 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newAdvancedPants());
+		itemList.add(newHybridPants());
+		itemList.add(newKevlarPants());
+		itemList.add(newArmorPants());
+		itemList.add(newArmorSleevesTwo());
+		itemList.add(newArmorSleeves());
+		itemList.add(newKevlarSleeves());
+		itemList.add(newLeatherSleeves());
+		itemList.add(newBasicHelmetII());
+		itemList.add(newBasicTorso());
+		itemList.add(newHybridTorso());
+		itemList.add(newCeramicTorso());
 		itemList.add(newHeavyHelmet());
 		itemList.add(newAdvancedHelmet());
 		itemList.add(newBasicHelmet());
@@ -932,9 +942,141 @@ public class ItemFactory implements Serializable
 				"Altyn", 
 				"Extremely armored helmet. Contains small eye holes to look through.",
 				600,
-				Item.Rarity.COMMON);
+				Item.Rarity.RARE);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), heavyHelmet);
 		return heavyHelmet;
+	}
+	public Item newCeramicTorso()
+	{
+		Item ceramicTorso = new Item((char)19, Palette.gray, Type.TORSO,
+				"Ceramic Body Armor", 
+				"Full coverage ceramic body armor",
+				400,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), ceramicTorso);
+		return ceramicTorso;
+	}
+	public Item newHybridTorso()
+	{
+		Item hybridTorso = new Item((char)19, Palette.gray, Type.TORSO,
+				"Hybrid Body Armor", 
+				"Fll coverage synthetic and ceramic body armor with comfy fleece lining.",
+				600,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), hybridTorso);
+		return hybridTorso;
+	}
+	public Item newBasicTorso()
+	{
+		Item basicTorso = new Item((char)19, Palette.gray, Type.TORSO,
+				"Armored Shirt", 
+				"A cotton shirt with some armored parts. Synthetic bullet stopping armor that sometimes works.",
+				100,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), basicTorso);
+		return basicTorso;
+	}
+	public Item newBasicHelmetII()
+	{
+		Item basicHelmetII = new Item((char)19, Palette.gray, Type.HEAD,
+				"Tough Beanie", 
+				"A comfy beanie, with armor pieces. It'll help from random things falling on your head.",
+				100,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), basicHelmetII);
+		return basicHelmetII;
+	}
+	public Item newLeatherSleeves()
+	{
+		Item leatherSleeves = new Item((char)19, Palette.gray, Type.ARMS,
+				"Leather Sleeves", 
+				"Leather sleeves that will keep you warm and block some damage",
+				100,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), leatherSleeves);
+		return leatherSleeves;
+	}
+	public Item newKevlarSleeves()
+	{
+		Item kevlarSleeves = new Item((char)19, Palette.gray, Type.ARMS,
+				"Kevlar Sleeves", 
+				"Kevlar sleeves that will stop a bullet sometimes",
+				200,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), kevlarSleeves);
+		return kevlarSleeves;
+	}
+	public Item newArmorSleeves()
+	{
+		Item armorSleeves = new Item((char)19, Palette.gray, Type.ARMS,
+				"Armor Sleeves", 
+				"Armor sleeves that will do a decent job of protecting your hands",
+				400,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), armorSleeves);
+		return armorSleeves;
+	}
+	public Item newArmorSleevesTwo()
+	{
+		Item armorSleevesTwo = new Item((char)19, Palette.gray, Type.ARMS,
+				"Advanced Sleeves", 
+				"Armor sleeves with advanced features that give you strength and will block most bullets",
+				600,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), armorSleevesTwo);
+		return armorSleevesTwo;
+	}
+	public Item newArmorPants()
+	{
+		Item armorPants = new Item((char)19, Palette.gray, Type.LEGS,
+				"Shielded Pants", 
+				"Comfy pants with synthetic armor patches, mostly around the groin",
+				100,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), armorPants);
+		return armorPants;
+	}
+	public Item newKevlarPants()
+	{
+		Item kevlarPants = new Item((char)19, Palette.gray, Type.LEGS,
+				"Kevlar Pants", 
+				"Less comfy pants with kevlar armor patches, mostly around the groin and knees.",
+				200,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), kevlarPants);
+		return kevlarPants;
+	}
+	public Item newHybridPants()
+	{
+		Item hybridPants = new Item((char)19, Palette.gray, Type.LEGS,
+				"Hybrid Armor Pants", 
+				"Rigid pants that have near full protection from melee and projectiles. Kevlar and synthetic armor material with rugged knee pads.",
+				400,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), hybridPants);
+		return hybridPants;
+	}
+	public Item newAdvancedPants()
+	{
+		Item advancedPants = new Item((char)19, Palette.gray, Type.LEGS,
+				"Advanced Marine Pants", 
+				"Advanced pants with nano tech that increases your legs speed and strength and provides the best armor coverage",
+				600,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), advancedPants);
+		return advancedPants;
 	}
 }

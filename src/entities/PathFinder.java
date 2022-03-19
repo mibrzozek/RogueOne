@@ -1,11 +1,11 @@
 package entities;
 
 
+import wolrdbuilding.Point;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-
-import wolrdbuilding.Point;
 
 public class PathFinder 
 {
@@ -82,7 +82,6 @@ public class PathFinder
             }
             return closest;
         }
-
         private void checkNeighbors(Entity entity, Point end, Point closest) 
         {
             for (Point neighbor : closest.neighbors8()) 
@@ -98,13 +97,11 @@ public class PathFinder
                     reParentNeighbor(closest, neighbor);
             }
         }
-
         private void reParentNeighbor(Point closest, Point neighbor) 
         {
             reParent(neighbor, closest);
             open.add(neighbor);
         }
-
         private void reParentNeighborIfNecessary(Point closest, Point neighbor) 
         {
             Point originalParent = parents.get(neighbor);
@@ -117,7 +114,6 @@ public class PathFinder
             else
                 reParent(neighbor, originalParent);
         }
-
         private ArrayList<Point> createPath(Point start, Point end) 
         {
             ArrayList<Point> path = new ArrayList<Point>();

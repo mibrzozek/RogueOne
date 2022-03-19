@@ -11,6 +11,7 @@ public class KamikazeAi extends HitmanAi
         super(entity, player);
         this.entity = entity;
         this.player = player;
+        this.entity.setVisionRadius(10);
 
         ItemFactory iF = new ItemFactory(null);
         entity.inventory().clear();

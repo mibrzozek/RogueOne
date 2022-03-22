@@ -482,9 +482,12 @@ public enum Tile
     {
 
     }
-
     public boolean isStash()
     {
         return this == Tile.STASH || this == Tile.RED_STASH || this == Tile.MED_STASH;
+    }
+    public boolean isEntity()
+    {
+        return this == Tile.GRUNT || this == Tile.PLAYER || this == Tile.HITMAN;
     }
 }

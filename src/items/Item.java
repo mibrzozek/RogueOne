@@ -9,6 +9,15 @@ import java.io.Serializable;
 
 public class Item implements Serializable
 {
+    public boolean isProjectileWeapon()
+    {
+        if(this.type == Type.RANGED || this.type == Type.GUN)
+        {
+            return true;
+        }
+        else
+            return false;
+    }
     public enum Rarity
     {
         COMMON(),

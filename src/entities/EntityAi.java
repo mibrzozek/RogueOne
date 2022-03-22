@@ -40,7 +40,6 @@ public class EntityAi implements Serializable
 
             if(points != null)
             {
-
                 int mx = points.get(0).x - entity.x;
                 int my = points.get(0).y - entity.y;
                 entity.moveBy(mx, my, 0);
@@ -54,7 +53,11 @@ public class EntityAi implements Serializable
         	entity.x = x;
         	entity.y = y;
         	entity.z = z;
-        } 
+        }
+        else if(tile.isEntity())
+        {
+            System.out.println("Melee damage code here");
+        }
     	else 
         {
         	entity.doAction("bump into a wall");

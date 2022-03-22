@@ -289,13 +289,12 @@ public class Entity implements Serializable
 				{
 					Item i = new ItemFactory().newRustyKnife();
 
-					System.out.println("Stabbing with rusty");
 					if(!target.stats.getEffects().contains("Tetnis"));
 					{
-						target.stats.addEffect(new Effect(Effect.Effects.TETNIS, "Tetnis", Palette.red));
-						System.out.println("No tetnis");
+						//target.stats.addEffect(new Effect(Effect.Effects.TETNIS, "Tetnis", Palette.red));
 					}
-					//target.modifyHp(i.value());
+					target.dealDamage(-i.value());
+					target.notify("You're getting stabbed with a rusty knife..");
 				}
 			}
 			//System.out.println("Using weapon");
@@ -401,7 +400,6 @@ public class Entity implements Serializable
     {
         ai.onNotify(String.format(message, params));
     }
-    
 	public void doAction(String message, Object ... params)
 	{
 		int r = 6;
@@ -446,13 +444,12 @@ public class Entity implements Serializable
     public void update()
     {
         ai.onUpdate();
+
 		if(stats.isDead())
 		{
 			dropAll();
 			doAction("dies");
 			world.remove(this);
-
-			//System.out.println("Updating world and removing dead entitiy");
 		}
     }
 	public void dig(int wx, int wy, int wz) 
@@ -527,7 +524,6 @@ public class Entity implements Serializable
 		//Point p =  new Point(x+mx, y+my, z+mz);
 		TileV tile = world.tile(x+mx, y+my, z+mz);
 
-
 		if (mz == -1)
 		{
 			if (tile.getTile() == Tile.STAIRS_DOWN)
@@ -555,8 +551,11 @@ public class Entity implements Serializable
 		
 		Entity other = world.entity(x+mx, y+my, z+mz);
 		Item item = world.item(x+mx, y+my, z+mz);
-		
-		if (other == null)
+		if(other != null)
+		{
+			useWeapon(other);
+		}
+		else
 		{	
 			if(item != null
 					&& item.type() == Type.APLASMA
@@ -571,7 +570,6 @@ public class Entity implements Serializable
 				world.remove(x+mx, y+my, z+mz);
 			}
 			ai.onEnter(x+mx, y+my, z+mz, tile.getTile());
-			
 		}
 	}
 	public void setShowUI(boolean b)
@@ -582,7 +580,6 @@ public class Entity implements Serializable
 	{
 		return showUI;
 	}
-
 	public void pickup()
 	{
         Item item = world.item(x, y, z);

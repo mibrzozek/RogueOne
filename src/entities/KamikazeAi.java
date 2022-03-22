@@ -22,7 +22,7 @@ public class KamikazeAi extends HitmanAi
         entity.inventory().add(iF.newRustyKnife());
         entity.inventory().add(iF.newClearanceRed());
 
-        entity.inventory().equipAll(iF.newKevlarTorso(), iF.newBasicHelmet());
+        entity.inventory().equipAll(iF.newKevlarTorso(), iF.newBasicHelmet(), iF.newRustyKnife());
     }
     @Override
     public void onUpdate()

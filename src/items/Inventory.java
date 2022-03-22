@@ -47,7 +47,20 @@ public class Inventory implements Serializable
 		return null;
 	}
 
-	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
+    public boolean hasProjectileWeapon()
+	{
+		boolean truth = false;
+		for(Item i : equipped)
+		{
+			if(i.isProjectileWeapon())
+			{
+				truth = true;
+			}
+		}
+		return truth;
+    }
+
+    public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
 
 	private Item[] equiped;
     private Item[] items;

@@ -32,7 +32,6 @@ public class HitmanAi extends EntityAi
       else
           wander();
   }
-  
   public void hunt(Entity target)
   {
       List<Point> points = new Path(entity, target.x, target.y).points();
@@ -65,7 +64,10 @@ public class HitmanAi extends EntityAi
       else if(mx > 0 || my < 0)
     	  entity.setDirection(5);
 
-      entity.useWeapon(target);
+      System.out.println("in hitman hunt : we didn't return ");
+      if(entity.inventory().hasProjectileWeapon())
+          entity.useWeapon(target);
+
       entity.moveBy(mx, my, 0);
   }
 }

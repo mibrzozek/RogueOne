@@ -62,19 +62,10 @@ public class EntityAi implements Serializable
     }
 	public boolean canSee(int wx, int wy, int wz) 
 	{
-        //System.out.println("\tentAI, player coordinates : " + wx + " " + wy + " " + wz);
-        //System.out.println("\tenemy coordinates : " + entity.point());
-
-        if(entity.z == 0)
-            //System.out.println("This entity point : " + entity.x + " " + entity.y + " " + entity.z);
-
         if (entity.z != wz) // if this entity and player are not on the same level
             return false;
         if ((entity.x-wx)*(entity.x-wx) + (entity.y-wy)*(entity.y-wy) > entity.visionRadius()*entity.visionRadius())
         {
-            //System.out.println("\t\t Returning because entity not in vision radius");
-            //System.out.println("\t\t Entity radius : " + entity.visionRadius());
-
             return false;
         }
         for (Point p : new Line(entity.x, entity.y, wx, wy))

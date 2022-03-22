@@ -111,8 +111,9 @@ public class AttackBox extends UIScreen
 	public void update()
 	{
 		if(inputNumber < player.fov().getEntities().size())
-			this.enemy = (Entity)player.fov().getEntities().get(inputNumber);
-
-		System.out.println(inputNumber);
+		{
+			this.enemy = (Entity) player.fov().getEntities().get(inputNumber);
+			this.enemy.identify();
+		}
 	}
 }

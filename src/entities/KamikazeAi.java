@@ -30,12 +30,9 @@ public class KamikazeAi extends HitmanAi
         if (Math.random() < 0.2)
             return;
 
-        System.out.println("Can see ? " + entity.canSee(player.x, player.y, player.z) + " Stealth : " + player.getStealth());
-
         if (entity.canSee(player.x, player.y, player.z) && player.getStealth() < 100)
         {
             hunt(player);
-            //System.out.println("Enemy is hunting");
         }
         else
         {

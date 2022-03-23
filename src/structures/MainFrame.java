@@ -137,18 +137,6 @@ public class MainFrame extends JFrame implements KeyListener
 		{
 			setFullScreen();
 		}
-		else if(res.equals(Resolution.R_720))
-		{
-			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-			this.setLocation(0, 0);
-			this.setSize(1280,720 );
-
-			this.screenWidth = 80;
-			this.screenHeight = 43;
-
-			this.displayWidth = 80;
-			this.displayHeight = 31;
-		}
 		else if(res.equals(Resolution.R_SQUARE))
 		{
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();

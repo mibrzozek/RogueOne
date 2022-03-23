@@ -19,7 +19,7 @@ public class LaunchFrame extends JFrame implements KeyListener
 
     public LaunchFrame()
     {
-        super("Rogue Royale Launcher");
+        super("Pick resolution");
 
         this.setResizable(false);
         this.setSize(300, 300);

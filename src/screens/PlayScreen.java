@@ -22,6 +22,7 @@ import java.util.Random;
 
 public class PlayScreen implements Screen
 {
+	private static final String WINNING_ITEM = "Rifle";
 	private MainFrame main;
 
 	private Color fore = Theme.PASTEL.getFore();
@@ -292,11 +293,18 @@ public class PlayScreen implements Screen
     }
     private Screen userExits()
     {
+		System.out.println("User is exiting");
         for (Item item : player.inventory().getItems())
         {
-            if (item != null && item.name().equals("Quiver"))
+            if (item != null && item.name().equals(WINNING_ITEM))
                 return new WinScreen(terminal, main, player, world);
         }
+		for (Item item : player.inventory().getEquipped())
+		{
+			if (item != null && item.name().equals(WINNING_ITEM))
+				return new WinScreen(terminal, main, player, world);
+		}
+
         return new LoseScreen(terminal, world, main);
     }
     public void saveGame()

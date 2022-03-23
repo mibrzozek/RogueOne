@@ -500,7 +500,7 @@ public class Dungeon
 	{
 		randomizeFloor();
 
-		randomStamping();
+		randomStamping(); // main region created?
 		smooth();
 		createRegions();
 
@@ -513,6 +513,7 @@ public class Dungeon
 		makeLockedRooms();
 		calculateRoomClearance();
 
+		makeStairsDown();
 		makeStairsDown();
 		addExitStairs();
 		//makeLaserTraps();
@@ -1447,6 +1448,36 @@ public class Dungeon
 	{
 		for(int i = 0; i < depth; i++)
 		{
+			int count = 0;
+			boolean found = false;
+			do
+			{
+				Point p;
+				do {
+					p = mainRegionPoints.get(r.nextInt(mainRegionPoints.size()));
+				}while (p.z != i);
+
+				if(tiles[p.x][p.y][p.z].isGround()
+						&& p.z + 1 < depth // not bottom floor
+						&& mainRegionPoints.contains(new Point(p.x, p.y, p.z +1))
+						&& tiles[p.x][p.y][p.z+1].isGround()) // point below is in main region
+				{
+					tiles[p.x][p.y][p.z].setTile(Tile.STAIRS_DOWN);
+					tiles[p.x][p.y][p.z + 1].setTile(Tile.STAIRS_UP);
+
+					stairPoints.add(p);
+					stairPoints.add(new Point(p.x, p.y,p.z + 1));
+
+					found = true;
+					System.out.println(p.toString() +  " this is where the stairs are!");
+				}
+				count++;
+
+			} while (found == false && count < 100);
+		}
+		/*
+		for(int i = 0; i < depth; i++)
+		{
 			//System.out.println("This is the depth " +  depth);
 
 			int count = 0;
@@ -1472,6 +1503,8 @@ public class Dungeon
 				count++;
 			} while (found == false && count < 100);
 		}
+
+		 */
 	}
 	private void createRegions()
 	{
@@ -1601,7 +1634,7 @@ public class Dungeon
     
         tiles[x][y][depth-1].setTile(Tile.STAIRS_EXIT);
 
-        //System.out.println("Added exit " + x + " " +  y + " " + (depth -1) + " ");
+        System.out.println("Added exit " + x + " " +  y + " " + (depth -1) + " ");
 
     }
 	public void fillDungeonWithWall(TileSet set)

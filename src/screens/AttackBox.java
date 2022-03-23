@@ -3,6 +3,7 @@ package screens;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import entities.PlayerAi;
+import entities.Taunts;
 import items.Item;
 import items.ItemFactory;
 import items.Type;
@@ -16,6 +17,7 @@ public class AttackBox extends UIScreen
 {
 	private Entity enemy;
 	private int numEnemies, bhEnemyDescription;
+	private Taunts taunts;
 	
 	public AttackBox(Entity player, int bw, int bh, int bx, int by, int enemyIndex, PlayScreen ps, JFrame main)
 	{
@@ -30,7 +32,8 @@ public class AttackBox extends UIScreen
 		this.enemy.identify();
 		this.numEnemies = player.fov().getEntities().size();
 		this.bhEnemyDescription = ps.getDisplayHeight() - ((numEnemies * 3) + 1);
-		
+		this.taunts = new Taunts();
+
 		PlayerAi  ai = (PlayerAi)player.getEntityAi();
 		
 		setList(ai.getAttacks());
@@ -84,6 +87,32 @@ public class AttackBox extends UIScreen
 			}
 			ps.updateWorld();
 		}
+		else if(itemList.get(index).equals("Taunt"))
+		{
+			System.out.println("Should be taunting");
+
+			if(player.stats.getIntelligence() < 5)
+			{
+				player.notify(taunts.getBasicTaunt());
+				enemy.taunt();
+			}
+			else if(player.stats.getIntelligence() < 10 && player.stats.getIntelligence() > 5)
+			{
+				player.notify(taunts.getFunnyTaunt());
+				enemy.taunt();
+			}
+			else if(player.stats.getIntelligence() < 15 && player.stats.getIntelligence() > 10)
+			{
+				player.notify(taunts.getAdvancedTaunt());
+				enemy.taunt();
+			}
+			else if(player.stats.getIntelligence() < 20 && player.stats.getIntelligence() > 15)
+			{
+				player.notify(taunts.getHilariousTaunt());
+				enemy.taunt();
+			}
+			ps.updateWorld();
+		}
 	}
 	@Override
 	public void render(AsciiPanel terminal)
@@ -111,6 +140,7 @@ public class AttackBox extends UIScreen
 		{
 			TileEngine.renderDisplayPlate(terminal, 1, wy++, 29, i.name(), false, Palette.paleWhite, Palette.monoRed);
 		}
+
 	}
 	@Override
 	public void update()

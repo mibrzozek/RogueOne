@@ -699,4 +699,10 @@ public class Entity implements Serializable
 	{
 		return identified;
 	}
+
+	public void taunt()
+	{
+		System.out.print("Taunting code goes here");
+		stats.addEffect(new Effect(Effect.Effects.PISSED, "Pissed", Palette.pastelOrange));
+	}
 }

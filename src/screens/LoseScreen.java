@@ -1,11 +1,5 @@
 package screens;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
-
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import structures.MainFrame;
@@ -16,6 +10,9 @@ import wolrdbuilding.TileSet;
 import wolrdbuilding.World;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class LoseScreen implements Screen 
 {
@@ -68,7 +65,7 @@ public class LoseScreen implements Screen
 		}
 		int mid  =41, rAlign = 29;
 		String ts = "";
-		terminal.write(ts = "YOU ARE DEAD", mid - (ts.length()/2), 16, Palette.perfectBlue);
+		terminal.write(ts = "You are no longer alive", mid - (ts.length()/2), 16, Palette.perfectBlue);
 
 		if(w != null)
 		{

@@ -59,7 +59,9 @@ public class PlayScreen implements Screen
     private World.Map map;
 
     private transient AsciiPanel terminal;
-    /**
+	private int displayHeight, displayWidth;
+
+	/**
      * This screen is responsible for keeping track of all objects related to playing the game. 
      * The PlayScreen is the only objects which needs to be saved and loaded, making the saving
      * system easier to implement than expected.
@@ -90,6 +92,9 @@ public class PlayScreen implements Screen
     {
         screenWidth = main.getScreenWidth();
         screenHeight = main.getScreenHeight();
+		displayHeight = main.getDisplayHeight();
+		displayWidth = main.getDisplayWidth();
+
 		playAreaOffset = 0;
 
         this.main = main;
@@ -604,5 +609,15 @@ public class PlayScreen implements Screen
 	public int getPlayAreaOffset()
 	{
 		return playAreaOffset;
+	}
+
+	public int getScreenHeight()
+	{
+		return screenHeight;
+	}
+
+	public int getDisplayHeight()
+	{
+		return displayHeight;
 	}
 }

@@ -58,7 +58,6 @@ public class MainFrame extends JFrame implements KeyListener
 
 		// Starts app in center of screen
 		setResolution(r);
-
 		t = Theme.MIDNIGHT_PURPLE;
 
 		terminal = new AsciiPanel(screenWidth, screenHeight, AsciiFont.CP437_16x16);

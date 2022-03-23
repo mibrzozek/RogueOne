@@ -817,6 +817,10 @@ public class TileEngine
 			TileEngine.renderDisplayPlate(terminal, ex+4, ey+2, 4, (int)e.inventory().getTypeDuration(Type.GUN) + "", true, Palette.morePaleWhite, Palette.monoRed);
 			TileEngine.renderDisplayPlate(terminal, ex+4+4, ey+2, 4, (int)e.inventory().getTypeDuration(Type.MELEE) + "", true, Palette.morePaleWhite, Palette.monoGrayTeal);
 			TileEngine.renderDisplayPlate(terminal, ex+4+8, ey+2, 4, (int)e.inventory().getTypeDuration(Type.ARMOR) + "", true, Palette.morePaleWhite, Palette.darkerGray);
+			String id = "?";
+			if(e.isIdentified())
+				id = e.getCreed();
+			TileEngine.renderDisplayPlate(terminal, ex+4+12, ey+2, 14, id, true,  Palette.morePaleWhite, Palette.lightRed);
 
 			ey += offset -1;
 		}

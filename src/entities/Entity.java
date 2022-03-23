@@ -691,4 +691,12 @@ public class Entity implements Serializable
 	{
 		identified = true;
 	}
+	public String getCreed()
+	{
+		return tile.name();
+	}
+	public boolean isIdentified()
+	{
+		return identified;
+	}
 }

@@ -201,7 +201,11 @@ public enum Tile
     STASH((char)1,Palette.darkYellow),
     MED_STASH((char)43,Palette.lightGreen),
     RED_STASH((char)6,Palette.red),
-    UNIDENTIFIED((char)63, Palette.blue, Palette.darkGray);
+    UNIDENTIFIED((char)63, Palette.blue, Palette.darkGray),
+    MARINE('M',Palette.red , Palette.darkRed),
+    HEAVY('H', Palette.darkGray , Palette.darkRed),
+    SECURITY('S', Palette.darkGray, Palette.red),
+    RANGED('R', Palette.blue , Palette.darkGray);
 	
 	private boolean swapable;
 	public Random r =  new Random();

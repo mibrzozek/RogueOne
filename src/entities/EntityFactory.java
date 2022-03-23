@@ -27,6 +27,52 @@ public class EntityFactory implements Serializable
         this.fov = fov;
     }
     // name, world, glyph, color, maxHP, attack, defense
+	public Entity newSecurity(int z, Entity player)
+	{
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity security = new Entity(stats, world, Tile.SECURITY);
+
+		new KamikazeAi(security, player);
+		return security;
+	}
+
+	public Entity newDroid(int z, Entity player)
+	{
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity droid = new Entity(stats, world, Tile.DROID);
+
+		new KamikazeAi(droid, player);
+		return droid;
+	}
+	public Entity newHeavy(int z, Entity player)
+	{
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity heavy = new Entity(stats, world, Tile.HEAVY);
+
+		new KamikazeAi(heavy, player);
+		return heavy;
+	}
+	public Entity newRanged(int z, Entity player)
+	{
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity ranged = new Entity(stats, world, Tile.RANGED);
+
+		new KamikazeAi(ranged, player);
+		return ranged;
+	}
+	public Entity newMarine(int z, Entity player)
+	{
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity marine = new Entity(stats, world, Tile.MARINE);
+
+		new KamikazeAi(marine, player);
+		return marine;
+	}
 	public Entity newGrunt(int z, Entity player)
 	{
 		Statistics stats = new Statistics();

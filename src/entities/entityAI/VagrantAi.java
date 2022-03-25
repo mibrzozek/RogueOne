@@ -19,7 +19,6 @@ public class VagrantAi extends HitmanAi
         ItemFactory iF = new ItemFactory(null);
         LootTable loot = new LootTable();
         rollLoot(iF, loot);
-
     }
     private void rollLoot(ItemFactory iF, LootTable loot)
     {
@@ -49,9 +48,7 @@ public class VagrantAi extends HitmanAi
             if(extra.rarity().equals(Item.Rarity.COMMON))
                 entity.inventory().equipAll(loot.getArmorItem());
         }
-
     }
-
     @Override
     public void onUpdate()
     {

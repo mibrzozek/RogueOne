@@ -120,9 +120,13 @@ public class LootTable
         return goldRoomItems.get(r.nextInt(goldRoomItems.size()));
     }
     public Item getArmorItem() { return armorItems.get(r.nextInt(armorItems.size())); }
-    public Item getFloorOneLoot()
+    public Item removeRandomItemFromFloorOneTable()
     {
         return floorOneLootTable.remove(r.nextInt(floorOneLootTable.size()));
+    }
+    public List<Item> floorOneLootList()
+    {
+        return floorOneLootTable;
     }
 
 }

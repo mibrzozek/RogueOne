@@ -29,7 +29,22 @@ public class World implements Serializable
 		return nameGenerator;
 	}
 
+	public void dealEnemiesLoot()
+	{
+		LootTable loot = new LootTable();
+		int floorOneLoot = loot.floorOneLootList().size();
 
+		for(int i = 0; i < floorOneLoot; i++) // for every piece of loot to distribute
+		{
+			Entity e =  null;
+			do // find an entity on the first floor
+			{
+				e = entities.get(random.nextInt(entities.size()));
+			} while(e.z !=  0);
+
+			e.inventory().add(loot.removeRandomItemFromFloorOneTable()); // distribute loot and remove from list
+		}
+	}
 	public enum Map
 	{
 		TURKEY(),

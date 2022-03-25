@@ -2,7 +2,7 @@ package screens;
 
 import asciiPanel.AsciiPanel;
 import entities.Entity;
-import entities.PlayerAi;
+import entities.entityAI.PlayerAi;
 import structures.MainFrame;
 import structures.TileEngine;
 import wolrdbuilding.Palette;

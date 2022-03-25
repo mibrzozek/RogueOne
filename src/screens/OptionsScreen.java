@@ -36,7 +36,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 	// option for inventory, one entity, scrollPoint, itemIndex, terminal
 	// options for trading
 	// options for crafting
-	// optionss for dialog
+	// options for dialog
 	
 	// Inventory Options Constructor
 	public OptionsScreen(Entity player, int scrollX, int scrollY, int itemIndex, boolean fromInventory, AsciiPanel terminal) {
@@ -93,7 +93,6 @@ public class OptionsScreen extends ScrollingBasedScreen
 	// Trading Options Constructor
 	public OptionsScreen(int scrollX, int scrollY, int itemIndex, AsciiPanel terminal, Entity ... ents)
 	{
-		
 		super(ents[0], terminal, true);
 		this.other = ents[1];
 		this.scrollX = scrollX;

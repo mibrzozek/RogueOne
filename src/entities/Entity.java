@@ -1,5 +1,7 @@
 package entities;
 
+import entities.entityAI.EntityAi;
+import entities.entityAI.PlayerAi;
 import items.Inventory;
 import items.Inventory.EquipmentSlot;
 import items.Item;
@@ -283,21 +285,27 @@ public class Entity implements Serializable
 					world.queueProjectile(pj);
 				notify("Shotgun fun!");
 			}
-			else if(inventory().isItemEquiped(new ItemFactory().newRustyKnife()))
+			else if(inventory().isItemEquiped(new ItemFactory().newRustyKnife())
+					|| inventory().isItemEquiped(new ItemFactory().newSerratedKnife())
+					|| inventory().isItemEquiped(new ItemFactory().newFoldedSteelKnife()))
 			{
 				if(target != null)
 				{
 					Item i = new ItemFactory().newRustyKnife();
+
+					if(inventory().isItemEquiped(new ItemFactory().newSerratedKnife()))
+						i = new ItemFactory().newSerratedKnife();
+					else if(inventory().isItemEquiped(new ItemFactory().newFoldedSteelKnife()))
+						i = new ItemFactory().newFoldedSteelKnife();
 
 					if(!target.stats.getEffects().contains("Tetnis"));
 					{
 						//target.stats.addEffect(new Effect(Effect.Effects.TETNIS, "Tetnis", Palette.red));
 					}
 					target.dealDamage(-i.value());
-					target.notify("You're getting stabbed with a rusty knife..");
+					target.notify("You're getting stabbed with a " + i.name() + "..");
 				}
 			}
-			//System.out.println("Using weapon");
     }
     // Attacking, modifying HP, messages
     public void attack(Entity other)
@@ -369,7 +377,7 @@ public class Entity implements Serializable
     	if(this.stats.getVitals() <  0)
 		{
 			dead = true;
-			System.out.println("Seeting dead :" + isDead());
+			System.out.println("Setting dead :" + isDead());
 		}
     }
     public void modifyLimbHealth(EquipmentSlot slot, double damage)
@@ -469,7 +477,6 @@ public class Entity implements Serializable
 		this.direction = direction;
 		cardinal = Direction.fromIntToString(direction);
 	}
-	
 	public void rotateCounterClockwise()
 	{
 		if(direction == 0)
@@ -514,7 +521,6 @@ public class Entity implements Serializable
 	}
 	public void moveBy(int mx, int my, int mz)
 	{
-
 		if (mx == 0 && my == 0 && mz == 0)
 		    return;
 

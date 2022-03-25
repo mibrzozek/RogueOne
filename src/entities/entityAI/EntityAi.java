@@ -1,5 +1,9 @@
-package entities;
+package entities.entityAI;
 
+import entities.Effect;
+import entities.Entity;
+import entities.Line;
+import entities.Path;
 import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
 

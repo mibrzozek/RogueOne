@@ -205,7 +205,9 @@ public enum Tile
     MARINE('M',Palette.red , Palette.darkRed),
     HEAVY('H', Palette.darkGray , Palette.darkRed),
     SECURITY('S', Palette.darkGray, Palette.red),
-    RANGED('R', Palette.blue , Palette.darkGray);
+    RANGED('R', Palette.blue , Palette.darkGray),
+    VAGRANT('v', Palette.purple, Palette.darkRed )
+    ;
 	
 	private boolean swapable;
 	public Random r =  new Random();

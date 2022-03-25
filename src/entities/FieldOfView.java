@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import entities.entityAI.EntityAi;
+import entities.entityAI.PlayerAi;
 import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
 import wolrdbuilding.TileV;

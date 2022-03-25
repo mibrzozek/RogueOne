@@ -1,11 +1,14 @@
-package entities;
+package entities.entityAI;
 
-public class TraderAi extends EntityAi 
+import entities.Entity;
+import entities.EntityFactory;
+
+public class TraderAi extends EntityAi
 {
 	private EntityFactory factory;
     private int spreadcount; 
 	
-    public TraderAi(Entity entity, EntityFactory factory) 
+    public TraderAi(Entity entity, EntityFactory factory)
 	{
 		super(entity);
 		this.factory = factory;

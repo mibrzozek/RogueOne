@@ -6,6 +6,11 @@ import java.util.Random;
 
 public class LootTable
 {
+    private static final int GOLD_CARDS = 10;
+    private static final int GREEN_CARDS = 5;
+    private static final int RED_CARDS = 3;
+    private static final int BLUE_CARDS = 1;
+
     private Random r;
     private ItemFactory itemFactory;
     List<Item> greenRoomItems;
@@ -13,18 +18,41 @@ public class LootTable
     List<Item> goldRoomItems;
     List<Item> armorItems;
 
+    List<Item> floorOneLootTable;
+
     public LootTable()
     {
         greenRoomItems =  new ArrayList<>();
         redRoomItems =  new ArrayList<>();
         goldRoomItems =  new ArrayList<>();
         armorItems = new ArrayList<>();
+        floorOneLootTable = new ArrayList<>();
 
         r = new Random();
         itemFactory = new ItemFactory();
 
         initRoomLists();
         initArmorLists();
+        initFloorOneLootTable();
+    }
+
+    private void initFloorOneLootTable()
+    {
+        // CARD LOOT
+        for(int i = 0; i < RED_CARDS; i++) {
+            floorOneLootTable.add(itemFactory.newClearanceRed());
+        }
+        for(int i = 0; i < GOLD_CARDS; i++) {
+            floorOneLootTable.add(itemFactory.newClearanceGold());
+        }
+        for(int i = 0; i < BLUE_CARDS; i++) {
+            floorOneLootTable.add(itemFactory.newBlueClearance());
+        }
+        for(int i = 0; i < GREEN_CARDS; i++) {
+            floorOneLootTable.add(itemFactory.newClearanceGreen());
+        }
+        // OTHER
+        floorOneLootTable.add(itemFactory.newTerrainMapper());
     }
     private void initArmorLists()
     {
@@ -57,6 +85,7 @@ public class LootTable
         greenRoomItems.add(itemFactory.newMedicinal());
         greenRoomItems.add(itemFactory.newCyberneticSyringe());
         greenRoomItems.add(itemFactory.newBandages());
+        greenRoomItems.add(itemFactory.newBioLard());
 
         redRoomItems.add(itemFactory.newScopedRifle());
         redRoomItems.add(itemFactory.newBlueClearance());
@@ -68,11 +97,11 @@ public class LootTable
         redRoomItems.add(itemFactory.newTerrainMapper());
         redRoomItems.add(itemFactory.newBioLard());
         redRoomItems.add(itemFactory.newReflectiveShall());
+        redRoomItems.add(itemFactory.newMemModule());
 
         goldRoomItems.add(itemFactory.newBandages());
         goldRoomItems.add(itemFactory.newRustyKnife());
         goldRoomItems.add(itemFactory.newFragGrenade());
-        goldRoomItems.add(itemFactory.newMemModule());
         goldRoomItems.add(itemFactory.newPickAxe());
         goldRoomItems.add(itemFactory.newPlasmaAxe());
         goldRoomItems.add(itemFactory.newClearanceGreen());
@@ -91,5 +120,9 @@ public class LootTable
         return goldRoomItems.get(r.nextInt(goldRoomItems.size()));
     }
     public Item getArmorItem() { return armorItems.get(r.nextInt(armorItems.size())); }
+    public Item getFloorOneLoot()
+    {
+        return floorOneLootTable.remove(r.nextInt(floorOneLootTable.size()));
+    }
 
 }

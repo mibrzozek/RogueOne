@@ -1,4 +1,5 @@
 package entities;
+import entities.entityAI.*;
 import items.ItemFactory;
 import items.Type;
 import wolrdbuilding.Tile;
@@ -33,7 +34,7 @@ public class EntityFactory implements Serializable
 		stats.rollCharacter(world.getNameGenerator());
 		Entity security = new Entity(stats, world, Tile.SECURITY);
 
-		new KamikazeAi(security, player);
+		new VagrantAi(security, player);
 		return security;
 	}
 
@@ -43,7 +44,7 @@ public class EntityFactory implements Serializable
 		stats.rollCharacter(world.getNameGenerator());
 		Entity droid = new Entity(stats, world, Tile.DROID);
 
-		new KamikazeAi(droid, player);
+		new VagrantAi(droid, player);
 		return droid;
 	}
 	public Entity newHeavy(int z, Entity player)
@@ -52,7 +53,7 @@ public class EntityFactory implements Serializable
 		stats.rollCharacter(world.getNameGenerator());
 		Entity heavy = new Entity(stats, world, Tile.HEAVY);
 
-		new KamikazeAi(heavy, player);
+		new VagrantAi(heavy, player);
 		return heavy;
 	}
 	public Entity newRanged(int z, Entity player)
@@ -61,7 +62,7 @@ public class EntityFactory implements Serializable
 		stats.rollCharacter(world.getNameGenerator());
 		Entity ranged = new Entity(stats, world, Tile.RANGED);
 
-		new KamikazeAi(ranged, player);
+		new VagrantAi(ranged, player);
 		return ranged;
 	}
 	public Entity newMarine(int z, Entity player)
@@ -70,17 +71,17 @@ public class EntityFactory implements Serializable
 		stats.rollCharacter(world.getNameGenerator());
 		Entity marine = new Entity(stats, world, Tile.MARINE);
 
-		new KamikazeAi(marine, player);
+		new VagrantAi(marine, player);
 		return marine;
 	}
-	public Entity newGrunt(int z, Entity player)
+	public Entity newVagrant(int z, Entity player)
 	{
 		Statistics stats = new Statistics();
 		stats.rollCharacter(world.getNameGenerator());
-		Entity grunt = new Entity(stats, world, Tile.GRUNT);
+		Entity vagrant = new Entity(stats, world, Tile.VAGRANT);
 
-		new KamikazeAi(grunt, player);
-		return grunt;
+		new VagrantAi(vagrant, player);
+		return vagrant;
 	}
 	public Entity newKamikaze(int z, Entity player)
 	{
@@ -88,7 +89,7 @@ public class EntityFactory implements Serializable
 		stats.rollCharacter(world.getNameGenerator());
 		Entity ent = new Entity(stats, world, Tile.GRUNT);
 
-		new KamikazeAi(ent, player);
+		new VagrantAi(ent, player);
 		return ent;
 	}
 	public Entity newDroidSkeleton(int depth, Entity player)

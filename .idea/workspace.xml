@@ -3,10 +3,51 @@
   <component name="ChangeListManager">
     <list default="true" id="bc747c38-cb52-4caa-a5c5-4da97bdb7363" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Effect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Effect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/DroidAI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Entity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/EntityAi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/EntityFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/EntityFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/FieldOfView.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/FieldOfView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/FungusAi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/HitmanAi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/JunkieAi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/KamikazeAi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/PlayerAi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/RogueAi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/TraderAi.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/TurkeyAI.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Item$Rarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Item$Rarity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Item.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/ItemFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/ItemFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/LootTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/LootTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/AttackBox.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/AttackBox.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/OptionsScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/OptionsScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/PlayScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/PlayScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/TargetingScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/TargetingScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/Tile.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/Tile.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/DroidAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/DroidAI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/EntityAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/EntityAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/EntityFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/EntityFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/FieldOfView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/FieldOfView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/FungusAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/FungusAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/HitmanAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/HitmanAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/JunkieAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/JunkieAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/KamikazeAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/VagrantAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/PlayerAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/RogueAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/RogueAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/TraderAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/TraderAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/TurkeyAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/TurkeyAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/ItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/LootTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/LootTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/AttackBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/AttackBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/LoseScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/LoseScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/OptionsScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/OptionsScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/PlayScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/PlayScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/TargetingScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/TargetingScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/World.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

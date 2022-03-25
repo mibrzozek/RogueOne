@@ -16,7 +16,9 @@ public class Item implements Serializable
             return true;
         }
         else
+        {
             return false;
+        }
     }
     public enum Rarity
     {
@@ -31,7 +33,6 @@ public class Item implements Serializable
         {
         }
     }
-
     private char glyph;
     private Color color;
     
@@ -87,7 +88,6 @@ public class Item implements Serializable
     	{
     		other.modifyPlasma(1000);
     		other.notify("Mmmm, wow, so much plasma...");
-    		System.out.println("Insisde use");
     	}
     	else if(this.type == Type.CONSUMABLE)
     	{

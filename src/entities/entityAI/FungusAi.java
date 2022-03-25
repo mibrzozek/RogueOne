@@ -1,11 +1,14 @@
-package entities;
+package entities.entityAI;
 
-public class FungusAi extends EntityAi 
+import entities.Entity;
+import entities.EntityFactory;
+
+public class FungusAi extends EntityAi
 {
 	private EntityFactory factory;
     private int spreadcount; 
 	
-    public FungusAi(Entity entity, EntityFactory factory) 
+    public FungusAi(Entity entity, EntityFactory factory)
 	{
 		super(entity);
 		this.factory = factory;

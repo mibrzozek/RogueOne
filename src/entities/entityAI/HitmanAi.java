@@ -1,5 +1,7 @@
-package entities;
+package entities.entityAI;
 
+import entities.Entity;
+import entities.Path;
 import items.ItemFactory;
 import wolrdbuilding.Point;
 

@@ -1,5 +1,6 @@
-package entities;
+package entities.entityAI;
 
+import entities.Entity;
 import items.ItemFactory;
 
 public class TurkeyAI extends EntityAi

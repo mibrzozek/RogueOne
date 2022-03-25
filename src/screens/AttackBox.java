@@ -2,7 +2,7 @@ package screens;
 
 import asciiPanel.AsciiPanel;
 import entities.Entity;
-import entities.PlayerAi;
+import entities.entityAI.PlayerAi;
 import entities.Taunts;
 import items.Item;
 import items.ItemFactory;
@@ -10,7 +10,6 @@ import items.Type;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
-
 import javax.swing.*;
 
 public class AttackBox extends UIScreen 
@@ -133,14 +132,12 @@ public class AttackBox extends UIScreen
 		TileEngine.renderPercentBlocksV2(terminal, 1, by++, "ARMS", enemy.stats.getArms(), enemy.stats.getArmsMax(), Palette.paperBlue);
 		TileEngine.renderPercentBlocksV2(terminal, 1, by++, "LEGS", enemy.stats.getLegs(), enemy.stats.getLegsMax(), Palette.paperBlue);
 
-
 		TileEngine.renderDisplayPlate(terminal, 1, by++, 29, "Equipment", true, Palette.monoRed, Palette.lightGray);
 		int wy = by;
 		for(Item i : enemy.inventory().getEquipped())
 		{
 			TileEngine.renderDisplayPlate(terminal, 1, wy++, 29, i.name(), false, Palette.paleWhite, Palette.monoRed);
 		}
-
 	}
 	@Override
 	public void update()

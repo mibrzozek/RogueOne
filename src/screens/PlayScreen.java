@@ -2,6 +2,7 @@ package screens;
 
 import asciiPanel.AsciiPanel;
 import entities.*;
+import entities.entityAI.DroidAI;
 import items.Item;
 import items.ItemFactory;
 import items.Stash;

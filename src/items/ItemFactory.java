@@ -1,12 +1,14 @@
 package items;
 
-import wolrdbuilding.Palette;
-import wolrdbuilding.World;
-
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import asciiPanel.AsciiPanel;
+import wolrdbuilding.Palette;
+import wolrdbuilding.World;
 
 public class ItemFactory implements Serializable
 {
@@ -34,6 +36,9 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newFoldedSteelKnife());
+		itemList.add(newCleaver());
+		itemList.add(newSerratedKnife());
 		itemList.add(newAdvancedPants());
 		itemList.add(newHybridPants());
 		itemList.add(newKevlarPants());
@@ -1078,5 +1083,38 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), advancedPants);
 		return advancedPants;
+	}
+	public Item newSerratedKnife()
+	{
+		Item serratedKnife = new Item((char)56, Palette.red, Type.MELEE,
+				"Serrated Knife", 
+				"A serrated knife. Good for cutting bread.",
+				45,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), serratedKnife);
+		return serratedKnife;
+	}
+	public Item newCleaver()
+	{
+		Item Cleaver = new Item((char)56, Palette.red, Type.MELEE,
+				"Cleaver", 
+				"A cleaver. Excellent for cleaving. Two of these could really chop up some garlic.",
+				60,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), Cleaver);
+		return Cleaver;
+	}
+	public Item newFoldedSteelKnife()
+	{
+		Item foldedSteelKnife = new Item((char)56, Palette.red, Type.MELEE,
+				"Folded Steel Knife", 
+				"Knife made out of folded steel. Very tough. You will cut yourself using this knife.",
+				90,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), foldedSteelKnife);
+		return foldedSteelKnife;
 	}
 }

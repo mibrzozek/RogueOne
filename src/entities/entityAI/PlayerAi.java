@@ -1,5 +1,9 @@
-package entities;
+package entities.entityAI;
 
+import entities.Effect;
+import entities.Entity;
+import entities.FieldOfView;
+import entities.Line;
 import items.Item;
 import items.ItemFactory;
 import items.LootTable;
@@ -21,7 +25,7 @@ public class PlayerAi extends EntityAi
 	
 	private List<String> attacks;
 	 
-    public PlayerAi(Entity entity, List<String> messages, FieldOfView fov) 
+    public PlayerAi(Entity entity, List<String> messages, FieldOfView fov)
     {
     	super(entity);
     	this.entity.setVisionRadius(6);

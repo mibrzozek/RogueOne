@@ -3,12 +3,12 @@ package entities.entityAI;
 import entities.Entity;
 import items.ItemFactory;
 
-public class DroidAI extends EntityAi
+public class DroidAi extends EntityAi
 {
     private ItemFactory iF;
     private Entity player;
 
-    public DroidAI(Entity entity, Entity player)
+    public DroidAi(Entity entity, Entity player)
     {
         super(entity);
 

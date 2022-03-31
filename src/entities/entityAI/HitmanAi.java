@@ -66,7 +66,6 @@ public class HitmanAi extends EntityAi
       else if(mx > 0 || my < 0)
     	  entity.setDirection(5);
 
-      System.out.println("in hitman hunt : we didn't return ");
       if(entity.inventory().hasProjectileWeapon())
           entity.useWeapon(target);
 

@@ -825,7 +825,6 @@ public class World implements Serializable
 	}
 	public void spawnMainRegionEnemies()
 	{
-		ItemFactory nullFactory = new ItemFactory();
 		EntityFactory nullEntityFactory = new EntityFactory(this, null);
 		entities.add(player);
 
@@ -853,6 +852,53 @@ public class World implements Serializable
 			e.z = p.z;
 
 			entities.add(e);
+		}
+	}
+	public void spawnRogues()
+	{
+		int rogueCount = 50;
+		EntityFactory nullEntityFactory = new EntityFactory(this, null);
+
+		for(int i = 0; i < rogueCount; i++)
+		{
+			spawnInMainRegion(nullEntityFactory.newRogue(0, player));
+		}
+	}
+	public void spawnRedRoomEnemies()
+	{
+		EntityFactory nullEntityFactory = new EntityFactory(this, null);
+
+		for(RoomV room : dungeon.getRedRooms()) // for each red room
+		{
+			int numEnemies = random.nextInt(3) + 1;
+
+			for(int i = 0; i < numEnemies; i++) // spawn up to 3 enemies
+			{
+				Point p = room.getFloorPoints().get(random.nextInt(room.getFloorPoints().size()));
+				Entity e = nullEntityFactory.newMarine(0, player);
+				if(tiles[p.x][p.y][p.z].isFloor())
+				{
+					e.x = p.x;
+					e.y = p.y;
+					e.z = p.z;
+
+					entities.add(e);
+				}
+			}
+			if(Math.random() > .4) // 60% chance of spawning heavy
+			{
+				Entity e =  nullEntityFactory.newHeavy(0, player);
+				Point p = room.getFloorPoints().get(random.nextInt(room.getFloorPoints().size()));
+
+				if(tiles[p.x][p.y][p.z].isFloor())
+				{
+					e.x = p.x;
+					e.y = p.y;
+					e.z = p.z;
+
+					entities.add(e);
+				}
+			}
 		}
 	}
 }

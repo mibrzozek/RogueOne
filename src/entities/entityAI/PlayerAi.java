@@ -48,7 +48,6 @@ public class PlayerAi extends EntityAi
 		this.entity.inventory().add(new ItemFactory().newClearanceGold());
 		this.entity.inventory().add(new ItemFactory().newTerrainMapper());
 
-
     	this.entity.stats.addEffect(new Effect(Effect.Effects.STONED, "High", Palette.lightBlue));
 		this.entity.stats.addEffect(new Effect(Effect.Effects.FRIENDLY, "Social", Palette.monoYellow));
 		this.entity.stats.addEffect(new Effect(Effect.Effects.HAPPY, "Happy", Palette.pastelPink));
@@ -69,6 +68,8 @@ public class PlayerAi extends EntityAi
     public void onEnter(int x, int y, int z, Tile tile)
     {
     	entity.setTradeMode(false);
+
+
     	
     	if (tile.isGround())
     	{

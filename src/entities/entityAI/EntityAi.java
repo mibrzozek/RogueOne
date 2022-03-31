@@ -13,6 +13,7 @@ import java.util.List;
 public class EntityAi implements Serializable
 {
 	protected Entity entity;
+    private Entity player;
 
     public EntityAi(Entity entity)
     {

@@ -37,15 +37,23 @@ public class EntityFactory implements Serializable
 		new VagrantAi(security, player);
 		return security;
 	}
-
 	public Entity newDroid(int z, Entity player)
 	{
 		Statistics stats = new Statistics();
 		stats.rollCharacter(world.getNameGenerator());
 		Entity droid = new Entity(stats, world, Tile.DROID);
 
-		new VagrantAi(droid, player);
+		new DroidAi(droid, player);
 		return droid;
+	}
+	public Entity newRogue(int z, Entity player)
+	{
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity rogue = new Entity(stats, world, Tile.ROGUE);
+
+		new RogueAi(rogue, player);
+		return rogue;
 	}
 	public Entity newHeavy(int z, Entity player)
 	{
@@ -53,7 +61,7 @@ public class EntityFactory implements Serializable
 		stats.rollCharacter(world.getNameGenerator());
 		Entity heavy = new Entity(stats, world, Tile.HEAVY);
 
-		new VagrantAi(heavy, player);
+		new HeavyAi(heavy, player);
 		return heavy;
 	}
 	public Entity newRanged(int z, Entity player)
@@ -71,7 +79,7 @@ public class EntityFactory implements Serializable
 		stats.rollCharacter(world.getNameGenerator());
 		Entity marine = new Entity(stats, world, Tile.MARINE);
 
-		new VagrantAi(marine, player);
+		new MarineAi(marine, player);
 		return marine;
 	}
 	public Entity newVagrant(int z, Entity player)
@@ -98,7 +106,7 @@ public class EntityFactory implements Serializable
 		stats.rollCharacter(world.getNameGenerator());
 		Entity ent = new Entity(stats, world, Tile.DROID);
 
-		new DroidAI(ent, player);
+		new DroidAi(ent, player);
 		return ent;
 	}
     public Entity newPlasmaJunkie(int depth, Entity player)

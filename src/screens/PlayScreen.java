@@ -2,7 +2,7 @@ package screens;
 
 import asciiPanel.AsciiPanel;
 import entities.*;
-import entities.entityAI.DroidAI;
+import entities.entityAI.DroidAi;
 import items.Item;
 import items.ItemFactory;
 import items.Stash;
@@ -161,6 +161,8 @@ public class PlayScreen implements Screen
 	{
 		world.spawnEnemies();
 		world.dealEnemiesLoot();
+		world.spawnRedRoomEnemies();
+		world.spawnRogues();
 	}
     private void createWorld(World.Map m)
     {
@@ -413,7 +415,7 @@ public class PlayScreen implements Screen
 					else if(world.entity(np.x, np.y, np.z) != null) // ENTITY INTERACTION
 					{
 						Entity e  = world.entity(np.x, np.y, np.z);
-						if(e.getEntityAi() instanceof DroidAI)
+						if(e.getEntityAi() instanceof DroidAi)
 						{
 							subScreen = new EntityInteractScreen(world, this, main, e);
 						}

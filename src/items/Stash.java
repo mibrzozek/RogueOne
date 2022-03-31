@@ -9,7 +9,6 @@ import java.util.Random;
 
 public class Stash
 {
-
     private int capacity, stashSize;
 
     private boolean open = false;
@@ -57,13 +56,11 @@ public class Stash
             items.add(it);
         }
     }
-
     public void openStash(Entity player)
     {
         if(player.inventory().containsInInventory(iF.newBlueClearance()))
             open = true;
     }
-
     public int getCapacity()
     {
         return capacity;
@@ -101,7 +98,6 @@ public class Stash
         else
             return false;
     }
-
     public void addItem(Item item)
     {
         items.add(item);

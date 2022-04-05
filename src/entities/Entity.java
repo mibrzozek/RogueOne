@@ -385,7 +385,7 @@ public class Entity implements Serializable
     	System.out.println(damage + " initial damage.");
     	
     	if(slot == EquipmentSlot.HEAD)
-    		stats.setHead(stats.getHead() + damage);
+    		stats.dealDamageToLimb(damage, Statistics.Limb.HEAD);
     	else if(slot == EquipmentSlot.TORSO)
     		stats.setTorso(stats.getTorso() + damage);
     	else if(slot == EquipmentSlot.ARMS)

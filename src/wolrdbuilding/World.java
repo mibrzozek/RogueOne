@@ -454,7 +454,7 @@ public class World implements Serializable
 		if(!mini.isPlayerInSafeZone())
 		{
 			if(!player.stats.isBreathing())
-				player.stats.dealDamage(2);
+				player.stats.dealDamage(2.0);
 		}
 		int f1 = 1;
 		int f2 = 100;

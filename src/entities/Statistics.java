@@ -62,6 +62,20 @@ public class Statistics implements Serializable
 	private ArrayList<String> skills;
 	private Map<String, Integer> attributeMap;
 	private Map<Limb, List<Double>> vitalsMap;
+
+	public void dealDamageToLimb(double damage, Limb head)
+	{
+		if(vitalsMap.get(head).get(0) + damage < 0) // has leftover damage
+		{
+			damage = Math.abs(vitalsMap.get(head).get(0) + damage); // saves leftover damage
+			vitalsMap.get(head).set(0, 0.0); // destroys lib -set to zero
+			dealDamage(damage); // randomly disperse rest of damage
+		}
+		else
+		{
+			vitalsMap.get(head).set(0, vitalsMap.get(head).get(0) + damage);
+		}
+	}
 	public enum Limb
 	{
 		LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, TORSO, HEAD;
@@ -186,20 +200,26 @@ public class Statistics implements Serializable
 		return list;
 	}
 	
-	public void dealDamage(int amount)
+	public void dealDamage(Double amount)
 	{
-		if(head > 0)
-			head -= amount;
-		else if(torso > 0)
-			torso -= amount;
-		else if(lHand > 0)
-			lHand -= amount;
-		else if(rHand > 0)
-			rHand -= amount;
-		else if(rLeg > 0)
-			rLeg -= amount;
-		else if(lLeg > 0)
-			lLeg -= amount;
+		Limb[] limbs = Limb.values();
+		Limb targetedLimb = limbs[r.nextInt(limbs.length)];
+		double damage = amount;
+
+		do
+		{
+			if(vitalsMap.get(targetedLimb).get(0) - damage < 0) // has leftover damage
+			{
+				damage = Math.abs(vitalsMap.get(targetedLimb).get(0) - damage);
+				vitalsMap.get(targetedLimb).set(0, 0.0); // destroy limb - set to zero
+				targetedLimb = limbs[r.nextInt(limbs.length)];
+			}
+			else
+			{
+				vitalsMap.get(targetedLimb).set(0, vitalsMap.get(targetedLimb).get(0) - damage);
+				damage = 0;
+			}
+		}while(damage > 0); // deal out all damage even if limb is destroyed
 	}
 	
 	public void setName(String name)	{	this.name = name;		}
@@ -314,23 +334,29 @@ public class Statistics implements Serializable
 
 		List<Limb> toHeal = new ArrayList<>();
 
-		if(lHand < LEFT_ARMS_MAX) // see which limbs need healing
+		if(vitalsMap.get(Limb.LEFT_ARM).get(0) < LEFT_ARMS_MAX) // see which limbs need healing
 			toHeal.add(Limb.LEFT_ARM);
-		if(rHand < RIGHT_ARMS_MAX)
+		if(vitalsMap.get(Limb.RIGHT_ARM).get(0) < RIGHT_ARMS_MAX)
 			toHeal.add(Limb.RIGHT_ARM);
-		if(rLeg < RIGHT_LEGS_MAX)
+		if(vitalsMap.get(Limb.RIGHT_LEG).get(0) < RIGHT_LEGS_MAX)
 			toHeal.add(Limb.RIGHT_LEG);
-		if(lLeg < LEFT_LEGS_MAX)
+		if(vitalsMap.get(Limb.LEFT_LEG).get(0) < LEFT_LEGS_MAX)
 			toHeal.add(Limb.LEFT_LEG);
-		if(head < HEAD_MAX)
+		if(vitalsMap.get(Limb.HEAD).get(0) < HEAD_MAX)
 			toHeal.add(Limb.HEAD);
-		if(torso < TORSO_MAX)
+		if(vitalsMap.get(Limb.TORSO).get(0) < TORSO_MAX)
 			toHeal.add(Limb.TORSO);
+
+		if(toHeal.size() < 1) // no limbs need healing
+			return;
 
 		hv = value/toHeal.size(); // determine equal healing value per limb
 		Double leftOverHealing = 0.0;
+
+
 		for(Limb l : toHeal) // healLimbs
 		{
+			System.out.println("Actively healing. Healing Value : " + hv + " leftOver : " + leftOverHealing);
 			leftOverHealing = healLimb(l, hv + leftOverHealing); // healLimb returns unused healing points
 		}
 
@@ -348,13 +374,14 @@ public class Statistics implements Serializable
 		if(limb.get(0) + value > limb.get(1)) // if adding the healing value to the current value of the injured limb goes over the MAX_LIMB value
 		{
 			leftoverHealingPower = (limb.get(0) + value) - limb.get(1); // add the healing to current and subtract from max to get leftover
-			limb.set(0, value - leftoverHealingPower);
+			limb.set(0, value + leftoverHealingPower);
 		}
 		else
 		{
 			limb.set(0, limb.get(0) + value);
 		}
 
+		System.out.println("\tHealing limb : " + l.toString() + " with value : " +  value + " Leftover : " + leftoverHealingPower);
 		System.out.println("\tHealing limb : " + l.toString() + " with value : " +  value + " Leftover : " + leftoverHealingPower);
 		System.out.println("\tvalue in map " + limb.get(0));
 		vitalsMap.put(l, limb); // set the updated value of the limb

@@ -86,6 +86,11 @@ public class LootTable
         greenRoomItems.add(itemFactory.newCyberneticSyringe());
         greenRoomItems.add(itemFactory.newBandages());
         greenRoomItems.add(itemFactory.newBioLard());
+        greenRoomItems.add(itemFactory.newHealKit1());
+        greenRoomItems.add(itemFactory.newHealKit2());
+        greenRoomItems.add(itemFactory.newHealKit3());
+        greenRoomItems.add(itemFactory.newHealKit4());
+        greenRoomItems.add(itemFactory.newHealKit5());
 
         redRoomItems.add(itemFactory.newScopedRifle());
         redRoomItems.add(itemFactory.newBlueClearance());

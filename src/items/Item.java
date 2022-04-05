@@ -58,7 +58,7 @@ public class Item implements Serializable
         this.r = r;
 
         if(this.type.equals("plasma"))
-        	this.usable = true; 
+            this.usable = true;
     }
     public Type type() 				{ return type; }
     public String name() 			{ return name; }
@@ -67,7 +67,7 @@ public class Item implements Serializable
     public String description()		{ return description; }
     public int value() 				{ return value; }
     public boolean usable()			{ return usable; }
-    public Rarity rarity()          { return r;}
+    public Rarity rarity()          { return r; }
     
     public boolean isEquiped() { return equiped; }
     public void equip() { equiped = true; }
@@ -81,7 +81,6 @@ public class Item implements Serializable
         if(value < 1)
             inv.removeEquiped(this);
     }
-    
     public void useItemOn(Entity other)
     {
     	if(this.type == Type.APLASMA)

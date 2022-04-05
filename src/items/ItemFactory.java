@@ -36,6 +36,11 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newHealKit5());
+		itemList.add(newHealKit4());
+		itemList.add(newHealKit3());
+		itemList.add(newHealKit2());
+		itemList.add(newHealKit1());
 		itemList.add(newFoldedSteelKnife());
 		itemList.add(newCleaver());
 		itemList.add(newSerratedKnife());
@@ -1116,5 +1121,60 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), foldedSteelKnife);
 		return foldedSteelKnife;
+	}
+	public Item newHealKit1()
+	{
+		Item healKit1 = new Item((char)127, Palette.paperGreen, Type.HEALING,
+				"Small Healing Kit", 
+				"A small kit good for fixing a bleed or two.",
+				50,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), healKit1);
+		return healKit1;
+	}
+	public Item newHealKit2()
+	{
+		Item healKit2 = new Item((char)127, Palette.paperGreen, Type.HEALING,
+				"Medium Healing Kit", 
+				"A small kit good for fixing a bleed or five.",
+				100,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), healKit2);
+		return healKit2;
+	}
+	public Item newHealKit3()
+	{
+		Item healKit3 = new Item((char)127, Palette.paperGreen, Type.HEALING,
+				"Standard Healing Kit", 
+				"A small kit good for fixing a bleed and anesthetizing.",
+				150,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), healKit3);
+		return healKit3;
+	}
+	public Item newHealKit4()
+	{
+		Item healKit4 = new Item((char)127, Palette.paperGreen, Type.HEALING,
+				"Advanced Healing Kit", 
+				"Advanced kit that can restore function ot limbs.",
+				300,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), healKit4);
+		return healKit4;
+	}
+	public Item newHealKit5()
+	{
+		Item healKit5 = new Item((char)127, Palette.paperGreen, Type.HEALING,
+				"Survivalist Healing Kit", 
+				"Contains healing items for risk taking enthusiasts.",
+				500,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), healKit5);
+		return healKit5;
 	}
 }

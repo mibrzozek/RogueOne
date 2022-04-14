@@ -428,7 +428,7 @@ public class TileEngine
     	terminal.write("Shield " + (char)218, 1, screenHeight + 1);
 			renderPercentBlocksV2(terminal, 1, screenHeight+1, "Shield", (int)player.shield(), 250, Palette.monoPerfect);
     	terminal.write("Vitals " + (char)179, 1, screenHeight+ 2);
-    		renderPercentBlocksV2(terminal, 1, screenHeight+2, "Vitals", (int)player.stats.getVitals(), 1000, Palette.monoPurple);
+    		renderPercentBlocksV2(terminal, 1, screenHeight+2, "Vitals", (int)player.stats.vitals.getVitals(), 1000, Palette.monoPurple);
     	terminal.write("Plasma " + (char)179, 1, screenHeight+ 3);
 			renderPercentBlocksV2(terminal, 1, screenHeight+3, "Plasma", (int)player.plasma(), 10000, Palette.monoGreen);
 		terminal.write("02 Air " + (char)179 , 1, screenHeight+ 4);
@@ -771,11 +771,11 @@ public class TileEngine
 		int y = ((MainFrame) main).getDisplayHeight() - (11 + player.stats.getEffects().size());
 
 		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Shield", player.shield(), 1000, a);
-		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Vitals", player.stats.getVitals(), 1000, a);
-		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Head", player.stats.getHead(), 300, a);
-		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Torso", player.stats.getTorso(), 300, a);
-		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Arms", (int)player.stats.getlHand() + (int)player.stats.getrHand(), 200, a);
-		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Legs", (int)player.stats.getlLeg() + (int)player.stats.getrLeg(), 200, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Vitals", player.stats.vitals.getVitals(), 1000, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Head", player.stats.vitals.getHead(), 300, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Torso", player.stats.vitals.getTorso(), 300, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Arms", (int)player.stats.vitals.getLeftHand() + (int)player.stats.vitals.getRightHand(), 200, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Legs", (int)player.stats.vitals.getLeftLeg() + (int)player.stats.vitals.getRightLeg(), 200, a);
 
 		terminal.write("Oxygen Sources", 8, y++);
 
@@ -811,7 +811,7 @@ public class TileEngine
 		for(Entity e : entities)
 		{
 			TileEngine.renderBox(terminal, 31, offset, ex, ey, TileSet.SIMPLE, true);
-			TileEngine.renderPercentBlocksV2(terminal, ex + 1, ey + 1, e.name(), e.stats.getVitals(), e.stats.getFullVitals(), Palette.pastelGreen);
+			TileEngine.renderPercentBlocksV2(terminal, ex + 1, ey + 1, e.name(), e.stats.vitals.getVitals(), e.stats.vitals.getFullVitals(), Palette.pastelGreen);
 			terminal.write(" " + count++ + " ", ex+1, ey+2, Palette.paleWhite, Palette.red);
 
 			TileEngine.renderDisplayPlate(terminal, ex+4, ey+2, 4, (int)e.inventory().getTypeDuration(Type.GUN) + "", true, Palette.morePaleWhite, Palette.monoRed);

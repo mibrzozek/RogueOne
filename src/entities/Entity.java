@@ -3,7 +3,6 @@ package entities;
 import entities.entityAI.EntityAi;
 import entities.entityAI.PlayerAi;
 import items.Inventory;
-import items.Inventory.EquipmentSlot;
 import items.Item;
 import items.ItemFactory;
 import items.Type;
@@ -302,12 +301,13 @@ public class Entity implements Serializable
 					{
 						//target.stats.addEffect(new Effect(Effect.Effects.TETNIS, "Tetnis", Palette.red));
 					}
-					target.dealDamage(-i.value());
+					//target.dealDamage(-i.value());
 					target.notify("You're getting stabbed with a " + i.name() + "..");
 				}
 			}
     }
     // Attacking, modifying HP, messages
+	/*
     public void attack(Entity other)
     {
     	tradeMode=false;
@@ -326,6 +326,7 @@ public class Entity implements Serializable
 			other.dealDamage(-amount);
 		}
     }
+	/*
     public void dealDamage(double amount)
     {
     	double damage = amount;
@@ -337,49 +338,50 @@ public class Entity implements Serializable
     		
     		if(bodyPart == 1)
     		{
-    			if(stats.getHead() > 0)
+    			if(stats.vitals.getHead() > 0)
     				slot = EquipmentSlot.HEAD;
     		}
     		if(bodyPart == 2)
     		{
-    			if(stats.getTorso() > 0)
+    			if(stats.vitals.getTorso() > 0)
     				slot = EquipmentSlot.TORSO;
     		}
     		if(bodyPart == 3)
     		{
-    			if(stats.getlHand() + stats.getrHand() > 0)
+    			if(stats.vitals.getLeftHand() + stats.vitals.getRightHand() > 0)
     				slot = EquipmentSlot.ARMS;
     		}
     		if(bodyPart == 4)
     		{
-    			if(stats.getlLeg() + stats.getrLeg() > 0)
+    			if(stats.vitals.getLeftLeg() + stats.vitals.getRightLeg() > 0)
     				slot = EquipmentSlot.LEGS;
     		}
-    		if(stats.getVitals() <= 0)
+    		if(stats.vitals.getVitals() <= 0)
     		{
     			slot = EquipmentSlot.HEAD;
     		}
     	}
     	System.out.println(EquipmentSlot.HEAD + " " + Type.HEAD);
     	
-    	System.out.println(" "+ stats.getHead() 
-    			+ " "+ stats.getTorso() + " " 
-    			+ (stats.getlHand() + stats.getrHand()) + " "     					
-    			+ " "+ (stats.getlLeg() + stats.getrLeg()));
+    	System.out.println(" "+ stats.vitals.getHead()
+    			+ " "+ stats.vitals.getTorso() + " "
+    			+ (stats.vitals.getLeftHand() + stats.vitals.getRightHand()) + " "
+    			+ " "+ (stats.vitals.getLeftLeg() + stats.vitals.getRightLeg()));
     	System.out.println("This is the slot "+ slot.toString());
     	// The following modify damage dealt based on armor and attributes
     	damage = inventory.getArmorNumber(slot, damage);
     	// check attributes, negate or cause more damage
-    	modifyLimbHealth(slot, damage);
+    	//modifyLimbHealth(slot, damage);
 
 		System.out.println("Vitals : " + stats.getVitals());
 
-    	if(this.stats.getVitals() <  0)
+    	if(this.stats.vitals.getVitals() <  0)
 		{
 			dead = true;
 			System.out.println("Setting dead :" + isDead());
 		}
     }
+	/*
     public void modifyLimbHealth(EquipmentSlot slot, double damage)
     {
     	System.out.println(damage + " initial damage.");
@@ -404,6 +406,7 @@ public class Entity implements Serializable
     	}
     	System.out.println(damage + " damage is dealt to the " + slot.toString());
     }
+	 */
     public void notify(String message, Object ... params)
     {
         ai.onNotify(String.format(message, params));

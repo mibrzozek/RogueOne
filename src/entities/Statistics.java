@@ -10,19 +10,6 @@ import static wolrdbuilding.Palette.r;
 
 public class Statistics implements Serializable
 {
-	private static final double FULL_VITALS = 1000;
-
-	private static final double HEAD_MAX = 300;
-	private static final double TORSO_MAX = 300;
-
-	private static final double ARMS_MAX = 200;
-	private static final double LEFT_ARMS_MAX = 100;
-	private static final double RIGHT_ARMS_MAX = 100;
-
-	private static final double LEGS_MAX = 200;
-	private static final double RIGHT_LEGS_MAX = 100;
-	private static final double LEFT_LEGS_MAX = 100;
-
 	private String name;
 	private String role;
 	
@@ -44,50 +31,23 @@ public class Statistics implements Serializable
 	private double stealth;
 
 	private int crypto;
-	private double vitals;
-	private double head;
-	private double torso;
-	private double lHand;
-	private double rHand;
-	private double lLeg;
-	private double rLeg;
 
 	private boolean dead = false;
 	private boolean breathing = true;
 	private boolean alert = false;
 
 	private ArrayList<Effect> effects;
-
 	private ArrayList<Traits> traits;
 	private ArrayList<String> skills;
 	private Map<String, Integer> attributeMap;
-	private Map<Limb, List<Double>> vitalsMap;
+	public Vitals vitals;
 
-	public enum Limb
-	{
-		LEFT_LEG, RIGHT_LEG, LEFT_ARM, RIGHT_ARM, TORSO, HEAD;
-	}
 	public Statistics()
 	{
 		this.points = MAX_POINTS;
-
 		this.name = "Maynard Buckson";
 		this.role = "";
-		
-		this.head = 300;
-		this.torso = 300;
-		this.lHand = 100;
-		this.rHand = 100;
-		this.lLeg = 100;
-		this.rLeg = 100;
-
-		this.vitalsMap = new HashMap<>();
-		this.vitalsMap.put(Limb.HEAD, Arrays.asList(HEAD_MAX, HEAD_MAX));
-		this.vitalsMap.put(Limb.TORSO, Arrays.asList(TORSO_MAX, TORSO_MAX));
-		this.vitalsMap.put(Limb.LEFT_ARM, Arrays.asList(LEFT_ARMS_MAX, LEFT_ARMS_MAX));
-		this.vitalsMap.put(Limb.RIGHT_ARM, Arrays.asList(RIGHT_ARMS_MAX, RIGHT_ARMS_MAX));
-		this.vitalsMap.put(Limb.RIGHT_LEG, Arrays.asList(RIGHT_LEGS_MAX, RIGHT_LEGS_MAX));
-		this.vitalsMap.put(Limb.LEFT_LEG, Arrays.asList(LEFT_LEGS_MAX, LEFT_LEGS_MAX));
+		this.vitals = new Vitals();
 
 		this.height = r.nextInt(19) + 62;
 		if(height <68)
@@ -105,18 +65,10 @@ public class Statistics implements Serializable
 		rollCharacter(null);
 		this.effects = new ArrayList<>();
 		effects.add(new Effect(Effect.Effects.SATITATED, "Full", Palette.green));
-		this.vitals = head + torso + lHand + rHand + lLeg + rLeg;
 	}
-	public Map getVitalsMap()
+	public Vitals getVitals()
 	{
-		this.vitalsMap.put(Limb.HEAD, Arrays.asList(head, HEAD_MAX));
-		this.vitalsMap.put(Limb.TORSO, Arrays.asList(torso, TORSO_MAX));
-		this.vitalsMap.put(Limb.LEFT_ARM, Arrays.asList(lHand, LEFT_ARMS_MAX));
-		this.vitalsMap.put(Limb.RIGHT_ARM, Arrays.asList(rHand, RIGHT_ARMS_MAX));
-		this.vitalsMap.put(Limb.RIGHT_LEG, Arrays.asList(rLeg, RIGHT_LEGS_MAX));
-		this.vitalsMap.put(Limb.LEFT_LEG, Arrays.asList(lLeg, LEFT_LEGS_MAX));
-
-		return vitalsMap;
+		return vitals;
 	}
 	public void rollCharacter(NameGenerator nameGen)
 	{
@@ -185,27 +137,6 @@ public class Statistics implements Serializable
 	
 		return list;
 	}
-	public void dealDamage(Double amount)
-	{
-		Limb[] limbs = Limb.values();
-		Limb targetedLimb = limbs[r.nextInt(limbs.length)];
-		double damage = amount;
-
-		do
-		{
-			if(vitalsMap.get(targetedLimb).get(0) - damage < 0) // has leftover damage
-			{
-				damage = Math.abs(vitalsMap.get(targetedLimb).get(0) - damage);
-				vitalsMap.get(targetedLimb).set(0, 0.0); // destroy limb - set to zero
-				targetedLimb = limbs[r.nextInt(limbs.length)];
-			}
-			else
-			{
-				vitalsMap.get(targetedLimb).set(0, vitalsMap.get(targetedLimb).get(0) - damage);
-				damage = 0;
-			}
-		} while(damage > 0); // deal out all damage even if limb is destroyed
-	}
 	public void setName(String name)	{	this.name = name;		}
 	public void setRole(String role)	{	this.role = role;		}
 	public void setPoints(int points)	{	this.points = points;	}
@@ -220,55 +151,6 @@ public class Statistics implements Serializable
 	public void setThirst(int thirst){this.thirst = thirst;}
 	public void setBurden(int burden){	this.burden = burden;}
 	public void setCrypto(int crypto){this.crypto = crypto;}
-	public void setVitals(double vitals){this.vitals = checkForNegative(vitals);}
-	public void setTorso(double newVal)
-	{
-		this.torso = newVal;
-		List<Double> limb = vitalsMap.get(Limb.TORSO);
-		limb.set(0, checkForNegative(newVal));
-
-		this.vitalsMap.put(Limb.TORSO, limb);
-	}
-	public void setHead(double head)
-	{
-		this.head = head;
-		List<Double> limb = vitalsMap.get(Limb.HEAD);
-		limb.set(0, checkForNegative(head));
-
-		this.vitalsMap.put(Limb.HEAD, limb);
-	}
-	public void setlHand(double lHand)
-	{
-		this.lHand = lHand;
-		List<Double> limb = vitalsMap.get(Limb.LEFT_ARM);
-		limb.set(0, checkForNegative(lHand));
-
-		this.vitalsMap.put(Limb.LEFT_ARM, limb);
-	}
-	public void setrHand(double rHand)
-	{
-		this.rHand = rHand;
-		List<Double> limb = vitalsMap.get(Limb.RIGHT_ARM);
-		limb.set(0, checkForNegative(rHand));
-
-		this.vitalsMap.put(Limb.RIGHT_ARM, limb);
-	}
-	public void setlLeg(double lLeg)
-	{
-		this.lLeg = lLeg;
-		List<Double> limb = vitalsMap.get(Limb.LEFT_LEG);
-		limb.set(0, checkForNegative(lLeg));
-
-		this.vitalsMap.put(Limb.LEFT_LEG, limb);
-	}
-	public void setrLeg(double rLeg)
-	{
-		this.rLeg = rLeg;
-		List<Double> limb = vitalsMap.get(Limb.RIGHT_LEG);
-		limb.set(0, checkForNegative(rLeg));
-
-		this.vitalsMap.put(Limb.RIGHT_LEG, limb);
-	}
 	public void setStealth(double stealth){this.stealth = stealth;}
 	public void setTraits(ArrayList<Traits> traits){	this.traits = traits;}
 	public void setEffects(ArrayList<Effect> effects)	{	this.effects = effects;	}
@@ -289,20 +171,6 @@ public class Statistics implements Serializable
 	public int getWeight() { return weight; }
 	public int getBurden(){return burden;}
 	public int getCrypto(){return crypto;}
-	public double getVitals(){
-		return vitalsMap.get(Limb.HEAD ).get(0)
-			+ vitalsMap.get(Limb.TORSO ).get(0)
-			+ vitalsMap.get(Limb.LEFT_ARM ).get(0)
-			+ vitalsMap.get(Limb.RIGHT_ARM ).get(0)
-			+ vitalsMap.get(Limb.LEFT_LEG ).get(0)
-			+ vitalsMap.get(Limb.RIGHT_LEG ).get(0)
-			;}
-	public double getHead(){return vitalsMap.get(Limb.HEAD).get(0);}
-	public double getTorso(){return vitalsMap.get(Limb.TORSO).get(0);}
-	public double getlHand(){return vitalsMap.get(Limb.LEFT_ARM).get(0);}
-	public double getrHand(){return vitalsMap.get(Limb.RIGHT_ARM).get(0);}
-	public double getlLeg(){return vitalsMap.get(Limb.LEFT_LEG).get(0);}
-	public double getrLeg(){return vitalsMap.get(Limb.RIGHT_LEG).get(0);}
 	public double getStealth(){return stealth;}
 	public ArrayList<Traits> getTraits()	{	return traits;}
 	public ArrayList<Effect> getEffects()	{	return effects;	}
@@ -310,79 +178,6 @@ public class Statistics implements Serializable
 	public boolean isDead()					{	return dead;	}
 	public boolean isBreathing()			{	return breathing;	}
 
-	public void healAllVitals(int value)
-	{
-		System.out.println("Vitals before : " + getVitals() + " Healing value : " + value);
-
-		double hv = 0;
-		List<Limb> toHeal = new ArrayList<>();
-
-		if(vitalsMap.get(Limb.LEFT_ARM).get(0) < LEFT_ARMS_MAX) // see which limbs need healing
-			toHeal.add(Limb.LEFT_ARM);
-		if(vitalsMap.get(Limb.RIGHT_ARM).get(0) < RIGHT_ARMS_MAX)
-			toHeal.add(Limb.RIGHT_ARM);
-		if(vitalsMap.get(Limb.RIGHT_LEG).get(0) < RIGHT_LEGS_MAX)
-			toHeal.add(Limb.RIGHT_LEG);
-		if(vitalsMap.get(Limb.LEFT_LEG).get(0) < LEFT_LEGS_MAX)
-			toHeal.add(Limb.LEFT_LEG);
-		if(vitalsMap.get(Limb.HEAD).get(0) < HEAD_MAX)
-			toHeal.add(Limb.HEAD);
-		if(vitalsMap.get(Limb.TORSO).get(0) < TORSO_MAX)
-			toHeal.add(Limb.TORSO);
-
-		if(toHeal.size() < 1) // no limbs need healing
-			return;
-
-		hv = value/toHeal.size(); // determine equal healing value per limb
-		Double leftOverHealing = 0.0;
-
-		for(Limb l : toHeal) // healLimbs
-		{
-			System.out.println("Actively healing. Healing Value : " + hv + " leftOver : " + leftOverHealing);
-			leftOverHealing = healLimb(l, hv + leftOverHealing); // healLimb returns unused healing points
-		}
-		System.out.println("Vitals after : " + getVitals() + " Healing value per limb : " + hv);
-	}
-	public Double healLimb(Limb l, double value)
-	{
-		Double leftoverHealingPower = 0.0;
-		getVitalsMap(); // pulls correct values in map
-		List<Double> limb = vitalsMap.get(l);
-
-		System.out.println("\tHealing limb : " + l.toString() + " with value : " +  value + " BEFORE");
-		System.out.println("\tvalue in map " + limb.get(0));
-
-		if(limb.get(0) + value > limb.get(1)) // if adding the healing value to the current value of the injured limb goes over the MAX_LIMB value
-		{
-			leftoverHealingPower = (limb.get(0) + value) - limb.get(1); // add the healing to current and subtract from max to get leftover
-			limb.set(0, value + leftoverHealingPower);
-		}
-		else
-		{
-			limb.set(0, limb.get(0) + value);
-		}
-
-		System.out.println("\tHealing limb : " + l.toString() + " with value : " +  value + " Leftover : " + leftoverHealingPower);
-		System.out.println("\tHealing limb : " + l.toString() + " with value : " +  value + " Leftover : " + leftoverHealingPower);
-		System.out.println("\tvalue in map " + limb.get(0));
-		vitalsMap.put(l, limb); // set the updated value of the limb
-		System.out.println("\t\tChecking vitals map again " + vitalsMap.get(l).get(0));
-
-		if(limb.equals(Limb.TORSO))
-			torso = limb.get(0);
-		else if(limb.equals(Limb.HEAD))
-			head = limb.get(0);
-		else if(limb.equals(Limb.LEFT_ARM))
-			lHand = limb.get(0);
-		else if(limb.equals(Limb.RIGHT_ARM))
-			rHand = limb.get(0);
-		else if(limb.equals(Limb.LEFT_LEG))
-			lLeg = limb.get(0);
-		else if(limb.equals(Limb.RIGHT_LEG))
-			rLeg = limb.get(0);
-
-		return leftoverHealingPower;
-	}
 	public void removeEffect(Effect e)
 	{
 		if(effects.contains(e))
@@ -593,26 +388,17 @@ public class Statistics implements Serializable
 
 	public void processVitals()
 	{
-		if(getVitals() < 1)
+		if(vitals.getVitals() < 1)
 		{
 			setDead(true);
 			//System.out.println(getVitals() + " setting DEAD\n");
 		}
 
-		if(getlHand() + getrHand() < 0)
+		if(vitals.getLeftHand() + vitals.getRightHand() < 0)
 		{
 			addEffect(new Effect(Effect.Effects.DESTROYED_HANDS, "Broken Arm", Palette.red));
 		}
 	}
-    public void fullHeal()
-	{
-		this.lLeg = 100;
-		this.rLeg = 100;
-		this.lHand = 100;
-		this.rHand = 100;
-		this. torso = 300;
-		this.head = 300;
-    }
 	public boolean hasEffect(Effect.Effects effect)
 	{
 		boolean truth = false;
@@ -628,42 +414,5 @@ public class Statistics implements Serializable
 	public int getMaxPoints()
 	{
 		return MAX_POINTS;
-	}
-	public double getFullVitals()
-	{
-		return FULL_VITALS;
-	}
-	public double getHeadMax() {
-		return HEAD_MAX;
-	}
-	public double getTorsoMax() {
-		return TORSO_MAX;
-	}
-	public double getArmsMax() {
-		return ARMS_MAX;
-	}
-	public double getLegsMax() {
-		return LEGS_MAX;
-	}
-	public double getArms() {
-		return getrHand() + getlHand();
-	}
-	public double getLegs() {
-		return getlLeg() + getrLeg();
-	}
-
-
-	public void dealDamageToLimb(double damage, Limb head)
-	{
-		if(vitalsMap.get(head).get(0) + damage < 0) // has leftover damage
-		{
-			damage = Math.abs(vitalsMap.get(head).get(0) + damage); // saves leftover damage
-			vitalsMap.get(head).set(0, 0.0); // destroys lib -set to zero
-			dealDamage(damage); // randomly disperse rest of damage
-		}
-		else
-		{
-			vitalsMap.get(head).set(0, vitalsMap.get(head).get(0) + damage);
-		}
 	}
 }

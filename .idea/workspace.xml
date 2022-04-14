@@ -3,8 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="bc747c38-cb52-4caa-a5c5-4da97bdb7363" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/entities/Statistics.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Statistics.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/Statistics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Statistics.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Vitals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Vitals.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/entityAI/JunkieAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/JunkieAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/AttackBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/AttackBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/CharacterSheet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/CharacterSheet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/TargetingScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/TargetingScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/TileEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/TileEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/World.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

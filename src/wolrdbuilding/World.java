@@ -422,7 +422,7 @@ public class World implements Serializable
 		 */
 		if(player.stats.getEffects().contains(Effect.Effects.PASSIVE_HEALING))
 		{
-			player.stats.healAllVitals(10);
+			//player.stats.healAllVitals(10);
 		}
 		/*
 					EFFECTS
@@ -454,7 +454,9 @@ public class World implements Serializable
 		if(!mini.isPlayerInSafeZone())
 		{
 			if(!player.stats.isBreathing())
-				player.stats.dealDamage(2.0);
+			{
+				//player.stats.dealDamage(2.0);
+			}
 		}
 		int f1 = 1;
 		int f2 = 100;
@@ -527,7 +529,7 @@ public class World implements Serializable
     		if(p.glyph() == Tile.Y_SMALL.glyph())
     			dmg = 100;
     		player.setTarget(e);
-			e.dealDamage(-99);
+			//e.dealDamage(-99);
     		//e.modifyHp(-99);
     	}
 

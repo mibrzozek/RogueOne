@@ -61,11 +61,11 @@ public class CharacterSheet implements Screen
 		// Bottom Box //
 
 		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Shield", player.shield(), 1000, a);
-		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Vitals", player.stats.getVitals(), 1000, a);
-		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Head", player.stats.getHead(), 300, a);
-		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Torso", player.stats.getTorso(), 300, a);
-		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Arms", (int)player.stats.getlHand() + (int)player.stats.getrHand(), 200, a);
-		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Legs", (int)player.stats.getlLeg() + (int)player.stats.getrLeg(), 200, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Vitals", player.stats.vitals.getVitals(), 1000, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Head", player.stats.vitals.getHead(), 300, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Torso", player.stats.vitals.getTorso(), 300, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Arms", (int)player.stats.vitals.getLeftHand() + (int)player.stats.vitals.getRightHand(), 200, a);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Legs", (int)player.stats.vitals.getLeftLeg() + (int)player.stats.vitals.getRightLeg(), 200, a);
 		
 		terminal.write("Oxygen Sources", 8, y++);
 

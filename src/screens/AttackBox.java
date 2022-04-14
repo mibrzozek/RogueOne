@@ -54,8 +54,8 @@ public class AttackBox extends UIScreen
 			if (!player.inventory().get(Type.GUN).isEmpty())
 			{
 				double dmg = player.inventory().getTypeDuration(Type.GUN);
-				enemy.dealDamage(-dmg);
-				if (enemy.stats.getVitals() < 1)
+				//enemy.dealDamage(-dmg);
+				if (enemy.stats.vitals.getVitals() < 1)
 				{
 					enemy.setDead(true);
 					setNull();
@@ -68,8 +68,8 @@ public class AttackBox extends UIScreen
 					System.out.println("We're shooting arrows");
 					double dmg = player.inventory().getTypeDuration(Type.RANGED);
 					player.inventory().removeEquiped(new ItemFactory().newArrow());
-					enemy.dealDamage(-dmg);
-					if (enemy.stats.getVitals() < 1)
+					//enemy.dealDamage(-dmg);
+					if (enemy.stats.vitals.getVitals() < 1)
 					{
 						enemy.setDead(true);
 						setNull();
@@ -126,11 +126,11 @@ public class AttackBox extends UIScreen
 
 		terminal.write(enemy.tile().glyph(), enemy.x-ps.getLeftOffset()+ps.getPlayAreaOffset(), enemy.y - ps.getTopOffset(), Palette.white, Palette.darkRed);
 		TileEngine.renderBox(terminal, 31, bh, 0, by++, TileSet.SIMPLE, Palette.paleWhite);
-		TileEngine.renderPercentBlocksV2(terminal, 1, by++, enemy.name(), enemy.stats.getVitals(), enemy.stats.getFullVitals(), Palette.pastelGreen);
-		TileEngine.renderPercentBlocksV2(terminal, 1, by++, "HEAD", enemy.stats.getHead(), enemy.stats.getHeadMax(), Palette.paperBlue);
-		TileEngine.renderPercentBlocksV2(terminal, 1, by++, "TORSO", enemy.stats.getTorso(), enemy.stats.getTorsoMax(), Palette.paperBlue);
-		TileEngine.renderPercentBlocksV2(terminal, 1, by++, "ARMS", enemy.stats.getArms(), enemy.stats.getArmsMax(), Palette.paperBlue);
-		TileEngine.renderPercentBlocksV2(terminal, 1, by++, "LEGS", enemy.stats.getLegs(), enemy.stats.getLegsMax(), Palette.paperBlue);
+		TileEngine.renderPercentBlocksV2(terminal, 1, by++, enemy.name(), enemy.stats.vitals.getVitals(), enemy.stats.vitals.getFullVitals(), Palette.pastelGreen);
+		TileEngine.renderPercentBlocksV2(terminal, 1, by++, "HEAD", enemy.stats.vitals.getHead(), enemy.stats.vitals.getHeadMax(), Palette.paperBlue);
+		TileEngine.renderPercentBlocksV2(terminal, 1, by++, "TORSO", enemy.stats.vitals.getTorso(), enemy.stats.vitals.getTorsoMax(), Palette.paperBlue);
+		TileEngine.renderPercentBlocksV2(terminal, 1, by++, "ARMS", enemy.stats.vitals.getArms(), enemy.stats.vitals.getArmsMax(), Palette.paperBlue);
+		TileEngine.renderPercentBlocksV2(terminal, 1, by++, "LEGS", enemy.stats.vitals.getLegs(), enemy.stats.vitals.getLegsMax(), Palette.paperBlue);
 
 		TileEngine.renderDisplayPlate(terminal, 1, by++, 29, "Equipment", true, Palette.monoRed, Palette.lightGray);
 		int wy = by;

@@ -98,11 +98,11 @@ public class Item implements Serializable
         {
             other.notify("This will stop the bleeding");
 
-            other.stats.healAllVitals(this.value);
+            //other.stats.healAllVitals(this.value);
         }
         else if(this.type == Type.FULL_HEAL)
         {
-            other.stats.fullHeal();
+            //other.stats.fullHeal();
         }
         else if(this.type == Type.PASSIVE_HEALING)
         {

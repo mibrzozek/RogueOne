@@ -98,7 +98,7 @@ public class TargetingScreen implements Screen
 		{	
 			if(e.name() != null)
 				terminal.write(e.name(), 1, y);
-				TileEngine.renderPercentBlocksV2(terminal, 1, y++, e.name(), e.stats.getVitals() , e.stats.getFullVitals(), Palette.pastelGreen);
+				TileEngine.renderPercentBlocksV2(terminal, 1, y++, e.name(), e.stats.vitals.getVitals() , e.stats.vitals.getFullVitals(), Palette.pastelGreen);
 			//TileEngine.renderPercentBlocks(terminal, Palette.green, Palette.monoGreen, e.name().length() + 2, y++, e.hp(), e.maxHP(), true);
 		}
 	}

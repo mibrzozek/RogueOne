@@ -301,7 +301,7 @@ public class Entity implements Serializable
 					{
 						//target.stats.addEffect(new Effect(Effect.Effects.TETNIS, "Tetnis", Palette.red));
 					}
-					//target.dealDamage(-i.value());
+					target.stats.vitals.dealDamageRandomly(-i.value());
 					target.notify("You're getting stabbed with a " + i.name() + "..");
 				}
 			}

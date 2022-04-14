@@ -1,9 +1,6 @@
 package entities;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Vitals
 {
@@ -35,8 +32,9 @@ public class Vitals
     private double lLeg;
     private double rLeg;
 
+    private Random random;
     private Map<Limbs, List<Double>> vitalsMap;
-
+    private List<Limbs> functioningLimbs;
     public Vitals()
     {
         this.vitals = FULL_VITALS;
@@ -56,6 +54,9 @@ public class Vitals
 
         vitalsMap.put(Limbs.LEFT_LEG, Arrays.asList(lLeg, LEFT_LEG_MAX));
         vitalsMap.put(Limbs.RIGHT_LEG, Arrays.asList(rLeg, RIGHT_LEG_MAX));
+
+        this.random = new Random();
+        this.functioningLimbs = Arrays.asList(Limbs.values());
     }
     public double getVitals()
     {
@@ -129,9 +130,36 @@ public class Vitals
     {
         return LEFT_LEG_MAX;
     }
-    public void dealDamageRandomly(double damage)
+    public void dealDamageRandomly(double damage) // damage value coming in is already negative
     {
+        System.out.println("Incoming damage : " + damage + " Starting health : " + getVitals());
 
+        Limbs choosenLimb = functioningLimbs.get(random.nextInt(functioningLimbs.size()));
+        double leftover = dealDamageToLimb(choosenLimb, damage);
+
+        if(leftover > 0)
+            dealDamageRandomly(leftover);
+
+        System.out.println("Health after damage : " + getVitals());
+    }
+    public double dealDamageToLimb(Limbs limb, double damage)
+    {
+        double leftover = 0;
+
+        if(vitalsMap.get(limb).get(LIMB_HEALTH) + damage < 0) // if there will be leftover damage
+        {
+            leftover = vitalsMap.get(limb).get(LIMB_HEALTH) + damage;
+            vitalsMap.get(limb).set(LIMB_HEALTH, 0.0);
+            functioningLimbs.remove(limb);
+            System.out.println("This is the new limb health : " + vitalsMap.get(limb).get(LIMB_HEALTH));
+        }
+        else
+        {
+            double newHealth = vitalsMap.get(limb).get(LIMB_HEALTH) + damage;
+            vitalsMap.get(limb).set(LIMB_HEALTH, newHealth);
+        }
+
+        return leftover;
     }
     // fullHeal()
     {

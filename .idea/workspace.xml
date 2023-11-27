@@ -2,9 +2,54 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc747c38-cb52-4caa-a5c5-4da97bdb7363" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Managers/DamageMan.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Entity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/PathFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/PathFinder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Statistics.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Statistics.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Vitals$Limbs.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Vitals$Limbs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Vitals.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Vitals.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/entityAI/HitmanAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/entityAI/HitmanAi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/entityAI/PlayerAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/entityAI/PlayerAi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Inventory$EquipmentSlot.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Inventory$EquipmentSlot.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Inventory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Inventory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Item.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/ItemFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/ItemFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Type.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Type.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/AttackBox.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/AttackBox.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/CharacterCreationScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/CharacterCreationScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/DoorScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/DoorScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/PlayScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/PlayScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/Dungeon$Terrain.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/Dungeon$Terrain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/Dungeon.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/Dungeon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/RexReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/RexReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/Door$Clearance.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/Door$Clearance.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/Door.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/Door.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/MiniMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/MiniMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/Point.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/Point.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/World$Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/World$Map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/lsv/short_names.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/lsv/short_names.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/PathFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/PathFinder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Statistics.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Statistics.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/Vitals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Vitals.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/entityAI/HitmanAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/HitmanAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Item.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/ItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/AttackBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/AttackBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/CharacterCreationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/CharacterCreationScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/DoorScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/DoorScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/PlayScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/PlayScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/Dungeon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/Dungeon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/RexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/RexReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/Door.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/Door.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/MiniMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/MiniMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/Point.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/World.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,10 +89,11 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../005 SPRING MICROSERVICES/MSSpring" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RunManager">
     <configuration name="MainFrame" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">

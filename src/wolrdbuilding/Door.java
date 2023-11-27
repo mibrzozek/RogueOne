@@ -1,5 +1,7 @@
 package wolrdbuilding;
 
+import items.Item;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,27 +24,37 @@ public class Door
         return room;
     }
 
-    public enum Clearance{BLUE, RED, PURPLE, GREEN, GOLD};
+    public enum Clearance{BLUE, RED, PURPLE, GREEN, GOLD, UNIQUE};
 
     Point p, dp;
     Direction d;
     Clearance c;
     RoomV room;
+    Item uniqueKey;
     
     List<Point> points;
+    Direction cardinalBorderDirection =  null;
     
     boolean open;
-
+    // What's the difference between p and dp here???
     public Door(Point p, Point dp, Clearance c)
     {
         points = new ArrayList<>();
+
+        this.cardinalBorderDirection = d;
+
         this.p = p;
         this.dp = dp;
         this.c = c;
         this.open = false;
-        
+        this.uniqueKey = null;
+
         points.add(p);
         points.add(dp);
+    }
+    public void setUniqueKey(Item i)
+    {
+        this.uniqueKey = i;
     }
     public void open()
     {
@@ -52,6 +64,7 @@ public class Door
     {
         open = false;
     }
+    public boolean isOpen() { return open; }
     public Point getPoint()
     {
         return p;   

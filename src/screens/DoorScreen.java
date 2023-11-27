@@ -53,6 +53,11 @@ public class DoorScreen extends UIScreen
 
         if(itemList.get(index).equals("Open"))
         {
+            if(d == null)
+            {
+                System.out.println("Door is null, i'm returning");
+                return;
+            }
             if (player.inventory().getTypeDuration(Type.GOLD) > 0
                 && d.getClearance().equals(Door.Clearance.GOLD))
             {
@@ -92,12 +97,25 @@ public class DoorScreen extends UIScreen
                     i.modifyValue(-1, player.inventory());
                 }
             }
+            else if(player.inventory().getTypeDuration(Type.UNIQUE) > 0
+                    && d.getClearance().equals(Door.Clearance.UNIQUE))
+            {
+                w.openDoor(p);
+                player.notify("Looks like we have clearance Clarance.");
+                opened = true;
+                c = Palette.lightGreen;
+                Item i = player.inventory().getEquippedItem(iF.newUniqueKey());
+                if(i != null)
+                {
+                    i.modifyValue(-1, player.inventory());
+                }
+            }
             else
             {
                 player.notify("You need " + d.getClearance().toString() + " clearance to get it.");
             }
 
-            if(opened && !d.getRoom().isIdentified())
+            if(d.getRoom() != null && opened && !d.getRoom().isIdentified())
             {
                 d.getRoom().setIdentified(true); // once the room is opened it is identified and therefore the
                                                  // wall color of the room does not have to get changed

@@ -21,17 +21,14 @@ public class PathFinder
              this.parents = new HashMap<Point, Point>();
              this.totalCost = new HashMap<Point, Integer>();
        }
-     
        private int heuristicCost(Point from, Point to) 
        {
              return Math.max(Math.abs(from.x - to.x), Math.abs(from.y - to.y));
        }
-
        private int costToGetTo(Point from) 
        {
              return parents.get(from) == null ? 0 : (1 + costToGetTo(parents.get(from)));
        }
-     
        private int totalCost(Point from, Point to) 
        {
              if (totalCost.containsKey(from))
@@ -41,13 +38,11 @@ public class PathFinder
              totalCost.put(from, cost);
              return cost;
        }
-
        private void reParent(Point child, Point parent)
        {
              parents.put(child, parent);
              totalCost.remove(child);
        }
-
        public ArrayList<Point> findPath(Entity entity, Point start, Point end, int maxTries) 
        {
              open.clear();
@@ -71,7 +66,6 @@ public class PathFinder
              }
              return null;
        }
-
         private Point getClosestPoint(Point end) 
         {
             Point closest = open.get(0);

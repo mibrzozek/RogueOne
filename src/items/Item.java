@@ -90,7 +90,7 @@ public class Item implements Serializable
     	}
     	else if(this.type == Type.CONSUMABLE)
     	{
-    		other.notify("Mmmmm, i love bio food!");
+    		other.notify("Delicious unidentifiable sustenance");
 
     		other.stats.addEffect(new Effect(Effect.Effects.MEGA_RELAXED, "Relaxed", Palette.monoPerfect));
     	}
@@ -98,11 +98,11 @@ public class Item implements Serializable
         {
             other.notify("This will stop the bleeding");
 
-            //other.stats.healAllVitals(this.value);
+            other.stats.vitals.disperseHealingEvenly(this.value);
         }
         else if(this.type == Type.FULL_HEAL)
         {
-            //other.stats.fullHeal();
+            other.stats.vitals.fullHeal();
         }
         else if(this.type == Type.PASSIVE_HEALING)
         {

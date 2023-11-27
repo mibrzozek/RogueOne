@@ -6,6 +6,8 @@ import java.util.*;
 public class Inventory implements Serializable
 {
 
+	private Item primaryWeapon;
+
 	public void checkCapacity()
 	{
 		this.max = (int) getTypeDuration(Type.INVENTORY)+ STARTING_INV_CAP;
@@ -60,7 +62,17 @@ public class Inventory implements Serializable
 		return truth;
     }
 
-    public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
+	public Item getPrimaryWeapon()
+	{
+		return primaryWeapon;
+	}
+
+	public void setPrimaryWeapon(Item primary)
+	{
+		this.primaryWeapon = primary;
+	}
+
+	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
 
 	private Item[] equiped;
     private Item[] items;
@@ -232,39 +244,6 @@ public class Inventory implements Serializable
 		//System.out.println("Type misssing" + type.name());
 		return value;
 	}
-    public double getArmorNumber(EquipmentSlot slot, double damage)
-    {
-    	double d = damage;
-    	
-    	System.out.println(d + " before filters applied.");
-    	
-    	if(slot == EquipmentSlot.HEAD)
-    		d = reduceDamage(get(Type.HEAD), damage);
-    	else if(slot == EquipmentSlot.TORSO)
-    		d = reduceDamage(get(Type.TORSO), damage);
-    	else if(slot == EquipmentSlot.ARMS)
-    		d = reduceDamage(get(Type.ARMS), damage);
-    	else if(slot == EquipmentSlot.LEGS)
-    		d = reduceDamage(get(Type.LEGS), damage);
-    	
-    	System.out.println(d + " after filters applied..");
-    	
-    	return d;
-    }
-    public double reduceDamage(ArrayList<Item> slotItems, double damage)
-    {
-    	double d = damage;
-		System.out.println("Initial damage : " +  d);
-    	for(Item i : slotItems)
-    	{
-			if(i.value() < 201)
-				d = (d -(d*.3));
-
-    		System.out.println(i.name() + " this is the item name " +  i.type().toString() + " is the slot");
-    	}
-		System.out.println("Processed damage : " +  d);
-    	return d;
-    }
     public boolean isItemEquiped(Item item)
     {
 		return equipped.contains(item);
@@ -282,7 +261,6 @@ public class Inventory implements Serializable
 			equippedMap = getEquippedMap();
 			inventoryMap = getInventoryMap();
 		}
-
     }
     public void moveToEquiped(int index)
     {

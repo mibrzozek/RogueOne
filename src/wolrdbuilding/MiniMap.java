@@ -270,13 +270,6 @@ public class MiniMap
             **************** STATIC METHODS ******************
             *
             *   getNewMiniMap() used for dungeon creation in smooth()
-            *
-            *
-            *
-            *
-            *
-            *
-            *
      */
     public static TileV[][][] getNewMiniMap(TileV[][][] tiles, int width, int height, int depth, int cellSize)
     {

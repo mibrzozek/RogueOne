@@ -4,6 +4,10 @@ import entities.Effect;
 import entities.Entity;
 import entities.EntityFactory;
 import items.*;
+import puzzlelike.Problem;
+import puzzlelike.Puzzle;
+import puzzlelike.PuzzleManager;
+import puzzlelike.Terrain;
 import structures.Air;
 import structures.Dungeon;
 import structures.NameGenerator;
@@ -45,10 +49,16 @@ public class World implements Serializable
 			e.inventory().add(loot.removeRandomItemFromFloorOneTable()); // distribute loot and remove from list
 		}
 	}
+
+	public Puzzle getPuzzle()
+	{
+		return currentPuzzle;
+	}
+
 	public enum Map
 	{
 		TURKEY(),
-		DUNGEON();
+		DUNGEON(), PUZZLE;
 	}
 
 	private static final int MINI_CELL = 3;
@@ -78,6 +88,10 @@ public class World implements Serializable
 	private ArrayList<Point> stairPoints;
 
 
+	private PuzzleManager puzzMan;
+	private Puzzle currentPuzzle;
+
+
 	private Point circleCenter;
 	private Point circleStartingPoint;
 
@@ -102,7 +116,7 @@ public class World implements Serializable
 	public World(TileV[][][] tiles, ArrayList<Point> spawns, ArrayList<Point> startingPoints, Entity player, Dungeon d)
 	{
 		this.nameGenerator = new NameGenerator();
-		this.nameGenerator.setFileToUse("C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\lsv\\first_names.txt");
+		this.nameGenerator.setFileToUse("C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\lsv\\short_names.txt");
 
 		this.tiles = tiles;
 		this.player = player;
@@ -133,6 +147,19 @@ public class World implements Serializable
 		this.startingPoints = startingPoints;
 
 		this.air = new Air(this);
+
+		if(d.getPuzzle() != null) {
+			this.currentPuzzle = d.getPuzzle();
+			this.currentPuzzle.intialize(this);
+
+		}
+		else
+		{
+			this.currentPuzzle = new Puzzle(Problem.LOCK_AND_KEY, Terrain.DUNGEON);
+		}
+
+		this.puzzMan = new PuzzleManager(currentPuzzle);
+
 		random  = new Random();
 	}
 	public Air getAir()
@@ -373,16 +400,25 @@ public class World implements Serializable
     // Updates entity list; Used for when things are killed
     public void update()
     {
+		currentPuzzle = puzzMan.getCurrent();
+
     	if(mini == null)
     	{
 			mini = getMiniMap();
 			mini.update();
 		}
+		if(currentPuzzle.isSolved())
+		{
+			Puzzle nextPuzzle = new Puzzle(Problem.LOCK_AND_KEY, Terrain.CAVERN);
 
+			tiles = dungeon.generateNextTerrain(nextPuzzle, currentPuzzle, tiles);
+			puzzMan.addNextPuzzle(nextPuzzle);
+		}
     	turnManagement();
 
     	List<Projectile> projUpdate = new ArrayList<>(projectiles);
-    	
+
+
     	for (Projectile p : projUpdate)
         {
     		if (p.point().x < 0 || p.point().x > width -1
@@ -501,7 +537,6 @@ public class World implements Serializable
 	}
     public Tile douseFire()
     {
-    	
     	return null;
     }
     public Tile processCollision(Entity e, Projectile p)
@@ -754,6 +789,10 @@ public class World implements Serializable
 
 		entities.add(e);
     }
+	public void addItemAt(Point p, Item i)
+	{
+		itemMap[p.x][p.y][p.z] = i;
+	}
 	public void addAtStartingPoint(Entity turkey)
 	{
 		//tem.out.println(insideSpawns.size());

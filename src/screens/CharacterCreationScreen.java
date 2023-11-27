@@ -46,7 +46,7 @@ public class CharacterCreationScreen implements Screen
 
 	private boolean rendered =  false;
 	private NameGenerator nameGen;
-	private static final String NAME_PATH = "C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\lsv\\first_names.txt";
+	private static final String NAME_PATH = String.valueOf(CharacterCreationScreen.class.getResource("resources/lsv/first_names.txt"));
 	private static final String NAME_PATH_1 = "C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\lsv\\short_names.txt";
 	
 	public CharacterCreationScreen(MainFrame main)
@@ -257,6 +257,15 @@ public class CharacterCreationScreen implements Screen
 				case KeyEvent.VK_CAPS_LOCK: randomizeCharacter(); break;
 				case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(terminal, this); break;
 	      		case KeyEvent.VK_ENTER: selectItem(); break;
+				case KeyEvent.VK_P: {
+					if(stats.getName() == null || stats.getRole() == null)
+					{
+						stats.setName(DEFAULT_NAME);
+						stats.setRole(DEFAULT_ROLE);
+					}
+					return new PlayScreen(stats, (MainFrame) main, World.Map.PUZZLE);
+
+				}
 	      		case KeyEvent.VK_BACK_SPACE:
 	      		{
 	      			if(stats.getName() == null || stats.getRole() == null)

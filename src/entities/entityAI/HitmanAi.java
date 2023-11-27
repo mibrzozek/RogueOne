@@ -23,6 +23,7 @@ public class HitmanAi extends EntityAi
   {
       entity.inventory().add(new ItemFactory().newMacroUzi());
       entity.inventory().moveToEquiped(0);
+      entity.inventory().setPrimaryWeapon(entity.inventory().getEquipped(0));
   }
   public void onUpdate()
   {

@@ -1,14 +1,12 @@
 package items;
 
-import java.awt.Color;
+import wolrdbuilding.Palette;
+import wolrdbuilding.World;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import asciiPanel.AsciiPanel;
-import wolrdbuilding.Palette;
-import wolrdbuilding.World;
 
 public class ItemFactory implements Serializable
 {
@@ -36,6 +34,7 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newUniqueKey());
 		itemList.add(newHealKit5());
 		itemList.add(newHealKit4());
 		itemList.add(newHealKit3());
@@ -1176,5 +1175,16 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), healKit5);
 		return healKit5;
+	}
+	public Item newUniqueKey()
+	{
+		Item uniqueKey = new Item((char)98, Palette.paperGreen, Type.UNIQUE,
+				"Unique Key", 
+				"A unique key. The key to what's beyond.",
+				500,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), uniqueKey);
+		return uniqueKey;
 	}
 }

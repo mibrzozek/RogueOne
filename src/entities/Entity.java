@@ -1,5 +1,6 @@
 package entities;
 
+import Managers.DamageMan;
 import entities.entityAI.EntityAi;
 import entities.entityAI.PlayerAi;
 import items.Inventory;
@@ -199,7 +200,7 @@ public class Entity implements Serializable
     public void useWeapon(Entity target)
     {
     		Projectile p;
-
+			// If projectile weapon, add specified projectile pellet to world.
     		if((inventory.isItemEquiped(new ItemFactory().newDevSword()) 
     				&& inventory.isItemEquiped(new ItemFactory().newMacroUzi()))
     				&& inventory.isItemEquiped(new ItemFactory().newScopedRifle()))
@@ -212,6 +213,11 @@ public class Entity implements Serializable
     			
     			p = new Projectile(direction, new Point(x, y, z), Tile.Y_SMALL);
     			world.queueProjectile(p);
+
+				if(target != null)
+				{
+					target.stats.vitals.dealDamageRandomly(inventory.getPrimaryWeapon().value());
+				}
     			
     			notify("Hahahaha, die suckers!");
     		}
@@ -231,7 +237,10 @@ public class Entity implements Serializable
     		{
     			p = new Projectile(direction, new Point(x, y, z), Tile.Y_SMALL);
     			world.queueProjectile(p);
-    			notify("Die suckers!");
+				if(target != null)
+				{
+					DamageMan.resolveAttack(this, target, inventory.getPrimaryWeapon());
+				}
     		}
     		else if(inventory.isItemEquiped(new ItemFactory().newWaterCannon()))
     		{

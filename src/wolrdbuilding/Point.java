@@ -66,6 +66,29 @@ public class Point implements Serializable
         	return false;
         return true;
     }
+    public Point getPointInDirection(Direction d)
+    {
+        Point adjacentPoint = null;
+
+        if(d.equals(Direction.NORTH))
+        {
+            adjacentPoint = new Point(this.x, this.y -1, this.z);
+        }
+        else if(d.equals(Direction.SOUTH))
+        {
+            adjacentPoint = new Point(this.x, this.y + 1, this.z);
+        }
+        else if(d.equals(Direction.EAST))
+        {
+            adjacentPoint = new Point(this.x+1, this.y, this.z);
+        }
+        else if(d.equals(Direction.WEST))
+        {
+            adjacentPoint = new Point(this.x-1, this.y -1, this.z);
+        }
+
+        return adjacentPoint;
+    }
     public static Point getPointForCircle(int r, int w, int h)
     {
         Point p = new Point(0,0,0);

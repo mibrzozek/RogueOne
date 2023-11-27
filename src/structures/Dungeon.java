@@ -1,6 +1,10 @@
 package structures;
 
 import items.Stash;
+import puzzlelike.Problem;
+import puzzlelike.Puzzle;
+import structures.TerrainGen.CavernGen;
+import structures.TerrainGen.MapUtility;
 import wolrdbuilding.*;
 
 import java.util.*;
@@ -32,6 +36,54 @@ public class Dungeon
 	public ArrayList<Point> getMainRegionPointS()
 	{
 		return mainRegionPoints;
+	}
+
+	public Puzzle getPuzzle()
+	{
+		return puzzle;
+	}
+
+	public TileV[][][] generateNextTerrain(Puzzle nextPuzzle, Puzzle currentPuzzle, TileV[][][] tiles)
+	{
+		System.out.println("Generating next puzzle");
+		System.out.println(currentPuzzle.getborderCardinalDirection() + " direction!");
+		int width = 50;
+		int height = 50;
+		int depth = 1;
+
+		int offsetX = 0;
+		int offsetY = 0;
+
+		if(currentPuzzle.getborderCardinalDirection() == Direction.WEST)
+		{
+			offsetX = 50;
+			offsetY = 0;
+		}
+		else if(currentPuzzle.getborderCardinalDirection() == Direction.SOUTH)
+		{
+			offsetX = 0;
+			offsetY = 50;
+		}
+		else if(currentPuzzle.getborderCardinalDirection() == Direction.NORTH)
+		{
+			offsetX = 0;
+			offsetY = 0;
+		}
+		else if(currentPuzzle.getborderCardinalDirection() == Direction.EAST)
+		{
+			offsetX = 0;
+			offsetY = 0;
+		}
+		tiles = CavernGen.makeCavern(7, width, height, depth, tiles, offsetX, offsetY);
+		tiles = MapUtility.addPuzzleToTerrain(tiles, nextPuzzle, width, height, depth, offsetX, offsetY);
+		nextPuzzle.addItemSpawnPoints(MapUtility.getAllPointsThatAreThisTile(tiles, width, height, depth, Tile.INSIDE_FLOOR, offsetX, offsetY));
+		doors.addAll(nextPuzzle.getDoors());
+		System.out.println("Doors stored in puzzle" + nextPuzzle.getDoors().size());
+		//System.out.println(puzzle.getDoors().get(0).getPoint().toString());
+		System.out.println("Doors stored dungeonDoors" + doors.size());
+
+
+		return tiles;
 	}
 
 	public enum Terrain
@@ -79,6 +131,8 @@ public class Dungeon
 
 	private List<RoomV> allRooms;
 
+	private Puzzle puzzle;
+
 	List<RoomV> redRooms;
 	List<RoomV> goldRooms;
 	List<RoomV> greenRooms;
@@ -108,7 +162,6 @@ public class Dungeon
 		
 		this.tiles = new TileV[width][height][depth];
 		this.newTiles = new TileV[width][height][depth];
-
 		
 		this.spawnPoints = new ArrayList<>();
 		this.occupiedPoints = new ArrayList<>();
@@ -147,12 +200,34 @@ public class Dungeon
 			randomApproachToDungeons();
 		else if(m.equals(World.Map.TURKEY))
 			anotherDungeon();
+		else if(m.equals(World.Map.PUZZLE))
+		{
+			randomApproachToDungeons();
+			makePuzzleInstance();
+		}
 
 		return tiles;
 	}
-	public void turkeyWorld()
+	public void makePuzzleInstance()
 	{
+		System.out.println("Doors before" + doors.size());
+		Puzzle p = new Puzzle(Problem.LOCK_AND_KEY, puzzlelike.Terrain.CAVERN);
+		System.out.println("Puzzle : " + p.problem().toString());
+		System.out.println("Solution : " + p.solution().toString());
+		randomizeFloorCorrectly();
 
+		int width = 50;
+		int height = 50;
+		int depth = 1;
+
+		tiles = CavernGen.makeCavern(7, width, height, depth, tiles, 0, 0);
+		tiles = MapUtility.addPuzzleToTerrain(tiles, p, width, height, depth, 0, 0);
+		puzzle = p;
+		puzzle.addItemSpawnPoints(MapUtility.getAllPointsThatAreThisTile(tiles, width, height, depth, Tile.INSIDE_FLOOR, 0, 0));
+		doors.addAll(puzzle.getDoors());
+		System.out.println("Doors stored in puzzle" + puzzle.getDoors().size());
+		//System.out.println(puzzle.getDoors().get(0).getPoint().toString());
+		System.out.println("Doors stored dungeonDoors" + doors.size());
 	}
 	public void anotherDungeon()
 	{
@@ -673,7 +748,7 @@ public class Dungeon
 				if(p.x + x >= width)
 					continue;
 
-				if(branch)
+				if(branch) // What is this? Seems to be TRUE for previous times it was called
 				{
 					if(tiles[p.x + x][p.y][p.z].getTile().equals(tile)
 							&& tiles[p.x + x][p.y +1][p.z].getTile().equals(tile)
@@ -1156,6 +1231,9 @@ public class Dungeon
 			}
 		}
 	}
+
+
+	// Smooths by regenerating main map from mini map.
 	public void smooth()
 	{
 		int cellSize = 3;
@@ -1874,6 +1952,20 @@ public class Dungeon
 
 				{
 					tiles[x][y][z] = new TileV( (Math.random() < 0.5 ? Tile.WALL : Tile.WALL) );
+				}
+			}
+		}
+	}
+	public void randomizeFloorCorrectly()
+	{
+		for (int x = 0; x < width; x++)
+		{
+			for (int y = 0; y < height; y++)
+			{
+				for (int z = 0; z < depth; z++)
+
+				{
+					tiles[x][y][z] = new TileV( (Math.random() < 0.5 ? Tile.WALL : Tile.INSIDE_FLOOR) );
 				}
 			}
 		}

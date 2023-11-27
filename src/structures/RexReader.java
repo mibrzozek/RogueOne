@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class RexReader
 {
-    private static String filePath ="C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\structures\\";
+    private static String filePath = "C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\structures\\";
     private static String filePath1 ="C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\structures\\";
 
 
@@ -41,7 +41,7 @@ public class RexReader
 
     public static void retrieveStructures() throws IOException
     {
-        FileInputStream fileInputStream = new FileInputStream(filePath1 + "loadedStructures");
+        FileInputStream fileInputStream = new FileInputStream(String.valueOf(RexReader.class.getResource("resources/loadedStructures")));
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 
         try
@@ -103,11 +103,9 @@ public class RexReader
             }
         });
 
-        //System.out.println(files[0] + "hi form Rex");
-
         for(int i = 0; i < files.length; i++)
         {
-            try (Scanner fileScan = new Scanner(new File(filePath + files[i]), "UTF-8"))
+            try (Scanner fileScan = new Scanner(new File(filePath +  files[i]), "UTF-8"))
             {
                 while (fileScan.hasNextLine())
                 {

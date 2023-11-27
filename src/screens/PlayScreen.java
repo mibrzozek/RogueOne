@@ -68,28 +68,7 @@ public class PlayScreen implements Screen
      * The PlayScreen is the only objects which needs to be saved and loaded, making the saving
      * system easier to implement than expected.
      */
-    public PlayScreen(World world, Entity player, FieldOfView fov)
-    {
-        screenWidth = 85;
-        screenHeight = 50;
-        
-        introMessages = new ArrayList<String>();
-        introMessages.add("You wake from a deep slumber.");
-        introMessages.add("The ground is wet, and the air smells of metal. You hear a sound and are startled.");
-        messages = new ArrayList<String>();
-        
-        this.terminal = new AsciiPanel(100, 100);
-        
-    	this.player = player;
-    	this.world = world;
-    	this.fov = fov;
-    	
-        EntityFactory entityFactory = new EntityFactory(this.world, this.fov);
-        ItemFactory itemFactory = new ItemFactory(this.world);
-        
-        createEntities(entityFactory, itemFactory);
-        createItems(itemFactory); 
-    }
+
     public PlayScreen(Statistics stats, MainFrame main, World.Map m)
     {
         screenWidth = main.getScreenWidth();
@@ -119,30 +98,6 @@ public class PlayScreen implements Screen
 
         createEntities(entityFactory, itemFactory);
         createItems(itemFactory);     
-    }
-    public PlayScreen()
-    {
-        screenWidth = 85;
-        screenHeight = 50;
-        
-        introMessages = new ArrayList<String>();
-        introMessages.add("You wake from a deep slumber.");
-        introMessages.add("The ground is wet, and the air smells of metal. You hear a sound and are startled.");
-        messages = new ArrayList<String>();
-       
-        this.terminal = new AsciiPanel(100, 100);
-        terminal.setDefaultForegroundColor(Color.WHITE);
-      
-        createWorld(World.Map.DUNGEON);
-        fov = new FieldOfView(world);
-        EntityFactory entityFactory = new EntityFactory(world, fov);
-        ItemFactory itemFactory = new ItemFactory(world);
-        player = entityFactory.newPlayer(messages, null);
-        world.addPlayer(player);
-        world.addEntityAt(Point.transform(Direction.SOUTH, player.point()), entityFactory.newDroidSkeleton(0, player));
-
-        createEntities(entityFactory, itemFactory);
-        createItems(itemFactory);
     }
     public void writeToConsole(String cmd)
 	{

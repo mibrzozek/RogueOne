@@ -2,13 +2,13 @@ package entities;
 
 import java.util.*;
 
-public class Vitals
-{
-    public enum Limbs
-    {
+public class Vitals {
+    public enum Limbs {
         LEFT_LEG, RIGHT_LEG, LEFT_HAND, RIGHT_HAND, TORSO, HEAD;
     }
+
     private static final int LIMB_HEALTH = 0; // array index where corresponding limb health is stored
+    private static final int LIMB_MAX_HEALTH = 1; // array index where corresponding MAX limb health is stored
 
     private static final double FULL_VITALS = 1000;
 
@@ -35,8 +35,8 @@ public class Vitals
     private Random random;
     private Map<Limbs, List<Double>> vitalsMap;
     private List<Limbs> functioningLimbs;
-    public Vitals()
-    {
+
+    public Vitals() {
         this.vitals = FULL_VITALS;
         this.head = HEAD_MAX;
         this.torso = TORSO_MAX;
@@ -56,114 +56,188 @@ public class Vitals
         vitalsMap.put(Limbs.RIGHT_LEG, Arrays.asList(rLeg, RIGHT_LEG_MAX));
 
         this.random = new Random();
+        this.functioningLimbs = new ArrayList<>();
         this.functioningLimbs = Arrays.asList(Limbs.values());
     }
-    public double getVitals()
-    {
+
+    public double getVitals() {
         return getHead() + getTorso() + getRightHand() + getLeftHand() + getLeftLeg() + getRightLeg();
     }
-    public double getHead()
-    {
+
+    public double getHead() {
         return vitalsMap.get(Limbs.HEAD).get(LIMB_HEALTH);
     }
-    public double getTorso()
-    {
+
+    public double getTorso() {
         return vitalsMap.get(Limbs.TORSO).get(LIMB_HEALTH);
     }
-    public double getArms()
-    {
+
+    public double getArms() {
         return getRightHand() + getLeftHand();
     }
-    public double getRightHand()
-    {
+
+    public double getRightHand() {
         return vitalsMap.get(Limbs.RIGHT_HAND).get(LIMB_HEALTH);
     }
-    public double getLeftHand()
-    {
+
+    public double getLeftHand() {
         return vitalsMap.get(Limbs.LEFT_HAND).get(LIMB_HEALTH);
     }
-    public double getLegs()
-    {
+
+    public double getLegs() {
         return getRightLeg() + getLeftLeg();
     }
-    public double getRightLeg()
-    {
+
+    public double getRightLeg() {
         return vitalsMap.get(Limbs.RIGHT_LEG).get(LIMB_HEALTH);
     }
-    public double getLeftLeg()
-    {
+
+    public double getLeftLeg() {
         return vitalsMap.get(Limbs.LEFT_LEG).get(LIMB_HEALTH);
     }
-    public double getFullVitals()
-    {
+
+    public double getFullVitals() {
         return FULL_VITALS;
     }
-    public double getHeadMax()
-    {
+
+    public double getHeadMax() {
         return HEAD_MAX;
     }
-    public double getTorsoMax()
-    {
+
+    public double getTorsoMax() {
         return TORSO_MAX;
     }
-    public double getArmsMax()
-    {
+
+    public double getArmsMax() {
         return ARMS_MAX;
     }
-    public double getLeftHandMax()
-    {
+
+    public double getLeftHandMax() {
         return LEFT_HAND_MAX;
     }
-    public double getRightHandMax()
-    {
+
+    public double getRightHandMax() {
         return RIGHT_HAND_MAX;
     }
-    public double getLegsMax()
-    {
+
+    public double getLegsMax() {
         return LEGS_MAX;
     }
-    public double getRightLegMax()
-    {
+
+    public double getRightLegMax() {
         return RIGHT_LEG_MAX;
     }
-    public double getLeftLegMax()
-    {
+
+    public double getLeftLegMax() {
         return LEFT_LEG_MAX;
     }
+
     public void dealDamageRandomly(double damage) // damage value coming in is already negative
     {
         System.out.println("Incoming damage : " + damage + " Starting health : " + getVitals());
 
-        Limbs choosenLimb = functioningLimbs.get(random.nextInt(functioningLimbs.size()));
+        Limbs choosenLimb = selectLimb();
         double leftover = dealDamageToLimb(choosenLimb, damage);
 
-        if(leftover > 0)
+        if (leftover > 0)
             dealDamageRandomly(leftover);
 
         System.out.println("Health after damage : " + getVitals());
     }
-    public double dealDamageToLimb(Limbs limb, double damage)
-    {
-        double leftover = 0;
 
-        if(vitalsMap.get(limb).get(LIMB_HEALTH) + damage < 0) // if there will be leftover damage
+    public Limbs selectLimb() {
+        Limbs limb = functioningLimbs.get(random.nextInt(functioningLimbs.size()));
+        int count = 0;
+        do {
+            count++;
+            limb = functioningLimbs.get(random.nextInt(functioningLimbs.size()));
+            System.out.println("Limb Health : " + vitalsMap.get(limb).get(LIMB_HEALTH).toString() +
+                    "\nLimb Name :" + limb.toString());
+
+        } while (vitalsMap.get(limb).get(LIMB_HEALTH) == 0 && count < 10);
+
+        return limb;
+    }
+
+    public double dealDamageToLimb(Limbs limb, double damage) {
+        double leftover = 0;
+        if (vitalsMap.get(limb).get(LIMB_HEALTH) <= 0) {
+            return damage;
+        }
+
+        if (vitalsMap.get(limb).get(LIMB_HEALTH) + damage < 0) // if there will be leftover damage
         {
             leftover = vitalsMap.get(limb).get(LIMB_HEALTH) + damage;
             vitalsMap.get(limb).set(LIMB_HEALTH, 0.0);
-            functioningLimbs.remove(limb);
+            //functioningLimbs.remove(limb);
             System.out.println("This is the new limb health : " + vitalsMap.get(limb).get(LIMB_HEALTH));
-        }
-        else
-        {
+        } else {
             double newHealth = vitalsMap.get(limb).get(LIMB_HEALTH) + damage;
             vitalsMap.get(limb).set(LIMB_HEALTH, newHealth);
         }
 
         return leftover;
     }
-    // fullHeal()
-    {
 
+    public void fullHeal()
+    {
+        vitalsMap.get(Limbs.LEFT_LEG).set(LIMB_HEALTH, LEFT_LEG_MAX);
+        vitalsMap.get(Limbs.RIGHT_LEG).set(LIMB_HEALTH, RIGHT_LEG_MAX);
+        vitalsMap.get(Limbs.LEFT_HAND).set(LIMB_HEALTH, LEFT_HAND_MAX);
+        vitalsMap.get(Limbs.RIGHT_HAND).set(LIMB_HEALTH, RIGHT_HAND_MAX);
+        vitalsMap.get(Limbs.TORSO).set(LIMB_HEALTH, TORSO_MAX);
+        vitalsMap.get(Limbs.HEAD).set(LIMB_HEALTH, HEAD_MAX);
+    }
+    public void disperseHealingEvenly(int value)
+    {
+        int healPerLimb = value/getLimbsToHeal().size();
+
+        for(Limbs l : getLimbsToHeal())
+        {
+            System.out.println("Healing Limb: " + l.toString() + "Before : " + vitalsMap.get(l).get(LIMB_HEALTH));
+            Double limbMaxHealth = vitalsMap.get(l).get(LIMB_MAX_HEALTH);
+            Double newLimbHealth = vitalsMap.get(l).get(LIMB_HEALTH) + healPerLimb;
+            Double leftOverHealing = limbMaxHealth - newLimbHealth;
+            Double newHealth = Double.valueOf(Math.min(limbMaxHealth , newLimbHealth));
+            vitalsMap.get(l).set(LIMB_HEALTH, newHealth);
+            System.out.println("After : " + vitalsMap.get(l).get(LIMB_HEALTH));
+        }
+    }
+
+    public List<Limbs> getLimbsToHeal()
+    {
+        List<Limbs> toHeal = new ArrayList<>();
+
+        for(Limbs l : functioningLimbs)
+        {
+            if(l.equals(Limbs.HEAD) || l.equals(Limbs.TORSO))
+            {
+                if(vitalsMap.get(l).get(LIMB_HEALTH) != 300){
+                    toHeal.add(l);
+                }
+            }
+            else if(l.equals(Limbs.LEFT_HAND) || l.equals(Limbs.RIGHT_HAND) || l.equals(Limbs.LEFT_LEG) || l.equals(Limbs.RIGHT_LEG))
+            {
+                if(vitalsMap.get(l).get(LIMB_HEALTH) != 100){
+                    toHeal.add(l);
+                }
+            }
+        }
+        return toHeal;
+    }
+    public int getNumberOfFunctioningLimbs()
+    {
+        int functioningCount = 0;
+
+        for(Limbs l : functioningLimbs)
+        {
+            if(vitalsMap.get(l).get(LIMB_HEALTH) > 0)
+            {
+                functioningCount++;
+            }
+        }
+
+        return functioningCount;
     }
     /*
     	public void dealDamage(Double amount)

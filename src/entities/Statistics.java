@@ -166,7 +166,7 @@ public class Statistics implements Serializable
 	public int getCharisma(){return charisma;}
 	public int getHunger(){return hunger;}
 	public int getThirst()	{return thirst;}
-	public int getFocu(){return focus;}
+	public int getFocus(){return focus;}
 	public int getHeight() { return height; }
 	public int getWeight() { return weight; }
 	public int getBurden(){return burden;}

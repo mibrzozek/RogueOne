@@ -3,6 +3,7 @@ package items;
 import entities.Effect;
 import entities.Entity;
 import wolrdbuilding.Palette;
+import wolrdbuilding.Point;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -20,6 +21,7 @@ public class Item implements Serializable
             return false;
         }
     }
+
     public enum Rarity
     {
         COMMON(),
@@ -35,6 +37,7 @@ public class Item implements Serializable
     }
     private char glyph;
     private Color color;
+    private Point location;
     
     private Type type;
     private String name;
@@ -56,9 +59,18 @@ public class Item implements Serializable
         this.description = description;
         this.value = value;
         this.r = r;
+        this.location = new Point(0, 0, 0);
 
         if(this.type.equals("plasma"))
             this.usable = true;
+    }
+    public void setLocation(Point p)
+    {
+        this.location = p;
+    }
+    public Point getLocation()
+    {
+        return this.location;
     }
     public Type type() 				{ return type; }
     public String name() 			{ return name; }

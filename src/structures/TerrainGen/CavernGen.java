@@ -1,5 +1,6 @@
 package structures.TerrainGen;
 
+import puzzlelike.PuzzleManager;
 import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
 import wolrdbuilding.TileV;
@@ -8,44 +9,45 @@ import java.util.List;
 
 public class CavernGen
 {
-    public static TileV[][][] makeCavern(int times, int width, int height, int depth, TileV[][][] tiles, int offsetX, int offsetY)
+    public static TileV[][][] makeCavern(int times, int width, int height, int depth, TileV[][][] tiles, int offsetX, int offsetY, PuzzleManager puzzMan)
     {
-        tiles = randomizeFloorWithPercent(width, height, depth, tiles, Tile.WALL, Tile.INSIDE_FLOOR, .5, offsetX, offsetY);
-        tiles = MapUtility.fillPointsWithTile(tiles, MapUtility.getBorderPoints(width, height, depth, tiles, 5, offsetX, offsetY), Tile.WALL, offsetX, offsetY);
+        //tiles = randomizeFloorWithPercent(width, height, depth, tiles, Tile.WALL, Tile.INSIDE_FLOOR, .5, offsetX, offsetY);
+        tiles = MapUtility.determineContinuationPoint(tiles, width, height, depth, offsetX, offsetY, puzzMan);
+
+        tiles = MapUtility.fillPointsWithTile(tiles, MapUtility.getBorderPoints(width, height, depth, tiles, 5, offsetX, offsetY), Tile.WALL, 0, 0);
         tiles = smooth(times, width, height, depth, tiles, offsetX, offsetY); // smoothing last time to prevent caverns on border
-        tiles = MapUtility.fillPointsWithTile(tiles, MapUtility.getBorderPoints(width, height, depth, tiles, 5, offsetX, offsetY), Tile.WALL, offsetX, offsetY); // ensures walls on edges
+        tiles = MapUtility.fillPointsWithTile(tiles, MapUtility.getBorderPoints(width, height, depth, tiles, 5, offsetX, offsetY), Tile.WALL, 0, 0); // ensures walls on edges
 
         // ID Floor points
         List<Point> allFloors = MapUtility.getAllPointsThatAreThisTile(tiles, width, height, depth, Tile.INSIDE_FLOOR, offsetX, offsetY);
 
         //Regen map
         tiles = randomizeFloorWithPercent(width, height, depth, tiles, Tile.WALL, Tile.INSIDE_FLOOR, .5, offsetX, offsetY);
-        tiles = MapUtility.fillPointsWithTile(tiles, MapUtility.getBorderPoints(width, height, depth, tiles, 5, offsetX, offsetY), Tile.WALL, offsetX, offsetY);
+        tiles = MapUtility.fillPointsWithTile(tiles, MapUtility.getBorderPoints(width, height, depth, tiles, 5, offsetX, offsetY), Tile.WALL, 0, 0);
         tiles = smooth(times, width, height, depth, tiles, offsetX, offsetY); // smoothing last time to prevent caverns on border
-        tiles = MapUtility.fillPointsWithTile(tiles, MapUtility.getBorderPoints(width, height, depth, tiles, 5, offsetX, offsetY), Tile.WALL, offsetX, offsetY); // ensures walls on edges
-
+        tiles = MapUtility.fillPointsWithTile(tiles, MapUtility.getBorderPoints(width, height, depth, tiles, 5, offsetX, offsetY), Tile.WALL, 0, 0); // ensures walls on edges
 
         //Stamp Previous Cave (no smoothing necessary)
-        tiles = MapUtility.fillPointsWithTile(tiles, allFloors, Tile.INSIDE_FLOOR, offsetX, offsetY);
+        tiles = MapUtility.fillPointsWithTile(tiles, allFloors, Tile.INSIDE_FLOOR, 0, 0);
 
         return tiles;
     }
     private static TileV[][][] randomizeFloorWithPercent(int width, int height, int depth, TileV[][][] tiles, Tile wall, Tile insideFloor, Double percent, int offsetX, int offsetY)
     {
-        for(int x = 0 + offsetX ;x < width + offsetX; x++)
+        for(int x = 0 + offsetX ;x < width; x++)
         {
-            for(int y =0  +offsetY; y < height  + offsetY; y++)
+            for(int y = 0 + offsetY; y < height; y++)
             {
-                for(int z =0; z < depth; z++)
+                for(int z = 0; z < depth; z++)
                 {
                     if(Math.random() > percent)
                     {
-                        tiles[x + offsetX][y + offsetY][z].setTile(wall);
+                        tiles[x][y][z].setTile(wall);
                         System.out.println((x + offsetX) +  " painting at this offset locations  " + (y+ offsetY) + " " + z);
                     }
                     else
                     {
-                        tiles[x + offsetX][y + offsetY][z].setTile(insideFloor);
+                        tiles[x][y][z].setTile(insideFloor);
                     }
                 }
             }
@@ -80,7 +82,8 @@ public class CavernGen
                             }
                         }
                         tiles[x][y][z] = floors >= rocks ? new TileV(Tile.INSIDE_FLOOR) : new TileV(Tile.WALL);
-                        System.out.println("Just stamped x : " + x + "y:" +y + "z:" + z );
+                        //
+                        // System.out.println("Just stamped x : " + x + "y:" +y + "z:" + z );
                     }
                 }
             }
@@ -100,7 +103,8 @@ public class CavernGen
                         int size = fillRegion(nextRegion++, x, y, z);
 
                         if (size < 25)
-                            removeRegion(nextRegion - 1, z);
+                            removeRegion(nextRegion
+                           - 1, z);
                     }
                 }
             }

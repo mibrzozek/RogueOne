@@ -9,9 +9,8 @@ import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class NInventoryScreen extends ScrollingBasedScreen
 {
@@ -87,7 +86,7 @@ public class NInventoryScreen extends ScrollingBasedScreen
 
                 if(!rendered) // Adds and displays ITEM TYPE on equipment list
                 {
-                    TileEngine.renderDisplayPlate(terminal, x, y++, 14, t.name(), false, Palette.monoGrayBlue, Palette.morePaleWhite);
+                    TileEngine.renderDisplayPlate(terminal, x, y++, 30, t.name(), false, Palette.monoGrayBlue, Palette.morePaleWhite);
                     equipementList.add(new EquipmentSlot(null, ri++));
                     rendered=true;
                     equipementListSize++;
@@ -100,7 +99,7 @@ public class NInventoryScreen extends ScrollingBasedScreen
                 for(Item i: itemsInCategory)
                 {
                     equipementList.add(new EquipmentSlot(i, ri++));
-                    TileEngine.renderItemPlate(terminal, x, y++, i, 14);
+                    TileEngine.renderItemPlate(terminal, x, y++, i, 30);
                     equipementListSize++;
                     if(y > by + 18) // if at bottom of screen
                     {

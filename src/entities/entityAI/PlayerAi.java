@@ -50,6 +50,10 @@ public class PlayerAi extends EntityAi
 		this.entity.inventory().add(new LootTable().getGoldRoomItem());
 		this.entity.inventory().add(new ItemFactory().newMedicalKit());
 		this.entity.inventory().add(new ItemFactory().newClearanceGold());
+		this.entity.inventory().add(new ItemFactory().newSemiAutoRifle());
+		this.entity.inventory().add(new ItemFactory().newFiftyCal());
+		this.entity.inventory().add(new ItemFactory().newFragGrenade());
+		this.entity.inventory().add(new ItemFactory().newFragGrenade());
 		//this.entity.inventory().add(new ItemFactory().newTerrainMapper());
 		//this.entity.inventory().equipAll(new ItemFactory().newUniqueKey(), new ItemFactory().newDevSword(), new ItemFactory().newMiningBeam());
 
@@ -59,6 +63,7 @@ public class PlayerAi extends EntityAi
 		this.entity.stats.addEffect(new Effect(Effect.Effects.BROKEN_ARM, "Broken Arm", Palette.red));
 		this.entity.stats.addEffect(new Effect(Effect.Effects.DESTROYED_HANDS, "Broken Fingers", Palette.red));
 		this.entity.stats.addEffect(new Effect(Effect.Effects.SATITATED, "Stuffed", Palette.green));
+
     }
     public ArrayList<String> getAttacks()
     {

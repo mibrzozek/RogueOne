@@ -11,7 +11,7 @@ public class DamageMan
     {
         Random r = new Random();
         // Resolve Attacker
-        System.out.println("Attackers Agility : " + attacker.stats.getAgility());
+        //System.out.println("Attackers Agility : " + attacker.stats.getAgility());
         if(attacker.stats.getAgility() < 10)
         {
             if(Math.random() < .3)

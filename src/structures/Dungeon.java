@@ -3,8 +3,10 @@ package structures;
 import items.Stash;
 import puzzlelike.Problem;
 import puzzlelike.Puzzle;
+import puzzlelike.PuzzleManager;
 import structures.TerrainGen.CavernGen;
 import structures.TerrainGen.MapUtility;
+import structures.TerrainGen.RegionUtility;
 import wolrdbuilding.*;
 
 import java.util.*;
@@ -12,6 +14,7 @@ import java.util.stream.Stream;
 
 public class Dungeon
 {
+
 	public List<Point> getStairPoints()
 	{
 		return stairPoints;
@@ -21,71 +24,62 @@ public class Dungeon
 	{
 		return tiles;
 	}
-
-	public List<RoomV> getRedRooms() { return redRooms;
-	}
-	public List<RoomV> getGreenRooms()
-	{
-		return greenRooms;
-	}
+	public List<RoomV> getRedRooms() { return redRooms;}
+	public List<RoomV> getGreenRooms() { return greenRooms;}
 	public List<RoomV> getGoldRooms()
 	{
 		return goldRooms;
 	}
-
 	public ArrayList<Point> getMainRegionPointS()
 	{
 		return mainRegionPoints;
 	}
-
 	public Puzzle getPuzzle()
 	{
 		return puzzle;
 	}
 
-	public TileV[][][] generateNextTerrain(Puzzle nextPuzzle, Puzzle currentPuzzle, TileV[][][] tiles)
+	public TileV[][][] generateNextTerrain(PuzzleManager puzzMan, TileV[][][] tiles, Point nextTerrainOffset)
 	{
+		Puzzle nextPuzzle = puzzMan.getCurrent();
+		Point continuationPoint = new Point(0, 0, 0);
+
+		if(puzzMan.getPuzzCount() > 1)
+		{
+			continuationPoint = puzzMan.getPreviousPuzzle().getDoors().get(0).getPoint();
+		}
+
 		System.out.println("Generating next puzzle");
-		System.out.println(currentPuzzle.getborderCardinalDirection() + " direction!");
 		int width = 50;
 		int height = 50;
 		int depth = 1;
 
-		int offsetX = 0;
-		int offsetY = 0;
+		int offsetX = nextTerrainOffset.x;
+		int offsetY = nextTerrainOffset.y;
 
-		if(currentPuzzle.getborderCardinalDirection() == Direction.WEST)
-		{
-			offsetX = 50;
-			offsetY = 0;
-		}
-		else if(currentPuzzle.getborderCardinalDirection() == Direction.SOUTH)
-		{
-			offsetX = 0;
-			offsetY = 50;
-		}
-		else if(currentPuzzle.getborderCardinalDirection() == Direction.NORTH)
-		{
-			offsetX = 0;
-			offsetY = 0;
-		}
-		else if(currentPuzzle.getborderCardinalDirection() == Direction.EAST)
-		{
-			offsetX = 0;
-			offsetY = 0;
-		}
-		tiles = CavernGen.makeCavern(7, width, height, depth, tiles, offsetX, offsetY);
-		tiles = MapUtility.addPuzzleToTerrain(tiles, nextPuzzle, width, height, depth, offsetX, offsetY);
+		System.out.println("xoff : " + offsetX + " yoff : " + offsetY);
+
+		tiles = CavernGen.makeCavern(7, width, height, depth, tiles, offsetX, offsetY, puzzMan);
+		tiles = RegionUtility.mergeRegions(tiles, width, height, depth, puzzMan);
+
+
+		// Connect current region w/ previous puzzle door
+		regionMap = RegionUtility.getRegionMap(tiles, width, height, depth, offsetX, offsetY);
+		Point r1 = regionMap.get(1).get(new Random().nextInt(regionMap.get(1).size()));
+		Point r2 = puzzMan.getPreviousPuzzle().getDoors().get(0).getPoint();
+
+		tiles = RegionUtility.ConnectRegions(tiles, width, height, depth, puzzMan, r2, r1);
+
+
+		tiles = MapUtility.addPuzzleToTerrain(tiles, puzzMan, width, height, depth, offsetX, offsetY, regionMap);
 		nextPuzzle.addItemSpawnPoints(MapUtility.getAllPointsThatAreThisTile(tiles, width, height, depth, Tile.INSIDE_FLOOR, offsetX, offsetY));
 		doors.addAll(nextPuzzle.getDoors());
 		System.out.println("Doors stored in puzzle" + nextPuzzle.getDoors().size());
 		//System.out.println(puzzle.getDoors().get(0).getPoint().toString());
 		System.out.println("Doors stored dungeonDoors" + doors.size());
 
-
 		return tiles;
 	}
-
 	public enum Terrain
 	{
 		WATER(.15),
@@ -104,7 +98,6 @@ public class Dungeon
 			return this.percent;
 		}
 	}
-
 	private static int width, height, depth, nextRegion;
 	private static TileV[][][] tiles;
 	private static TileV[][][] newTiles;
@@ -129,6 +122,9 @@ public class Dungeon
 	private List<List> regionList;
 	private List<List> regionMapOfFloor;
 
+
+	//private Map<Integer, List<Point>> regionMap;
+
 	private List<RoomV> allRooms;
 
 	private Puzzle puzzle;
@@ -137,7 +133,7 @@ public class Dungeon
 	List<RoomV> goldRooms;
 	List<RoomV> greenRooms;
 
-	private Map<Integer, List<List>> regionMap;
+	private Map<Integer, List<Point>> regionMap;
 
 	private HashMap<String, ArrayList<TilePoint>> structureMap;
 	private HashMap<Integer, ArrayList<TilePoint>> partsMap;
@@ -191,6 +187,7 @@ public class Dungeon
 		RexReader rex = new RexReader();
 		this.structureMap = rex.getStructures();
 		this.partsMap = rex.getDecorations();
+
 	}
 	public TileV[][][] getNewDungeon(World.Map m)
 	{
@@ -202,7 +199,7 @@ public class Dungeon
 			anotherDungeon();
 		else if(m.equals(World.Map.PUZZLE))
 		{
-			randomApproachToDungeons();
+			//randomApproachToDungeons();     ;]
 			makePuzzleInstance();
 		}
 
@@ -215,19 +212,34 @@ public class Dungeon
 		System.out.println("Puzzle : " + p.problem().toString());
 		System.out.println("Solution : " + p.solution().toString());
 		randomizeFloorCorrectly();
+		PuzzleManager puzzMan = new PuzzleManager(p);
 
 		int width = 50;
 		int height = 50;
 		int depth = 1;
 
-		tiles = CavernGen.makeCavern(7, width, height, depth, tiles, 0, 0);
-		tiles = MapUtility.addPuzzleToTerrain(tiles, p, width, height, depth, 0, 0);
+		tiles = CavernGen.makeCavern(7, width, height, depth, tiles, 0, 0, puzzMan);
+		tiles = RegionUtility.mergeRegions(tiles, width, height, depth, puzzMan);
+
+		// Take region snapshot after merging, should be one
+		this.regionMap = RegionUtility.getRegionMap(tiles, width, height, depth, puzzMan.getNextPuzzleTerrainOffset().x, puzzMan.getNextPuzzleTerrainOffset().y);
+		if(regionMap.keySet().size() > 1)
+		{
+			System.err.println("Region size after merge is greater than 1 :" + regionMap.keySet().size());
+		}
+		System.out.println("Dungeon regions : " + regionMap.keySet().size());
+
+		tiles = MapUtility.addPuzzleToTerrain(tiles, puzzMan, width, height, depth, 0, 0, regionMap);
+
 		puzzle = p;
 		puzzle.addItemSpawnPoints(MapUtility.getAllPointsThatAreThisTile(tiles, width, height, depth, Tile.INSIDE_FLOOR, 0, 0));
 		doors.addAll(puzzle.getDoors());
 		System.out.println("Doors stored in puzzle" + puzzle.getDoors().size());
 		//System.out.println(puzzle.getDoors().get(0).getPoint().toString());
 		System.out.println("Doors stored dungeonDoors" + doors.size());
+
+		this.spawnPoints.addAll(MapUtility.getAllPointsThatAreThisTile(tiles, width, height, depth, Tile.INSIDE_FLOOR, 0, 0));
+		this.startingPoints.addAll(MapUtility.getAllPointsThatAreThisTile(tiles, width, height, depth, Tile.INSIDE_FLOOR, 0, 0));
 	}
 	public void anotherDungeon()
 	{
@@ -307,7 +319,6 @@ public class Dungeon
 
 			}
 		}
-
 		// make everything rock  and grass
 		fillAreaWithTile(new Point(0, 0, 0), width, height, Tile.ROCK_0, Tile.GRASS_0, null);
 		smoothAreaForTile(new Point(0, 0, 0), width, height, Tile.ROCK_0);
@@ -519,7 +530,6 @@ public class Dungeon
 
 					spawnPoints.add(bp);
 					//startingPoints.add(bp);
-
 				}
 			}
 		}
@@ -594,7 +604,6 @@ public class Dungeon
 		//makeLaserTraps();
 		addRoomDecor();
 		//spawnMethane();
-
 	}
 	private void calculateRoomClearance()
 	{

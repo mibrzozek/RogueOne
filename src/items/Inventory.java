@@ -6,6 +6,32 @@ import java.util.*;
 public class Inventory implements Serializable
 {
 
+	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
+
+	private Item[] equiped;
+	private Item[] items;
+
+	public static final int STARTING_INV_CAP = 10;
+	public static final int STARTING_EQP_CAP = 6;
+
+
+	private int max, maxEquip;
+
+
+	private List<Item> inventory;
+	private List<Item> equipped;
+
+	private Map<Type, List<Item>> inventoryMap;
+	private Map<Type, List<Item>> equippedMap;
+
+	private List<Item> devices;
+	private List<Item> opticalEnhancers;
+
+	private int deviceIndex = -1;
+
+	private boolean fullyEquiped = false;
+
+	private Random r = new Random();
 	private Item primaryWeapon;
 
 	public void checkCapacity()
@@ -14,16 +40,13 @@ public class Inventory implements Serializable
 		this.maxEquip = (int)getTypeDuration(Type.HELMET) + (int)getTypeDuration(Type.TORSO)
 				+ (int)getTypeDuration(Type.ARMS) + (int)getTypeDuration(Type.LEGS) + STARTING_EQP_CAP;
 	}
-
 	public int getEquippedMax() {
 		return maxEquip;
 	}
-
     public int getRoom()
 	{
         return getCapacity() - inventory.size();
     }
-
 	public void clear()
 	{
 		inventory = new ArrayList<>();
@@ -48,7 +71,6 @@ public class Inventory implements Serializable
 		}
 		return null;
 	}
-
     public boolean hasProjectileWeapon()
 	{
 		boolean truth = false;
@@ -61,44 +83,14 @@ public class Inventory implements Serializable
 		}
 		return truth;
     }
-
 	public Item getPrimaryWeapon()
 	{
 		return primaryWeapon;
 	}
-
 	public void setPrimaryWeapon(Item primary)
 	{
 		this.primaryWeapon = primary;
 	}
-
-	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
-
-	private Item[] equiped;
-    private Item[] items;
-
-    public static final int STARTING_INV_CAP = 10;
-	public static final int STARTING_EQP_CAP = 6;
-
-
-	private int max, maxEquip;
-
-
-	private List<Item> inventory;
-	private List<Item> equipped;
-
-	private Map<Type, List<Item>> inventoryMap;
-	private Map<Type, List<Item>> equippedMap;
-
-    private List<Item> devices;
-	private List<Item> opticalEnhancers;
-
-    private int deviceIndex = -1;
-    
-    private boolean fullyEquiped = false;
-    
-    private Random r = new Random();
-
     public Inventory(int max)
     {
     	this.max = max;

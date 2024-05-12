@@ -1,12 +1,10 @@
 package structures.TerrainGen;
 
 import puzzlelike.Puzzle;
+import puzzlelike.PuzzleManager;
 import wolrdbuilding.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class MapUtility
 {
@@ -131,10 +129,11 @@ public class MapUtility
         for(Point p: points)
         {
             tiles[p.x + offsetX][p.y + offsetY][p.z] = new TileV(t);
+            tiles[p.x + offsetX][p.y + offsetY][p.z] = new TileV(t);
         }
         return tiles;
     }
-    public static TileV[][][] addPuzzleToTerrain(TileV[][][] tiles, Puzzle puzzle, int width, int height, int depth, int offsetX, int offsetY)
+    public static TileV[][][] addPuzzleToTerrain(TileV[][][] tiles, PuzzleManager puzzMan, int width, int height, int depth, int offsetX, int offsetY, Map<Integer, List<Point>> regionMap)
     {
         /*
             1. Populate candidates w/ all the border points of the new Puzzle area
@@ -144,52 +143,91 @@ public class MapUtility
                 c. Add all candidates that have floor next to them to narrowedCandidates
             3. Pass narrowedCandidates to placeEscapeDoor()
          */
+
+        Puzzle puzzle = puzzMan.getCurrent();
+
         System.out.println(puzzle.problem().toString());
         if(puzzle.problem().toString() == "LOCK_AND_KEY")
         {
+            System.out.println("offx: " + offsetX + " off y:" + offsetY);
+
+            ArrayList<Point> northPoints = getCardinalBorderPoints(Direction.NORTH, width, height, depth, tiles, 0, offsetX, offsetY);
+            //System.out.println("All northern points : " + northPoints.toString());
+
+            ArrayList<Point> southPoints = getCardinalBorderPoints(Direction.SOUTH, width, height, depth, tiles, 0, offsetX, offsetY);
+            //System.out.println("All southern points : " + southPoints.toString());
+
+            ArrayList<Point> eastPoints = getCardinalBorderPoints(Direction.EAST, width, height, depth, tiles, 0, offsetX, offsetY);
+            //System.out.println("All eastern points : " + eastPoints.toString());
+
+            ArrayList<Point> westPoints = getCardinalBorderPoints(Direction.WEST, width, height, depth, tiles, 0, offsetX, offsetY);
+            //System.out.println("All western points : " + westPoints.toString());
+
             Point p = new Point(0, 0, 0);
 
-            Boolean found  = false;
-            ArrayList<Point> candidates = getBorderPoints(width, height, depth, tiles, 5, offsetX, offsetY);
-            ArrayList<Point> narrowedCandidates = new ArrayList<>();
+            ArrayList<Point> candidates = new ArrayList<>();
 
-            Collections.shuffle(candidates);
-            for(Point cp : candidates) // Find wall point with floor next to it
+            if(puzzMan.getNextPuzzleTerrainOffset().getNextGenDirection().equals(Direction.NORTH))
             {
-                System.out.println(candidates.size());
-                System.out.println("Sire:" + cp.toString());
-                if(tiles[cp.x][cp.y][cp.z].getTile().isWall())
-                {
-                    for(Point np : cp.neighbors8())
-                    {
-                        if(np.x + offsetX < 0 + offsetX || np.y + offsetY < 0 + offsetY || np.x + offsetX > width + offsetX -1 || np.y + offsetY > height  + offsetY -1)
-                        {
-                            // if we make neighbors8 return only positive points this will increase efficiency
-                            // skipping potentially out of bounds points
-                            continue;
-                        }
-                        //System.out.println(np.toString());
-                        if(tiles[np.x + offsetX][np.y + offsetY][np.z].getTile().isFloor())
-                        {
-                            if(found == false)
-                            {
-                                p = cp;
-                                found = true;
-                                narrowedCandidates.add(cp);
-                            }
-                            else
-                            {
-                                narrowedCandidates.add(cp);
-                            }
-                        }
-                    }
-                }
+                candidates.addAll(northPoints);
             }
-            System.out.println(narrowedCandidates.size() + "narrowed candidates");
-            placeEscapeDoor(tiles, narrowedCandidates, width, height, depth, puzzle, offsetX, offsetY);
-            //fillPointsWithTile(tiles, narrowedCandidates, Tile.ROCK_0, offsetX, offsetY);
+            else if(puzzMan.getNextPuzzleTerrainOffset().getNextGenDirection().equals(Direction.SOUTH))
+            {
+                candidates.addAll(southPoints);
+            }
+            else if(puzzMan.getNextPuzzleTerrainOffset().getNextGenDirection().equals(Direction.EAST))
+            {
+                candidates.addAll(eastPoints);
+            }
+            else if(puzzMan.getNextPuzzleTerrainOffset().getNextGenDirection().equals(Direction.WEST))
+            {
+                candidates.addAll(westPoints);
+            }
+
+            placeEscapeDoor(tiles, candidates, width, height, depth, puzzle, offsetX, offsetY);
+            RegionUtility.getRegionMap(tiles, width, height, depth, offsetX, offsetY);
+
         }
         return tiles;
+    }
+    public static ArrayList<Point> getCardinalBorderPoints(Direction d, int width, int height, int depth, TileV[][][] tiles, int padding, int offx, int offy)
+    {
+        ArrayList<Point> allBorders = getBorderPoints(width, height, depth, tiles, padding,  offx, offy);
+        ArrayList<Point> cardinalBorder = new ArrayList<>();
+
+        for(Point p :  allBorders)
+        {
+            if(d.equals(Direction.NORTH))
+            {
+                if(p.y == offy)
+                {
+                    cardinalBorder.add(p);
+                }
+            }
+            else if(d.equals(Direction.SOUTH))
+            {
+                if(p.y == offy + height -1)
+                {
+                    cardinalBorder.add(p);
+                }
+            }
+            else if(d.equals(Direction.EAST))
+            {
+                if(p.x == offx + width -1)
+                {
+                    cardinalBorder.add(p);
+                }
+            }
+            else if(d.equals(Direction.WEST))
+            {
+                if(p.x == offx)
+                {
+                    cardinalBorder.add(p);
+                }
+            }
+        }
+
+        return cardinalBorder;
     }
     public static void placeEscapeDoor(TileV[][][] tiles, List<Point> siteCandidates, int width, int height, int depth, Puzzle puzzle, int offsetX, int offsetY)
     {
@@ -206,11 +244,25 @@ public class MapUtility
         {
             Collections.shuffle(siteCandidates);
 
-            Point p = siteCandidates.get(new Random().nextInt(siteCandidates.size()));
+            Map<Integer, List<Point>> regionMap = RegionUtility.getRegionMap(tiles, width, height, depth, offsetX, offsetY);
+            // Sometimes region map comes back with more than one region, this will need to be fixed as the assumption
+            // is that after gen there should be only one region
+
+            List<Point> actuallyAllMain = new ArrayList<>();
+            for(Integer i : regionMap.keySet())
+            {
+                actuallyAllMain.addAll(regionMap.get(i));
+            }
+            // Find closest point from main play area to one of the site candidates
+            Point p = RegionUtility.findClosestPointFromNextRegion(tiles, actuallyAllMain, siteCandidates);
+            List<Point> onePoint = new ArrayList<>();
+            onePoint.add(p);
+            Point mainPoint = RegionUtility.findClosestPointFromNextRegion(tiles,onePoint, actuallyAllMain);
+            //p = siteCandidates.get(new Random().nextInt(siteCandidates.size()));
 
             Direction d = null;
 
-            if(p.x == 0 +offsetX )
+            if(p.x == 0 + offsetX )
             {
                 d = Direction.EAST;
             }
@@ -227,7 +279,13 @@ public class MapUtility
                 d = Direction.SOUTH;
             }
 
+            System.out.println("PLacing door and checking region size : " + regionMap.keySet().size());
+            System.out.println("\t\tRegion map size : " + regionMap.keySet().size());
+
+            RegionUtility.ConnectRegions(tiles, width, height, depth, null, p, mainPoint);
+
             tiles[p.x][p.y][p.z] = new TileV(Tile.CLOSED_DOOR);
+
             puzzle.addLockedDoor(new Door(p, p, Door.Clearance.UNIQUE), d);
             System.out.println("This is the one true door:" + p.toString());
 
@@ -308,13 +366,21 @@ public class MapUtility
             {
                 for(int z = 0; z < depth; z++)
                 {
-                    if(tiles[x+offsetX][y+offsetY][z].getTile() == tile)
+                    if(tiles[x][y][z].getTile() == tile)
                     {
-                        points.add(new Point(x+offsetX, y+offsetY, z));
+                        points.add(new Point(x, y, z));
                     }
                 }
             }
         }
         return points;
+    }
+
+    public static TileV[][][] determineContinuationPoint(TileV[][][] tiles, int width, int height, int depth, int offsetX, int offsetY, PuzzleManager puzzMan)
+    {
+        //
+        List<Point> nextBorder = MapUtility.getCardinalBorderPoints(puzzMan.getNextPuzzleTerrainOffset().getNextGenDirection(), width, height, depth, tiles, 0, offsetX, offsetY);
+
+        return tiles;
     }
 }

@@ -141,13 +141,13 @@ public class MainFrame extends JFrame implements KeyListener
 		{
 			Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
 			this.setLocation(dim.width / 2 - (this.getSize().width / 2), 0);
-			this.setSize(1285,1038 );
+			this.setSize(1280,1045 );
 
 
-			this.screenWidth = 80;
+			this.screenWidth = 79;
 			this.screenHeight = 63;
 
-			this.displayWidth = 80;
+			this.displayWidth = 79;
 			this.displayHeight = screenHeight - 12;
 		}
 	}

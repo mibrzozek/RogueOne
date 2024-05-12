@@ -3,7 +3,6 @@ package screens;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import entities.Line;
-import entities.Path;
 import items.Item;
 import items.Type;
 import structures.MainFrame;
@@ -11,9 +10,7 @@ import wolrdbuilding.Palette;
 import wolrdbuilding.Point;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,14 +19,14 @@ public class ThrowableScreen extends UIScreen
 {
     private Screen subScreen;
     private int cursorX, cursorY, sh, sw, psx, psy;
-
+    private List<Item> throwItems;
 
     public ThrowableScreen(Entity player, PlayScreen ps, JFrame main)
     {
         super(player, ps, main);
 
-        List<Item> utilities = player.inventory().getEquipped().stream().filter(items -> items.type() == Type.UTILITY).collect(Collectors.toList());
-        List<String> options = utilities.stream().map(item -> item.name()).collect(Collectors.toList());
+        throwItems = player.inventory().getEquipped().stream().filter(items -> items.type() == Type.UTILITY).collect(Collectors.toList());
+        List<String> options = throwItems.stream().map(item -> item.name()).collect(Collectors.toList());
         setList((ArrayList) options);
 
         this.bw = 15;
@@ -98,6 +95,16 @@ public class ThrowableScreen extends UIScreen
             cursorX++;
     }
 
+    private void throwThrowable()
+    {
+        Item i = throwItems.get(0);
+        i.setLocation(new Point(cursorX +ps.getLeftOffset(), cursorY + ps.getTopOffset(), 0));
+        ps.getWorld().addThrowableItem(i);
+        if(ps.getWorld().getPlayer().inventory().isItemEquiped(throwItems.get(0)))
+        {
+            ps.getWorld().getPlayer().inventory().removeEquiped(throwItems.get(0));
+        }
+    }
     @Override
     public Screen respondToUserInput(KeyEvent key)
     {
@@ -115,6 +122,9 @@ public class ThrowableScreen extends UIScreen
         {
             switch (key.getKeyCode())
             {
+                case KeyEvent.VK_ENTER:
+                    throwThrowable();
+                    return null;
                 case KeyEvent.VK_ESCAPE:
                     return null;
                 case KeyEvent.VK_UP:
@@ -128,8 +138,6 @@ public class ThrowableScreen extends UIScreen
                     break;
                 case KeyEvent.VK_LEFT:
                     scrollLeft();
-                    break;
-                case KeyEvent.VK_ENTER:
                     break;
 
                 case KeyEvent.VK_1:
@@ -150,5 +158,6 @@ public class ThrowableScreen extends UIScreen
         }
         return this;
     }
+
 
 }

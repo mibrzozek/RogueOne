@@ -54,7 +54,8 @@ public class AttackBox extends UIScreen
 			if (!player.inventory().get(Type.GUN).isEmpty())
 			{
 				double dmg = player.inventory().getTypeDuration(Type.GUN);
-				enemy.stats.vitals.dealDamageRandomly(-100);
+				enemy.stats.vitals.dealDamageRandomly(-dmg);
+				System.out.println("In AttackBox dmg is : " + dmg);
 				if (enemy.stats.vitals.getVitals() < 1)
 				{
 					enemy.setDead(true);

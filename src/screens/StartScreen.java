@@ -3,8 +3,10 @@ package screens;
 import asciiPanel.AsciiPanel;
 import structures.MainFrame;
 import structures.RexReader;
+import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.TilePoint;
+import wolrdbuilding.TileSet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,7 +48,7 @@ public class StartScreen implements Screen
 		testStructure = new ArrayList<>();
 		structureMap = new RexReader().getStructures();
 
-		//subscreen = new AnimationScreen(testStructure, terminal);
+		subscreen = new AnimationScreen(testStructure, terminal);
 		//Thread t = new Thread(new AnimationScreen(testStructure, terminal));
 		//t.start();
 
@@ -57,10 +59,10 @@ public class StartScreen implements Screen
 	{
 
 		this.terminal = terminal;
-		/*
+
 		if(!rendered)
 		{
-			testStructure = structureMap.get("ascciWorld.csv");
+			testStructure = structureMap.get("finAsciiAR.csv");
 			testStructure = TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 15, 5, 35, 18, Palette.darkGray);
 			System.out.println(testStructure.size());
 
@@ -76,7 +78,7 @@ public class StartScreen implements Screen
 			TileEngine.sparkleAnime(testStructure);
 			TileEngine.displayTilesWithTransparentBox(terminal, testStructure, null, null, null, null, null);
 		}
-		*/
+
 		terminal.writeCenter("PLAY [enter]", 19);
 		terminal.writeCenter("LOAD [space]", 20);
 		terminal.writeCenter("LOSE [ esc ]", 21);

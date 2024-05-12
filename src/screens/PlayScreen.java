@@ -1,7 +1,10 @@
 package screens;
 
 import asciiPanel.AsciiPanel;
-import entities.*;
+import entities.Entity;
+import entities.EntityFactory;
+import entities.FieldOfView;
+import entities.Statistics;
 import entities.entityAI.DroidAi;
 import items.Item;
 import items.ItemFactory;
@@ -31,7 +34,6 @@ public class PlayScreen implements Screen
 
 	private Console console;
 
-	private World world;
 	private int centerX;
     private int centerY;
     private int screenWidth;
@@ -59,6 +61,7 @@ public class PlayScreen implements Screen
     
     private Random r = new Random();
     private World.Map map;
+	private World world;
 
     private transient AsciiPanel terminal;
 	private int displayHeight, displayWidth;
@@ -108,22 +111,29 @@ public class PlayScreen implements Screen
 			messages.add(response);
 		}
 	}
+	public World getWorld()
+	{
+		return this.world;
+	}
     private void createItems(ItemFactory itemFactory) 
     {
 		world.generateLockedRoomLoot();
     }
 	private void createEntities(EntityFactory entityFactory, ItemFactory itemFactory)
 	{
-		world.spawnEnemies();
-		world.dealEnemiesLoot();
-		world.spawnRedRoomEnemies();
-		world.spawnRogues();
+		if(map.equals(World.Map.DUNGEON)) {
+			world.spawnEnemies();
+			world.dealEnemiesLoot();
+			world.spawnRedRoomEnemies();
+			world.spawnRogues();
+		}
+
 	}
     private void createWorld(World.Map m)
     {
     	// Sets World size
     	// Makes caves, castles, loot and enemies
-        world = new PlanetPrinter(200 ,200 , 5
+        this.world = new PlanetPrinter(200 ,200 , 5
 				, player)
         			.makeDungeons(m)
         			.build();
@@ -227,11 +237,11 @@ public class PlayScreen implements Screen
 			((MapScreen) subScreen).displayOutput(terminal);
 		 if(subScreen instanceof DoorScreen)
 			((DoorScreen) subScreen).displayOutput(terminal);
-		if(subScreen instanceof EntityInteractScreen)
+		 if(subScreen instanceof EntityInteractScreen)
 			((EntityInteractScreen) subScreen).displayOutput(terminal);
-		if(subScreen instanceof AttackBox)
+		 if(subScreen instanceof AttackBox)
 			((AttackBox) subScreen).displayOutput(terminal);
-		if(subScreen instanceof StashScreen)
+		 if(subScreen instanceof StashScreen)
 			((StashScreen) subScreen).displayOutput(terminal);
 	}
 	public int getLeftOffset() { return leftOffset;}
@@ -293,8 +303,21 @@ public class PlayScreen implements Screen
     public void updateWorld() 			{ world.update();}
     public void returnStartScreen()     { exitGame = true; 	}
 	@Override
-	public Screen respondToUserInput(KeyEvent key) 
+	public Screen respondToUserInput(KeyEvent key)
 	{
+		// Audio
+		/*
+		try {
+			URL audioUrl = new URL("file:C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\audio\\mySickSound.wav");
+			AudioInputStream aStream = AudioSystem.getAudioInputStream(audioUrl);
+			Clip clip = AudioSystem.getClip();
+			clip.open(aStream);
+			clip.start();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		 */
 		if(screenTicks < introMessages.size())
 		{
 			player.notify("The level is " + player.z);

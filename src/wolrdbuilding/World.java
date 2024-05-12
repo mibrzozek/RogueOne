@@ -1,5 +1,6 @@
 package wolrdbuilding;
 
+import Managers.ThrowablesManager;
 import entities.Effect;
 import entities.Entity;
 import entities.EntityFactory;
@@ -28,7 +29,6 @@ public class World implements Serializable
 	{
 		return stairPoints;
 	}
-
 	public NameGenerator getNameGenerator() {
 		return nameGenerator;
 	}
@@ -53,6 +53,12 @@ public class World implements Serializable
 	public Puzzle getPuzzle()
 	{
 		return currentPuzzle;
+	}
+
+	public void addThrowableItem(Item item)
+	{
+		throwMan.addThrowable(item, 3);
+		itemMap[item.getLocation().x][item.getLocation().y][item.getLocation().z] = item;
 	}
 
 	public enum Map
@@ -86,11 +92,12 @@ public class World implements Serializable
 	private ArrayList<Door> doorPoints;
 	private ArrayList<Stash> stashPoints;
 	private ArrayList<Point> stairPoints;
+	private ArrayList<Item> liveThrowItems;
 
 
 	private PuzzleManager puzzMan;
 	private Puzzle currentPuzzle;
-
+	private ThrowablesManager throwMan;
 
 	private Point circleCenter;
 	private Point circleStartingPoint;
@@ -127,13 +134,15 @@ public class World implements Serializable
 		this.depth = tiles[0][0].length;
 
 		this.turns = 0;
-		
+
+
 		this.entities = new ArrayList<Entity>();
 		this.projectiles = new ArrayList<Projectile>();
 		this.firePoints = new ArrayList<Point>();
 		this.doorPoints  = d.getDoorPoints();
 		this.stashPoints = d.getStashes();
 		this.stairPoints = (ArrayList<Point>) d.getStairPoints();
+		this.liveThrowItems = new ArrayList<>();
 
 		this.fireCenters = new ArrayList<>();
 		
@@ -147,6 +156,8 @@ public class World implements Serializable
 		this.startingPoints = startingPoints;
 
 		this.air = new Air(this);
+
+		this.throwMan = new ThrowablesManager();
 
 		if(d.getPuzzle() != null) {
 			this.currentPuzzle = d.getPuzzle();
@@ -166,7 +177,6 @@ public class World implements Serializable
 	{
 		return air;
 	}
-
 	public TileV[][][] getTileMap()
 	{
 		return tiles;
@@ -175,8 +185,6 @@ public class World implements Serializable
 	{
 		return  new MiniMap(this);
 	}
-
-
 	public Entity getPlayer()
 	{
 		return player;
@@ -332,7 +340,7 @@ public class World implements Serializable
     // Removes specified entity from EntityList 
     public void remove(Entity other) 
     {
-		System.out.println("\tEntity removed ?");
+		//System.out.println("\tEntity removed ?");
 		entities.remove(other);
     }
     public char glyph(int x, int y, int z)
@@ -401,24 +409,28 @@ public class World implements Serializable
     public void update()
     {
 		currentPuzzle = puzzMan.getCurrent();
-
+		//System.out.println(puzzMan.getPuzzCount() + "puzzcount" + puzzMan.getNextPuzzleTerrainOffset()  );
     	if(mini == null)
     	{
 			mini = getMiniMap();
 			mini.update();
 		}
+		turnManagement();
+
 		if(currentPuzzle.isSolved())
 		{
 			Puzzle nextPuzzle = new Puzzle(Problem.LOCK_AND_KEY, Terrain.CAVERN);
-
-			tiles = dungeon.generateNextTerrain(nextPuzzle, currentPuzzle, tiles);
 			puzzMan.addNextPuzzle(nextPuzzle);
+
+			tiles = dungeon.generateNextTerrain(puzzMan, tiles, puzzMan.getNextPuzzleTerrainOffset());
 		}
-    	turnManagement();
+		// Manage Live Items
+		if(!throwMan.isEmpty()) {
+
+			throwMan.manageItem(this);
+		}
 
     	List<Projectile> projUpdate = new ArrayList<>(projectiles);
-
-
     	for (Projectile p : projUpdate)
         {
     		if (p.point().x < 0 || p.point().x > width -1
@@ -434,6 +446,8 @@ public class World implements Serializable
     	for (Entity entity : toUpdate)
         {
             entity.update();
+			if(entity.stats.vitals.getHead() < 1)
+				entity.stats.setDead(true);
         }
     	if(!fireCenters.isEmpty()) // Animates fire
 		{
@@ -531,9 +545,8 @@ public class World implements Serializable
 			circleStartingPoint = mini.getPointInsideCircle();
 			mini.update();
 
-			System.out.println("we are iffing at phase 1");
+			//System.out.println("we are iffing at phase 1");
 		}
-
 	}
     public Tile douseFire()
     {
@@ -543,8 +556,8 @@ public class World implements Serializable
     {
     	Point pp = p.point();
 
-		System.out.println("Collision has occured!");
-		System.out.println(e.name() + " ");
+		//System.out.println("Collision has occured!");
+		//System.out.println(e.name() + " ");
     	
     	//System.out.println("Processing collision");
     	
@@ -558,7 +571,7 @@ public class World implements Serializable
     	}
     	if(e != null && !e.stats.getName().equals("Trader")) // if collision doesn't hit trader or self, apply damage
     	{
-    		System.out.println("We;re modifying hp!");
+    		//System.out.println("We;re modifying hp!");
 
     		int dmg = 0;
     		if(p.glyph() == Tile.Y_SMALL.glyph())

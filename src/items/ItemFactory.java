@@ -34,6 +34,9 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newFiftyCal());
+		itemList.add(newSemiAutoRifle());
+		itemList.add(newBoltAction());
 		itemList.add(newUniqueKey());
 		itemList.add(newHealKit5());
 		itemList.add(newHealKit4());
@@ -1182,9 +1185,42 @@ public class ItemFactory implements Serializable
 				"Unique Key", 
 				"A unique key. The key to what's beyond.",
 				500,
-				Item.Rarity.RARE);
+				Item.Rarity.COMMON);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), uniqueKey);
 		return uniqueKey;
+	}
+	public Item newBoltAction()
+	{
+		Item boltAction = new Item((char)98, Palette.red, Type.GUN,
+				"Bolt Action Rifle", 
+				"A good old fashioned bolt action rifle.",
+				130,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), boltAction);
+		return boltAction;
+	}
+	public Item newSemiAutoRifle()
+	{
+		Item semiAutoRifle = new Item((char)98, Palette.red, Type.GUN,
+				"Semi Auto Rifle", 
+				"A powerful, low capacity semi auto rifle.",
+				175,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), semiAutoRifle);
+		return semiAutoRifle;
+	}
+	public Item newFiftyCal()
+	{
+		Item fiftyCal = new Item((char)98, Palette.red, Type.GUN,
+				"Fifty Cal", 
+				"A big round in a big gun",
+				700,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), fiftyCal);
+		return fiftyCal;
 	}
 }

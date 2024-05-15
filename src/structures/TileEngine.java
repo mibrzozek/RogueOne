@@ -11,6 +11,7 @@ import wolrdbuilding.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -417,6 +418,39 @@ public class TileEngine
 					lastIndex--;
 				}
 			}
+		}
+	}
+	public static void displayWeaponUI(AsciiPanel terminal, int screenWidth, int screenHeight, int sh, int sw, World w, RexReader rex, Entity player)
+	{
+
+		HashMap<String, ArrayList<TilePoint>> structureMap;
+		ArrayList<TilePoint> testStructure;
+		structureMap = rex.getStructures();
+
+		if(player.inventory().getPrimaryWeapon() == null)
+		{
+			testStructure = structureMap.get("NO_WEAPON.csv");
+			TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 0,0,  31, 12, Palette.gray);
+			TileEngine.renderBox(terminal, 31, 11, 0, 0, TileSet.SIMPLE, Palette.gray);
+		}
+		else
+		{
+			Item primWeap = player.inventory().getPrimaryWeapon();
+			String resourceName = (primWeap.name().toString().replaceAll("\\s+","") + ".csv");
+			System.out.println(resourceName);
+
+			if(structureMap.get(resourceName) != null)
+			{
+				testStructure = structureMap.get(resourceName);
+			}
+			else
+			{
+				testStructure = structureMap.get("finAsciiAR.csv");
+			}
+
+			TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 0,0,  31, 12, Palette.gray);
+			TileEngine.renderBox(terminal, 31, 11, 0, 0, TileSet.SIMPLE, Palette.gray);
+			TileEngine.renderDisplayPlate(terminal, 0, 10, 31, primWeap.name(), false, Palette.methane, Palette.paleWhite);
 		}
 	}
     public static void displayStatsUI(AsciiPanel terminal, int screenWidth, int screenHeight, int sh, int sw, World w )

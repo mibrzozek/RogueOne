@@ -39,7 +39,7 @@ public class RexReader
         return (HashMap) structureMap;
     }
 
-    public static void retrieveStructures() throws IOException
+    public static void retrieveStructures(String s) throws IOException
     {
         FileInputStream fileInputStream = new FileInputStream(String.valueOf(RexReader.class.getResource("resources/loadedStructures")));
         ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);

@@ -51,17 +51,17 @@ public class ThrowableScreen extends UIScreen
     @Override
     public void render(AsciiPanel terminal)
     {
-        int x = bx + 1;
+        int x = bx + 1 ;
         int y = by + 1;
 
         for (String i : itemList)
             terminal.write(i, x, y++);
 
-        terminal.write("X", cursorX, cursorY, Palette.red);
+        terminal.write("X", cursorX + ps.getPlayAreaOffset(), cursorY, Palette.red);
 
         //List<Point> points = new Path(entity, target.x, target.y).points();
 
-        Line l  = new Line(cursorX, cursorY, psx, psy);
+        Line l  = new Line(cursorX + ps.getPlayAreaOffset(), cursorY, psx + ps.getPlayAreaOffset(), psy);
 
         for(Point p : l.getPoints())
         {
@@ -71,6 +71,7 @@ public class ThrowableScreen extends UIScreen
             if(!np.equals(p) && !cp.equals(p))
                 terminal.write((char) 46, p.x, p.y, Palette.red);
         }
+        terminal.write("X", cursorX + ps.getPlayAreaOffset(), cursorY, Palette.red);
     }
     @Override
     public void scrollUp()

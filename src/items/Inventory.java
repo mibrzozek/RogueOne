@@ -5,7 +5,6 @@ import java.util.*;
 
 public class Inventory implements Serializable
 {
-
 	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
 
 	private Item[] equiped;
@@ -14,9 +13,7 @@ public class Inventory implements Serializable
 	public static final int STARTING_INV_CAP = 10;
 	public static final int STARTING_EQP_CAP = 6;
 
-
 	private int max, maxEquip;
-
 
 	private List<Item> inventory;
 	private List<Item> equipped;
@@ -33,6 +30,11 @@ public class Inventory implements Serializable
 
 	private Random r = new Random();
 	private Item primaryWeapon;
+	private Item SecondaryWeapon;
+	private Item sideWeapon;
+	private Item meleeWeapon;
+
+	private List<Item> utilitySlots;
 
 	public void checkCapacity()
 	{
@@ -89,7 +91,24 @@ public class Inventory implements Serializable
 	}
 	public void setPrimaryWeapon(Item primary)
 	{
-		this.primaryWeapon = primary;
+		this.remove(primary);
+
+		if(this.primaryWeapon == null)
+		{
+			this.primaryWeapon = primary;
+			this.equipAll(primary);
+		}
+		else
+		{
+			this.add(this.primaryWeapon);
+			this.removeEquiped(this.primaryWeapon);
+			this.equipAll(primary);
+			this.primaryWeapon = primary;
+		}
+	}
+	public void removePrimaryWeapon()
+	{
+		primaryWeapon = null;
 	}
     public Inventory(int max)
     {
@@ -249,6 +268,10 @@ public class Inventory implements Serializable
     	if(inventory.size() + 1 <= max)
     	{
 			Item i = equipped.remove(index);
+			if(i.equals(getPrimaryWeapon()))
+			{
+				this.removePrimaryWeapon();
+			}
 			inventory.add(i);
 			equippedMap = getEquippedMap();
 			inventoryMap = getInventoryMap();
@@ -264,7 +287,6 @@ public class Inventory implements Serializable
 			equippedMap = getEquippedMap();
 			inventoryMap = getInventoryMap();
 		}
-
     }
     public void equipAll(Item ... toAdd)
 	{

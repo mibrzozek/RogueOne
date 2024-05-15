@@ -34,6 +34,14 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newPstGZH());
+		itemList.add(newGlock19ExtendedMags());
+		itemList.add(newBlueLaser());
+		itemList.add(newBaldProFlashlight());
+		itemList.add(newRmrRedDot());
+		itemList.add(newGlockCompensator());
+		itemList.add(newGlockSupressor());
+		itemList.add(newGlock19());
 		itemList.add(newFiftyCal());
 		itemList.add(newSemiAutoRifle());
 		itemList.add(newBoltAction());
@@ -1222,5 +1230,93 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), fiftyCal);
 		return fiftyCal;
+	}
+	public Item newGlock19()
+	{
+		Item glock19 = new Item((char)98, Palette.red, Type.GUN,
+				"Glock 19", 
+				"A trusty glizzy",
+				100,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), glock19);
+		return glock19;
+	}
+	public Item newGlockSupressor()
+	{
+		Item glockSupressor = new Item((char)98, Palette.red, Type.ATTACHMENT,
+				"9mm Supressor", 
+				"Threaded to 5mm. Reduces loudness range",
+				50,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), glockSupressor);
+		return glockSupressor;
+	}
+	public Item newGlockCompensator()
+	{
+		Item glockCompensator = new Item((char)98, Palette.red, Type.ATTACHMENT,
+				"Glizzy Comp", 
+				"Increase accuracy and ergonomics",
+				50,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), glockCompensator);
+		return glockCompensator;
+	}
+	public Item newRmrRedDot()
+	{
+		Item rmrRedDot = new Item((char)98, Palette.red, Type.ATTACHMENT,
+				"RMR Red Dot Sight", 
+				"Increase range, accuracy, and makes your gun look cool.",
+				100,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), rmrRedDot);
+		return rmrRedDot;
+	}
+	public Item newBaldProFlashlight()
+	{
+		Item baldProFlashlight = new Item((char)98, Palette.red, Type.ATTACHMENT,
+				"Bald Pro Flash Light", 
+				"Blinds the enemy, decreasing their accuracy and give you some extra range.",
+				100,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), baldProFlashlight);
+		return baldProFlashlight;
+	}
+	public Item newBlueLaser()
+	{
+		Item blueLaser = new Item((char)98, Palette.red, Type.ATTACHMENT,
+				"Blue Laser", 
+				"Increases range, accuracy, and makes your gun look cool.",
+				100,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), blueLaser);
+		return blueLaser;
+	}
+	public Item newGlock19ExtendedMags()
+	{
+		Item glock19ExtendedMags = new Item((char)98, Palette.red, Type.ATTACHMENT,
+				"Glock Extended Mags", 
+				"Increases ammo capacity",
+				33,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), glock19ExtendedMags);
+		return glock19ExtendedMags;
+	}
+	public Item newPstGZH()
+	{
+		Item pstGZH = new Item((char)98, Palette.red, Type.AMMO,
+				"9x19 PST GZH", 
+				"Tried and true",
+				60,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), pstGZH);
+		return pstGZH;
 	}
 }

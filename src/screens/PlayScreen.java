@@ -28,6 +28,7 @@ public class PlayScreen implements Screen
 {
 	private static final String WINNING_ITEM = "Rifle";
 	private MainFrame main;
+	private RexReader rex = new RexReader();
 
 	private Color fore = Theme.PASTEL.getFore();
 	private Color back = Theme.PASTEL.getBack();
@@ -40,7 +41,7 @@ public class PlayScreen implements Screen
     private int screenHeight;
 	private int screenTicks = 0;
 
-	private int playAreaOffset = 0;
+	private int playAreaOffset;
 
     private int leftOffset,  topOffset;
     
@@ -79,7 +80,7 @@ public class PlayScreen implements Screen
 		displayHeight = main.getDisplayHeight();
 		displayWidth = main.getDisplayWidth();
 
-		playAreaOffset = 0;
+		playAreaOffset = 31;
 
         this.main = main;
         this.map = m;
@@ -141,9 +142,10 @@ public class PlayScreen implements Screen
     }
 	private void displayTiles(AsciiPanel terminal, int left, int top)
 	{
+
 		fov.update(player.x, player.y, player.z, player.visionRadius());
-		
-		for(int x = playAreaOffset; x < main.getScreenWidth(); x++)
+
+		for(int x = 31; x < main.getScreenWidth(); x++)
 		{
 			for (int y = 0; y < main.getDisplayHeight(); y++)
 			{
@@ -199,9 +201,12 @@ public class PlayScreen implements Screen
 	     topOffset = getScrollY();
 
 	     displayTiles(terminal, leftOffset , topOffset);
+
 	     TileEngine.displayStatsUI(terminal, main.getDisplayWidth(), main.getDisplayHeight(), 0, 0, world);
 		 TileEngine.displayMessagesUI(terminal, messages, main.getScreenWidth(), main.getDisplayHeight());
 		 TileEngine.displayDynamicEnemyPopUp(terminal, world, main);
+		 TileEngine.displayWeaponUI(terminal, main.getDisplayWidth(), main.getDisplayHeight(), 0, 0, world, rex, player);
+
 
 	     if(subScreen instanceof CraftingScreen)
 	    	 ((CraftingScreen) subScreen).write(terminal);
@@ -248,7 +253,7 @@ public class PlayScreen implements Screen
 	public int getTopOffset() { return topOffset;}
     public int getScrollX() 
     {
-        return Math.max(0, Math.min(player.x - main.getDisplayWidth() / 2, world.width() - main.getDisplayWidth()));
+        return Math.max(0, Math.min(player.x +playAreaOffset - main.getDisplayWidth() / 2, world.width() - main.getDisplayWidth()));
     }
     public int getScrollY()
 	{

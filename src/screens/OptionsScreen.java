@@ -73,6 +73,8 @@ public class OptionsScreen extends ScrollingBasedScreen
 					|| inventory.get(itemIndex).type().equals(Type.FULL_HEAL)
 					)
 				optionList.add("Heal");
+			else if (inventory.get(itemIndex).type().equals(Type.GUN))
+				optionList.add("Equip primary");
 		}
 		else
 		{
@@ -90,57 +92,6 @@ public class OptionsScreen extends ScrollingBasedScreen
 				optionList.add("Heal");
 		}
 	}
-	// Trading Options Constructor
-	public OptionsScreen(int scrollX, int scrollY, int itemIndex, AsciiPanel terminal, Entity ... ents)
-	{
-		super(ents[0], terminal, true);
-		this.other = ents[1];
-		this.scrollX = scrollX;
-		this.scrollY = scrollY;
-		this.itemIndex = itemIndex;
-		renderX = scrollX;
-		renderY = scrollY;
-		
-	    inventory = player.inventory().getItems();
-	    tradersItems = other.inventory().getItems();
-	    
-		optionList = new ArrayList<String>();
-		optionList.add("Inspect");
-		optionList.add("Buy");
-		optionList.add("Trade");
-	}
-	// Crafting Options Screen Constructor
-	public OptionsScreen(Entity player, int scrollX, int scrollY, int itemIndex, String s, AsciiPanel terminal)
-	{
-		super(player, terminal, true);
-		this.player = player;
-		this.scrollX = scrollX;
-		this.scrollY = scrollY;
-		this.itemIndex = itemIndex;
-
-		renderX = scrollX;
-		renderY = scrollY;
-		
-	    inventory = player.inventory().getItems();
-
-		optionList = new ArrayList<String>();
-		optionList.add("Inspect");
-		optionList.add("Craft");
-		optionList.add("Modify");
-	}
-	public void renderBackground(AsciiPanel terminal)
-	{
-		int rx = scrollX;
-		int ry = scrollY+1;
-		
-		for(int y = ry; y < ry+1; y++)
-		{
-			for(int x = rx; x < rx + 16; x++)
-			{
-				terminal.write((char)(254), x, y, Color.GREEN);
-			}
-		}
-	}
 	public void displayOutput(AsciiPanel terminal)
 	{
 		int x = renderX+1;
@@ -152,7 +103,6 @@ public class OptionsScreen extends ScrollingBasedScreen
 			optionList.set(1, "Equip");
 		else
 			optionList.set(1, "Unequip");
-		//renderBackground(terminal);
 		
 		for(int i = 0; i < optionList.size(); i++)
 		{
@@ -254,6 +204,11 @@ public class OptionsScreen extends ScrollingBasedScreen
 			player.notify("Insufficient funds");
 			
 	}
+	public void setAsPrimaryWeapon()
+	{
+		Item item = player.inventory().get(itemIndex);
+		player.inventory().setPrimaryWeapon(item);
+	}
 	public void addToCraftingTable(Item item)
 	{
 		
@@ -320,6 +275,11 @@ public class OptionsScreen extends ScrollingBasedScreen
 								|| optionList.get(index).equals("Heal"))
 						{
 							useItem();
+						}
+						else if(optionList.get(index).equals("Equip primary"));
+						{
+							setAsPrimaryWeapon();
+							System.out.println("Setting primary weapon");
 						}
 					}
 					return null;

@@ -50,8 +50,7 @@ public class PlayerAi extends EntityAi
 		this.entity.inventory().add(new LootTable().getGoldRoomItem());
 		this.entity.inventory().add(new ItemFactory().newMedicalKit());
 		this.entity.inventory().add(new ItemFactory().newClearanceGold());
-		this.entity.inventory().add(new ItemFactory().newSemiAutoRifle());
-		this.entity.inventory().add(new ItemFactory().newFiftyCal());
+		this.entity.inventory().add(new ItemFactory().newGlock19());
 		this.entity.inventory().add(new ItemFactory().newFragGrenade());
 		this.entity.inventory().add(new ItemFactory().newFragGrenade());
 		//this.entity.inventory().add(new ItemFactory().newTerrainMapper());

@@ -150,7 +150,7 @@ public class World implements Serializable
 		this.projectileMap = new Projectile[width][height][depth];
 
 		this.miniMap = new TileV[width/MINI_CELL][height/MINI_CELL][depth];
-		this.circleStartingPoint = Point.getPointForCircle(25,width/MINI_CELL, height/MINI_CELL);
+		//this.circleStartingPoint = Point.getPointForCircle(25,width/MINI_CELL, height/MINI_CELL);
 		
 		this.insideSpawns = spawns;
 		this.startingPoints = startingPoints;
@@ -498,55 +498,6 @@ public class World implements Serializable
 			player.notify("It's hard to breathe.");
 		}
 
-		/*
-					PLAYER SAFE ZONE
-		 */
-		if(!mini.isPlayerInSafeZone())
-		{
-			if(!player.stats.isBreathing())
-			{
-				//player.stats.dealDamage(2.0);
-			}
-		}
-		int f1 = 1;
-		int f2 = 100;
-		int f3 = 200;
-		int f4 = 400;
-		int f5 = 1000;
-
-		if(turns == f5)
-		{
-			radius = 2;
-			circleStartingPoint = mini.getPointInsideCircle();
-			mini.update();
-		}
-		else if(turns == f4)
-		{
-			radius = 4;
-			circleStartingPoint = mini.getPointInsideCircle();
-			mini.update();
-		}
-		else if(turns == f3)
-		{
-			radius = 8;
-			circleStartingPoint = mini.getPointInsideCircle();
-			mini.update();
-		}
-		else if(turns == f2)
-		{
-			radius = 16;
-			circleStartingPoint = mini.getPointInsideCircle();
-			mini.update();
-
-		}
-		else if(turns == f1)
-		{
-			radius = 27;
-			circleStartingPoint = mini.getPointInsideCircle();
-			mini.update();
-
-			//System.out.println("we are iffing at phase 1");
-		}
 	}
     public Tile douseFire()
     {

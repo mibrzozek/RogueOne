@@ -34,6 +34,9 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newHoloSight());
+		itemList.add(newRedDotSight());
+		itemList.add(newPstGZH100());
 		itemList.add(newPstGZH());
 		itemList.add(newGlock19ExtendedMags());
 		itemList.add(newBlueLaser());
@@ -1310,13 +1313,46 @@ public class ItemFactory implements Serializable
 	}
 	public Item newPstGZH()
 	{
-		Item pstGZH = new Item((char)98, Palette.red, Type.AMMO,
+		Item pstGZH = new Item((char)98, Palette.red, Type.AMMO_9MM,
 				"9x19 PST GZH", 
 				"Tried and true",
-				60,
+				30,
 				Item.Rarity.COMMON);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), pstGZH);
 		return pstGZH;
+	}
+	public Item newPstGZH100()
+	{
+		Item pstGZH100 = new Item((char)98, Palette.red, Type.AMMO_9MM,
+				"9x19 PST GZH", 
+				"Tried and true",
+				100,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), pstGZH100);
+		return pstGZH100;
+	}
+	public Item newRedDotSight()
+	{
+		Item redDotSight = new Item((char)55, Palette.red, Type.ATTACHMENT,
+				"Red Dot Sight", 
+				"A nice sight increases aimed range by 5",
+				5,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), redDotSight);
+		return redDotSight;
+	}
+	public Item newHoloSight()
+	{
+		Item holoSight = new Item((char)55, Palette.red, Type.ATTACHMENT,
+				"Holographic Sight", 
+				"A nicer sight increases aimed range by 7",
+				7,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), holoSight);
+		return holoSight;
 	}
 }

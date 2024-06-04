@@ -3,22 +3,24 @@
   <component name="ChangeListManager">
     <list default="true" id="bc747c38-cb52-4caa-a5c5-4da97bdb7363" name="Changes" comment="PuzzleLike demo + improvements to rogueOne including vitals, damage, locked rooms, map contiguity and more.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/Inventory$EquipmentSlot.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Inventory$EquipmentSlot.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/Inventory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Inventory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/screens/PlayScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/PlayScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/screens/ThrowableScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/ThrowableScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/structures/RexReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/RexReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/entityAI/PlayerAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/entityAI/PlayerAi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/ItemFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/ItemFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Type.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Type.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/AttackBox.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/AttackBox.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/Dungeon.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/Dungeon.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/structures/TileEngine.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/TileEngine.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/structures/loadedStructures" beforeDir="false" afterPath="$PROJECT_DIR$/resources/structures/loadedStructures" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/MiniMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/MiniMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/ItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/AttackBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/AttackBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/OptionsScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/OptionsScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/PlayScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/PlayScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/ThrowableScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/ThrowableScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/structures/RexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/RexReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/Dungeon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/Dungeon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/structures/TileEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/TileEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/MiniMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/MiniMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/World.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -138,11 +140,6 @@
           <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/items/Inventory.java</url>
-          <line>101</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>

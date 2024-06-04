@@ -997,7 +997,7 @@ public class Dungeon
 						for (int x = 23; x > 8; x--) // width
 						{
 							//System.out.println(x + " " + y + " " + "loop points " + count++ + " count");
-							if (p.x + x >= 200 || p.y + y >= 200) // what is 200????
+							if (p.x + x >= width || p.y + y >= height) // what is 200????
 							{
 								//System.out.println("Out of bounds, lets try next one");
 								//System.out.println(p.toString());
@@ -1357,6 +1357,7 @@ public class Dungeon
 
 			//System.out.println(partsMap.size() + " map size");
 			boolean found = false;
+			int count = 0;
 			do
 			{
 				p = new Point(r.nextInt(width -13), r.nextInt(height-13), 0);
@@ -1379,6 +1380,9 @@ public class Dungeon
 					if (clear)
 						found = true;
 				}
+				if(count > 100)
+					System.out.println("Sticks?? in room decor");
+				count++;
 			} while (!found);
 
 			for(TilePoint tp : list)

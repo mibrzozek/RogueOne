@@ -1,15 +1,15 @@
 package screens;
 
+import Managers.WeaponManager;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
-import entities.entityAI.PlayerAi;
 import entities.Taunts;
+import entities.entityAI.PlayerAi;
 import items.Item;
-import items.ItemFactory;
-import items.Type;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.TileSet;
+
 import javax.swing.*;
 
 public class AttackBox extends UIScreen 
@@ -51,39 +51,9 @@ public class AttackBox extends UIScreen
 
 		if(itemList.get(index).equals("Shoot"))
 		{
-			if (!player.inventory().get(Type.GUN).isEmpty())
+			if(WeaponManager.processWeapon(player, enemy))
 			{
-				double dmg = player.inventory().getTypeDuration(Type.GUN);
-				enemy.stats.vitals.dealDamageRandomly(-dmg);
-				System.out.println("In AttackBox dmg is : " + dmg);
-				if (enemy.stats.vitals.getVitals() < 1)
-				{
-					enemy.setDead(true);
-					setNull();
-				}
-			}
-			else if(!player.inventory().get(Type.RANGED).isEmpty())
-			{
-				if(!player.inventory().get(Type.ARROW).isEmpty()) // if arrows equipped
-				{
-					System.out.println("We're shooting arrows");
-					double dmg = player.inventory().getTypeDuration(Type.RANGED);
-					player.inventory().removeEquiped(new ItemFactory().newArrow());
-					//enemy.dealDamage(-dmg);
-					if (enemy.stats.vitals.getVitals() < 1)
-					{
-						enemy.setDead(true);
-						setNull();
-					}
-				}
-				else
-				{
-					player.notify("You're out of bows!");
-				}
-			}
-			else
-			{
-				player.notify("You try shooting but don't seem to have a ranged weapon!");
+				setNull();
 			}
 			ps.updateWorld();
 		}

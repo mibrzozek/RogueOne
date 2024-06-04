@@ -74,7 +74,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 					)
 				optionList.add("Heal");
 			else if (inventory.get(itemIndex).type().equals(Type.GUN))
-				optionList.add("Equip primary");
+				optionList.set(1, "Equip primary");
 		}
 		else
 		{
@@ -100,10 +100,16 @@ public class OptionsScreen extends ScrollingBasedScreen
 		TileEngine.renderBox(terminal, 16, optionList.size() + 2, renderX, renderY, TileSet.SIMPLE, true);
 
 		if(selectingFromInventory)
-			optionList.set(1, "Equip");
+		{
+			if(inventory.get(itemIndex).type().equals(Type.GUN))
+				optionList.set(1, "Equip primary");
+			else
+				optionList.set(1, "Equip");
+		}
 		else
+		{
 			optionList.set(1, "Unequip");
-		
+		}
 		for(int i = 0; i < optionList.size(); i++)
 		{
 				terminal.write(""+ optionList.get(i), x, y++, Palette.morePaleWhite);
@@ -162,6 +168,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 		{
 			inventory.get(itemIndex).useItemOn(player);
 			player.inventory().remove(inventory.get(itemIndex));
+			System.out.println("Healing from inv");
 		}
 		else
 		{
@@ -245,9 +252,16 @@ public class OptionsScreen extends ScrollingBasedScreen
 				} 
 				else if(index == 1)
 				{
-					if(tradersItems == null)
+					if(optionList.get(index).equals("Equip primary"))
+					{
+						setAsPrimaryWeapon();
+						System.out.println("Setting primary weapon");
+					}
+					else if(tradersItems == null)
+					{
 						equipUnequip();
-					else
+					}
+						else
 						buyItem();
 					
 					return null;
@@ -275,11 +289,6 @@ public class OptionsScreen extends ScrollingBasedScreen
 								|| optionList.get(index).equals("Heal"))
 						{
 							useItem();
-						}
-						else if(optionList.get(index).equals("Equip primary"));
-						{
-							setAsPrimaryWeapon();
-							System.out.println("Setting primary weapon");
 						}
 					}
 					return null;

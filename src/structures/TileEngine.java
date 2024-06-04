@@ -1,9 +1,11 @@
 package structures;
 
+import Managers.AmmoManager;
 import asciiPanel.AsciiPanel;
 import entities.Effect;
 import entities.Entity;
 import items.Item;
+import items.ItemFactory;
 import items.Type;
 import screens.Message;
 import wolrdbuilding.*;
@@ -451,6 +453,17 @@ public class TileEngine
 			TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 0,0,  31, 12, Palette.gray);
 			TileEngine.renderBox(terminal, 31, 11, 0, 0, TileSet.SIMPLE, Palette.gray);
 			TileEngine.renderDisplayPlate(terminal, 0, 10, 31, primWeap.name(), false, Palette.methane, Palette.paleWhite);
+
+			String ammoValue = "0";
+			Color ammoColor  = Color.red;
+			Type equippedWeaponCaliber = AmmoManager.identifyAmmo(player.inventory().getPrimaryWeapon());
+			if(!player.inventory().get(equippedWeaponCaliber).isEmpty())
+			{
+				ammoValue = Integer.toString(player.inventory().getEquippedItem(new ItemFactory().newPstGZH()).value());
+				ammoColor = Palette.methane;
+			}
+
+			TileEngine.renderDisplayPlate(terminal, 0, 11, 31, "Ammo : " + ammoValue, false, ammoColor, Palette.paleWhite);
 		}
 	}
     public static void displayStatsUI(AsciiPanel terminal, int screenWidth, int screenHeight, int sh, int sw, World w )

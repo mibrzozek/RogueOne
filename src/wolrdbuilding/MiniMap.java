@@ -6,8 +6,6 @@ import entities.Line;
 import java.util.ArrayList;
 import java.util.List;
 
-import static wolrdbuilding.Palette.r;
-
 public class MiniMap
 {
     private TileV[][][] miniMap;
@@ -242,30 +240,8 @@ public class MiniMap
         //miniMap[px][py][playerZ] = t;
     }
 
-    public void setNewCircle(Point p)
-    {
-        this.circlePoint = p;
-    }
 
-    public Point getPointInsideCircle()
-    {
-        return insideCircle.get(r.nextInt(insideCircle.size()));
-    }
-    public boolean isPlayerInSafeZone()
-    {
-        int px = player.x/3;
-        int py = player.y/3;
-        this.playerCell = new Point(px, py, 0);
 
-        if(insideCircle.isEmpty())
-            makeCircle(w.getCircleRadius(), w.getCirclePoint());
-
-        if(insideCircle.contains(playerCell))
-            return true;
-        else
-            return false;
-
-    }
     /*
             **************** STATIC METHODS ******************
             *

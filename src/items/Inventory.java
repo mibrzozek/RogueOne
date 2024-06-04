@@ -252,6 +252,10 @@ public class Inventory implements Serializable
 			value = equippedMap.get(type).get(0).value();
 			//System.out.println("There is this type " + type.name());
 		}
+		else
+		{
+			value = 0;
+		}
 		//System.out.println("Type misssing" + type.name());
 		return value;
 	}

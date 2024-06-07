@@ -1,14 +1,16 @@
 package items;
 
+import Managers.AttachmentManager;
+
 import java.io.Serializable;
 import java.util.*;
 
 public class Inventory implements Serializable
 {
+
+
 	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
 
-	private Item[] equiped;
-	private Item[] items;
 
 	public static final int STARTING_INV_CAP = 10;
 	public static final int STARTING_EQP_CAP = 6;
@@ -17,6 +19,8 @@ public class Inventory implements Serializable
 
 	private List<Item> inventory;
 	private List<Item> equipped;
+
+	private Set<Item> gunAttachments;
 
 	private Map<Type, List<Item>> inventoryMap;
 	private Map<Type, List<Item>> equippedMap;
@@ -36,19 +40,55 @@ public class Inventory implements Serializable
 
 	private List<Item> utilitySlots;
 
+	public int getEquippedMax() {
+		return maxEquip;
+	}
+	public int getRoom()
+	{
+		return getCapacity() - inventory.size();
+	}
+	public Item getPrimaryWeapon()
+	{
+		return primaryWeapon;
+	}
+	public void removePrimaryWeapon()
+	{
+		primaryWeapon = null;
+	}
+	public ArrayList<Item> getItems() { return (ArrayList<Item>) inventory; }
+	public ArrayList<Item> getEquipped() { return (ArrayList<Item>) equipped; }
+	public boolean isItemEquiped(Item item)
+	{
+		return equipped.contains(item);
+	}
+	public boolean containsInInventory(Item item)
+	{
+		return inventory.contains(item);
+	}
+
+	public Inventory(int max)
+	{
+		this.max = max;
+		this.maxEquip = STARTING_EQP_CAP;
+
+		inventory = new ArrayList<>();
+		equipped = new ArrayList<>();
+
+		inventoryMap = new HashMap<>();
+		equippedMap = new HashMap<>();
+
+		gunAttachments = new HashSet<>();
+	}
+	public Set<Item> getGunAttachments()
+	{
+		return  gunAttachments;
+	}
 	public void checkCapacity()
 	{
 		this.max = (int) getTypeDuration(Type.INVENTORY)+ STARTING_INV_CAP;
 		this.maxEquip = (int)getTypeDuration(Type.HELMET) + (int)getTypeDuration(Type.TORSO)
 				+ (int)getTypeDuration(Type.ARMS) + (int)getTypeDuration(Type.LEGS) + STARTING_EQP_CAP;
 	}
-	public int getEquippedMax() {
-		return maxEquip;
-	}
-    public int getRoom()
-	{
-        return getCapacity() - inventory.size();
-    }
 	public void clear()
 	{
 		inventory = new ArrayList<>();
@@ -57,7 +97,6 @@ public class Inventory implements Serializable
 		inventoryMap = new HashMap<>();
 		equippedMap = new HashMap<>();
 	}
-
 	public Item getEquippedItem(Item item)
 	{
 		System.out.println("invItem going in " + item.toString());
@@ -85,10 +124,6 @@ public class Inventory implements Serializable
 		}
 		return truth;
     }
-	public Item getPrimaryWeapon()
-	{
-		return primaryWeapon;
-	}
 	public void setPrimaryWeapon(Item primary)
 	{
 		this.remove(primary);
@@ -106,26 +141,6 @@ public class Inventory implements Serializable
 			this.primaryWeapon = primary;
 		}
 	}
-	public void removePrimaryWeapon()
-	{
-		primaryWeapon = null;
-	}
-    public Inventory(int max)
-    {
-    	this.max = max;
-    	this.maxEquip = STARTING_EQP_CAP;
-
-        items = new Item[max];
-
-        inventory = new ArrayList<>();
-		equipped = new ArrayList<>();
-
-        inventoryMap = new HashMap<>();
-		equippedMap = new HashMap<>();
-    }
-    public ArrayList<Item> getItems() { return (ArrayList<Item>) inventory; }
-    public ArrayList<Item> getEquipped() { return (ArrayList<Item>) equipped; }
-
     public Map getInventoryMap()
 	{
 		inventoryMap.clear();
@@ -190,9 +205,6 @@ public class Inventory implements Serializable
     	else
     		return null;
     }
-
-    public boolean isFullyEquiped() { return fullyEquiped; }
-
     public void cycleDevice()
     {
     	if(devices.isEmpty())
@@ -259,14 +271,6 @@ public class Inventory implements Serializable
 		//System.out.println("Type misssing" + type.name());
 		return value;
 	}
-    public boolean isItemEquiped(Item item)
-    {
-		return equipped.contains(item);
-    }
-    public boolean containsInInventory(Item item)
-    {
-		return inventory.contains(item);
-    }
     public void moveToInventory(int index)
     {
     	if(inventory.size() + 1 <= max)
@@ -279,6 +283,8 @@ public class Inventory implements Serializable
 			inventory.add(i);
 			equippedMap = getEquippedMap();
 			inventoryMap = getInventoryMap();
+			if(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)) !=  null)
+				gunAttachments = new HashSet(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)));
 		}
     }
     public void moveToEquiped(int index)
@@ -290,6 +296,9 @@ public class Inventory implements Serializable
 
 			equippedMap = getEquippedMap();
 			inventoryMap = getInventoryMap();
+			if(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)) !=  null)
+				gunAttachments = new HashSet(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)));
+
 		}
     }
     public void equipAll(Item ... toAdd)
@@ -348,5 +357,4 @@ public class Inventory implements Serializable
     {
     	return inventory.size();
     }
-
 }

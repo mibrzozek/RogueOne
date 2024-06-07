@@ -34,6 +34,10 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newPs762());
+		itemList.add(newAk74());
+		itemList.add(newM855556());
+		itemList.add(newM4a1());
 		itemList.add(newHoloSight());
 		itemList.add(newRedDotSight());
 		itemList.add(newPstGZH100());
@@ -1354,5 +1358,49 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), holoSight);
 		return holoSight;
+	}
+	public Item newM4a1()
+	{
+		Item m4a1 = new Item((char)98, Palette.red, Type.GUN,
+				"Colt M4A1", 
+				"Americas most trusted rifle",
+				300,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), m4a1);
+		return m4a1;
+	}
+	public Item newM855556()
+	{
+		Item m855556 = new Item((char)98, Palette.red, Type.AMMO_556,
+				"5.56 M855", 
+				"Low pen high availability 556 ammo",
+				100,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), m855556);
+		return m855556;
+	}
+	public Item newAk74()
+	{
+		Item ak74 = new Item((char)98, Palette.red, Type.GUN,
+				"Kalashnikova AK 74", 
+				"Russias most trusted rifle",
+				325,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), ak74);
+		return ak74;
+	}
+	public Item newPs762()
+	{
+		Item ps762 = new Item((char)98, Palette.red, Type.AMMO_762,
+				"PS 7.62 Ammo", 
+				"Low pen high availability 762 ammo",
+				100,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), ps762);
+		return ps762;
 	}
 }

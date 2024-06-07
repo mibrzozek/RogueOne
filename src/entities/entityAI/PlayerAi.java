@@ -6,7 +6,6 @@ import entities.FieldOfView;
 import entities.Line;
 import items.Item;
 import items.ItemFactory;
-import items.LootTable;
 import structures.Script;
 import wolrdbuilding.Palette;
 import wolrdbuilding.Point;
@@ -47,14 +46,14 @@ public class PlayerAi extends EntityAi
 
     	entity.inventory().setMax(8);
 
-		this.entity.inventory().add(new LootTable().getGoldRoomItem());
-		this.entity.inventory().add(new ItemFactory().newMedicalKit());
-		this.entity.inventory().add(new ItemFactory().newClearanceGold());
 		this.entity.inventory().add(new ItemFactory().newGlock19());
-		this.entity.inventory().add(new ItemFactory().newFragGrenade());
-		this.entity.inventory().add(new ItemFactory().newFragGrenade());
 		this.entity.inventory().add(new ItemFactory().newPstGZH());
 		this.entity.inventory().add(new ItemFactory().newRedDotSight());
+		this.entity.inventory().add(new ItemFactory().newGlock19ExtendedMags());
+		this.entity.inventory().add(new ItemFactory().newGlockCompensator());
+		this.entity.inventory().add(new ItemFactory().newGlockSupressor());
+		this.entity.inventory().add(new ItemFactory().newGlockSupressor());
+
 		//this.entity.inventory().add(new ItemFactory().newTerrainMapper());
 		//this.entity.inventory().equipAll(new ItemFactory().newUniqueKey(), new ItemFactory().newDevSword(), new ItemFactory().newMiningBeam());
 

@@ -1,7 +1,6 @@
 package Managers;
 
 import entities.Entity;
-import items.ItemFactory;
 import items.Type;
 
 public class WeaponManager
@@ -23,7 +22,7 @@ public class WeaponManager
             double dmg = player.inventory().getTypeDuration(Type.GUN);
             enemy.stats.vitals.dealDamageRandomly(-dmg);
 
-            player.inventory().getEquippedItem(new ItemFactory().newPstGZH()).modifyValue(-1, player.inventory());
+            player.inventory().get(equippedWeaponCaliber).get(0).modifyValue(-1, player.inventory());
             if(enemy.stats.vitals.getVitals() < 1)
             {
                 enemy.setDead(true);

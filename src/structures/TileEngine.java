@@ -5,17 +5,14 @@ import asciiPanel.AsciiPanel;
 import entities.Effect;
 import entities.Entity;
 import items.Item;
-import items.ItemFactory;
 import items.Type;
 import screens.Message;
 import wolrdbuilding.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class TileEngine
 {
@@ -459,11 +456,20 @@ public class TileEngine
 			Type equippedWeaponCaliber = AmmoManager.identifyAmmo(player.inventory().getPrimaryWeapon());
 			if(!player.inventory().get(equippedWeaponCaliber).isEmpty())
 			{
-				ammoValue = Integer.toString(player.inventory().getEquippedItem(new ItemFactory().newPstGZH()).value());
+				ammoValue = Integer.toString(player.inventory().get(equippedWeaponCaliber).get(0).value());
 				ammoColor = Palette.methane;
 			}
 
 			TileEngine.renderDisplayPlate(terminal, 0, 11, 31, "Ammo : " + ammoValue, false, ammoColor, Palette.paleWhite);
+			List<Item> gunAttachments = new ArrayList<>(player.inventory().getGunAttachments());
+
+			if(gunAttachments != null)
+			{
+				for(int i = 0; i < gunAttachments.size(); i++)
+				{
+					TileEngine.renderDisplayPlate(terminal, 0, 12 + i, 31, gunAttachments.get(i).name(), false, Palette.monoGrayBlue, Palette.paleWhite);
+				}
+			}
 		}
 	}
     public static void displayStatsUI(AsciiPanel terminal, int screenWidth, int screenHeight, int sh, int sw, World w )

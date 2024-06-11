@@ -34,6 +34,9 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newRifleGunParts());
+		itemList.add(newPistolGunParts());
+		itemList.add(newGunParts());
 		itemList.add(newPs762());
 		itemList.add(newAk74());
 		itemList.add(newM855556());
@@ -1402,5 +1405,38 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), ps762);
 		return ps762;
+	}
+	public Item newGunParts()
+	{
+		Item gunParts = new Item((char)98, Palette.red, Type.GUN_PARTS,
+				"Random Gun Parts", 
+				"An assortment of random gun parts of different sorts",
+				1000,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), gunParts);
+		return gunParts;
+	}
+	public Item newPistolGunParts()
+	{
+		Item pistolGunParts = new Item((char)98, Palette.red, Type.PISTOL_GUN_PARTS,
+				"Pistol Gun Parts", 
+				"An assortment of random pistol parts. Just enough to make something work.",
+				1000,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), pistolGunParts);
+		return pistolGunParts;
+	}
+	public Item newRifleGunParts()
+	{
+		Item rifleGunParts = new Item((char)98, Palette.red, Type.RIFLE_GUN_PARTS,
+				"RIFLE Gun Parts", 
+				"An assortment of random rifle parts. Just enough to make something work.",
+				1000,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), rifleGunParts);
+		return rifleGunParts;
 	}
 }

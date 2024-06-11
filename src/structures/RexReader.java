@@ -1,5 +1,7 @@
 package structures;
 
+import items.Weapon;
+import items.WeaponStats;
 import wolrdbuilding.TilePoint;
 
 import java.awt.*;
@@ -83,14 +85,12 @@ public class RexReader
             }
         }
 
-
         return partsMap;
     }
     public static void loadStructures()
     {
         String line = "";
         String[] fields;
-
 
         int x, y, ascii;
         Color fColor, bColor;
@@ -130,7 +130,6 @@ public class RexReader
                 e.printStackTrace();
             }
         }
-
         try
         {
             FileOutputStream fos = new FileOutputStream(new File(filePath + "loadedStructures"));
@@ -146,5 +145,35 @@ public class RexReader
             e.printStackTrace();
             System.out.println("Saving structures FAILED");
         }
+    }
+    public static WeaponStats retrieveStats(String weaponName)
+    {
+        String weaponPath = "C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\gun_charts\\R1_GUN_TABLE.csv";
+        String line = "";
+        String[] fields;
+
+        WeaponStats stats = null;
+
+            try (Scanner fileScan = new Scanner(new File(weaponPath), "UTF-8"))
+            {
+                while (fileScan.hasNextLine())
+                {
+                    line = fileScan.nextLine();
+                    if (!line.contains(weaponName))
+                        continue;
+                    fields = line.split(",");
+                    stats = new WeaponStats(Integer.parseInt(fields[1]),
+                            Integer.parseInt(fields[2]),
+                            Integer.parseInt(fields[3]),
+                            Integer.parseInt(fields[4]),
+                            Integer.parseInt(fields[5]),
+                            Weapon.Mode.getMode(fields[6]));
+                }
+            } catch (FileNotFoundException e)
+            {
+                e.printStackTrace();
+            }
+
+        return stats;
     }
 }

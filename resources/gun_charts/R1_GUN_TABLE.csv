@@ -1,0 +1,5 @@
+gun,Range,Damage,Reload Speed,Bullets Per Turn,Magazine Capacity,Mode
+Glock 19,6,100,3,1,7,SINGLE
+Kalashnikova AK 74,9,310,3,3,10,SEMI
+Colt M4A1,10,300,3,4,10,SEMI
+Shotgun,,35,3,7,4,SINGLE

@@ -128,17 +128,21 @@ public class Inventory implements Serializable
 	{
 		this.remove(primary);
 
+		Weapon w = new Weapon(primary);
+
+		//w.getStats().toString();
+
 		if(this.primaryWeapon == null)
 		{
-			this.primaryWeapon = primary;
-			this.equipAll(primary);
+			this.primaryWeapon = w;
+			this.equipAll(w);
 		}
 		else
 		{
 			this.add(this.primaryWeapon);
 			this.removeEquiped(this.primaryWeapon);
-			this.equipAll(primary);
-			this.primaryWeapon = primary;
+			this.equipAll(w);
+			this.primaryWeapon = w;
 		}
 	}
     public Map getInventoryMap()

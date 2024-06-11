@@ -421,6 +421,8 @@ public class TileEngine
 	}
 	public static void displayWeaponUI(AsciiPanel terminal, int screenWidth, int screenHeight, int sh, int sw, World w, RexReader rex, Entity player)
 	{
+		//Entire Weapon UI Area
+		TileEngine.renderBox(terminal, 31, 55, 0, 0, TileSet.SIMPLE, Palette.gray);
 
 		HashMap<String, ArrayList<TilePoint>> structureMap;
 		ArrayList<TilePoint> testStructure;
@@ -459,15 +461,15 @@ public class TileEngine
 				ammoValue = Integer.toString(player.inventory().get(equippedWeaponCaliber).get(0).value());
 				ammoColor = Palette.methane;
 			}
-
 			TileEngine.renderDisplayPlate(terminal, 0, 11, 31, "Ammo : " + ammoValue, false, ammoColor, Palette.paleWhite);
-			List<Item> gunAttachments = new ArrayList<>(player.inventory().getGunAttachments());
+			Set<Item> gunAttachments = player.inventory().getGunAttachments();
 
 			if(gunAttachments != null)
 			{
-				for(int i = 0; i < gunAttachments.size(); i++)
+				int count  = 0;
+				for(Item i : gunAttachments)
 				{
-					TileEngine.renderDisplayPlate(terminal, 0, 12 + i, 31, gunAttachments.get(i).name(), false, Palette.monoGrayBlue, Palette.paleWhite);
+					TileEngine.renderDisplayPlate(terminal, 0, 12 + count++, 31, i.name(), false, Palette.monoGrayBlue, Palette.paleWhite);
 				}
 			}
 		}

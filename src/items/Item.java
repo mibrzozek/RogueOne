@@ -139,4 +139,9 @@ public class Item implements Serializable
     	else	
     		return false;
     }
+    @Override
+    public int hashCode()
+    {
+        return name != null ? name.hashCode() : 0;
+    }
 }

@@ -1,5 +1,7 @@
 package items;
 
+import java.util.List;
+
 public class WeaponStats
 {
     private int range;
@@ -7,17 +9,19 @@ public class WeaponStats
     private int reloadSpeed;
     private int bulletsPerTurn;
     private int magazineCapacity;
+    private Item i;
+    private WeaponStats baseStats;
 
     private Weapon.Mode mode;
 
-    public WeaponStats(int range, int damage, int reloadSpeed, int bulletsPerTurn, int magazineCapacity, Weapon.Mode firingMode)
-    {
-        this.range  = range;
+    public WeaponStats(int range, int damage, int reloadSpeed, int bulletsPerTurn, int magazineCapacity, Weapon.Mode firingMode) {
+        this.range = range;
         this.damage = damage;
         this.reloadSpeed = reloadSpeed;
         this.bulletsPerTurn = bulletsPerTurn;
         this.magazineCapacity = magazineCapacity;
         this.mode = firingMode;
+
     }
     public int getRange() {
         return range;
@@ -55,7 +59,49 @@ public class WeaponStats
     public void setMode(Weapon.Mode mode) {
         this.mode = mode;
     }
+    public void setBaseRange(int range)
+    {
+        this.baseStats.setRange(range);
+    }
+    public void setBaseDamage(int damage)
+    {
+        this.baseStats.setDamage(damage);
+    }
+    public void setBaseReloadSpeed(int reloadSpeed)
+    {
+        this.baseStats.setReloadSpeed(reloadSpeed);
+    }
+    public void setBaseBulletsPerTurn(int bulletsPerTurn)
+    {
+        this.baseStats.setBulletsPerTurn(bulletsPerTurn);
+    }
+    public void setBaseMagCapacity(int magCapacity)
+    {
+        this.baseStats.setMagazineCapacity(bulletsPerTurn);
+    }
+    public void modifyGunStatsForAttachments(List<Item> attachments)
+    {
+        if(attachments == null)
+            return;
 
+        AttachmentTable table = new AttachmentTable();
+
+        for(Item a : attachments)
+        {
+            if(table.getRangeAttachmentsTable().contains(a))
+            {
+                setRange(a.value());
+            }
+            else if(table.getMagazineAttachmentsTable().contains(a))
+            {
+                setMagazineCapacity(a.value());
+            }
+            else if(table.getReloadAttachmentsTable().contains(a))
+            {
+                setMagazineCapacity(a.value());
+            }
+        }
+    }
     @Override
     public String toString() {
         return "WeaponStats{" +
@@ -66,5 +112,14 @@ public class WeaponStats
                 ", magazineCapacity=" + magazineCapacity +
                 ", mode=" + mode +
                 '}';
+    }
+
+    public void setBaseStats()
+    {
+        this.baseStats = new WeaponStats(range, damage, reloadSpeed, bulletsPerTurn, magazineCapacity, mode);
+    }
+    public WeaponStats getBaseStats()
+    {
+        return this.baseStats;
     }
 }

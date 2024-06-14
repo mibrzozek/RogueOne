@@ -22,6 +22,8 @@ public class Item implements Serializable
         }
     }
 
+
+
     public enum Rarity
     {
         COMMON(),

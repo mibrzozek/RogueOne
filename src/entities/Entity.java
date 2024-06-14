@@ -242,6 +242,15 @@ public class Entity implements Serializable
 					DamageMan.resolveAttack(this, target, inventory.getPrimaryWeapon());
 				}
     		}
+			else if(inventory.isItemEquiped(new ItemFactory().newGlock19()))
+			{
+				p = new Projectile(direction, new Point(x, y, z), Tile.Y_SMALL);
+				world.queueProjectile(p);
+				if(target != null)
+				{
+					DamageMan.resolveAttack(this, target, inventory.getPrimaryWeapon());
+				}
+			}
     		else if(inventory.isItemEquiped(new ItemFactory().newWaterCannon()))
     		{
     			p = new Projectile(direction, new Point(x, y, z), Tile.WATER);

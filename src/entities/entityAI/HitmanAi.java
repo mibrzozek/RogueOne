@@ -67,7 +67,7 @@ public class HitmanAi extends EntityAi
       else if(mx > 0 || my < 0)
     	  entity.setDirection(5);
 
-      if(entity.inventory().hasProjectileWeapon())
+      if(entity.inventory().getPrimaryWeapon() != null)
           entity.useWeapon(target);
 
       entity.moveBy(mx, my, 0);

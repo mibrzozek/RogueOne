@@ -1,12 +1,14 @@
 package items;
 
-import wolrdbuilding.Palette;
-import wolrdbuilding.World;
-
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import asciiPanel.AsciiPanel;
+import wolrdbuilding.Palette;
+import wolrdbuilding.World;
 
 public class ItemFactory implements Serializable
 {
@@ -1279,7 +1281,7 @@ public class ItemFactory implements Serializable
 		Item rmrRedDot = new Item((char)98, Palette.red, Type.ATTACHMENT,
 				"RMR Red Dot Sight", 
 				"Increase range, accuracy, and makes your gun look cool.",
-				100,
+				6,
 				Item.Rarity.RARE);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), rmrRedDot);

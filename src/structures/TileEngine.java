@@ -6,6 +6,8 @@ import entities.Effect;
 import entities.Entity;
 import items.Item;
 import items.Type;
+import items.Weapon;
+import items.WeaponStats;
 import screens.Message;
 import wolrdbuilding.*;
 
@@ -436,7 +438,7 @@ public class TileEngine
 		}
 		else
 		{
-			Item primWeap = player.inventory().getPrimaryWeapon();
+			Weapon primWeap = player.inventory().getPrimaryWeapon();
 			String resourceName = (primWeap.name().toString().replaceAll("\\s+","") + ".csv");
 			System.out.println(resourceName);
 
@@ -462,7 +464,7 @@ public class TileEngine
 				ammoColor = Palette.methane;
 			}
 			TileEngine.renderDisplayPlate(terminal, 0, 11, 31, "Ammo : " + ammoValue, false, ammoColor, Palette.paleWhite);
-			Set<Item> gunAttachments = player.inventory().getGunAttachments();
+			Set<Item> gunAttachments = new HashSet<>(primWeap.getAllAttachments());
 
 			if(gunAttachments != null)
 			{
@@ -472,6 +474,18 @@ public class TileEngine
 					TileEngine.renderDisplayPlate(terminal, 0, 12 + count++, 31, i.name(), false, Palette.monoGrayBlue, Palette.paleWhite);
 				}
 			}
+			System.out.println(primWeap.getAllAttachments().size() + "Number of attachments");
+
+			WeaponStats wStats = primWeap.getStats();
+			if(wStats == null)
+				return;
+			TileEngine.renderDisplayPlate(terminal, 15, 10, 16, "Damage " + wStats.getDamage(), false, Palette.methane, Palette.paleWhite);
+			TileEngine.renderDisplayPlate(terminal, 15, 11, 16, "Magazine " + wStats.getMagazineCapacity(), false, Palette.methane, Palette.paleWhite);
+			TileEngine.renderDisplayPlate(terminal, 15, 12, 16, "Range " + wStats.getRange(), false, Palette.methane, Palette.paleWhite);
+			TileEngine.renderDisplayPlate(terminal, 15, 13, 16, "Fire Mode " + wStats.getMode(), false, Palette.methane, Palette.paleWhite);
+			TileEngine.renderDisplayPlate(terminal, 15, 14, 16, "Reload Speed " + wStats.getReloadSpeed(), false, Palette.methane, Palette.paleWhite);
+			TileEngine.renderDisplayPlate(terminal, 15, 13, 16, "Fire Rate " + wStats.getBulletsPerTurn(), false, Palette.methane, Palette.paleWhite);
+			
 		}
 	}
     public static void displayStatsUI(AsciiPanel terminal, int screenWidth, int screenHeight, int sh, int sw, World w )

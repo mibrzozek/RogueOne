@@ -1,7 +1,5 @@
 package items;
 
-import Managers.AttachmentManager;
-
 import java.io.Serializable;
 import java.util.*;
 
@@ -47,10 +45,7 @@ public class Inventory implements Serializable
 	{
 		return getCapacity() - inventory.size();
 	}
-	public Item getPrimaryWeapon()
-	{
-		return primaryWeapon;
-	}
+	public Weapon getPrimaryWeapon() { return (Weapon)primaryWeapon; }
 	public void removePrimaryWeapon()
 	{
 		primaryWeapon = null;
@@ -78,10 +73,6 @@ public class Inventory implements Serializable
 		equippedMap = new HashMap<>();
 
 		gunAttachments = new HashSet<>();
-	}
-	public Set<Item> getGunAttachments()
-	{
-		return  gunAttachments;
 	}
 	public void checkCapacity()
 	{
@@ -129,8 +120,7 @@ public class Inventory implements Serializable
 		this.remove(primary);
 
 		Weapon w = new Weapon(primary);
-
-		//w.getStats().toString();
+		w.setBaseStats();
 
 		if(this.primaryWeapon == null)
 		{
@@ -277,32 +267,61 @@ public class Inventory implements Serializable
 	}
     public void moveToInventory(int index)
     {
-    	if(inventory.size() + 1 <= max)
-    	{
+    	if(inventory.size() + 1 <= max) {
 			Item i = equipped.remove(index);
-			if(i.equals(getPrimaryWeapon()))
-			{
+			if (i.equals(getPrimaryWeapon())) {
 				this.removePrimaryWeapon();
+			}
+			if (i.type().equals(Type.ATTACHMENT)) {
+				((Weapon) primaryWeapon).removeAttachmentInSlot(AttachmentSlots.BARREL.getSlotForItem(i));
+				((Weapon) primaryWeapon).getStats().modifyGunStatsForAttachments(((Weapon) primaryWeapon).getAllAttachments());
 			}
 			inventory.add(i);
 			equippedMap = getEquippedMap();
 			inventoryMap = getInventoryMap();
+
+			/* Delete if nothing is broken lol
 			if(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)) !=  null)
 				gunAttachments = new HashSet(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)));
+
+			 */
 		}
-    }
+	}
     public void moveToEquiped(int index)
     {
 		if(equipped.size() + 1 <= maxEquip)
 		{
 			Item i = inventory.remove(index);
+			if(i.type().equals(Type.ATTACHMENT))
+			{
+				if(getPrimaryWeapon().isAttachSlotEmpty(AttachmentSlots.BARREL.getSlotForItem(i)))
+				{
+					getPrimaryWeapon().addAttachment(i);
+					equipped.add(i);
+				}
+				else
+				{
+					System.out.println("ATTACHMENT SLOT OCCUPIED");
+					//Slot full error -> message? New ui?
+				}
+				return;
+			}
+
 			equipped.add(i);
 
 			equippedMap = getEquippedMap();
 			inventoryMap = getInventoryMap();
-			if(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)) !=  null)
-				gunAttachments = new HashSet(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)));
 
+			// Looks for attachments for primary weapon, and returns them in a list w/o duplicates
+			/*
+			if(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)) !=  null) {
+				gunAttachments = new HashSet(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)));
+				System.out.println(gunAttachments.size() + " size of attachments in inventory");
+				((Weapon) getPrimaryWeapon()).addAllAttachments(new ArrayList<Item>(gunAttachments));
+				System.out.println(((Weapon) getPrimaryWeapon()).getAllAttachments());
+			}
+
+			 */
 		}
     }
     public void equipAll(Item ... toAdd)

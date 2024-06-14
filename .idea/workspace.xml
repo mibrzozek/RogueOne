@@ -3,12 +3,27 @@
   <component name="ChangeListManager">
     <list default="true" id="bc747c38-cb52-4caa-a5c5-4da97bdb7363" name="Changes" comment="PuzzleLike demo + improvements to rogueOne including vitals, damage, locked rooms, map contiguity and more.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Managers/WeaponManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/WeaponManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Entity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/entityAI/HitmanAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/entityAI/HitmanAi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/entityAI/PlayerAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/entityAI/PlayerAi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Inventory$EquipmentSlot.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Inventory$EquipmentSlot.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Inventory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Inventory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Item$Rarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Item$Rarity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Item.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/ItemFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/ItemFactory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Weapon$Mode.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Weapon$Mode.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Weapon.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Weapon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/WeaponStats.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/WeaponStats.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/TileEngine.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/TileEngine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/entityAI/HitmanAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/HitmanAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Item.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/ItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Type.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/structures/RexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/RexReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Weapon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/WeaponStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/WeaponStats.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/structures/TileEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/TileEngine.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -22,8 +37,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>

@@ -1,5 +1,6 @@
 package items;
 
+import entities.Entity;
 import structures.RexReader;
 
 import java.util.ArrayList;
@@ -9,18 +10,40 @@ import java.util.Map;
 
 public class Weapon extends Item
 {
+    private int turnUntilGunReadyToShoot = 0;
+    private boolean reloading = false;
+
     private Item item;
     private Mode mode;
 
     private List<Item> attachments;
-
     private WeaponStats stats;
-
     private Map<AttachmentSlots, Item> attachmentMap;
 
-    public void setBaseStats()
+    public boolean isReloading() {
+        return reloading;
+    }
+
+    public Integer getTurnsUntilReloaded()
     {
-        this.stats.setBaseStats();
+        return turnUntilGunReadyToShoot;
+    }
+
+    public void setReloading(boolean b)
+    {
+        this.reloading = b;
+    }
+
+    public void setTurnsForReloadTime(int reloadSpeed)
+    {
+        this.turnUntilGunReadyToShoot = reloadSpeed;
+    }
+
+    public boolean isEmpty()
+    {
+        if(getStats().getBulletsInMagazine() == 0)
+            return true;
+        else return false;
     }
 
     public enum Mode
@@ -54,14 +77,33 @@ public class Weapon extends Item
         {
             attachmentMap.remove(slot, null);
         }
-        System.out.println("is null upon weapon creation? " + stats);
-
+    }
+    public void reload()
+    {
+        if(reloading)
+        {
+            if(turnUntilGunReadyToShoot > 0) // need more time to reload
+                turnUntilGunReadyToShoot -= 1;
+            else if(turnUntilGunReadyToShoot == 0)
+            {
+                stats.setBulletsInMagazine(stats.getMagazineCapacity());
+                reloading = false;
+            }
+            System.out.println("Realoading turns left : " + turnUntilGunReadyToShoot);
+        }
+    }
+    public void processWeaponFiring(Entity player)
+    {
+        if(stats.getBulletsInMagazine() > 0)
+            stats.setBulletsInMagazine(stats.getBulletsInMagazine() -1);
+    }
+    public void setBaseStats()
+    {
+        this.stats.setBaseStats();
     }
     public void calculateStats()
     {
         this.stats = RexReader.retrieveStats(name());
-
-        System.out.println("Is stats null? " + stats);
         stats.modifyGunStatsForAttachments(this.getAllAttachments());
     }
     public boolean isAttachSlotEmpty(AttachmentSlots attachment)

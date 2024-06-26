@@ -19,7 +19,7 @@ public class MainFrame extends JFrame implements KeyListener
 	private static final Color DEFAULT_BACK = Palette.theNewBlue;
 	private static final Color DEFAULT_FORE = Palette.paleWhite;
 
-	private Theme t = Theme.PASTEL;
+	private Theme t = Theme.CLASSIC;
 	private AsciiPanel terminal;
 	private Container contentPane;
 
@@ -58,7 +58,7 @@ public class MainFrame extends JFrame implements KeyListener
 
 		// Starts app in center of screen
 		setResolution(r);
-		t = Theme.MIDNIGHT_PURPLE;
+		t = Theme.CLASSIC;
 
 		terminal = new AsciiPanel(screenWidth, screenHeight, AsciiFont.CP437_16x16);
 		screen = new StartScreen(terminal, this);

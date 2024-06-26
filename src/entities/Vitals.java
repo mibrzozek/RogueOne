@@ -142,7 +142,16 @@ public class Vitals {
         if (leftover > 0)
             dealDamageRandomly(leftover);
 
+
+
         System.out.println("Health after damage : " + getVitals());
+    }
+    public boolean isDead()
+    {
+        if(this.getVitals() < 1)
+            return true;
+        else
+            return false;
     }
 
     public Limbs selectLimb() {

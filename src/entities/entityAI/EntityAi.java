@@ -94,6 +94,17 @@ public class EntityAi implements Serializable
         ArrayList<Effect> l = entity.stats.getEffects();
         List<Effect> indexToRemove = new ArrayList();
 
+
+        if(entity.inventory().getPrimaryWeapon() != null)
+        {
+            if(entity.inventory().getPrimaryWeapon().isReloading())
+            {
+                this.entity.inventory().getPrimaryWeapon().reload();
+                entity.notify(this.entity.inventory().getPrimaryWeapon().getTurnsUntilReloaded() + "");
+                System.out.println("Is this 3?");
+            }
+        }
+
         for(Effect e : l) // update and queue done effects
         {
             e.update();

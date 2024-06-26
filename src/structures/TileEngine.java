@@ -468,24 +468,49 @@ public class TileEngine
 
 			if(gunAttachments != null)
 			{
+				TileEngine.renderDisplayPlate(terminal, 0, 18, 31, "Attachments", false, Palette.darkestGray, Palette.paleWhite);
+
 				int count  = 0;
 				for(Item i : gunAttachments)
 				{
-					TileEngine.renderDisplayPlate(terminal, 0, 12 + count++, 31, i.name(), false, Palette.monoGrayBlue, Palette.paleWhite);
+					TileEngine.renderWeaponStatPlate(terminal, 1, 19 + count++, 29, i.name(), "", null, null);
 				}
 			}
-			System.out.println(primWeap.getAllAttachments().size() + "Number of attachments");
+			//System.out.println(primWeap.getAllAttachments().size() + "Number of attachments");
 
 			WeaponStats wStats = primWeap.getStats();
 			if(wStats == null)
 				return;
-			TileEngine.renderDisplayPlate(terminal, 15, 10, 16, "Damage " + wStats.getDamage(), false, Palette.methane, Palette.paleWhite);
-			TileEngine.renderDisplayPlate(terminal, 15, 11, 16, "Magazine " + wStats.getMagazineCapacity(), false, Palette.methane, Palette.paleWhite);
-			TileEngine.renderDisplayPlate(terminal, 15, 12, 16, "Range " + wStats.getRange(), false, Palette.methane, Palette.paleWhite);
-			TileEngine.renderDisplayPlate(terminal, 15, 13, 16, "Fire Mode " + wStats.getMode(), false, Palette.methane, Palette.paleWhite);
-			TileEngine.renderDisplayPlate(terminal, 15, 14, 16, "Reload Speed " + wStats.getReloadSpeed(), false, Palette.methane, Palette.paleWhite);
-			TileEngine.renderDisplayPlate(terminal, 15, 13, 16, "Fire Rate " + wStats.getBulletsPerTurn(), false, Palette.methane, Palette.paleWhite);
-			
+
+			TileEngine.renderWeaponStatPlate(terminal, 1,12,29, "Damage", Integer.toString(wStats.getDamage()), null, null);
+			TileEngine.renderWeaponStatPlate(terminal, 1,13,29, "Fire Rate", Integer.toString(wStats.getBulletsPerTurn()), null, null);
+			TileEngine.renderWeaponStatPlate(terminal, 1,14,29, "Magazine", Integer.toString(wStats.getMagazineCapacity()), null, null);
+			TileEngine.renderWeaponStatPlate(terminal, 1,15,29, "Reload Speed", Integer.toString(wStats.getReloadSpeed()), null, null);
+			TileEngine.renderWeaponStatPlate(terminal, 1,16,29, "Range", Integer.toString(wStats.getRange()), null, null);
+			TileEngine.renderWeaponStatPlate(terminal, 1,17,29, "Fire Mode",wStats.getMode().toString(), null, null);
+			TileEngine.renderWeaponStatPlate(terminal, 1,18,29, "Bullets In Mag",Integer.toString(wStats.getBulletsInMagazine()), null, null);
+			TileEngine.renderWeaponStatPlate(terminal, 1,19,29, "Turns untill ready",Integer.toString(primWeap.getTurnsUntilReloaded()), null, null);
+
+		}
+	}
+	public static void renderWeaponStatPlate(AsciiPanel terminal, int x, int y, int length, String statLabel, String statValue, Color fc, Color bc)
+	{
+		int lengthOfLabels = statLabel.length() + statValue.length();
+		int lengthOfPeriods = length - lengthOfLabels;
+		String finalLabel = statLabel;
+
+		if(lengthOfLabels > length)
+		{
+			System.out.println("Not enough space to add periods");
+		}
+		else
+		{
+			for(int i = 0; i < lengthOfPeriods; i++)
+			{
+				finalLabel += ".";
+			}
+			finalLabel += statValue;
+			terminal.write(finalLabel, x, y);
 		}
 	}
     public static void displayStatsUI(AsciiPanel terminal, int screenWidth, int screenHeight, int sh, int sw, World w )
@@ -790,15 +815,13 @@ public class TileEngine
 
 
 		Color c = Palette.morePaleWhite;
-		Color d = Palette.theNewBluesShadow;
+		Color d = Theme.CLASSIC.getBack();
 
 		//if(s.length() < limit)
 		{
 			int vx = 0;
 			for(int j = 0; j <  limit; j++)
 			{
-
-
 				if(j < s.length() + 1 && j > 0)
 					terminal.write(sc[j-1], x + j, y, Palette.morePaleWhite, d); //writes text
 				else

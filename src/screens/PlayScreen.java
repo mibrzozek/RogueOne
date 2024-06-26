@@ -30,8 +30,8 @@ public class PlayScreen implements Screen
 	private MainFrame main;
 	private RexReader rex = new RexReader();
 
-	private Color fore = Theme.PASTEL.getFore();
-	private Color back = Theme.PASTEL.getBack();
+	private Color fore = Theme.MIDNIGHT_PURPLE.getFore();
+	private Color back = Theme.MIDNIGHT_PURPLE.getBack();
 
 	private Console console;
 
@@ -207,7 +207,6 @@ public class PlayScreen implements Screen
 		 TileEngine.displayDynamicEnemyPopUp(terminal, world, main);
 		 TileEngine.displayWeaponUI(terminal, main.getDisplayWidth(), main.getDisplayHeight(), 0, 0, world, rex, player);
 
-
 	     if(subScreen instanceof CraftingScreen)
 	    	 ((CraftingScreen) subScreen).write(terminal);
 	     /*
@@ -310,6 +309,7 @@ public class PlayScreen implements Screen
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
 	{
+		System.out.println("I'm on playscreen event is " + key.getKeyChar() + " and subscreen is " + subScreen);
 		// Audio
 		/*
 		try {

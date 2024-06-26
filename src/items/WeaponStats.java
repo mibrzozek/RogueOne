@@ -1,6 +1,9 @@
 package items;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class WeaponStats
 {
@@ -9,19 +12,37 @@ public class WeaponStats
     private int reloadSpeed;
     private int bulletsPerTurn;
     private int magazineCapacity;
-    private Item i;
+    private int bulletsInMagazine;
     private WeaponStats baseStats;
-
     private Weapon.Mode mode;
 
-    public WeaponStats(int range, int damage, int reloadSpeed, int bulletsPerTurn, int magazineCapacity, Weapon.Mode firingMode) {
+    private Map<WEAPON_STAT, List<Item>> buffMap;
+
+    public enum WEAPON_STAT
+    {
+        RANGE, DAMAGE, RELOAD_SPEED, BULLETS_PER_TURN, MAG_CAPACITY, MODE
+    }
+    public WeaponStats(int range, int damage, int reloadSpeed, int bulletsPerTurn, int magazineCapacity, Weapon.Mode firingMode)
+    {
         this.range = range;
         this.damage = damage;
         this.reloadSpeed = reloadSpeed;
         this.bulletsPerTurn = bulletsPerTurn;
         this.magazineCapacity = magazineCapacity;
         this.mode = firingMode;
+        this.bulletsInMagazine = magazineCapacity;
 
+        this.buffMap = new HashMap<>();
+        for(WEAPON_STAT stat : WEAPON_STAT.values())
+        {
+            buffMap.put(stat, new ArrayList<>());
+        }
+    }
+    public void buffStat(Item i, WEAPON_STAT stat)
+    {
+        List<Item> buffedList = buffMap.get(stat);
+        buffedList.add(i);
+        buffMap.put(stat, buffedList);
     }
     public int getRange() {
         return range;
@@ -78,6 +99,12 @@ public class WeaponStats
     public void setBaseMagCapacity(int magCapacity)
     {
         this.baseStats.setMagazineCapacity(bulletsPerTurn);
+    }
+    public int getBulletsInMagazine() {
+        return bulletsInMagazine;
+    }
+    public void setBulletsInMagazine(int bulletsInMagazine) {
+        this.bulletsInMagazine = bulletsInMagazine;
     }
     public void modifyGunStatsForAttachments(List<Item> attachments)
     {

@@ -51,11 +51,37 @@ public class AttackBox extends UIScreen
 
 		if(itemList.get(index).equals("Shoot"))
 		{
+			/*
+			if(player.inventory().getPrimaryWeapon().getStats().getBulletsInMagazine() == 1)
+			{
+				System.out.println("\tSetting reloading to true");
+				WeaponManager.processOutOfAmmoState(player, player.inventory().getPrimaryWeapon());
+				//player.inventory().getPrimaryWeapon().reload();
+				player.notify("You are out of ammo");
+				setNull();
+				return;
+			}
+			else if(player.inventory().getPrimaryWeapon().getStats().getBulletsInMagazine() == 0  && player.inventory().getPrimaryWeapon().isReloading())
+			{
+				System.out.println("\tFirst turn reloading");
+				player.inventory().getPrimaryWeapon().reload();
+				return;
+			}
+			*/
 			if(WeaponManager.processWeapon(player, enemy))
 			{
+				if(enemy.isDead())
+					ps.updateWorld();
+
 				setNull();
+
 			}
-			ps.updateWorld();
+			else
+			{
+				ps.updateWorld();
+				if(enemy.isDead())
+					setNull();
+			}
 		}
 		else if(itemList.get(index).equals("Taunt"))
 		{

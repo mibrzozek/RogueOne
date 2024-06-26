@@ -87,9 +87,6 @@ public class UIScreen implements Screen
 	@Override
 	public void displayOutput(AsciiPanel terminal)
 	{
-		if(exitSubScreen ==  true)
-			return;
-
 		TileEngine.renderBox(terminal, bw, bh, bx, by, ts, true);
 		render(terminal);
 		terminal.write((char) 16, scrollX, scrollY);
@@ -126,7 +123,7 @@ public class UIScreen implements Screen
 	public void setNull()
 	{
 		exitSubScreen =  true;
-		ps.updateWorld();
+		respondToUserInput(null); // called to return null on user input
 	}
 	public void setInputNumber(int enemyIndex)
 	{
@@ -140,6 +137,7 @@ public class UIScreen implements Screen
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
 	{
+		System.out.println("Exit subscreen " + exitSubScreen);
 		if(exitSubScreen)
 		{
 			return null;

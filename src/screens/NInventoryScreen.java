@@ -61,7 +61,7 @@ public class NInventoryScreen extends ScrollingBasedScreen
                 TileEngine.renderBox(terminal, (bw/2) + 1, bh, eo + 15 + 1, by, TileSet.SIMPLE, true);
             }
         }
-        terminal.write("" + (char)16, scrollX, scrollY); // CURSOR
+        terminal.write("" + (char)16, scrollX , scrollY); // CURSOR
 
         if(equipIndex < 0 && selectingFromInventory)
             TileEngine.renderDisplayPlate(terminal, scrollX, scrollY, 31, "Inventory", true, getBackColor(), getForeColor());

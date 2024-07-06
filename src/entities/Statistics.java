@@ -30,6 +30,10 @@ public class Statistics implements Serializable
 	private int burden;
 	private double stealth;
 
+	private int stamina;
+	private int maxStamina;
+	private int recovery;
+
 	private int crypto;
 
 	private boolean dead = false;
@@ -48,6 +52,9 @@ public class Statistics implements Serializable
 		this.name = "Maynard Buckson";
 		this.role = "";
 		this.vitals = new Vitals();
+		this.stamina = 5;
+		this.maxStamina = stamina;
+		this.recovery = 1;
 
 		this.height = r.nextInt(19) + 62;
 		if(height <68)
@@ -65,6 +72,17 @@ public class Statistics implements Serializable
 		rollCharacter(null);
 		this.effects = new ArrayList<>();
 		effects.add(new Effect(Effect.Effects.SATITATED, "Full", Palette.green));
+	}
+	public void setMaxStamina(int newMax)
+	{
+		this.maxStamina = newMax;
+	}
+	public void recoverStamina()
+	{
+		if(this.stamina < this.maxStamina)
+		{
+			this.stamina = stamina + recovery;
+		}
 	}
 	public Vitals getVitals()
 	{
@@ -415,4 +433,30 @@ public class Statistics implements Serializable
 	{
 		return MAX_POINTS;
 	}
+
+	public int getStamina() {
+		return stamina;
+	}
+
+	public void setStamina(int stamina) {
+		this.stamina = stamina;
+	}
+
+	public int getMaxStamina() {
+		return maxStamina;
+	}
+
+	public boolean drainStamina()
+	{
+		if(stamina - 1 < 1)
+		{
+			return false;
+		}
+		else
+		{
+			stamina -= 1;
+			return true;
+		}
+	}
+
 }

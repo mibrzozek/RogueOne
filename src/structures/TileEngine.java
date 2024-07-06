@@ -468,12 +468,12 @@ public class TileEngine
 
 			if(gunAttachments != null)
 			{
-				TileEngine.renderDisplayPlate(terminal, 0, 18, 31, "Attachments", false, Palette.darkestGray, Palette.paleWhite);
+				TileEngine.renderDisplayPlate(terminal, 0, 20, 31, "Attachments", false, Palette.darkestGray, Palette.paleWhite);
 
 				int count  = 0;
 				for(Item i : gunAttachments)
 				{
-					TileEngine.renderWeaponStatPlate(terminal, 1, 19 + count++, 29, i.name(), "", null, null);
+					TileEngine.renderWeaponStatPlate(terminal, 1, 21 + count++, 29, i.name(), "", null, null);
 				}
 			}
 			//System.out.println(primWeap.getAllAttachments().size() + "Number of attachments");
@@ -529,6 +529,10 @@ public class TileEngine
 			renderPercentBlocksV2(terminal, 1, screenHeight+4, "Ambient 02", (int)w.getAir().getOxygen(), 10000, Palette.lightBlue);
 		terminal.write("02 Rsrv" + (char)179 , 1, screenHeight+ 5);
 			renderPercentBlocksV2(terminal, 1, screenHeight+5, "Reserve 02", (int)player.inventory().getTypeDuration(Type.OXYGEN), 1000, Palette.lightBlue);
+		TileEngine.renderPercentBlocksV2(terminal, 1, screenHeight + 6, "Stamina", player.stats.getStamina(), player.stats.getMaxStamina(), Palette.blue);
+		TileEngine.renderWeaponStatPlate(terminal, 1, screenHeight + 7, 29, "Stamina", Integer.toString(player.stats.getStamina()), null, null);
+		TileEngine.renderWeaponStatPlate(terminal, 1, screenHeight + 8, 29, "Sprinting", Boolean.toString(player.isSprinting()), null, null);
+
 
 		TileEngine.renderBox(terminal, 31, 12, 0, screenHeight, TileSet.SIMPLE, Palette.gray);
 
@@ -873,6 +877,7 @@ public class TileEngine
 
 		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Ambient 02", w.getAir().getOxygen(), 1000, b);
 		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Reserve 02", (int)player.inventory().getTypeDuration(Type.OXYGEN), 200, b);
+		TileEngine.renderPercentBlocksV2(terminal, 1, y++, "Stamina", player.stats.getStamina(), player.stats.getMaxStamina(), b);
 
 		terminal.write("Effects", 12, y++);
 

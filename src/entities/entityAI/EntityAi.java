@@ -37,6 +37,21 @@ public class EntityAi implements Serializable
         else
         	entity.moveBy(mx, my, 0);
     }
+    public void follow(Entity leader)
+    {
+        if(leader != null && entity != null)
+        {
+            List<Point> points = new Path(entity, leader.x, leader.y).points();
+            if(points != null)
+            {
+                if(Math.abs(this.entity.x - leader.x) <5 && Math.abs(this.entity.y - leader.y) <5)
+                    return;
+                int mx = points.get(0).x - entity.x;
+                int my = points.get(0).y - entity.y;
+                entity.moveBy(mx, my, 0);
+            }
+        }
+    }
     public void hunt(Entity target)
     {
         if(target != null && entity != null)
@@ -99,7 +114,7 @@ public class EntityAi implements Serializable
         {
             if(entity.inventory().getPrimaryWeapon().isReloading())
             {
-                this.entity.inventory().getPrimaryWeapon().reload();
+                this.entity.inventory().getPrimaryWeapon().reload(entity);
                 entity.notify(this.entity.inventory().getPrimaryWeapon().getTurnsUntilReloaded() + "");
                 System.out.println("Is this 3?");
             }

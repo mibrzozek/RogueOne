@@ -31,6 +31,16 @@ public class Entity implements Serializable
 {
 	private static final int DEFAULT_VISION_RADIUS = 8;
 	private boolean showUI = false;
+
+	public boolean isSprinting() {
+		return sprinting;
+	}
+
+	public void setSprinting(boolean sprinting) {
+		this.sprinting = sprinting;
+	}
+
+	private boolean sprinting = false;
 	//public enum Direction()
 	// Context Variables
 	private World world;
@@ -473,6 +483,10 @@ public class Entity implements Serializable
     public void update()
     {
         ai.onUpdate();
+		if(!sprinting)
+			stats.recoverStamina();
+
+		System.out.println("I'm updating twice? " + this.name);
 
 		if(stats.isDead())
 		{
@@ -544,6 +558,12 @@ public class Entity implements Serializable
 	{
 		if (mx == 0 && my == 0 && mz == 0)
 		    return;
+
+		if(sprinting) {
+			mx = mx * 2;
+			my = my * 2;
+			this.sprinting = stats.drainStamina();
+		}
 
 		if(shieldValue + 5 < 80)
 			shieldValue += 1;
@@ -731,5 +751,13 @@ public class Entity implements Serializable
 	{
 		System.out.print("Taunting code goes here");
 		stats.addEffect(new Effect(Effect.Effects.PISSED, "Pissed", Palette.pastelOrange));
+	}
+
+	public void toggleSprint()
+	{
+		if(this.sprinting == false)
+			this.sprinting = true;
+		else
+			this.sprinting = false;
 	}
 }

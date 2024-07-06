@@ -20,7 +20,8 @@ public class DroidAi extends EntityAi
     }
     public void onUpdate()
     {
-        if(this.entity.inventory().containsInInventory(iF.newBasicAiUnit()))
-            wander();
+        follow(player);
+        //if(this.entity.inventory().containsInInventory(iF.newBasicAiUnit()))
+            //wander();
     }
 }

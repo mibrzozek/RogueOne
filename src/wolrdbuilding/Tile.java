@@ -206,8 +206,9 @@ public enum Tile
     HEAVY('H', Palette.darkGray , Palette.darkRed),
     SECURITY('S', Palette.darkGray, Palette.red),
     RANGED('R', Palette.blue , Palette.darkGray),
-    VAGRANT('v', Palette.purple, Palette.darkRed )
-    ;
+    VAGRANT('v', Palette.monoRed, Palette.darkRed ),
+    BOSS('B', Palette.purple, Palette.darkestGray),
+    COMMANDO('C', Palette.monoPurple, Palette.darkestGray);
 	
 	private boolean swapable;
 	public Random r =  new Random();

@@ -1,5 +1,6 @@
 package items;
 
+import Managers.AmmoManager;
 import entities.Entity;
 import structures.RexReader;
 
@@ -78,7 +79,7 @@ public class Weapon extends Item
             attachmentMap.remove(slot, null);
         }
     }
-    public void reload()
+    public void reload(Entity entity)
     {
         if(reloading)
         {
@@ -86,10 +87,29 @@ public class Weapon extends Item
                 turnUntilGunReadyToShoot -= 1;
             else if(turnUntilGunReadyToShoot == 0)
             {
-                stats.setBulletsInMagazine(stats.getMagazineCapacity());
-                reloading = false;
+                Item ammoStack = entity.inventory().get(AmmoManager.identifyAmmo(entity.inventory().getPrimaryWeapon())).get(0);
+                int bulletsRemaining = ammoStack.value();
+
+                if(bulletsRemaining <= stats.getMagazineCapacity())
+                {
+                    stats.setBulletsInMagazine(bulletsRemaining);
+                    ammoStack.modifyValue(bulletsRemaining, entity.inventory());
+                    reloading =  false;
+                }
+                else
+                {
+                    stats.setBulletsInMagazine(stats.getMagazineCapacity());
+                    ammoStack.modifyValue(stats.getMagazineCapacity(), entity.inventory());
+                    reloading = false;
+                }
             }
             System.out.println("Realoading turns left : " + turnUntilGunReadyToShoot);
+        }
+        else
+        {
+            setReloading(true);
+            setTurnsForReloadTime(stats.getReloadSpeed());
+            System.out.println("");
         }
     }
     public void processWeaponFiring(Entity player)

@@ -127,13 +127,13 @@ public class EntityFactory implements Serializable
 		new HitmanAi(ent, player);
 		return ent;
     }
-	public Entity newMutant(int depth, Entity player)
+	public Entity newBoss(Entity player)
 	{
 		Statistics stats = new Statistics();
 		stats.rollCharacter(world.getNameGenerator());
-		Entity ent = new Entity(stats, world, Tile.MUTANT);
+		Entity ent = new Entity(stats, world, Tile.BOSS);
 
-		new JunkieAi(ent, player);
+		new BossAi(ent, player);
 		return ent;
 	}
 	public Entity newPlayer(List<String> messages, Statistics stats)
@@ -148,5 +148,15 @@ public class EntityFactory implements Serializable
 		player.stats.setStealth(player.inventory().getTypeDuration(Type.STEALTH));
 		
 		return player;
+	}
+
+	public Entity newCommando(Entity boss, Entity player)
+	{
+		Statistics stats = new Statistics();
+		stats.rollCharacter(world.getNameGenerator());
+		Entity ent = new Entity(stats, world, Tile.COMMANDO);
+
+		new CommandoAi(ent, player, boss);
+		return ent;
 	}
 }

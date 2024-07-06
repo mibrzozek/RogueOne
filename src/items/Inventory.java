@@ -1,5 +1,7 @@
 package items;
 
+import Managers.AttachmentManager;
+
 import java.io.Serializable;
 import java.util.*;
 
@@ -272,7 +274,9 @@ public class Inventory implements Serializable
 			if (i.equals(getPrimaryWeapon())) {
 				this.removePrimaryWeapon();
 			}
-			if (i.type().equals(Type.ATTACHMENT)) {
+			if (i.type().equals(Type.ATTACHMENT))
+			{
+				System.out.println("Attachments belongs");
 				((Weapon) primaryWeapon).removeAttachmentInSlot(AttachmentSlots.BARREL.getSlotForItem(i));
 				((Weapon) primaryWeapon).getStats().modifyGunStatsForAttachments(((Weapon) primaryWeapon).getAllAttachments());
 			}
@@ -291,13 +295,21 @@ public class Inventory implements Serializable
     {
 		if(equipped.size() + 1 <= maxEquip)
 		{
-			Item i = inventory.remove(index);
+			Item i = inventory.get(index);
 			if(i.type().equals(Type.ATTACHMENT))
 			{
+				if(getPrimaryWeapon() == null)
+				{
+					// can't equip attachment since no weapon
+					return;
+				}
 				if(getPrimaryWeapon().isAttachSlotEmpty(AttachmentSlots.BARREL.getSlotForItem(i)))
 				{
+					if(!AttachmentManager.attachmentBelongOnGun(i, (Weapon) primaryWeapon))
+						return;
 					getPrimaryWeapon().addAttachment(i);
 					equipped.add(i);
+					inventory.remove(index);
 				}
 				else
 				{

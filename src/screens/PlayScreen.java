@@ -1,5 +1,6 @@
 package screens;
 
+import Managers.ReloadManager;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import entities.EntityFactory;
@@ -26,7 +27,7 @@ import java.util.Random;
 
 public class PlayScreen implements Screen
 {
-	private static final String WINNING_ITEM = "Rifle";
+	private static final String WINNING_ITEM = "Disco Ball";
 	private MainFrame main;
 	private RexReader rex = new RexReader();
 
@@ -127,6 +128,8 @@ public class PlayScreen implements Screen
 			world.dealEnemiesLoot();
 			world.spawnRedRoomEnemies();
 			world.spawnRogues();
+			world.spawnBoss();
+			world.spawnBossGuards(world.getBoss());
 		}
 
 	}
@@ -260,8 +263,12 @@ public class PlayScreen implements Screen
 	}
     private boolean userIsTryingToExit()
     {
-    	return true;
-
+		System.out.println("Is calc is exit?");
+		System.out.println("Player z : " + player.z + " depth : " + world.depth());
+		if(player.z + 1 == world.depth())
+    		return true;
+		else
+			return false;
         //return world.tile(player.x, player.y, player.z).getTile() == Tile.STAIRS_EXIT;
     }
     private Screen userExits()
@@ -309,7 +316,6 @@ public class PlayScreen implements Screen
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
 	{
-		System.out.println("I'm on playscreen event is " + key.getKeyChar() + " and subscreen is " + subScreen);
 		// Audio
 		/*
 		try {
@@ -322,7 +328,7 @@ public class PlayScreen implements Screen
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		 */
+		*/
 		if(screenTicks < introMessages.size())
 		{
 			player.notify("The level is " + player.z);
@@ -433,8 +439,9 @@ public class PlayScreen implements Screen
         		}
         		case KeyEvent.VK_E: player.rotateClockwise(); break;
         		case KeyEvent.VK_Q: player.rotateCounterClockwise(); break;
-        		case KeyEvent.VK_SPACE: player.useWeapon(null); world.update();	 break;
+        		case KeyEvent.VK_SPACE: player.toggleSprint();	 break;
         		case KeyEvent.VK_G: player.useDevice(); break;
+				case KeyEvent.VK_V: ReloadManager.manageReload(player); break;
         		case KeyEvent.VK_C: // Inspect item`
         		{	
         			if(world.item(player.x, player.y, player.z) != null)

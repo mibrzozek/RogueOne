@@ -24,6 +24,7 @@ public class HitmanAi extends EntityAi
       //entity.inventory().add(new ItemFactory().newGlock19());
       //entity.inventory().moveToEquiped(0);
       entity.inventory().setPrimaryWeapon(new ItemFactory().newGlock19());
+      entity.inventory().equipAll(new ItemFactory().newPstGZH());
   }
   public void onUpdate()
   {

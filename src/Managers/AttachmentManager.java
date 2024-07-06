@@ -1,6 +1,7 @@
 package Managers;
 
 import items.Item;
+import items.Weapon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,5 +75,32 @@ public class AttachmentManager
 
 
         return attachments;
+    }
+    public static boolean attachmentBelongOnGun(Item i, Weapon primary)
+    {
+        if(primary.name() == "Glock 19")
+        {
+            if(i.name().equals("Glock Extended Mags")
+                    || i.name().equals("Glizzy Comp")
+                    || i.name().equals("9mm Supressor")
+                    || i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else if(primary.name() == "Colt M4A1")
+        {
+            if(i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else return false;
     }
 }

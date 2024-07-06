@@ -21,6 +21,7 @@ import java.util.Random;
 
 public class World implements Serializable
 {
+	private Entity boss;
 	public int getCircleRadius()
 	{
 		return radius;
@@ -49,18 +50,63 @@ public class World implements Serializable
 			e.inventory().add(loot.removeRandomItemFromFloorOneTable()); // distribute loot and remove from list
 		}
 	}
-
 	public Puzzle getPuzzle()
 	{
 		return currentPuzzle;
 	}
-
 	public void addThrowableItem(Item item)
 	{
 		throwMan.addThrowable(item, 3);
 		itemMap[item.getLocation().x][item.getLocation().y][item.getLocation().z] = item;
 	}
+	public void spawnBossGuards(Entity boss)
+	{
+		EntityFactory fact = new EntityFactory(this, null);
+		Random r = new Random();
 
+		int numGuards = r.nextInt(3) + 3;
+
+		for(int i = 0; i < numGuards; i++)
+		{
+			Entity bossGuard = fact.newCommando(boss, player);
+			bossGuard.getEntityAi().follow(boss);
+			spawnEntityNearEntity(bossGuard, getBoss());
+		}
+	}
+	public void spawnEntityNearEntity(Entity newEntity, Entity targetEntity)
+	{
+		Point targetPoint = new Point(targetEntity.x, targetEntity.y, targetEntity.z);
+
+		for(Point p : targetPoint.neighbors8())
+		{
+			if(this.getTile(p.x, p.y, p.z).isFloor())
+			{
+				addEntityAt(p, newEntity);
+			}
+			else
+			{
+				System.out.println("not adding guard");
+			}
+		}
+	}
+	public void spawnBoss()
+	{
+		EntityFactory fact = new EntityFactory(this, null);
+
+		Entity boss = fact.newBoss(player);
+		setBoss(boss);
+		spawnInMainRegion(boss);
+		System.out.println("Boss location : " + boss.x + " " + boss.y + " " + boss.z);
+
+	}
+	private void setBoss(Entity boss)
+	{
+		this.boss = boss;
+	}
+	public Entity getBoss()
+	{
+		return this.boss;
+	}
 	public enum Map
 	{
 		TURKEY(),
@@ -445,7 +491,9 @@ public class World implements Serializable
         
     	for (Entity entity : toUpdate)
         {
+
             entity.update();
+
 			if(entity.stats.vitals.getHead() < 1)
 				entity.stats.setDead(true);
         }
@@ -831,7 +879,7 @@ public class World implements Serializable
 	public void spawnMainRegionEnemies()
 	{
 		EntityFactory nullEntityFactory = new EntityFactory(this, null);
-		entities.add(player);
+		//entities.add(player);
 
 		int enemiesInMain = 15;
 		for (int z = 1; z < depth(); z++)
@@ -850,14 +898,17 @@ public class World implements Serializable
 	{
 		Point p = dungeon.getMainRegionPointS().get(random.nextInt(dungeon.getMainRegionPointS().size()));
 
-		if(tiles[p.x][p.y][p.z].isGround())
+		do
 		{
+			p = dungeon.getMainRegionPointS().get(random.nextInt(dungeon.getMainRegionPointS().size()));
+			// getMainRegionPoints returns tiles which are not floors
 			e.x = p.x;
 			e.y = p.y;
 			e.z = p.z;
 
 			entities.add(e);
-		}
+			System.out.println("Runaway");
+		}while(!tiles[p.x][p.y][p.z].isGround());
 	}
 	public void spawnRogues()
 	{

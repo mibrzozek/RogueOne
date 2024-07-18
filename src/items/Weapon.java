@@ -47,6 +47,19 @@ public class Weapon extends Item
         else return false;
     }
 
+    public void changeFiringMode(Entity entity)
+    {
+        //if(Mode == Mode.)
+    }
+
+    public boolean isMagazineFull()
+    {
+        if(stats.getBulletsInMagazine() == stats.getMagazineCapacity())
+            return true;
+        else
+            return false;
+    }
+
     public enum Mode
     {
         SINGLE(), BURST(), AUTOMATIC(), SEMI();

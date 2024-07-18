@@ -136,7 +136,7 @@ public class CharacterCreationScreen implements Screen
 			if(display.get(i) != null)
 				s2 += display.get(i).toString();
 
-			TileEngine.renderCreationPlate(terminal, cx2, y, 56, s1, s2,false, Palette.monoGrayBlue, Palette.morePaleWhite);
+			TileEngine.renderCreationPlate(terminal, cx2, y, 56, s1, s2,false, Palette.gray, Palette.darkestGray);
 			//terminal.write(fields.get(i), cx2, y);
 			terminal.write("", cx,  y);
 

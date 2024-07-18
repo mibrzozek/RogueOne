@@ -1,6 +1,7 @@
 package screens;
 
 import Managers.ReloadManager;
+import Managers.WeaponManager;
 import asciiPanel.AsciiPanel;
 import entities.Entity;
 import entities.EntityFactory;
@@ -442,6 +443,7 @@ public class PlayScreen implements Screen
         		case KeyEvent.VK_SPACE: player.toggleSprint();	 break;
         		case KeyEvent.VK_G: player.useDevice(); break;
 				case KeyEvent.VK_V: ReloadManager.manageReload(player); break;
+				case KeyEvent.VK_H: WeaponManager.changeWeaponMode(player); break;
         		case KeyEvent.VK_C: // Inspect item`
         		{	
         			if(world.item(player.x, player.y, player.z) != null)

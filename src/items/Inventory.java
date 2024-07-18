@@ -320,7 +320,7 @@ public class Inventory implements Serializable
 			}
 
 			equipped.add(i);
-
+			inventory.remove(index);
 			equippedMap = getEquippedMap();
 			inventoryMap = getInventoryMap();
 

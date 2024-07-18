@@ -29,6 +29,8 @@ public class NInventoryScreen extends ScrollingBasedScreen
     private boolean selectingFromInventory = true;
     private boolean moreToDisplay = false;
 
+    private Screen subscreen = null;
+
     List<EquipmentSlot> equipementList;
     private int bo = 16;
 
@@ -43,7 +45,6 @@ public class NInventoryScreen extends ScrollingBasedScreen
 
         Set<Type> set =  player.inventory().getEquippedMap().keySet();
         types = Arrays.asList(set.toArray());
-
         equipementList = new ArrayList<>();
     }
     public void write(AsciiPanel terminal) // gets called from parent class
@@ -142,7 +143,6 @@ public class NInventoryScreen extends ScrollingBasedScreen
         List<Item> lines = getList(player.inventory().getItems());
         List<Item> iL = player.inventory().getItems();
 
-
         int limit = 18;
         int x = bx+1;
         int y = by+1;
@@ -152,12 +152,34 @@ public class NInventoryScreen extends ScrollingBasedScreen
             lines = updateList(equipIndex -scrollingLength);
         }
 
+        if(equipIndex < player.inventory().getItems().size() && equipIndex >= 0) // Render inspect if hovering over item
+        {
+            if(selectingFromInventory)
+            {
+                subscreen = new InspectScreen(player.inventory().getItems(), equipIndex, bx + bw, by - bh);
+                subscreen.displayOutput(terminal);
+            }
+            else
+            {
+                if((equipIndex < player.inventory().getEquipped().size() && equipIndex >= 0))
+                {
+                    subscreen = new InspectScreen(player.inventory().getEquipped(), equipIndex, bx, by - bh);
+                    subscreen.displayOutput(terminal);
+                }
+            }
+        }
+        else
+        {
+            subscreen = null;
+        }
+
         for (int i = 0; i < limit; i++)
         {
             if(equipIndex < scrollingLength)
             {
                 if( i < player.inventory().getItems().size())
                     TileEngine.renderItemPlate(terminal, x, y, lines.get(i), 29);
+
             }
             else if(equipIndex >= scrollingLength)
             {

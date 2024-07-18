@@ -316,7 +316,8 @@ public class Entity implements Serializable
 					|| inventory().isItemEquiped(new ItemFactory().newSerratedKnife())
 					|| inventory().isItemEquiped(new ItemFactory().newFoldedSteelKnife()))
 			{
-				if(target != null)
+				// if target is not null and target directly adjacent to entity
+				if(target != null && new Point(x, y, z).neighbors8().contains(new Point(target.x, target.y, target.z)))
 				{
 					Item i = new ItemFactory().newRustyKnife();
 

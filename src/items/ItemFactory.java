@@ -1,14 +1,12 @@
 package items;
 
-import java.awt.Color;
+import wolrdbuilding.Palette;
+import wolrdbuilding.World;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import asciiPanel.AsciiPanel;
-import wolrdbuilding.Palette;
-import wolrdbuilding.World;
 
 public class ItemFactory implements Serializable
 {
@@ -36,6 +34,12 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newRpgGrenade());
+		itemList.add(newFiveSevenAmmo());
+		itemList.add(newP90());
+		itemList.add(newRpg());
+		itemList.add(newVector());
+		itemList.add(newHkmp7());
 		itemList.add(newRifleGunParts());
 		itemList.add(newPistolGunParts());
 		itemList.add(newGunParts());
@@ -46,6 +50,7 @@ public class ItemFactory implements Serializable
 		itemList.add(newHoloSight());
 		itemList.add(newRedDotSight());
 		itemList.add(newPstGZH100());
+		itemList.add(newApsx());
 		itemList.add(newPstGZH());
 		itemList.add(newGlock19ExtendedMags());
 		itemList.add(newBlueLaser());
@@ -1331,6 +1336,17 @@ public class ItemFactory implements Serializable
 			world.spawnInside(r.nextInt(5), pstGZH);
 		return pstGZH;
 	}
+	public Item newApsx()
+	{
+		Item apsx = new Item((char)98, Palette.red, Type.AMMO_46x30,
+				"4.6 x 30 AP SX Ammo", 
+				"Navy seal issued armor piercing ammo",
+				30,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), apsx);
+		return apsx;
+	}
 	public Item newPstGZH100()
 	{
 		Item pstGZH100 = new Item((char)98, Palette.red, Type.AMMO_9MM,
@@ -1440,5 +1456,71 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), rifleGunParts);
 		return rifleGunParts;
+	}
+	public Item newHkmp7()
+	{
+		Item hkmp7 = new Item((char)98, Palette.red, Type.GUN,
+				"HK MP7", 
+				"Navy seals issued MP7",
+				220,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), hkmp7);
+		return hkmp7;
+	}
+	public Item newVector()
+	{
+		Item vector = new Item((char)98, Palette.red, Type.GUN,
+				"Kriss Vector", 
+				"American made. True and reliable.",
+				190,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), vector);
+		return vector;
+	}
+	public Item newRpg()
+	{
+		Item rpg = new Item((char)98, Palette.red, Type.GUN,
+				"RPG", 
+				"Rocket Propelled Grenade. Quite inaccurate, highly deadly.",
+				2000,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), rpg);
+		return rpg;
+	}
+	public Item newP90()
+	{
+		Item P90 = new Item((char)98, Palette.red, Type.GUN,
+				"FN P90", 
+				"FN P90 is a SMG chambered for the 5.7×28mm cartridge. Belgian manufactured.",
+				280,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), P90);
+		return P90;
+	}
+	public Item newFiveSevenAmmo()
+	{
+		Item fiveSevenAmmo = new Item((char)98, Palette.red, Type.AMMO_57x28,
+				"SS190 5.7 x 28mm", 
+				"Devastatingly belgian.",
+				150,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), fiveSevenAmmo);
+		return fiveSevenAmmo;
+	}
+	public Item newRpgGrenade()
+	{
+		Item rpgGrenade = new Item((char)98, Palette.red, Type.AMMO_RPG,
+				"RPG Explosive", 
+				"Boom",
+				5,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), rpgGrenade);
+		return rpgGrenade;
 	}
 }

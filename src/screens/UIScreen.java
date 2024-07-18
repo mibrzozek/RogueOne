@@ -137,7 +137,6 @@ public class UIScreen implements Screen
 	@Override
 	public Screen respondToUserInput(KeyEvent key)
 	{
-		System.out.println("Exit subscreen " + exitSubScreen);
 		if(exitSubScreen)
 		{
 			return null;

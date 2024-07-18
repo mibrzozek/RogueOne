@@ -1,12 +1,11 @@
 package structures;
 
 import asciiPanel.AsciiPanel;
-import entities.Entity;
 import items.Item;
 import items.Stash;
-import items.Type;
-import screens.*;
-import wolrdbuilding.Palette;
+import screens.NOptionsScreen;
+import screens.PlayScreen;
+import screens.UIScreen;
 import wolrdbuilding.World;
 
 import javax.swing.*;

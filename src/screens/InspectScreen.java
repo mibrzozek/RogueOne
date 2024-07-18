@@ -1,18 +1,15 @@
 package screens;
 
-import java.awt.Color;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-
 import asciiPanel.AsciiPanel;
 import items.Item;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.Tile;
 import wolrdbuilding.TileSet;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.List;
 
 
 public class InspectScreen implements Screen
@@ -22,6 +19,8 @@ public class InspectScreen implements Screen
 	private int ry;
 	private int X = 4;
 	private int Y = 2;
+	private int bw = 31;
+	private int bh = 19;
 	
 	//Item[] items;
 
@@ -64,7 +63,7 @@ public class InspectScreen implements Screen
 	public void displayOutput(AsciiPanel terminal)
 	{
 		//renderGrayBackground(terminal);
-		TileEngine.renderBox(terminal, 45, 19, rx, ry+1, TileSet.SIMPLE, true);
+		TileEngine.renderBox(terminal, bw, bh, rx, ry+1, TileSet.SIMPLE, true);
 
 		if(inventory != null)
 			item = inventory.get(index);
@@ -77,7 +76,7 @@ public class InspectScreen implements Screen
 	{
 		if(item != null)
 		{
-			TileEngine.renderBox(terminal, 45, 5, rx, ry, TileSet.SIMPLE, true);
+			TileEngine.renderBox(terminal, bw, 5, rx, ry, TileSet.SIMPLE, true);
 
 			title = item.name();
 			description = item.description();
@@ -85,16 +84,15 @@ public class InspectScreen implements Screen
 			int by = ry + 1;
 			//terminal.write(title, bx, by, Palette.white);
 			//TileEngine.renderItemPlate(terminal, bx, by, item, 43);
-			TileEngine.renderDisplayPlate(terminal, bx, by++, 43, item.name(), false, Palette.darkestGray, item.color());
-			TileEngine.renderDisplayPlate(terminal, bx, by++, 43, "" + item.value(), false, Palette.darkestGray, item.color());
-			TileEngine.renderDisplayPlate(terminal, bx, by, 43, "" + item.type(), false, Palette.darkestGray, item.color());
+			TileEngine.renderDisplayPlate(terminal, bx, by++, bw-2, item.name(), false, Palette.darkestGray, item.color());
+			TileEngine.renderDisplayPlate(terminal, bx, by++, bw-2, "" + item.value(), false, Palette.darkestGray, item.color());
+			TileEngine.renderDisplayPlate(terminal, bx, by, bw-2, "" + item.type(), false, Palette.darkestGray, item.color());
 			//terminal.write(item.type().toString() + " : " + item.value(), bx + 23, by, item.type().setColor());
 		
 			String[] split = description.split(" ");
 			int count = 0;
 
-
-			TileEngine.renderBox(terminal, 45, 15, rx, ry+ 5, TileSet.SIMPLE, true);
+			TileEngine.renderBox(terminal, bw, 15, rx, ry+ 5, TileSet.SIMPLE, true);
 
 			for (int y = ry+6; y < ry+22; y++)
 			{	
@@ -106,7 +104,7 @@ public class InspectScreen implements Screen
 				if(count <  split.length)
 					word = split[count];
 		
-				while(charCount + word.length() < 39  && count < split.length)
+				while(charCount + word.length() < bw -2  && count < split.length)
 				{
 					word = split[count++];
 					word += " ";

@@ -41,7 +41,6 @@ public class TileEngine
 	{
 		ArrayList<TilePoint> tiles = new ArrayList<>();
 
-
 		for (TilePoint tile : tileMap)
 		{
 			tiles.add(tile);
@@ -60,10 +59,12 @@ public class TileEngine
 						terminal.write((char)Tile.randomTile().glyph(), tile.x(), tile.y(), c);
 					else
 						terminal.write(tile.glyph(), tile.x(), tile.y(), c);
-						
 				}
-				else 
-					terminal.write(tile.glyph(), tile.x(), tile.y(), tile.foreground());
+				else
+				{
+					//if(tile.x() < terminal.getWidth() && tile.y() < terminal.getHeight())
+						terminal.write(tile.glyph(), tile.x(), tile.y(), tile.foreground());
+				}
 			}
 		}
 
@@ -489,7 +490,7 @@ public class TileEngine
 			TileEngine.renderWeaponStatPlate(terminal, 1,16,29, "Range", Integer.toString(wStats.getRange()), null, null);
 			TileEngine.renderWeaponStatPlate(terminal, 1,17,29, "Fire Mode",wStats.getMode().toString(), null, null);
 			TileEngine.renderWeaponStatPlate(terminal, 1,18,29, "Bullets In Mag",Integer.toString(wStats.getBulletsInMagazine()), null, null);
-			TileEngine.renderWeaponStatPlate(terminal, 1,19,29, "Turns untill ready",Integer.toString(primWeap.getTurnsUntilReloaded()), null, null);
+			TileEngine.renderWeaponStatPlate(terminal, 1,19,29, "Turns until ready",Integer.toString(primWeap.getTurnsUntilReloaded()), null, null);
 
 		}
 	}

@@ -6,7 +6,6 @@ import structures.RexReader;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.TilePoint;
-import wolrdbuilding.TileSet;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,13 +61,13 @@ public class StartScreen implements Screen
 
 		if(!rendered)
 		{
-			testStructure = structureMap.get("finAsciiAR.csv");
-			testStructure = TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 15, 5, 35, 18, Palette.darkGray);
+			testStructure = structureMap.get("milManOne.csv");
+			testStructure = TileEngine.displayTilesWithTransparentBox(terminal, testStructure, 15, 5, 0, 0, Palette.darkGray);
 			System.out.println(testStructure.size());
 
-			testStructure.addAll(TileEngine.renderFrame(terminal, 16, 7, 34, 17, TileSet.DOUBLE, Palette.gray));
+			//testStructure.addAll(TileEngine.renderFrame(terminal, 16, 7, 34, 17, TileSet.DOUBLE, Palette.gray));
 		//	System.out.println(testStructure.size());
-			testStructure.addAll(TileEngine.renderBox(terminal, 14, 5, 35, 18, TileSet.SIMPLE));
+			//testStructure.addAll(TileEngine.renderBox(terminal, 14, 5, 35, 18, TileSet.SIMPLE));
 		//	System.out.println(testStructure.size());
 			rendered = true;
 		}
@@ -79,9 +78,9 @@ public class StartScreen implements Screen
 			TileEngine.displayTilesWithTransparentBox(terminal, testStructure, null, null, null, null, null);
 		}
 
-		terminal.writeCenter("PLAY [enter]", 19);
-		terminal.writeCenter("LOAD [space]", 20);
-		terminal.writeCenter("LOSE [ esc ]", 21);
+		terminal.writeCenter("PLAY [enter]   ", 19);
+		terminal.writeCenter("LOAD [space]   ", 20);
+		terminal.writeCenter("LOSE [ esc ]   ", 21);
 
 	}
 	// Using Serialization we are able to save the PlayScreen instance

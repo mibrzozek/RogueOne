@@ -1,10 +1,10 @@
 package screens;
 
-import java.awt.event.KeyEvent;
-import java.util.Random;
-
 import asciiPanel.AsciiPanel;
 import entities.Entity;
+
+import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public abstract class ScrollingBasedScreen implements Screen
 {
@@ -13,6 +13,8 @@ public abstract class ScrollingBasedScreen implements Screen
     protected Entity other;
     
     protected Screen OptionScreen = null;
+
+	private Screen InspectScreen;
     private Random r = new Random();
 
 	protected int invIndex;
@@ -43,7 +45,7 @@ public abstract class ScrollingBasedScreen implements Screen
 	{
     	this.player = player;
     	this.terminal = terminal;
-    	this.selectingFromLeft = selectingFromLeft;	
+    	this.selectingFromLeft = selectingFromLeft;
 	}
     
     public ScrollingBasedScreen(Entity player, Entity other)

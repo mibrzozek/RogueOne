@@ -592,7 +592,7 @@ public class Dungeon
 		connectRegions();
 
 		makeStartingRoom();
-		addStructures();
+		//addStructures();
 		fillDungeonWithWall(TileSet.SIMPLE);
 
 		makeLockedRooms();
@@ -1332,8 +1332,8 @@ public class Dungeon
 		buildRoom(rp, TileSet.INSIDE_TILE);
 
 		//buildPlasmaBlock(rp, 7);
-		buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_9" +
-				".csv")), new Point(rp.x + 4, rp.y + 4, 0));
+		//buildStructure(new ArrayList<TilePoint>(structureMap.get("PT_9" +
+		//		".csv")), new Point(rp.x + 4, rp.y + 4, 0));
 
 		startingPoints = getOpenPointFromRegion(rp.point(), 15, 15);
 		// Removes spawn points for enemies form starting area

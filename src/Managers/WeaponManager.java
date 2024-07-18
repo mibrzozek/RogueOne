@@ -69,4 +69,11 @@ public class WeaponManager
             return;
         }
     }
+    public static void changeWeaponMode(Entity player)
+    {
+        if(player.inventory().getPrimaryWeapon() ==  null)
+            return;
+
+        player.inventory().getPrimaryWeapon().changeFiringMode(player);
+    }
 }

@@ -116,7 +116,7 @@ public class EntityAi implements Serializable
             {
                 this.entity.inventory().getPrimaryWeapon().reload(entity);
                 entity.notify(this.entity.inventory().getPrimaryWeapon().getTurnsUntilReloaded() + "");
-                System.out.println("Is this 3?");
+                //System.out.println("Is this 3?");
             }
         }
 
@@ -129,7 +129,7 @@ public class EntityAi implements Serializable
 
                 if(e.getEffectTag().equals("Suffocating"))
                 {
-                    System.out.println(e.getEffectLength() + "  tis is the effect length");
+                    //System.out.println(e.getEffectLength() + "  tis is the effect length");
                     entity.setDead(true);
                 }
                 indexToRemove.add(e);

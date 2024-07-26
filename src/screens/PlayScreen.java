@@ -193,7 +193,6 @@ public class PlayScreen implements Screen
 					else
 						terminal.write(' ', x, y);
 				}
-
 			}
 		}
 		terminal.write(player.tile().glyph(), player.x-left+playAreaOffset, player.y-top, Tile.PLAYER.color());
@@ -208,9 +207,8 @@ public class PlayScreen implements Screen
 
 	     TileEngine.displayStatsUI(terminal, main.getDisplayWidth(), main.getDisplayHeight(), 0, 0, world);
 		 TileEngine.displayMessagesUI(terminal, messages, main.getScreenWidth(), main.getDisplayHeight());
-		 TileEngine.displayDynamicEnemyPopUp(terminal, world, main);
 		 TileEngine.displayWeaponUI(terminal, main.getDisplayWidth(), main.getDisplayHeight(), 0, 0, world, rex, player);
-
+		 TileEngine.displayDynamicEnemyPopUp(terminal, world, main);
 	     if(subScreen instanceof CraftingScreen)
 	    	 ((CraftingScreen) subScreen).write(terminal);
 	     /*

@@ -49,15 +49,9 @@ public class PlayerAi extends EntityAi
 		this.entity.inventory().add(new ItemFactory().newP90());
 		this.entity.inventory().add(new ItemFactory().newFiveSevenAmmo());
 
-		this.entity.inventory().add(new ItemFactory().newRpg());
-		this.entity.inventory().add(new ItemFactory().newRpgGrenade());
-
-		this.entity.inventory().add(new ItemFactory().newVector());
-		this.entity.inventory().add(new ItemFactory().newPstGZH());
-
-
-		//this.entity.inventory().add(new ItemFactory().newTerrainMapper());
-		//this.entity.inventory().equipAll(new ItemFactory().newUniqueKey(), new ItemFactory().newDevSword(), new ItemFactory().newMiningBeam());
+		this.entity.inventory().add(new ItemFactory().newGlock19());
+		this.entity.inventory().add(new ItemFactory().newPstGZH100());
+		this.entity.inventory().add(new ItemFactory().newPstGZH100());
 
     	this.entity.stats.addEffect(new Effect(Effect.Effects.STONED, "High", Palette.lightBlue));
 		this.entity.stats.addEffect(new Effect(Effect.Effects.FRIENDLY, "Social", Palette.monoYellow));

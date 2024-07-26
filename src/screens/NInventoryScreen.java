@@ -50,7 +50,7 @@ public class NInventoryScreen extends ScrollingBasedScreen
     public void write(AsciiPanel terminal) // gets called from parent class
     {
         TileEngine.renderBox(terminal,bw, bh, bx, by, TileSet.SIMPLE, true);
-        renderItemList(terminal);
+
         Set<Type> set =  player.inventory().getEquippedMap().keySet();
         types = Arrays.asList(set.toArray());
 
@@ -110,6 +110,8 @@ public class NInventoryScreen extends ScrollingBasedScreen
                 }
             }
         }
+        renderItemList(terminal);
+
         String equippCap = player.inventory().getEquipped().size() + "/" + player.inventory().getEquippedMax();
 
         if(player.inventory().getEquipped().size() > 0)
@@ -152,26 +154,7 @@ public class NInventoryScreen extends ScrollingBasedScreen
             lines = updateList(equipIndex -scrollingLength);
         }
 
-        if(equipIndex < player.inventory().getItems().size() && equipIndex >= 0) // Render inspect if hovering over item
-        {
-            if(selectingFromInventory)
-            {
-                subscreen = new InspectScreen(player.inventory().getItems(), equipIndex, bx + bw, by - bh);
-                subscreen.displayOutput(terminal);
-            }
-            else
-            {
-                if((equipIndex < player.inventory().getEquipped().size() && equipIndex >= 0))
-                {
-                    subscreen = new InspectScreen(player.inventory().getEquipped(), equipIndex, bx, by - bh);
-                    subscreen.displayOutput(terminal);
-                }
-            }
-        }
-        else
-        {
-            subscreen = null;
-        }
+
 
         for (int i = 0; i < limit; i++)
         {
@@ -196,6 +179,28 @@ public class NInventoryScreen extends ScrollingBasedScreen
             }
             y++;
         }
+
+        if(equipIndex < player.inventory().getItems().size() && equipIndex >= 0) // Render inspect if hovering over item
+        {
+            if(selectingFromInventory)
+            {
+                subscreen = new InspectScreen(player.inventory().getItems(), equipIndex, bx + bw, by);
+                subscreen.displayOutput(terminal);
+            }
+            else
+            {
+                if((equipIndex < player.inventory().getEquipped().size() && equipIndex >= 0))
+                {
+                    subscreen = new InspectScreen(player.inventory().getEquipped(), equipIndex, bx, by);
+                    subscreen.displayOutput(terminal);
+                }
+            }
+        }
+        else
+        {
+            subscreen = null;
+        }
+
         //terminal.write("Inventory", bx + 1 + 3, by);
         String itemCount = player.inventory().getItemCount() + "/" + player.inventory().getCapacity();
         terminal.write(itemCount, bx + bw-itemCount.length() -1, by+bh-1);

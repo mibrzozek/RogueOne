@@ -2,6 +2,7 @@ package Managers;
 
 import entities.Entity;
 import items.Item;
+import items.Type;
 
 import java.util.Random;
 
@@ -16,7 +17,7 @@ public class DamageMan
         {
             if(Math.random() < .3)
             {
-                target.stats.vitals.dealDamageRandomly(-primaryWeapon.value());
+                target.stats.vitals.dealDamageRandomly(-primaryWeapon.value(), target);
                 target.notify("You're getting shot");
             }
             else
@@ -28,7 +29,7 @@ public class DamageMan
         {
             if(Math.random() < .5)
             {
-                target.stats.vitals.dealDamageRandomly(-primaryWeapon.value());
+                target.stats.vitals.dealDamageRandomly(-primaryWeapon.value(), target);
                 target.notify("You're getting shot");
             }
             else
@@ -47,5 +48,20 @@ public class DamageMan
 
         return "";
 
+    }
+
+    public static void resolvePlayerShootingEnemy(Entity player, Entity enemy)
+    {
+        Type equippedWeaponCaliber = AmmoManager.identifyAmmo(player.inventory().getPrimaryWeapon());
+        int bulletsFired = 0;
+        bulletsFired = player.inventory().getPrimaryWeapon().processWeaponFiring(player);// Automatic gunfire logic, reduces bullets appropriately
+        for(int i = 0; i < bulletsFired; i++)
+        {
+            double dmg = player.inventory().getTypeDuration(Type.GUN);
+            enemy.stats.vitals.dealDamageRandomly(-dmg, enemy);
+            enemy.stats.processVitals();
+            player.inventory().get(equippedWeaponCaliber).get(0).modifyValue(-1, player.inventory());
+            player.notify("You deal damage with " + bulletsFired + " bullets");
+        }
     }
 }

@@ -34,6 +34,10 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newAdrenaline());
+		itemList.add(newMorphine());
+		itemList.add(newBodySling());
+		itemList.add(newTacticalRig());
 		itemList.add(newRpgGrenade());
 		itemList.add(newFiveSevenAmmo());
 		itemList.add(newP90());
@@ -1522,5 +1526,49 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), rpgGrenade);
 		return rpgGrenade;
+	}
+	public Item newTacticalRig()
+	{
+		Item tacticalRig = new Item((char)77, Palette.blue, Type.INVENTORY,
+				"Tactical Rig", 
+				"Chest rig for magazines, grenades, utilities, and other tactical facilities.",
+				5,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), tacticalRig);
+		return tacticalRig;
+	}
+	public Item newBodySling()
+	{
+		Item bodySling = new Item((char)77, Palette.blue, Type.INVENTORY,
+				"Body Sling", 
+				"Sling for hauling things on your back.",
+				6,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), bodySling);
+		return bodySling;
+	}
+	public Item newMorphine()
+	{
+		Item morphine = new Item((char)25, Palette.green, Type.STIMULANT,
+				"Morphine Syringe", 
+				"Stab yourself with this syringe and you'll be able to run full speed perfect form with broken legs.",
+				10,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), morphine);
+		return morphine;
+	}
+	public Item newAdrenaline()
+	{
+		Item adrenaline = new Item((char)25, Palette.green, Type.STIMULANT,
+				"Adrenaline Syringe", 
+				"Stab yourself with this syringe and you'll temporarily gain more head and torso vitality",
+				10,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), adrenaline);
+		return adrenaline;
 	}
 }

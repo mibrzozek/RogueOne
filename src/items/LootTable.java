@@ -17,6 +17,9 @@ public class LootTable
     List<Item> redRoomItems;
     List<Item> goldRoomItems;
     List<Item> armorItems;
+    List<Item> weapons;
+    List<Item> attachments;
+    List<Item> ammo;
 
     List<Item> floorOneLootTable;
 
@@ -27,13 +30,62 @@ public class LootTable
         goldRoomItems =  new ArrayList<>();
         armorItems = new ArrayList<>();
         floorOneLootTable = new ArrayList<>();
+        weapons = new ArrayList<>();
+        ammo = new ArrayList<>();
+        attachments = new ArrayList<>();
 
         r = new Random();
         itemFactory = new ItemFactory();
 
-        initRoomLists();
+        // Init type lists
         initArmorLists();
+        initWeaponItems();
+        initAmmoItems();
+        initAttachmentItems();
+
+        // Init larger pools using type lists
+        initRoomLists();
         initFloorOneLootTable();
+    }
+
+    private void initWeaponItems()
+    {
+        weapons.add(itemFactory.newM4a1());
+
+        weapons.add(itemFactory.newAk74());
+
+        weapons.add(itemFactory.newP90());
+
+        weapons.add(itemFactory.newGlock19());
+        weapons.add(itemFactory.newVector());
+
+        weapons.add(itemFactory.newHkmp7());
+
+        weapons.add(itemFactory.newRpg());
+
+    }
+    private void initAmmoItems()
+    {
+        ammo.add(itemFactory.newM855556());
+
+        ammo.add(itemFactory.newPstGZH());
+        ammo.add(itemFactory.newPstGZH100());
+
+        ammo.add(itemFactory.newPs762());
+
+        ammo.add(itemFactory.newFiveSevenAmmo());
+
+        ammo.add(itemFactory.newRpgGrenade());
+    }
+    private void initAttachmentItems()
+    {
+        attachments.add(itemFactory.newRedDotSight());
+        attachments.add(itemFactory.newHoloSight());
+        attachments.add(itemFactory.newBaldProFlashlight());
+
+        attachments.add(itemFactory.newGlock19ExtendedMags());
+        attachments.add(itemFactory.newGlockCompensator());
+        attachments.add(itemFactory.newGlockSupressor());
     }
 
     private void initFloorOneLootTable()
@@ -85,33 +137,43 @@ public class LootTable
         greenRoomItems.add(itemFactory.newMedicinal());
         greenRoomItems.add(itemFactory.newCyberneticSyringe());
         greenRoomItems.add(itemFactory.newBandages());
-        greenRoomItems.add(itemFactory.newBioLard());
         greenRoomItems.add(itemFactory.newHealKit1());
         greenRoomItems.add(itemFactory.newHealKit2());
         greenRoomItems.add(itemFactory.newHealKit3());
         greenRoomItems.add(itemFactory.newHealKit4());
         greenRoomItems.add(itemFactory.newHealKit5());
+        greenRoomItems.add(itemFactory.newMorphine());
+        greenRoomItems.add(itemFactory.newAdrenaline());
 
-        redRoomItems.add(itemFactory.newScopedRifle());
         redRoomItems.add(itemFactory.newBlueClearance());
-        redRoomItems.add(itemFactory.newOre());
         redRoomItems.add(itemFactory.newFragGrenade());
         redRoomItems.add(itemFactory.newSmokeGrenade());
-        redRoomItems.add(itemFactory.newHelmet3());
-        redRoomItems.add(itemFactory.newMiningBeam());
         redRoomItems.add(itemFactory.newTerrainMapper());
         redRoomItems.add(itemFactory.newBioLard());
-        redRoomItems.add(itemFactory.newReflectiveShall());
         redRoomItems.add(itemFactory.newMemModule());
+        redRoomItems.add(itemFactory.newBaldProFlashlight());
+        redRoomItems.add(itemFactory.newBlueLaser());
+        redRoomItems.add(itemFactory.newBasicAiUnit());
+        redRoomItems.add(itemFactory.newGR2());
+        redRoomItems.add(itemFactory.newGR5());
+        redRoomItems.add(itemFactory.newCleaver());
+        redRoomItems.add(itemFactory.newTacticalRig());
+        redRoomItems.add(itemFactory.newBodySling());
+        redRoomItems.addAll(getWeapons());
+        redRoomItems.addAll(getAmmo());
+
 
         goldRoomItems.add(itemFactory.newBandages());
-        goldRoomItems.add(itemFactory.newRustyKnife());
         goldRoomItems.add(itemFactory.newFragGrenade());
-        goldRoomItems.add(itemFactory.newPickAxe());
-        goldRoomItems.add(itemFactory.newPlasmaAxe());
         goldRoomItems.add(itemFactory.newClearanceGreen());
-        goldRoomItems.add(itemFactory.newDiscoBall());
     }
+    private List<Item> getAmmo() {
+        return this.ammo;
+    }
+    private List<Item> getWeapons() {
+        return this.weapons;
+    }
+
     public Item getGreenRoomItem()
     {
         return greenRoomItems.get(r.nextInt(greenRoomItems.size()));

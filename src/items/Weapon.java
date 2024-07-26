@@ -125,10 +125,33 @@ public class Weapon extends Item
             System.out.println("");
         }
     }
-    public void processWeaponFiring(Entity player)
+    public int processWeaponFiring(Entity player)
     {
         if(stats.getBulletsInMagazine() > 0)
-            stats.setBulletsInMagazine(stats.getBulletsInMagazine() -1);
+        {
+            System.out.println("Weapon mode is " +  stats.getMode());
+            if(stats.getMode().equals(Mode.AUTOMATIC))
+            {
+                //If enough bullets in mag to fire all bullets
+                if(stats.getBulletsInMagazine() >= stats.getBulletsPerTurn())
+                {
+                    stats.setBulletsInMagazine(stats.getBulletsInMagazine() - stats.getBulletsPerTurn());
+                    return stats.getBulletsPerTurn();
+                }
+                else
+                {
+                    stats.setBulletsInMagazine(0);
+                    return stats.getBulletsInMagazine();
+                }
+            }
+            else
+            {
+                stats.setBulletsInMagazine(stats.getBulletsInMagazine() - 1);
+                return 1;
+            }
+
+        }
+        else return 0;
     }
     public void setBaseStats()
     {

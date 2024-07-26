@@ -33,14 +33,9 @@ public class WeaponManager
                 WeaponManager.processOutOfAmmoState(player, player.inventory().getPrimaryWeapon());
                 return true;
             }
-            else
+            else // Attach enemy
             {
-                player.inventory().getPrimaryWeapon().processWeaponFiring(player);
-                double dmg = player.inventory().getTypeDuration(Type.GUN);
-                enemy.stats.vitals.dealDamageRandomly(-dmg);
-                enemy.stats.processVitals();
-                player.inventory().get(equippedWeaponCaliber).get(0).modifyValue(-1, player.inventory());
-
+                DamageMan.resolvePlayerShootingEnemy(player, enemy);
                 return false;
             }
         }

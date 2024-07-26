@@ -29,7 +29,7 @@ import java.util.Random;
 
 public class Entity implements Serializable
 {
-	private static final int DEFAULT_VISION_RADIUS = 8;
+	private static final int DEFAULT_VISION_RADIUS = 6;
 	private boolean showUI = false;
 
 	public boolean isSprinting() {
@@ -226,7 +226,7 @@ public class Entity implements Serializable
 
 				if(target != null)
 				{
-					target.stats.vitals.dealDamageRandomly(inventory.getPrimaryWeapon().value());
+					target.stats.vitals.dealDamageRandomly(inventory.getPrimaryWeapon().value(), target);
 				}
     			
     			notify("Hahahaha, die suckers!");
@@ -330,7 +330,7 @@ public class Entity implements Serializable
 					{
 						//target.stats.addEffect(new Effect(Effect.Effects.TETNIS, "Tetnis", Palette.red));
 					}
-					target.stats.vitals.dealDamageRandomly(-i.value());
+					target.stats.vitals.dealDamageRandomly(-i.value(), target);
 					target.notify("You're getting stabbed with a " + i.name() + "..");
 				}
 			}
@@ -486,8 +486,6 @@ public class Entity implements Serializable
         ai.onUpdate();
 		if(!sprinting)
 			stats.recoverStamina();
-
-		System.out.println("I'm updating twice? " + this.name);
 
 		if(stats.isDead())
 		{
@@ -700,8 +698,8 @@ public class Entity implements Serializable
 
 	public void updateStats()
 	{
-		if(inventory.getVisionRadius() != null)
-			this.setVisionRadius(inventory.getVisionRadius().value());
+		if(inventory.getVisionRadius() != 0)
+			this.setVisionRadius(inventory.getVisionRadius());
 		else
 		{
 			this.setVisionRadius(DEFAULT_VISION_RADIUS);
@@ -713,7 +711,7 @@ public class Entity implements Serializable
 		stats.processVitals();
 
 		inventory.checkCapacity();
-
+		updateStats();
 		if(inventory.getTypeDuration(Type.OXYGEN) > 0 || world.getAir().getOxygen() > 0)
 		{
 			stats.setBreathing(true);

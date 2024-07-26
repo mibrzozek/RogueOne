@@ -132,15 +132,15 @@ public class Vitals {
         return LEFT_LEG_MAX;
     }
 
-    public void dealDamageRandomly(double damage) // damage value coming in is already negative
+    public void dealDamageRandomly(double damage, Entity entity) // damage value coming in is already negative
     {
         System.out.println("Incoming damage : " + damage + " Starting health : " + getVitals());
 
         Limbs choosenLimb = selectLimb();
-        double leftover = dealDamageToLimb(choosenLimb, damage);
+        double leftover = dealDamageToLimb(choosenLimb, damage, entity);
 
         if (leftover > 0)
-            dealDamageRandomly(leftover);
+            dealDamageRandomly(leftover, entity);
 
         System.out.println("Health after damage : " + getVitals());
     }
@@ -166,9 +166,14 @@ public class Vitals {
         return limb;
     }
 
-    public double dealDamageToLimb(Limbs limb, double damage) {
+    public double dealDamageToLimb(Limbs limb, double damage, Entity entity) {
         double leftover = 0;
         if (vitalsMap.get(limb).get(LIMB_HEALTH) <= 0) {
+            if(limb.equals(Limbs.HEAD))
+            {
+                System.out.println("Headshot");
+                entity.setDead(true);
+            }
             return damage;
         }
 

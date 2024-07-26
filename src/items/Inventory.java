@@ -213,16 +213,15 @@ public class Inventory implements Serializable
     			deviceIndex++;
     	}
     }
-	public Item getVisionRadius()
-	{
-		opticalEnhancers = get(Type.VISION);
-		deviceIndex = 0;
+	public Integer getVisionRadius() {
 
-		if(opticalEnhancers.isEmpty())
-			return null;
+		Weapon prim = getPrimaryWeapon();
+
+		if (prim == null)
+			return 0;
 		else
 		{
-			return opticalEnhancers.get(deviceIndex);
+			return prim.getStats().getRange();
 		}
 	}
     public Item getDevice()

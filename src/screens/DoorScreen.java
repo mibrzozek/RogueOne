@@ -17,7 +17,6 @@ public class DoorScreen extends UIScreen
     World w;
     Point p;
     Door d;
-    private JFrame main;
 
     public DoorScreen(World w, int bw, int bh, int bx, int by, PlayScreen ps, JFrame main)
     {

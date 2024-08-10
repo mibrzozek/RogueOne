@@ -1,0 +1,6 @@
+Kriss Vector,Range,Damage,Reload Speed,Bullets Per Turn,Magazine Capacity,Mode
+0,9,200,3,5,13,AUTOMATIC
+1,10,215,3,5,22,
+2,11,230,2,6,33,
+3,12,245,1,,50,
+4,13,260,,,,

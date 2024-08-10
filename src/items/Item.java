@@ -1,8 +1,7 @@
 package items;
 
-import entities.Effect;
+import Managers.ItemManager;
 import entities.Entity;
-import wolrdbuilding.Palette;
 import wolrdbuilding.Point;
 
 import java.awt.*;
@@ -97,31 +96,7 @@ public class Item implements Serializable
     }
     public void useItemOn(Entity other)
     {
-    	if(this.type == Type.APLASMA)
-    	{
-    		other.modifyPlasma(1000);
-    		other.notify("Mmmm, wow, so much plasma...");
-    	}
-    	else if(this.type == Type.CONSUMABLE)
-    	{
-    		other.notify("Delicious unidentifiable sustenance");
-
-    		other.stats.addEffect(new Effect(Effect.Effects.MEGA_RELAXED, "Relaxed", Palette.monoPerfect));
-    	}
-        else if(this.type == Type.HEALING)
-        {
-            other.notify("This will stop the bleeding");
-
-            other.stats.vitals.disperseHealingEvenly(this.value);
-        }
-        else if(this.type == Type.FULL_HEAL)
-        {
-            other.stats.vitals.fullHeal();
-        }
-        else if(this.type == Type.PASSIVE_HEALING)
-        {
-            other.stats.addEffect(new Effect(Effect.Effects.PASSIVE_HEALING, "Healing", Palette.green));
-        }
+        ItemManager.UseItem(this, other);
     }
     @Override
     public String toString()

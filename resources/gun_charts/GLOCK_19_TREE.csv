@@ -1,0 +1,6 @@
+Glock 19,Range,Damage,Reload Speed,Bullets Per Turn,Magazine Capacity,Mode
+0,6,100,3,1,7,SINGLE
+1,7,110,2,,12,
+2,8,125,1,,17,
+3,9,140,,,33,
+4,10,190,,,50,

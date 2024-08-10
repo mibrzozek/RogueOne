@@ -1,0 +1,6 @@
+CZ 75 SP-01 Shadow,Range,Damage,Reload Speed,Bullets Per Turn,Magazine Capacity,Mode
+0,7,125,4,1,7,SINGLE
+1,8,140,3,,12,
+2,9,155,2,,17,
+3,10,165,1,,33,
+4,11,190,,,50,

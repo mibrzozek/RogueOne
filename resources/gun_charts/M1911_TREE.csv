@@ -1,0 +1,6 @@
+Colt M1911,Range,Damage,Reload Speed,Bullets Per Turn,Magazine Capacity,Mode
+0,7,120,5,1,10,SINGLE
+1,8,140,3,,15,
+2,9,150,2,,24,
+3,10,160,1,,36,
+4,11,185,,,,

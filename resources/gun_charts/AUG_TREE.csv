@@ -1,0 +1,6 @@
+Steyr AUG,Range,Damage,Reload Speed,Bullets Per Turn,Magazine Capacity,Mode
+0,13,310,4,4,10,AUTOMATIC
+1,14,320,3,4,20,
+2,15,330,2,5,30,
+3,16,340,1,,45,
+4,,,,,60,

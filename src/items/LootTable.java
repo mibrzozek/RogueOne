@@ -50,19 +50,32 @@ public class LootTable
 
     private void initWeaponItems()
     {
+        weapons.add(itemFactory.newGlock19());
+        weapons.add(itemFactory.newVector());
+        weapons.add(itemFactory.newGlock18C());
+        weapons.add(itemFactory.newCZSHADOW());
+
+        weapons.add(itemFactory.newChiefsSpecial());
+        weapons.add(itemFactory.newWinchester());
+
         weapons.add(itemFactory.newM4a1());
+        weapons.add(itemFactory.newAug());
 
         weapons.add(itemFactory.newAk74());
+        weapons.add(itemFactory.newMkMutant());
 
         weapons.add(itemFactory.newP90());
 
-        weapons.add(itemFactory.newGlock19());
-        weapons.add(itemFactory.newVector());
+        weapons.add(itemFactory.newKar98());
+        weapons.add(itemFactory.newDvlSniper());
 
         weapons.add(itemFactory.newHkmp7());
 
         weapons.add(itemFactory.newRpg());
 
+        weapons.add(itemFactory.newHkUMP());
+
+        weapons.add(itemFactory.newAk74());
     }
     private void initAmmoItems()
     {
@@ -76,6 +89,12 @@ public class LootTable
         ammo.add(itemFactory.newFiveSevenAmmo());
 
         ammo.add(itemFactory.newRpgGrenade());
+
+        ammo.add(itemFactory.newFortyFive());
+
+        ammo.add(itemFactory.newThirtyEight());
+
+        ammo.add(itemFactory.newSevenSix51());
     }
     private void initAttachmentItems()
     {
@@ -162,15 +181,23 @@ public class LootTable
         redRoomItems.addAll(getWeapons());
         redRoomItems.addAll(getAmmo());
 
-
         goldRoomItems.add(itemFactory.newBandages());
         goldRoomItems.add(itemFactory.newFragGrenade());
         goldRoomItems.add(itemFactory.newClearanceGreen());
+        goldRoomItems.add(itemFactory.newClearanceGold());
+        goldRoomItems.add(itemFactory.newHealKit1());
+        goldRoomItems.add(itemFactory.newHealKit2());
+        goldRoomItems.add(itemFactory.newHealKit3());
+        goldRoomItems.add(itemFactory.newMorphine());
+        goldRoomItems.add(itemFactory.newWinchester());
+        goldRoomItems.add(itemFactory.newThirtyEight());
+        goldRoomItems.add(itemFactory.newChiefsSpecial());
+
     }
-    private List<Item> getAmmo() {
+    public List<Item> getAmmo() {
         return this.ammo;
     }
-    private List<Item> getWeapons() {
+    public List<Item> getWeapons() {
         return this.weapons;
     }
 

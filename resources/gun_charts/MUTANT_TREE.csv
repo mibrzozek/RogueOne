@@ -1,0 +1,6 @@
+Mk47 Mutant,Range,Damage,Reload Speed,Bullets Per Turn,Magazine Capacity,Mode
+0,12,305,4,3,20,AUTOMATIC
+1,13,315,3,3,30,
+2,13,325,2,4,45,
+3,14,340,1,,60,
+4,15,,,,95,

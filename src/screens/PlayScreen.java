@@ -103,7 +103,7 @@ public class PlayScreen implements Screen
         console = new Console(world, this);
 
         createEntities(entityFactory, itemFactory);
-        createItems(itemFactory);     
+        createItems(itemFactory);
     }
     public void writeToConsole(String cmd)
 	{
@@ -124,7 +124,8 @@ public class PlayScreen implements Screen
     }
 	private void createEntities(EntityFactory entityFactory, ItemFactory itemFactory)
 	{
-		if(map.equals(World.Map.DUNGEON)) {
+		if(map.equals(World.Map.DUNGEON))
+		{
 			world.spawnEnemies();
 			world.dealEnemiesLoot();
 			world.spawnRedRoomEnemies();
@@ -229,6 +230,8 @@ public class PlayScreen implements Screen
 	     }
 	     if(subScreen instanceof InspectScreen)
 	    	 ((InspectScreen) subScreen).displayOutput(terminal);
+		if(subScreen instanceof GunModScreen)
+			((GunModScreen) subScreen).displayOutput(terminal);
 	     if(subScreen instanceof KeyInputScreen)
 	    	 ((KeyInputScreen) subScreen).displayOutput(terminal);
 	     if(subScreen instanceof CharacterSheet)
@@ -372,7 +375,7 @@ public class PlayScreen implements Screen
 					break;
 				}
 				case KeyEvent.VK_L:
-					subScreen = new KeyInputScreen(terminal,this, 20, 15, 8, null); break;
+					subScreen = new GunModScreen(world,31, 7, 0, 11, this, main); break;
         		case KeyEvent.VK_ESCAPE:
 					subScreen = new NEscapeScreen(player,this, main); break;
         		case KeyEvent.VK_ENTER: break;

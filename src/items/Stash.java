@@ -30,31 +30,9 @@ public class Stash
 
         iF = new ItemFactory();
 
-        stashTypes.add(Type.PASSIVE_HEALING);
-        stashTypes.add(Type.FULL_HEAL);
-        stashTypes.add(Type.HEAD_HEALING);
-        stashTypes.add(Type.UTILITY);
-        stashTypes.add(Type.BLUE_CARD);
-        stashTypes.add(Type.PART);
-
         r = new Random();
         capacity = r.nextInt(3) + 3;
         stashSize = r.nextInt(5) + 1;
-
-        if(Math.random() > 0.9)
-            open = true;
-
-        for(int i = 0; i < stashSize; i++)
-        {
-            Type t = stashTypes.get(r.nextInt(stashTypes.size()));
-            Item it = iF.getRandomItem();
-            do
-            {
-                it = iF.getRandomItem();
-            }while(!it.type().equals(t));
-
-            items.add(it);
-        }
     }
     public void openStash(Entity player)
     {

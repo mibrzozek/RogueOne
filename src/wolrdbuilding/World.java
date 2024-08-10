@@ -842,6 +842,7 @@ public class World implements Serializable
 			}
 			stashPoints.add(s);
 			dungeon.addStash(p, s, Tile.STASH);
+			System.out.println(dungeon.getGoldRooms().size());
 		}
 		for(RoomV r : dungeon.getGreenRooms()) // Green room loot
 		{
@@ -857,7 +858,7 @@ public class World implements Serializable
 			stashPoints.add(s);
 			dungeon.addStash(p, s, Tile.MED_STASH);
 		}
-		for(RoomV r : dungeon.getRedRooms()) // Green room loot
+		for(RoomV r : dungeon.getRedRooms()) // Red room loot
 		{
 			int numItems = random.nextInt(3) + 2;
 
@@ -871,6 +872,7 @@ public class World implements Serializable
 			stashPoints.add(s);
 			dungeon.addStash(p, s, Tile.RED_STASH);
 		}
+		System.out.println("Finishef locked room loot");
 	}
 	public void spawnEnemies()
 	{

@@ -1,0 +1,6 @@
+Winchester Model 1873,Range,Damage,Reload Speed,Bullets Per Turn,Magazine Capacity,Mode
+0,15,300,2,1,1,SINGLE
+1,16,400,1,,,
+2,17,420,,,,
+3,18,,,,,
+4,20,,,,,

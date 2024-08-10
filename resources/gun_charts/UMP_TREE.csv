@@ -1,0 +1,6 @@
+HK UMP,Range,Damage,Reload Speed,Bullets Per Turn,Magazine Capacity,Mode
+0,10,220,3,4,20,AUTOMATIC
+1,11,225,3,4,45,
+2,12,235,2,5,55,
+3,12,245,1,,,
+4,13,275,,,,

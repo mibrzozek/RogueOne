@@ -46,12 +46,13 @@ public class PlayerAi extends EntityAi
 
     	entity.inventory().setMax(8);
 
-		this.entity.inventory().add(new ItemFactory().newP90());
-		this.entity.inventory().add(new ItemFactory().newFiveSevenAmmo());
+		this.entity.inventory().add(new ItemFactory().newAk74());
 
-		this.entity.inventory().add(new ItemFactory().newGlock19());
-		this.entity.inventory().add(new ItemFactory().newPstGZH100());
-		this.entity.inventory().add(new ItemFactory().newPstGZH100());
+		this.entity.inventory().add(new ItemFactory().newPs762());
+		this.entity.inventory().add(new ItemFactory().newGunParts());
+
+		this.entity.inventory().add(new ItemFactory().newHealKit2());
+		this.entity.inventory().add(new ItemFactory().newHealKit4());
 
     	this.entity.stats.addEffect(new Effect(Effect.Effects.STONED, "High", Palette.lightBlue));
 		this.entity.stats.addEffect(new Effect(Effect.Effects.FRIENDLY, "Social", Palette.monoYellow));

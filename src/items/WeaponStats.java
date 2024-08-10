@@ -1,5 +1,7 @@
 package items;
 
+import structures.RexReader;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +9,8 @@ import java.util.Map;
 
 public class WeaponStats
 {
+    private String weaponName;
+
     private int range;
     private int damage;
     private int reloadSpeed;
@@ -16,14 +20,21 @@ public class WeaponStats
     private WeaponStats baseStats;
     private Weapon.Mode mode;
 
-    private Map<WEAPON_STAT, List<Item>> buffMap;
+    public Map<WEAPON_STAT, List<Item>> buffMap;
+
+
+    public Map<WEAPON_STAT, List<Item>> getBuffMap()
+    {
+        return buffMap;
+    }
 
     public enum WEAPON_STAT
     {
         RANGE, DAMAGE, RELOAD_SPEED, BULLETS_PER_TURN, MAG_CAPACITY, MODE
     }
-    public WeaponStats(int range, int damage, int reloadSpeed, int bulletsPerTurn, int magazineCapacity, Weapon.Mode firingMode)
+    public WeaponStats(String name, int range, int damage, int reloadSpeed, int bulletsPerTurn, int magazineCapacity, Weapon.Mode firingMode)
     {
+        this.weaponName = name;
         this.range = range;
         this.damage = damage;
         this.reloadSpeed = reloadSpeed;
@@ -125,7 +136,40 @@ public class WeaponStats
             }
             else if(table.getReloadAttachmentsTable().contains(a))
             {
-                setMagazineCapacity(a.value());
+                setReloadSpeed(a.value());
+            }
+        }
+    }
+    public void modifyGunStatsForBuffMap()
+    {
+        for(WEAPON_STAT stat : buffMap.keySet())
+        {
+            if(buffMap.get(stat).isEmpty())
+            {
+                continue;
+            }
+
+            if(stat.equals(WEAPON_STAT.DAMAGE))
+            {
+                Integer value = RexReader.retrieveStatsForUpgradeLevel(weaponName, buffMap.get(stat).size(), WEAPON_STAT.DAMAGE);
+                setDamage(value);
+                System.out.println(value + " modding");
+            }
+            else if(stat.equals(WEAPON_STAT.RANGE))
+            {
+
+            }
+            else if(stat.equals(WEAPON_STAT.RELOAD_SPEED))
+            {
+
+            }
+            else if(stat.equals(WEAPON_STAT.BULLETS_PER_TURN))
+            {
+
+            }
+            else if(stat.equals(WEAPON_STAT.MAG_CAPACITY))
+            {
+
             }
         }
     }
@@ -143,7 +187,7 @@ public class WeaponStats
 
     public void setBaseStats()
     {
-        this.baseStats = new WeaponStats(range, damage, reloadSpeed, bulletsPerTurn, magazineCapacity, mode);
+        //this.baseStats = new WeaponStats(range, damage, reloadSpeed, bulletsPerTurn, magazineCapacity, mode);
     }
     public WeaponStats getBaseStats()
     {

@@ -56,7 +56,7 @@ public class NInventoryScreen extends ScrollingBasedScreen
 
         if(player.inventory().getEquipped().size() > 0)
         {
-            TileEngine.renderBox(terminal, (bw / 2) + 1, bh, eo, by, TileSet.SIMPLE, true);
+            TileEngine.renderBox(terminal, (bw) + 1, bh, eo, by, TileSet.SIMPLE, true);
             if(player.inventory().getEquipped().size() + types.size() > 18)
             {
                 TileEngine.renderBox(terminal, (bw/2) + 1, bh, eo + 15 + 1, by, TileSet.SIMPLE, true);
@@ -180,18 +180,18 @@ public class NInventoryScreen extends ScrollingBasedScreen
             y++;
         }
 
-        if(equipIndex < player.inventory().getItems().size() && equipIndex >= 0) // Render inspect if hovering over item
+        if(equipIndex < player.inventory().getItems().size() && equipIndex >= 0) // Render inspect screen if hovering over item
         {
             if(selectingFromInventory)
             {
-                subscreen = new InspectScreen(player.inventory().getItems(), equipIndex, bx + bw, by);
+                subscreen = new InspectScreen(player.inventory().getItems(), equipIndex, bx + bw + bw +1, by);
                 subscreen.displayOutput(terminal);
             }
             else
             {
                 if((equipIndex < player.inventory().getEquipped().size() && equipIndex >= 0))
                 {
-                    subscreen = new InspectScreen(player.inventory().getEquipped(), equipIndex, bx, by);
+                    subscreen = new InspectScreen(player.inventory().getEquipped(), equipIndex, bx + bw + bw+1, by);
                     subscreen.displayOutput(terminal);
                 }
             }

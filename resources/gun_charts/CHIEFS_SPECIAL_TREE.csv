@@ -1,0 +1,6 @@
+Chiefs Special,Range,Damage,Reload Speed,Bullets Per Turn,Magazine Capacity,Mode
+0,5,100,1,1,1,SINGLE
+1,6,120,,,2,
+2,7,150,,,,
+3,8,160,,,,
+4,9,200,,,,

@@ -3,33 +3,40 @@
   <component name="ChangeListManager">
     <list default="true" id="bc747c38-cb52-4caa-a5c5-4da97bdb7363" name="Changes" comment="PuzzleLike demo + improvements to rogueOne including vitals, damage, locked rooms, map contiguity and more.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Managers/DamageMan.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/DamageMan.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Managers/WeaponManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/WeaponManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/entities/Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Entity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/entities/Vitals.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Vitals.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/entities/entityAI/EntityAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/entityAI/EntityAi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Managers/AmmoManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/AmmoManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/entityAI/BossAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/entityAI/BossAi.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/entities/entityAI/PlayerAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/entityAI/PlayerAi.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/Inventory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Inventory.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Item$Rarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Item$Rarity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Item.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/items/ItemFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/ItemFactory.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/items/LootTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/LootTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Stash.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Stash.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/items/Type.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Type.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/items/Weapon.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Weapon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/WeaponStats$WEAPON_STAT.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/WeaponStats$WEAPON_STAT.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/WeaponStats.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/WeaponStats.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/DoorScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/DoorScreen.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/screens/NInventoryScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/NInventoryScreen.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/screens/PlayScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/PlayScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/RexReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/RexReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/resources/gun_charts/R1_GUN_TABLE.csv" beforeDir="false" afterPath="$PROJECT_DIR$/resources/gun_charts/R1_GUN_TABLE.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Managers/DamageMan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/DamageMan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Managers/WeaponManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/WeaponManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/Vitals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Vitals.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/entityAI/EntityAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/EntityAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Managers/AmmoManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/AmmoManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/entityAI/BossAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/BossAi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Item.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/ItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/LootTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/LootTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/Stash.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Stash.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Type.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Weapon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/WeaponStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/WeaponStats.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/DoorScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/DoorScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/NInventoryScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/NInventoryScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/PlayScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/PlayScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/RexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/RexReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/World.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,10 +87,10 @@
       <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\audio" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\gun_charts" />
       <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\structures" />
       <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\assets" />
       <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\src\entities\entityAI" />
-      <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\gun_charts" />
       <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\audio" />
     </key>
   </component>
@@ -154,13 +161,18 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/screens/PlayScreen.java</url>
-          <line>238</line>
+          <line>241</line>
           <option name="timeStamp" value="3" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/items/LootTable.java</url>
           <line>42</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

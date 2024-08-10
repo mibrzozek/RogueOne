@@ -1,0 +1,6 @@
+FN P90,Range,Damage,Reload Speed,Bullets Per Turn,Magazine Capacity,Mode
+0,11,265,4,4,50,AUTOMATIC
+1,12,285,3,4,,
+2,13,290,2,4,,
+3,14,295,1,5,,
+4,15,305,,,,

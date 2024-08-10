@@ -120,9 +120,12 @@ public class Inventory implements Serializable
 	public void setPrimaryWeapon(Item primary)
 	{
 		this.remove(primary);
+		Weapon w = null;
 
-		Weapon w = new Weapon(primary);
-		w.setBaseStats();
+		if(primary instanceof Weapon)
+			w = (Weapon)primary;
+		else
+			w = new Weapon(primary);
 
 		if(this.primaryWeapon == null)
 		{
@@ -308,6 +311,7 @@ public class Inventory implements Serializable
 						return;
 					getPrimaryWeapon().addAttachment(i);
 					equipped.add(i);
+
 					inventory.remove(index);
 				}
 				else

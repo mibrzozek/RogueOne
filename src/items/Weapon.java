@@ -159,7 +159,9 @@ public class Weapon extends Item
     }
     public void calculateStats()
     {
+        System.out.println("Hello");
         this.stats = RexReader.retrieveStats(name());
+        stats.modifyGunStatsForBuffMap();
         stats.modifyGunStatsForAttachments(this.getAllAttachments());
     }
     public boolean isAttachSlotEmpty(AttachmentSlots attachment)

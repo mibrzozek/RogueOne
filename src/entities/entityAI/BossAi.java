@@ -9,7 +9,6 @@ public class BossAi extends EntityAi
     {
         super(entity);
         ItemFactory iF = new ItemFactory();
-        entity.inventory().equipAll(iF.newFiftyCal());
         entity.inventory().equipAll(iF.newDiscoBall());
         //ItemManager equipBoss
         //BuffManager buffBoss

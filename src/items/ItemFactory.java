@@ -34,6 +34,21 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newTwelveGauge());
+		itemList.add(newKelTecKSG());
+		itemList.add(newAug());
+		itemList.add(newMkMutant());
+		itemList.add(newDvlSniper());
+		itemList.add(newHkUMP());
+		itemList.add(newGlock18C());
+		itemList.add(newSevenSix51());
+		itemList.add(newKar98());
+		itemList.add(newWinchester());
+		itemList.add(newThirtyEight());
+		itemList.add(newChiefsSpecial());
+		itemList.add(newCZSHADOW());
+		itemList.add(newFortyFive());
+		itemList.add(newM1911());
 		itemList.add(newAdrenaline());
 		itemList.add(newMorphine());
 		itemList.add(newBodySling());
@@ -63,8 +78,6 @@ public class ItemFactory implements Serializable
 		itemList.add(newGlockCompensator());
 		itemList.add(newGlockSupressor());
 		itemList.add(newGlock19());
-		itemList.add(newFiftyCal());
-		itemList.add(newSemiAutoRifle());
 		itemList.add(newBoltAction());
 		itemList.add(newUniqueKey());
 		itemList.add(newHealKit5());
@@ -440,10 +453,10 @@ public class ItemFactory implements Serializable
 	}
 	public Item newConKit()
 	{
-		Item conKit = new Item((char)127, Palette.paperGreen, Type.HEAD_HEALING,
+		Item conKit = new Item((char)127, Palette.paperGreen, Type.HEALING,
 				"Concussion Kit", 
 				"Nano compressed neck brace and brain stimulator. Neck brace administers local anesthetic to the back of the neck and connect directly to spine to facilitate brain repair.",
-				500,
+				450,
 				Item.Rarity.COMMON);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), conKit);
@@ -1156,9 +1169,9 @@ public class ItemFactory implements Serializable
 	public Item newHealKit1()
 	{
 		Item healKit1 = new Item((char)127, Palette.paperGreen, Type.HEALING,
-				"Small Healing Kit", 
+				"Big Bandage", 
 				"A small kit good for fixing a bleed or two.",
-				50,
+				100,
 				Item.Rarity.COMMON);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), healKit1);
@@ -1167,9 +1180,9 @@ public class ItemFactory implements Serializable
 	public Item newHealKit2()
 	{
 		Item healKit2 = new Item((char)127, Palette.paperGreen, Type.HEALING,
-				"Medium Healing Kit", 
+				"First Aid Kit", 
 				"A small kit good for fixing a bleed or five.",
-				100,
+				150,
 				Item.Rarity.COMMON);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), healKit2);
@@ -1178,9 +1191,9 @@ public class ItemFactory implements Serializable
 	public Item newHealKit3()
 	{
 		Item healKit3 = new Item((char)127, Palette.paperGreen, Type.HEALING,
-				"Standard Healing Kit", 
+				"Healing Kit", 
 				"A small kit good for fixing a bleed and anesthetizing.",
-				150,
+				200,
 				Item.Rarity.COMMON);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), healKit3);
@@ -1189,8 +1202,8 @@ public class ItemFactory implements Serializable
 	public Item newHealKit4()
 	{
 		Item healKit4 = new Item((char)127, Palette.paperGreen, Type.HEALING,
-				"Advanced Healing Kit", 
-				"Advanced kit that can restore function ot limbs.",
+				"H.I.N.D Trauma Kit", 
+				"Help i'm nearly dead.",
 				300,
 				Item.Rarity.COMMON);
 		if(world != null)
@@ -1200,10 +1213,10 @@ public class ItemFactory implements Serializable
 	public Item newHealKit5()
 	{
 		Item healKit5 = new Item((char)127, Palette.paperGreen, Type.HEALING,
-				"Survivalist Healing Kit", 
-				"Contains healing items for risk taking enthusiasts.",
+				"Bio Hacking Kit", 
+				"For newly developed injuries and lifetime scars. Smooth over the wrinkles the bullets left in your skin.",
 				500,
-				Item.Rarity.COMMON);
+				Item.Rarity.RARE);
 		if(world != null)
 			world.spawnInside(r.nextInt(5), healKit5);
 		return healKit5;
@@ -1229,28 +1242,6 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), boltAction);
 		return boltAction;
-	}
-	public Item newSemiAutoRifle()
-	{
-		Item semiAutoRifle = new Item((char)98, Palette.red, Type.GUN,
-				"Semi Auto Rifle", 
-				"A powerful, low capacity semi auto rifle.",
-				175,
-				Item.Rarity.COMMON);
-		if(world != null)
-			world.spawnInside(r.nextInt(5), semiAutoRifle);
-		return semiAutoRifle;
-	}
-	public Item newFiftyCal()
-	{
-		Item fiftyCal = new Item((char)98, Palette.red, Type.GUN,
-				"Fifty Cal", 
-				"A big round in a big gun",
-				700,
-				Item.Rarity.RARE);
-		if(world != null)
-			world.spawnInside(r.nextInt(5), fiftyCal);
-		return fiftyCal;
 	}
 	public Item newGlock19()
 	{
@@ -1570,5 +1561,170 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), adrenaline);
 		return adrenaline;
+	}
+	public Item newM1911()
+	{
+		Item M1911 = new Item((char)98, Palette.red, Type.GUN,
+				"Colt M1911", 
+				"Chambered in .45, one of America's most trusty sidearms. Yeeehawk.",
+				145,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), M1911);
+		return M1911;
+	}
+	public Item newFortyFive()
+	{
+		Item fortyFive = new Item((char)98, Palette.red, Type.AMMO_45,
+				"Point 45 ACP", 
+				"Devastatingly American",
+				40,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), fortyFive);
+		return fortyFive;
+	}
+	public Item newCZSHADOW()
+	{
+		Item CZSHADOW = new Item((char)98, Palette.red, Type.GUN,
+				"CZ 75 SP-01 Shadow", 
+				"An all time favorite amongst Eastern Europeans",
+				165,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), CZSHADOW);
+		return CZSHADOW;
+	}
+	public Item newChiefsSpecial()
+	{
+		Item chiefsSpecial = new Item((char)98, Palette.red, Type.GUN,
+				"Chiefs Special", 
+				"A snub nosed revolver chambered for the .38 Special round.",
+				165,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), chiefsSpecial);
+		return chiefsSpecial;
+	}
+	public Item newThirtyEight()
+	{
+		Item thirtyEight = new Item((char)98, Palette.red, Type.AMMO_38_SPECIAL,
+				"Point 38 Special", 
+				"A popular revolver round.",
+				36,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), thirtyEight);
+		return thirtyEight;
+	}
+	public Item newWinchester()
+	{
+		Item winchester = new Item((char)98, Palette.red, Type.GUN,
+				"Winchester Model 1873", 
+				"Americas iconic rifle. Lever action. Reliable. Sexy. Chambered in .38 special.",
+				165,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), winchester);
+		return winchester;
+	}
+	public Item newKar98()
+	{
+		Item kar98 = new Item((char)98, Palette.red, Type.GUN,
+				"KAR98K", 
+				"World war 2 bolt action rifle.",
+				165,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), kar98);
+		return kar98;
+	}
+	public Item newSevenSix51()
+	{
+		Item sevenSix51 = new Item((char)98, Palette.red, Type.AMMO_762_51,
+				"Seven Six Two Fifty One", 
+				"NATO peace keeping round",
+				25,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), sevenSix51);
+		return sevenSix51;
+	}
+	public Item newGlock18C()
+	{
+		Item glock18C = new Item((char)98, Palette.red, Type.GUN,
+				"Glock G18C", 
+				"A fully automatic pistol by Glock",
+				130,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), glock18C);
+		return glock18C;
+	}
+	public Item newHkUMP()
+	{
+		Item hkUMP = new Item((char)98, Palette.red, Type.GUN,
+				"HK UMP", 
+				"Another HK fan favorite. Snug. Accurate. Full auto.",
+				220,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), hkUMP);
+		return hkUMP;
+	}
+	public Item newDvlSniper()
+	{
+		Item dvlSniper = new Item((char)98, Palette.red, Type.GUN,
+				"DVL Saboteur", 
+				"Sleek and silent bolt action rifle",
+				450,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), dvlSniper);
+		return dvlSniper;
+	}
+	public Item newMkMutant()
+	{
+		Item mkMutant = new Item((char)98, Palette.red, Type.GUN,
+				"Mk47 Mutant", 
+				"CMMGs modern AK.",
+				250,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), mkMutant);
+		return mkMutant;
+	}
+	public Item newAug()
+	{
+		Item aug = new Item((char)98, Palette.red, Type.GUN,
+				"Steyr AUG", 
+				"A gun that looks like it belongs in a 60s sci fi film",
+				235,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), aug);
+		return aug;
+	}
+	public Item newKelTecKSG()
+	{
+		Item kelTecKSG = new Item((char)98, Palette.red, Type.GUN,
+				"KEL TEC KSG", 
+				"A fun full auto all American bull pup rifle",
+				190,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), kelTecKSG);
+		return kelTecKSG;
+	}
+	public Item newTwelveGauge()
+	{
+		Item twelveGauge = new Item((char)98, Palette.red, Type.AMMO_12_GAUGE,
+				"Buckshot", 
+				"Good for duck hunting and unarmored folks.",
+				20,
+				Item.Rarity.COMMON);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), twelveGauge);
+		return twelveGauge;
 	}
 }

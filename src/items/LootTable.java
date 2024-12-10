@@ -1,10 +1,11 @@
 package items;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class LootTable
+public class LootTable implements Serializable
 {
     private static final int GOLD_CARDS = 10;
     private static final int GREEN_CARDS = 5;

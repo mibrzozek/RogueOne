@@ -195,7 +195,7 @@ public class Weapon extends Item
         Item toRemove = attachmentMap.get(slotForItem);
 
         attachmentMap.put(slotForItem, null);
-        this.calculateStats();
+        //this.calculateStats();
         return toRemove;
     }
     /*

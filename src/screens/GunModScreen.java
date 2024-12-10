@@ -59,9 +59,11 @@ public class GunModScreen extends UIScreen
         for(String i : itemList)
             terminal.write(i, x, y++ );
 
+        TileEngine.renderBox(terminal, 31, 8, 0, y + 4, TileSet.SIMPLE, true);
         for(WeaponStats.WEAPON_STAT stat : primaryWeapon.getStats().getBuffMap().keySet())
         {
-            terminal.write(stat.toString() + " " + primaryWeapon.getStats().getBuffMap().get(stat).size(), x, y++ + 5);
+            //terminal.write(stat.toString() + " " + primaryWeapon.getStats().getBuffMap().get(stat).size(), x, y++ + 5);
+            TileEngine.renderWeaponStatPlate(terminal, x, y++ + 5, 29, stat.toString(), Integer.toString(primaryWeapon.getStats().getBuffMap().get(stat).size()), Palette.white, Palette.darkerGray);
         }
         List<Item> gunParts = new ArrayList<>();
         gunParts = player.inventory().get(Type.GUN_PARTS);
@@ -74,6 +76,15 @@ public class GunModScreen extends UIScreen
         {
             TileEngine.renderWeaponStatPlate(terminal, bx+1, by+8, 29, "Gun Parts", Integer.toString(gunParts.size()), Palette.white, Palette.darkerGray);
         }
+    }
+    public void selectForStat(WeaponStats.WEAPON_STAT stat, Weapon primaryWeapon, List<Item> gunParts)
+    {
+        Integer nextUpgradeValue = RexReader.retrieveStatsForUpgradeLevel(primaryWeapon.name(), primaryWeapon.getStats().getBuffMap().get(stat).size() + 1, stat);
+        if(nextUpgradeValue == 0) // if the next upgrade value is zero, means there are no more upgrades
+            return;
+
+        this.primaryWeapon.getStats().buffStat(gunParts.remove(0), stat);
+        this.primaryWeapon.getStats().modifyGunStatsForBuffMap();
     }
     @Override
     public void select()
@@ -90,28 +101,23 @@ public class GunModScreen extends UIScreen
 
         if(itemList.get(index).equals("Damage"))
         {
-            Integer nextUpgradeValue = RexReader.retrieveStatsForUpgradeLevel(primaryWeapon.name(), primaryWeapon.getStats().getBuffMap().get(WeaponStats.WEAPON_STAT.DAMAGE).size() + 1, WeaponStats.WEAPON_STAT.DAMAGE);
-            if(nextUpgradeValue == 0) // if the next upgrade value is zero, means there are no more upgrades
-                return;
-
-            this.primaryWeapon.getStats().buffStat(gunParts.remove(0), WeaponStats.WEAPON_STAT.DAMAGE);
-            this.primaryWeapon.getStats().modifyGunStatsForBuffMap();
+            selectForStat(WeaponStats.WEAPON_STAT.DAMAGE, primaryWeapon, gunParts);
         }
         else if(itemList.get(index).equals("Range"))
         {
-            this.primaryWeapon.getStats().buffStat(gunParts.remove(0), WeaponStats.WEAPON_STAT.RANGE);
+            selectForStat(WeaponStats.WEAPON_STAT.RANGE, primaryWeapon, gunParts);
         }
         else if(itemList.get(index).equals("Fire Rate"))
         {
-            this.primaryWeapon.getStats().buffStat(gunParts.remove(0), WeaponStats.WEAPON_STAT.BULLETS_PER_TURN);
+            selectForStat(WeaponStats.WEAPON_STAT.BULLETS_PER_TURN, primaryWeapon, gunParts);
         }
         else if(itemList.get(index).equals("Magazine"))
         {
-            this.primaryWeapon.getStats().buffStat(gunParts.remove(0), WeaponStats.WEAPON_STAT.MAG_CAPACITY);
+            selectForStat(WeaponStats.WEAPON_STAT.MAG_CAPACITY, primaryWeapon, gunParts);
         }
         else if(itemList.get(index).equals("Reload Speed"))
         {
-            this.primaryWeapon.getStats().buffStat(gunParts.remove(0), WeaponStats.WEAPON_STAT.RELOAD_SPEED);
+            selectForStat(WeaponStats.WEAPON_STAT.RELOAD_SPEED, primaryWeapon, gunParts);
         }
     }
 }

@@ -2,12 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bc747c38-cb52-4caa-a5c5-4da97bdb7363" name="Changes" comment="PuzzleLike demo + improvements to rogueOne including vitals, damage, locked rooms, map contiguity and more.">
+      <change afterPath="$PROJECT_DIR$/resources/structures/HKUMP.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Managers/AmmoManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/AmmoManager.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/entities/entityAI/BossAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/entityAI/BossAi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Managers/AttachmentManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/AttachmentManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Managers/DamageMan.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/DamageMan.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Managers/ExplosionManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/ExplosionManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Managers/ItemManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/ItemManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Managers/MapMan.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/MapMan.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Managers/ReloadManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/ReloadManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Managers/ThrowablesManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/ThrowablesManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/Managers/WeaponManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Managers/WeaponManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Effect$Effects.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Effect$Effects.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Effect.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Effect.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Path.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Path.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/PathFinder.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/PathFinder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Taunts.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Taunts.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Vitals$Limbs.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Vitals$Limbs.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/entities/Vitals.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/Vitals.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/entities/entityAI/PlayerAi.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/entities/entityAI/PlayerAi.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/Item$Rarity.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Item$Rarity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Item.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/AttachmentTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/AttachmentTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/CraftingTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/CraftingTable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/EquipmentSlots.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/EquipmentSlots.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/items/Inventory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Inventory.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/items/ItemFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/ItemFactory.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/items/LootTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/LootTable.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/items/Stash.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Stash.class" afterDir="false" />
@@ -15,28 +32,84 @@
       <change beforePath="$PROJECT_DIR$/bin/items/Weapon.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Weapon.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/items/WeaponStats$WEAPON_STAT.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/WeaponStats$WEAPON_STAT.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/items/WeaponStats.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/WeaponStats.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/screens/DoorScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/DoorScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/screens/NInventoryScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/NInventoryScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/puzzlelike/Puzzle.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/puzzlelike/Puzzle.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/puzzlelike/PuzzleManager.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/puzzlelike/PuzzleManager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/AnimationScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/AnimationScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/CharacterCreationScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/CharacterCreationScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/GunModScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/GunModScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/LoseScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/LoseScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/MapScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/MapScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/NEscapeScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/NEscapeScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/OptionsScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/OptionsScreen.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/screens/PlayScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/PlayScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/structures/RexReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/RexReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/gun_charts/R1_GUN_TABLE.csv" beforeDir="false" afterPath="$PROJECT_DIR$/resources/gun_charts/R1_GUN_TABLE.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/StartScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/StartScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/UIScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/UIScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/screens/WinScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/WinScreen.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/Air$Molecule.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/Air$Molecule.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/Air.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/Air.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/Console.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/Console.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/Dungeon$Terrain.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/Dungeon$Terrain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/Dungeon.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/Dungeon.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/MainFrame$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/MainFrame$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/MainFrame.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/MainFrame.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/NameGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/NameGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/structures/TileEngine.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/structures/TileEngine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/Door$Clearance.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/Door$Clearance.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/Door.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/Door.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/Fire.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/Fire.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/MiniMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/MiniMap.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/PlanetPrinter.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/PlanetPrinter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/RoomV.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/RoomV.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/structures/loadedStructures" beforeDir="false" afterPath="$PROJECT_DIR$/resources/structures/loadedStructures" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Managers/AmmoManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/AmmoManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/entities/entityAI/BossAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/BossAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Managers/AttachmentManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/AttachmentManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Managers/DamageMan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/DamageMan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Managers/ExplosionManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/ExplosionManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Managers/ItemManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/ItemManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Managers/MapMan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/MapMan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Managers/ReloadManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/ReloadManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Managers/ThrowablesManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/ThrowablesManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Managers/WeaponManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/WeaponManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Effect.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Effect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Path.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Path.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/PathFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/PathFinder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Taunts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Taunts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/Vitals.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/Vitals.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/AttachmentTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/AttachmentTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/CraftingTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/CraftingTable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/EquipmentSlots.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/EquipmentSlots.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/Item.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Item.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/ItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/LootTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/LootTable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Stash.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Stash.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Type.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Weapon.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/WeaponStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/WeaponStats.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/DoorScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/DoorScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/NInventoryScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/NInventoryScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/puzzlelike/Puzzle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/puzzlelike/Puzzle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/puzzlelike/PuzzleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/puzzlelike/PuzzleManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/AnimationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/AnimationScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/CharacterCreationScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/CharacterCreationScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/GunModScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/GunModScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/LoseScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/LoseScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/MapScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/MapScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/NEscapeScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/NEscapeScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/OptionsScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/OptionsScreen.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/PlayScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/PlayScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/structures/RexReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/RexReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/World.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/StartScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/StartScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/UIScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/UIScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/WinScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/WinScreen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/Air.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/Air.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/Console.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/Console.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/Dungeon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/Dungeon.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/MainFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/MainFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/NameGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/NameGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/TileEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/TileEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/Door.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/Door.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/Fire.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/Fire.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/MiniMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/MiniMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/PlanetPrinter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/PlanetPrinter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/RoomV.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/RoomV.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,6 +141,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectId" id="1wjvFmIHfqYL0cI4RAQKBhZVe3F" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -76,19 +152,20 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/audio" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/structures" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="advanced.settings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\structures" />
       <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\audio" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\gun_charts" />
       <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\structures" />
+      <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\gun_charts" />
       <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\assets" />
       <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\src\entities\entityAI" />
       <recent name="C:\006 SOURCE\01 JAVA PROJECTS\004 ROGUE ONE\RogueOne\resources\audio" />
@@ -159,22 +236,26 @@
           <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
           <option name="timeStamp" value="2" />
         </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.io.NotSerializableException" package="java.io" />
+          <option name="timeStamp" value="5" />
+        </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/screens/PlayScreen.java</url>
-          <line>241</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/items/LootTable.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java</url>
-          <line>48</line>
-          <option name="timeStamp" value="5" />
+          <line>302</line>
+          <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="java.awt.image.BufferedImage" memberName="colorModel" />
+      </pinned-members>
+    </pin-to-top-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/RogueOne$MainFrame.ic" NAME="MainFrame Coverage Results" MODIFIED="1732577489547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>structures.*</FILTER>
+    </SUITE>
   </component>
 </project>

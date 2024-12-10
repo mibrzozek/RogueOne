@@ -2,12 +2,13 @@ package wolrdbuilding;
 
 import items.Item;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static wolrdbuilding.Palette.r;
 
-public class Door
+public class Door implements Serializable
 {
     public List<Point> getPoints() {
         return points;

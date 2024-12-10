@@ -3,10 +3,11 @@ package Managers;
 import items.Item;
 import wolrdbuilding.World;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ThrowablesManager
+public class ThrowablesManager implements Serializable
 {
     private Map<Item, Integer> fuseManager;
 

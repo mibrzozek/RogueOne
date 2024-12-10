@@ -4,9 +4,10 @@ import entities.Entity;
 import items.Item;
 import items.Type;
 
+import java.io.Serializable;
 import java.util.Random;
 
-public class DamageMan
+public class DamageMan implements Serializable
 {
     public static String resolveAttack(Entity attacker, Entity target, Item primaryWeapon)
     {

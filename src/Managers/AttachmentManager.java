@@ -3,10 +3,11 @@ package Managers;
 import items.Item;
 import items.Weapon;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttachmentManager
+public class AttachmentManager implements Serializable
 {
     public static List<Item> returnAttachmentsForEquippedWeapon(Item weapon, List<Item> equippedItems)
     {
@@ -72,8 +73,6 @@ public class AttachmentManager
             else if(i.name().equals("RMR Red Dot Sight"))
                 attachments.add(i);
         }
-
-
         return attachments;
     }
     public static boolean attachmentBelongOnGun(Item i, Weapon primary)
@@ -92,6 +91,106 @@ public class AttachmentManager
             else return false;
         }
         else if(primary.name() == "Colt M4A1")
+        {
+            if(i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else if(primary.name() == "HK MP7")
+        {
+            if(i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else if(primary.name() == "FN P90")
+        {
+            if(i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else if(primary.name() == "Kriss Vector")
+        {
+            if(i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else if(primary.name() == "CZ 75 SP-01 Shadow")
+        {
+            if(i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else if(primary.name() == "Colt M1911")
+        {
+            if(i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else if(primary.name() == "Glock G18C")
+        {
+            if(i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else if(primary.name() == "HK UMP")
+        {
+            if(i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else if(primary.name() == "Mk47 Mutant")
+        {
+            if(i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else if(primary.name() == "Steyr AUG")
+        {
+            if(i.name().equals("Red Dot Sight")
+                    || i.name().equals("Holographic Sight")
+                    || i.name().equals("Blue Laser")
+                    || i.name().equals("Bald Pro Flashlight")
+                    || i.name().equals("RMR Red Dot Sight"))
+                return true;
+            else return false;
+        }
+        else if(primary.name() == "KEL TEK KSG")
         {
             if(i.name().equals("Red Dot Sight")
                     || i.name().equals("Holographic Sight")

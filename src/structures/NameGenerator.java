@@ -2,13 +2,8 @@ package structures;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
-import java.util.Set;
-import java.util.stream.Collector;
+import java.io.Serializable;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*
@@ -20,7 +15,7 @@ import java.util.stream.Collectors;
  * 					stitching together sequences of vowels and consonants		
  */
 
-public class NameGenerator 
+public class NameGenerator implements Serializable
 {
 	private static Random r;
 	private static List<String> vowels;

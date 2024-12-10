@@ -3,11 +3,12 @@ package entities;
 
 import wolrdbuilding.Point;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class PathFinder 
+public class PathFinder implements Serializable
 {
        private ArrayList<Point> open;
        private ArrayList<Point> closed;

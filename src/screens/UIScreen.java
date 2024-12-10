@@ -19,7 +19,6 @@ public class UIScreen implements Screen
 	private boolean exitGame;
 	protected boolean exitSubScreen;
 	protected boolean cursorOn;
-	private AsciiPanel terminal;
 	
 	protected Entity player;
 	protected List<String> itemList;
@@ -36,9 +35,11 @@ public class UIScreen implements Screen
 	protected int by;
 
 	protected int inputNumber;
+
+	//private transient AsciiPanel terminal;
 	
 	private TileSet ts;
-	private JFrame main;
+	private transient JFrame main;
 	
 	public UIScreen(Entity player, PlayScreen ps, JFrame main)
 	{
@@ -173,7 +174,7 @@ public class UIScreen implements Screen
 						player.setShowUI(false);
 					return null;
 			
-				case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(terminal, this); break;
+				//case KeyEvent.VK_ESCAPE: subScreen = new EscapeScreen(terminal, this); break;
 	      		case KeyEvent.VK_ENTER:  break;
 
 				case KeyEvent.VK_1:
@@ -194,7 +195,7 @@ public class UIScreen implements Screen
 		if(exitGame)
 		{
 			exitGame = false;
-			return new StartScreen(terminal, main);
+			//return new StartScreen(terminal, main);
 		}
 	return this;
 	}

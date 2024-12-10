@@ -1,6 +1,8 @@
 package items;
 
-public enum EquipmentSlots
+import java.io.Serializable;
+
+public enum EquipmentSlots implements Serializable
 {
 
 }

@@ -31,7 +31,7 @@ public class StartScreen implements Screen
 		return back;
 	}
 
-	AsciiPanel terminal;
+	private transient AsciiPanel terminal;
 	private HashMap<String, ArrayList<TilePoint>> structureMap;
 	ArrayList<TilePoint> testStructure;
 	//playScreen
@@ -87,7 +87,7 @@ public class StartScreen implements Screen
 	// and reload it, setting the old screen as the current screen!
 	public PlayScreen loadSavedScreen() throws IOException
 	{
-	    FileInputStream fileInputStream = new FileInputStream("D:\\06 SOURCE\\saveFile");
+	    FileInputStream fileInputStream = new FileInputStream("C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\saveFile");
 	    ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
 	    
 	    PlayScreen savedScreen = null;
@@ -96,11 +96,12 @@ public class StartScreen implements Screen
 			savedScreen = (PlayScreen) objectInputStream.readObject();
 		} catch (ClassNotFoundException e)
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	    objectInputStream.close();
-		
+
+		savedScreen.setMainFrame(main);
+
 		return savedScreen;
 	}
 	public void write(String s)

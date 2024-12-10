@@ -5,9 +5,10 @@ import items.Item;
 import items.Type;
 import items.Weapon;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class WeaponManager
+public class WeaponManager implements Serializable
 {
     /*
     True stops the turn from advancing because

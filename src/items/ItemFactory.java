@@ -34,6 +34,9 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newMaxHealth());
+		itemList.add(newArmorPlate3());
+		itemList.add(newWeaponCharm());
 		itemList.add(newTwelveGauge());
 		itemList.add(newKelTecKSG());
 		itemList.add(newAug());
@@ -1726,5 +1729,38 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), twelveGauge);
 		return twelveGauge;
+	}
+	public Item newWeaponCharm()
+	{
+		Item weaponCharm = new Item((char)5, Palette.purple, Type.CHARM,
+				"Weapon Charm", 
+				"A charm to garnish your weapon. A form of payment. A relic of the old world.",
+				1,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), weaponCharm);
+		return weaponCharm;
+	}
+	public Item newArmorPlate3()
+	{
+		Item armorPlate3 = new Item((char)35, Palette.red, Type.PLATE_3,
+				"Armor Plate III", 
+				"An armor plate made to stop bullets",
+				200,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), armorPlate3);
+		return armorPlate3;
+	}
+	public Item newMaxHealth()
+	{
+		Item maxHealth = new Item((char)43, Palette.purple, Type.REGEN,
+				"Vitality Syringe", 
+				"Drugs that heal you over time",
+				999,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), maxHealth);
+		return maxHealth;
 	}
 }

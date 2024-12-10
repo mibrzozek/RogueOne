@@ -3,11 +3,12 @@ package items;
 import entities.Entity;
 import wolrdbuilding.Point;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Stash
+public class Stash implements Serializable
 {
     private int capacity, stashSize;
 

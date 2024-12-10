@@ -2,12 +2,13 @@ package items;
 
 import structures.RexReader;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class WeaponStats
+public class WeaponStats implements Serializable
 {
     private String weaponName;
 
@@ -128,15 +129,15 @@ public class WeaponStats
         {
             if(table.getRangeAttachmentsTable().contains(a))
             {
-                setRange(a.value());
+                setRange(a.value() + getRange());
             }
             else if(table.getMagazineAttachmentsTable().contains(a))
             {
-                setMagazineCapacity(a.value());
+                setMagazineCapacity(a.value() + getMagazineCapacity());
             }
             else if(table.getReloadAttachmentsTable().contains(a))
             {
-                setReloadSpeed(a.value());
+                setReloadSpeed(a.value() + getReloadSpeed());
             }
         }
     }
@@ -153,23 +154,26 @@ public class WeaponStats
             {
                 Integer value = RexReader.retrieveStatsForUpgradeLevel(weaponName, buffMap.get(stat).size(), WEAPON_STAT.DAMAGE);
                 setDamage(value);
-                System.out.println(value + " modding");
             }
             else if(stat.equals(WEAPON_STAT.RANGE))
             {
-
+                Integer value = RexReader.retrieveStatsForUpgradeLevel(weaponName, buffMap.get(stat).size(), WEAPON_STAT.RANGE);
+                setRange(value);
             }
             else if(stat.equals(WEAPON_STAT.RELOAD_SPEED))
             {
-
+                Integer value = RexReader.retrieveStatsForUpgradeLevel(weaponName, buffMap.get(stat).size(), WEAPON_STAT.RELOAD_SPEED);
+                setReloadSpeed(value);
             }
             else if(stat.equals(WEAPON_STAT.BULLETS_PER_TURN))
             {
-
+                Integer value = RexReader.retrieveStatsForUpgradeLevel(weaponName, buffMap.get(stat).size(), WEAPON_STAT.BULLETS_PER_TURN);
+                setBulletsPerTurn(value);
             }
             else if(stat.equals(WEAPON_STAT.MAG_CAPACITY))
             {
-
+                Integer value = RexReader.retrieveStatsForUpgradeLevel(weaponName, buffMap.get(stat).size(), WEAPON_STAT.MAG_CAPACITY);
+                setMagazineCapacity(value);
             }
         }
     }

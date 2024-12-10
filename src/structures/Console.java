@@ -7,10 +7,11 @@ import screens.Screen;
 import wolrdbuilding.Point;
 import wolrdbuilding.World;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Console
+public class Console implements Serializable
 {
     private World world;
     private Entity player;

@@ -46,13 +46,19 @@ public class PlayerAi extends EntityAi
 
     	entity.inventory().setMax(8);
 
-		this.entity.inventory().add(new ItemFactory().newAk74());
+		this.entity.inventory().add(new ItemFactory().newGlock19());
+		this.entity.inventory().add(new ItemFactory().newPstGZH100());
+		this.entity.inventory().add(new ItemFactory().newRedDotSight());
+		this.entity.inventory().add(new ItemFactory().newGlockSupressor());
+		this.entity.inventory().add(new ItemFactory().newGlock19ExtendedMags());
 
-		this.entity.inventory().add(new ItemFactory().newPs762());
 		this.entity.inventory().add(new ItemFactory().newGunParts());
-
-		this.entity.inventory().add(new ItemFactory().newHealKit2());
 		this.entity.inventory().add(new ItemFactory().newHealKit4());
+
+		this.entity.inventory().add(new ItemFactory().newWeaponCharm());
+		this.entity.inventory().add(new ItemFactory().newMaxHealth());
+		this.entity.inventory().add(new ItemFactory().newArmorPlate3());
+		this.entity.inventory().add(new ItemFactory().newWeaponCharm());
 
     	this.entity.stats.addEffect(new Effect(Effect.Effects.STONED, "High", Palette.lightBlue));
 		this.entity.stats.addEffect(new Effect(Effect.Effects.FRIENDLY, "Social", Palette.monoYellow));
@@ -60,7 +66,6 @@ public class PlayerAi extends EntityAi
 		this.entity.stats.addEffect(new Effect(Effect.Effects.BROKEN_ARM, "Broken Arm", Palette.red));
 		this.entity.stats.addEffect(new Effect(Effect.Effects.DESTROYED_HANDS, "Broken Fingers", Palette.red));
 		this.entity.stats.addEffect(new Effect(Effect.Effects.SATITATED, "Stuffed", Palette.green));
-
     }
     public ArrayList<String> getAttacks()
     {

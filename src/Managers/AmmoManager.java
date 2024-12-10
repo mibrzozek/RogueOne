@@ -3,7 +3,9 @@ package Managers;
 import items.Item;
 import items.Type;
 
-public class AmmoManager
+import java.io.Serializable;
+
+public class AmmoManager implements Serializable
 {
     public static Type identifyAmmo(Item i)
     {

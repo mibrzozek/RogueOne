@@ -15,7 +15,7 @@ public class MapScreen implements Screen
 
     private World world;
     private Screen subScreen;
-    private AsciiPanel terminal;
+    private transient AsciiPanel terminal;
 
     private Entity player;
     private MiniMap mini;

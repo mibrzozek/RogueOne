@@ -3,10 +3,11 @@ package wolrdbuilding;
 import entities.Entity;
 import structures.Dungeon;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PlanetPrinter
+public class PlanetPrinter implements Serializable
 {
 	private static final int MINI_CELL = 3;
 	private static int width;

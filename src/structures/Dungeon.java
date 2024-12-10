@@ -9,10 +9,11 @@ import structures.TerrainGen.MapUtility;
 import structures.TerrainGen.RegionUtility;
 import wolrdbuilding.*;
 
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class Dungeon
+public class Dungeon implements Serializable
 {
 
 	public List<Point> getStairPoints()

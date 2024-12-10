@@ -1,9 +1,10 @@
 package items;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AttachmentTable
+public class AttachmentTable implements Serializable
 {
     private List<Item> rangeAttachments;
     private List<Item> damageAttachments;

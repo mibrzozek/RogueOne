@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
 
 public class WinScreen implements Screen 
 {
-	AsciiPanel terminal;
+	transient AsciiPanel  terminal;
 	private MainFrame main;
 	private Entity player;
 	private World world;

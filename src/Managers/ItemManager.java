@@ -6,7 +6,9 @@ import items.Item;
 import items.Type;
 import wolrdbuilding.Palette;
 
-public class ItemManager
+import java.io.Serializable;
+
+public class ItemManager implements Serializable
 {
     public  static void UseItem(Item i, Entity entity)
     {

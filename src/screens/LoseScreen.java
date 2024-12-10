@@ -23,7 +23,7 @@ public class LoseScreen implements Screen
 	ArrayList<TilePoint> m1;
 
 	private boolean rendered = false;
-	private AsciiPanel terminal;
+	private  transient AsciiPanel terminal;
 
 	private JFrame main;
 

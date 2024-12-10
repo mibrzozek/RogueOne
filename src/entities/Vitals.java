@@ -1,8 +1,9 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Vitals {
+public class Vitals implements Serializable {
     public enum Limbs {
         LEFT_LEG, RIGHT_LEG, LEFT_HAND, RIGHT_HAND, TORSO, HEAD;
     }

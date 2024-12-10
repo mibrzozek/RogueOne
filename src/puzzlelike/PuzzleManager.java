@@ -4,10 +4,11 @@ import wolrdbuilding.Direction;
 import wolrdbuilding.Point;
 import wolrdbuilding.TerrainPoint;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PuzzleManager
+public class PuzzleManager implements Serializable
 {
     List<Puzzle> allPuzzles;
     Puzzle currentPuzzle;

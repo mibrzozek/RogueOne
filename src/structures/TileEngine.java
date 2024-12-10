@@ -13,10 +13,11 @@ import wolrdbuilding.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.*;
 
-public class TileEngine
+public class TileEngine implements Serializable
 {
 	private static Random r = new Random();
 	private static final Color DEFAULT_F_COLOR = Palette.darkGray;

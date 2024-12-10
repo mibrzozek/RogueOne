@@ -1,10 +1,11 @@
 package entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Taunts
+public class Taunts implements Serializable
 {
     private List<String> basicTaunts;
     private List<String> funnyTaunts;

@@ -44,6 +44,8 @@ public class CharacterCreationScreen implements Screen
 
 	private JFrame main;
 
+
+
 	private boolean rendered =  false;
 	private NameGenerator nameGen;
 	private static final String NAME_PATH = String.valueOf(CharacterCreationScreen.class.getResource("resources/lsv/first_names.txt"));
@@ -137,6 +139,7 @@ public class CharacterCreationScreen implements Screen
 				s2 += display.get(i).toString();
 
 			TileEngine.renderCreationPlate(terminal, cx2, y, 56, s1, s2,false, Palette.gray, Palette.darkestGray);
+			//TileEngine.ren
 			//terminal.write(fields.get(i), cx2, y);
 			terminal.write("", cx,  y);
 

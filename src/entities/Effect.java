@@ -1,8 +1,9 @@
 package entities;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Effect
+public class Effect implements Serializable
 {
     public enum Effects
     {

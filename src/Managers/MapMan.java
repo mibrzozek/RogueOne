@@ -4,7 +4,9 @@ import entities.Statistics;
 import wolrdbuilding.PlanetPrinter;
 import wolrdbuilding.World;
 
-public class MapMan
+import java.io.Serializable;
+
+public class MapMan implements Serializable
 {
     World world;
 

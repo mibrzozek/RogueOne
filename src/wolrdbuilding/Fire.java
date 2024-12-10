@@ -1,9 +1,10 @@
 package wolrdbuilding;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Fire
+public class Fire implements Serializable
 {
     // Passed in through constructor
     private Point p, newestPoint;

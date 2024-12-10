@@ -6,10 +6,11 @@ import wolrdbuilding.Point;
 import wolrdbuilding.Tile;
 import wolrdbuilding.World;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExplosionManager
+public class ExplosionManager implements Serializable
 {
     public static void resolveExplosion(World w, Item throwable)
     {

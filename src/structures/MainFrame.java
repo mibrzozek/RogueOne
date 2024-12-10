@@ -20,7 +20,7 @@ public class MainFrame extends JFrame implements KeyListener
 	private static final Color DEFAULT_FORE = Palette.paleWhite;
 
 	private Theme t = Theme.CLASSIC;
-	private AsciiPanel terminal;
+	private  transient AsciiPanel terminal;
 	private Container contentPane;
 
 	private int screenWidth = 130, screenHeight = 75,
@@ -39,7 +39,6 @@ public class MainFrame extends JFrame implements KeyListener
 				LaunchFrame launch = new LaunchFrame();
 				launch.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				launch.setVisible(true);
-
 				/*
 				MainFrame main = new MainFrame();
 				main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

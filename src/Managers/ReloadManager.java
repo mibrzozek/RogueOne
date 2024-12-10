@@ -2,7 +2,9 @@ package Managers;
 
 import entities.Entity;
 
-public class ReloadManager
+import java.io.Serializable;
+
+public class ReloadManager implements Serializable
 {
     public static void manageReload(Entity player)
     {

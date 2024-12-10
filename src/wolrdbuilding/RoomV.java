@@ -2,10 +2,11 @@ package wolrdbuilding;
 
 import structures.Dungeon;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomV
+public class RoomV implements Serializable
 {
     private RoomPoint rp;
     private TileSet ts;

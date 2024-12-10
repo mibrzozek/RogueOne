@@ -13,15 +13,14 @@ import items.ItemFactory;
 import items.Stash;
 import items.Type;
 import structures.*;
+import structures.Console;
 import wolrdbuilding.Point;
 import wolrdbuilding.*;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -29,8 +28,9 @@ import java.util.Random;
 public class PlayScreen implements Screen
 {
 	private static final String WINNING_ITEM = "Disco Ball";
-	private MainFrame main;
-	private RexReader rex = new RexReader();
+
+	private transient MainFrame main;
+	private transient RexReader rex = new RexReader();
 
 	private Color fore = Theme.MIDNIGHT_PURPLE.getFore();
 	private Color back = Theme.MIDNIGHT_PURPLE.getBack();
@@ -66,15 +66,13 @@ public class PlayScreen implements Screen
     private World.Map map;
 	private World world;
 
-    private transient AsciiPanel terminal;
+	private transient AsciiPanel terminal;
 	private int displayHeight, displayWidth;
-
-	/**
+	/*
      * This screen is responsible for keeping track of all objects related to playing the game. 
      * The PlayScreen is the only objects which needs to be saved and loaded, making the saving
      * system easier to implement than expected.
      */
-
     public PlayScreen(Statistics stats, MainFrame main, World.Map m)
     {
         screenWidth = main.getScreenWidth();
@@ -133,7 +131,6 @@ public class PlayScreen implements Screen
 			world.spawnBoss();
 			world.spawnBossGuards(world.getBoss());
 		}
-
 	}
     private void createWorld(World.Map m)
     {
@@ -239,7 +236,7 @@ public class PlayScreen implements Screen
 	     if(subScreen instanceof ThrowableScreen)
 	    	 ((ThrowableScreen) subScreen).displayOutput(terminal);
 	     if(subScreen instanceof AnimationScreen)
-	    	 ((AnimationScreen) subScreen).displayOutput(terminal);
+	    	 //((AnimationScreen) subScreen).displayOutput(terminal);
 	     if(subScreen instanceof InteractScreen)
 	    	 ((InteractScreen) subScreen).displayOutput(terminal);
 		 if(subScreen instanceof MapScreen)
@@ -293,10 +290,20 @@ public class PlayScreen implements Screen
     {
     	try 
     	{
-    		FileOutputStream fos = new FileOutputStream(new File("D:\\06 SOURCE\\saveFile"));
+			File file = new File("C:\\006 SOURCE\\01 JAVA PROJECTS\\004 ROGUE ONE\\RogueOne\\resources\\saveFile");
+    		FileOutputStream fos = new FileOutputStream(file);
     		ObjectOutputStream oos = new ObjectOutputStream(fos);
-    		
-    		oos.writeObject(this);
+    		try
+			{
+				oos.writeObject(this);
+			}
+			catch(NotSerializableException e){
+
+
+				System.err.println("Not serializing " + e.getMessage() + e.getLocalizedMessage());
+				e.printStackTrace();
+			}
+
     		oos.close();
     		fos.close();
     		
@@ -624,5 +631,11 @@ public class PlayScreen implements Screen
 	public int getDisplayHeight()
 	{
 		return displayHeight;
+	}
+
+	public void setMainFrame(JFrame main)
+	{
+		this.main = (MainFrame) main;
+		this.rex = new RexReader();
 	}
 }

@@ -1,10 +1,11 @@
 package items;
 
-import java.util.ArrayList;
-
 import entities.Entity;
 
-public class CraftingTable
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class CraftingTable implements Serializable
 {
 	private ArrayList<Item> toCraft;
 	private ArrayList<String> comboList;

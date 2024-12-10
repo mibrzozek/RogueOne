@@ -7,11 +7,12 @@ import wolrdbuilding.Door;
 import wolrdbuilding.Point;
 import wolrdbuilding.World;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class Puzzle
+public class Puzzle implements Serializable
 {
     // Problem
     // Resolutions

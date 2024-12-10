@@ -1,15 +1,14 @@
 package screens;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-
 import asciiPanel.AsciiPanel;
 import structures.TileEngine;
 import wolrdbuilding.Palette;
 import wolrdbuilding.TilePoint;
 import wolrdbuilding.TileSet;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class AnimationScreen implements Screen, Runnable
 {
@@ -17,7 +16,7 @@ public class AnimationScreen implements Screen, Runnable
 	private Color fore = Palette.paleWhite;
 	private Color back = Palette.theNewBlue;
 
-	AsciiPanel termianl;
+	private transient AsciiPanel terminal;
 
 	int x = 0, y = 20;
 
@@ -25,7 +24,7 @@ public class AnimationScreen implements Screen, Runnable
 	public AnimationScreen(ArrayList<TilePoint> list, AsciiPanel terminal)
 	{
 		this.list = list;
-		this.termianl = terminal;
+		this.terminal = terminal;
 	}
 
 	@Override
@@ -91,12 +90,12 @@ public class AnimationScreen implements Screen, Runnable
 				e.printStackTrace();
 			}
 
-			termianl.write("Hello", x++, 1);
+			terminal.write("Hello", x++, 1);
 
 			if(x < 80)
 				x = 0;
 
-			displayOutput(termianl);
+			displayOutput(terminal);
 			System.out.println("Spinning "  +x);
 		}
 	}

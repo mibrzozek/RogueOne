@@ -1,10 +1,11 @@
 package entities;
 
-import java.util.List;
-
 import wolrdbuilding.Point;
 
-public class Path 
+import java.io.Serializable;
+import java.util.List;
+
+public class Path implements Serializable
 {
 
   private static PathFinder pf = new PathFinder();

@@ -281,6 +281,7 @@ public class Inventory implements Serializable
 				System.out.println("Attachments belongs");
 				((Weapon) primaryWeapon).removeAttachmentInSlot(AttachmentSlots.BARREL.getSlotForItem(i));
 				((Weapon) primaryWeapon).getStats().modifyGunStatsForAttachments(((Weapon) primaryWeapon).getAllAttachments());
+				((Weapon) primaryWeapon).getStats().modifyGunStatsForBuffMap();
 			}
 			inventory.add(i);
 			equippedMap = getEquippedMap();
@@ -295,14 +296,18 @@ public class Inventory implements Serializable
 	}
     public void moveToEquiped(int index)
     {
+		System.out.println("Moving logic here");
 		if(equipped.size() + 1 <= maxEquip)
 		{
 			Item i = inventory.get(index);
+			System.out.println("Item retrieved : " + i.name());
+
 			if(i.type().equals(Type.ATTACHMENT))
 			{
 				if(getPrimaryWeapon() == null)
 				{
 					// can't equip attachment since no weapon
+					System.out.println("There is no primary weapon");
 					return;
 				}
 				if(getPrimaryWeapon().isAttachSlotEmpty(AttachmentSlots.BARREL.getSlotForItem(i)))
@@ -319,8 +324,11 @@ public class Inventory implements Serializable
 					System.out.println("ATTACHMENT SLOT OCCUPIED");
 					//Slot full error -> message? New ui?
 				}
+				System.out.println("We're trying to attach attachment");
 				return;
 			}
+
+			System.out.println("We're trying to move " + i.name() + " to equipped");
 
 			equipped.add(i);
 			inventory.remove(index);
@@ -337,6 +345,10 @@ public class Inventory implements Serializable
 			}
 
 			 */
+		}
+		else
+		{
+			System.out.println("Not enough room. Equipped size : " + equipped.size() + " Max:" + maxEquip);
 		}
     }
     public void equipAll(Item ... toAdd)

@@ -182,6 +182,7 @@ public class OptionsScreen extends ScrollingBasedScreen
 		if(selectingFromInventory)
 		{
 			player.inventory().moveToEquiped(itemIndex);
+			System.out.println("selecting red dot");
 		}
 		else
 		{

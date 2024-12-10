@@ -3,10 +3,11 @@ package wolrdbuilding;
 import entities.Entity;
 import entities.Line;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MiniMap
+public class MiniMap implements Serializable
 {
     private TileV[][][] miniMap;
     private TileV[][][] tiles;

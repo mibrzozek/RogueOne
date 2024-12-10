@@ -3,7 +3,9 @@ package structures;
 import wolrdbuilding.TileV;
 import wolrdbuilding.World;
 
-public class Air
+import java.io.Serializable;
+
+public class Air implements Serializable
 {
     public static final double OXYGEN = .21;
     public static final double NITROGEN = .78;

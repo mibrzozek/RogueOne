@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class NEscapeScreen extends UIScreen
 {
     ArrayList<String> options = new ArrayList<>();
-    private JFrame main;
+    private transient JFrame main;
 
     public NEscapeScreen(Entity player, PlayScreen ps, JFrame main)
     {

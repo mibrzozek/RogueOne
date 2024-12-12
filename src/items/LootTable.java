@@ -102,10 +102,37 @@ public class LootTable implements Serializable
         attachments.add(itemFactory.newRedDotSight());
         attachments.add(itemFactory.newHoloSight());
         attachments.add(itemFactory.newBaldProFlashlight());
+        attachments.add(itemFactory.newMonstrumSight());
 
         attachments.add(itemFactory.newGlock19ExtendedMags());
         attachments.add(itemFactory.newGlockCompensator());
         attachments.add(itemFactory.newGlockSupressor());
+
+        attachments.add(itemFactory.newCompensator556());
+        attachments.add(itemFactory.newExtendedMags556());
+        attachments.add(itemFactory.newSuppressor556());
+
+        attachments.add(itemFactory.newCompensator762());
+        attachments.add(itemFactory.newExtendedMags762());
+        attachments.add(itemFactory.newSuppressor762());
+
+        attachments.add(itemFactory.newCompensator76251());
+        attachments.add(itemFactory.newExtendedMags76251());
+        attachments.add(itemFactory.newSuppressor76251());
+
+        attachments.add(itemFactory.newCompensator45());
+        attachments.add(itemFactory.newMags45());
+        attachments.add(itemFactory.newSuppressor45());
+
+        attachments.add(itemFactory.newSuppressor57());
+
+        attachments.add(itemFactory.newForegripHorizontal());
+        attachments.add(itemFactory.newForegripSway());
+        attachments.add(itemFactory.newForegripVertical());
+
+        attachments.add(itemFactory.newLpvoBurris());
+        attachments.add(itemFactory.newLpvoMarch());
+        attachments.add(itemFactory.newLpvoBurris());
     }
 
     private void initFloorOneLootTable()
@@ -224,4 +251,7 @@ public class LootTable implements Serializable
         return floorOneLootTable;
     }
 
+    public List<Item> getAttachments() {
+        return this.attachments;
+    }
 }

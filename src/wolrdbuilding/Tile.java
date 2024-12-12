@@ -208,7 +208,8 @@ public enum Tile
     RANGED('R', Palette.blue , Palette.darkGray),
     VAGRANT('v', Palette.monoRed, Palette.darkRed ),
     BOSS('B', Palette.purple, Palette.darkestGray),
-    COMMANDO('C', Palette.monoPurple, Palette.darkestGray);
+    COMMANDO('C', Palette.monoPurple, Palette.darkestGray),
+    AMMO_STASH('A', Palette.brown, Palette.darkestGray);
 	
 	private boolean swapable;
 	public Random r =  new Random();

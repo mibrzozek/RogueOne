@@ -160,7 +160,10 @@ public class Weapon extends Item
     public void calculateStats()
     {
         System.out.println("Hello");
+        Map buffMap = this.stats.getBuffMap();
+
         this.stats = RexReader.retrieveStats(name());
+        stats.setBuffMap(buffMap);
         stats.modifyGunStatsForBuffMap();
         stats.modifyGunStatsForAttachments(this.getAllAttachments());
     }

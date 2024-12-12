@@ -63,7 +63,10 @@ public class GunModScreen extends UIScreen
         for(WeaponStats.WEAPON_STAT stat : primaryWeapon.getStats().getBuffMap().keySet())
         {
             //terminal.write(stat.toString() + " " + primaryWeapon.getStats().getBuffMap().get(stat).size(), x, y++ + 5);
-            TileEngine.renderWeaponStatPlate(terminal, x, y++ + 5, 29, stat.toString(), Integer.toString(primaryWeapon.getStats().getBuffMap().get(stat).size()), Palette.white, Palette.darkerGray);
+            TileEngine.renderWeaponStatPlate(terminal, x, y + 5, 29,
+                    stat.toString(),
+                    Integer.toString(primaryWeapon.getStats().getBuffMap().get(stat).size()),
+                    Palette.white, Palette.darkerGray);
         }
         List<Item> gunParts = new ArrayList<>();
         gunParts = player.inventory().get(Type.GUN_PARTS);
@@ -85,6 +88,9 @@ public class GunModScreen extends UIScreen
 
         this.primaryWeapon.getStats().buffStat(gunParts.remove(0), stat);
         this.primaryWeapon.getStats().modifyGunStatsForBuffMap();
+        // Consume gun part from equipped
+        this.player.inventory().removeEquiped(new ItemFactory().newGunParts());
+
     }
     @Override
     public void select()

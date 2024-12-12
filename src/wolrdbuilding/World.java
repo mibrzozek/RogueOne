@@ -871,8 +871,43 @@ public class World implements Serializable
 			}
 			stashPoints.add(s);
 			dungeon.addStash(p, s, Tile.RED_STASH);
+
+			p = r.getFloorPoints().get(random.nextInt(r.getFloorPoints().size()));
+			s = new Stash(p);
+
+			LootTable loot = new LootTable();
+			for(int i = 0; i < new Random().nextInt(3) + 1; i++)
+			{
+				Item ammo = loot.getAmmo().get(new Random().nextInt(loot.getAmmo().size()));
+				s.addItem(ammo);
+			}
+			stashPoints.add(s);
+			dungeon.addStash(p, s, Tile.AMMO_STASH);
+
+		}
+		// Gun parts, plates, attachments
+		int numGunParts = 30;
+		for(int i = 0; i < numGunParts; i++)
+		{
+			dungeon.getStashes().get(random.nextInt(dungeon.getStashes().size())).addItem(itemFactory.newGunParts());
+		}
+		int numCharms = 2;
+		for(int i = 0; i < numCharms; i++)
+		{
+			dungeon.getStashes().get(random.nextInt(dungeon.getStashes().size())).addItem(itemFactory.newWeaponCharm());
+		}
+		int numPlates = 20;
+		for(int i = 0; i < numPlates; i++)
+		{
+			dungeon.getStashes().get(random.nextInt(dungeon.getStashes().size())).addItem(itemFactory.newArmorPlate3());
+		}
+		LootTable loot = new LootTable();
+		for(Item i : loot.getAttachments())
+		{
+			dungeon.getStashes().get(random.nextInt(dungeon.getStashes().size())).addItem(i);
 		}
 		System.out.println("Finishef locked room loot");
+
 	}
 	public void spawnEnemies()
 	{

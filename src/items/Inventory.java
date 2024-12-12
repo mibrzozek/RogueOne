@@ -280,18 +280,11 @@ public class Inventory implements Serializable
 			{
 				System.out.println("Attachments belongs");
 				((Weapon) primaryWeapon).removeAttachmentInSlot(AttachmentSlots.BARREL.getSlotForItem(i));
-				((Weapon) primaryWeapon).getStats().modifyGunStatsForAttachments(((Weapon) primaryWeapon).getAllAttachments());
-				((Weapon) primaryWeapon).getStats().modifyGunStatsForBuffMap();
+				((Weapon) primaryWeapon).calculateStats();
 			}
 			inventory.add(i);
 			equippedMap = getEquippedMap();
 			inventoryMap = getInventoryMap();
-
-			/* Delete if nothing is broken lol
-			if(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)) !=  null)
-				gunAttachments = new HashSet(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)));
-
-			 */
 		}
 	}
     public void moveToEquiped(int index)

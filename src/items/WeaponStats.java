@@ -29,6 +29,11 @@ public class WeaponStats implements Serializable
         return buffMap;
     }
 
+    public void setBuffMap(Map buffMap)
+    {
+        this.buffMap = buffMap;
+    }
+
     public enum WEAPON_STAT
     {
         RANGE, DAMAGE, RELOAD_SPEED, BULLETS_PER_TURN, MAG_CAPACITY, MODE

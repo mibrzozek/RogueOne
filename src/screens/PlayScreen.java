@@ -420,7 +420,8 @@ public class PlayScreen implements Screen
 					}
 					else if(world.getTile(np.x, np.y, np.z).equals(Tile.STASH)
 							|| world.getTile(np.x, np.y, np.z).equals(Tile.MED_STASH)
-							|| world.getTile(np.x, np.y, np.z).equals(Tile.RED_STASH)) // STASH INTERACTION
+							|| world.getTile(np.x, np.y, np.z).equals(Tile.RED_STASH)
+							|| world.getTile(np.x, np.y, np.z).equals(Tile.AMMO_STASH)) // STASH INTERACTION
 					{
 						if(world.getStashes().contains(new Stash(np)))
 						{

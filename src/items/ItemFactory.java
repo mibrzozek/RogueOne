@@ -34,6 +34,28 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newCompensator45());
+		itemList.add(newMags45());
+		itemList.add(newShotgunChoke());
+		itemList.add(newShotgunCompensator());
+		itemList.add(newCompensator76251());
+		itemList.add(newExtendedMags76251());
+		itemList.add(newExtendedMags762());
+		itemList.add(newExtendedMags556());
+		itemList.add(newCompensator556());
+		itemList.add(newCompensator762());
+		itemList.add(newForegripSway());
+		itemList.add(newForegripVertical());
+		itemList.add(newForegripHorizontal());
+		itemList.add(newSuppressor57());
+		itemList.add(newSuppressor45());
+		itemList.add(newSuppressor76251());
+		itemList.add(newSuppressor762());
+		itemList.add(newSuppressor556());
+		itemList.add(newLpvoMarch());
+		itemList.add(newLpvoBurris());
+		itemList.add(newLpvoVortex());
+		itemList.add(newMonstrumSight());
 		itemList.add(newMaxHealth());
 		itemList.add(newArmorPlate3());
 		itemList.add(newWeaponCharm());
@@ -1762,5 +1784,247 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), maxHealth);
 		return maxHealth;
+	}
+	public Item newMonstrumSight()
+	{
+		Item monstrumSight = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"Red Dot Sight", 
+				"Perfect sized scope for that 2X edge",
+				7,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), monstrumSight);
+		return monstrumSight;
+	}
+	public Item newLpvoVortex()
+	{
+		Item lpvoVortex = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"Vortex Razor LPVO", 
+				"A nice long range variable optic with 1x-6x magnification",
+				10,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), lpvoVortex);
+		return lpvoVortex;
+	}
+	public Item newLpvoBurris()
+	{
+		Item lpvoBurris = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"Burris Fulfield", 
+				"A nice long range variable optic with 1x-4x magnification",
+				9,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), lpvoBurris);
+		return lpvoBurris;
+	}
+	public Item newLpvoMarch()
+	{
+		Item lpvoMarch = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"March Tactical", 
+				"A long range variable optic with 6x-12x magnification",
+				12,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), lpvoMarch);
+		return lpvoMarch;
+	}
+	public Item newSuppressor556()
+	{
+		Item suppressor556 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"5.56mm Silencer", 
+				"Made to silence NATO rounds",
+				4,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), suppressor556);
+		return suppressor556;
+	}
+	public Item newSuppressor762()
+	{
+		Item suppressor762 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"7.62mm Silencer", 
+				"Made to silence soviet rounds",
+				4,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), suppressor762);
+		return suppressor762;
+	}
+	public Item newSuppressor76251()
+	{
+		Item suppressor76251 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"7.62x51 Silencer", 
+				"Made to silence big rounds",
+				4,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), suppressor76251);
+		return suppressor76251;
+	}
+	public Item newSuppressor45()
+	{
+		Item suppressor45 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				".45 Silencer", 
+				"Made to silence small rounds",
+				4,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), suppressor45);
+		return suppressor45;
+	}
+	public Item newSuppressor57()
+	{
+		Item suppressor57 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"5.7mm Silencer", 
+				"Made to silence medium rounds",
+				4,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), suppressor57);
+		return suppressor57;
+	}
+	public Item newForegripHorizontal()
+	{
+		Item foregripHorizontal = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"Horizontal Fore Grip", 
+				"Helps control horizontal recoil",
+				10,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), foregripHorizontal);
+		return foregripHorizontal;
+	}
+	public Item newForegripVertical()
+	{
+		Item foregripVertical = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"Vertical Fore Grip", 
+				"Helps control vertical recoil",
+				10,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), foregripVertical);
+		return foregripVertical;
+	}
+	public Item newForegripSway()
+	{
+		Item foregripSway = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"Tactical Fore Grip", 
+				"Helps steady the hands",
+				15,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), foregripSway);
+		return foregripSway;
+	}
+	public Item newCompensator762()
+	{
+		Item Compensator762 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"7.62mm Muzzle Compensator", 
+				"Helps with accuracy and makes your barrel look dangerous",
+				3,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), Compensator762);
+		return Compensator762;
+	}
+	public Item newCompensator556()
+	{
+		Item Compensator556 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"5.56mm Muzzle Compensator", 
+				"Helps with accuracy and makes your barrel look dangerous",
+				3,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), Compensator556);
+		return Compensator556;
+	}
+	public Item newExtendedMags556()
+	{
+		Item ExtendedMags556 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"5.56mm Extended Mags", 
+				"Gives you those extra bullets that you always need",
+				12,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), ExtendedMags556);
+		return ExtendedMags556;
+	}
+	public Item newExtendedMags762()
+	{
+		Item ExtendedMags762 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"7.62mm Extended Mags", 
+				"Gives you those extra bullets that you always need",
+				14,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), ExtendedMags762);
+		return ExtendedMags762;
+	}
+	public Item newExtendedMags76251()
+	{
+		Item ExtendedMags76251 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"7.62x51 Extended Mags", 
+				"Gives you those extra bullets that you always need",
+				9,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), ExtendedMags76251);
+		return ExtendedMags76251;
+	}
+	public Item newCompensator76251()
+	{
+		Item compensator76251 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"7.62x51 Compensator", 
+				"Helps keep your gun on target",
+				3,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), compensator76251);
+		return compensator76251;
+	}
+	public Item newShotgunCompensator()
+	{
+		Item shotgunCompensator = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"Shotgun Compensator", 
+				"Steadies your trigger finger",
+				7,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), shotgunCompensator);
+		return shotgunCompensator;
+	}
+	public Item newShotgunChoke()
+	{
+		Item shotgunChoke = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"Shotgun Choke", 
+				"Tightens the spread of your buckshot",
+				10,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), shotgunChoke);
+		return shotgunChoke;
+	}
+	public Item newMags45()
+	{
+		Item mags45 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"45mm Extended Mags", 
+				"Gives your pistol that extra longetivity",
+				6,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), mags45);
+		return mags45;
+	}
+	public Item newCompensator45()
+	{
+		Item compensator45 = new Item((char)145, Palette.red, Type.ATTACHMENT,
+				"45mm Compensator", 
+				"Gives your barrel that extra length",
+				4,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), compensator45);
+		return compensator45;
 	}
 }

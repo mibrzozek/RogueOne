@@ -30,7 +30,8 @@ public class DamageMan implements Serializable
         {
             if(Math.random() < .5)
             {
-                target.stats.vitals.dealDamageRandomly(-primaryWeapon.value(), target);
+                target.inventory().getArmor().resolveDamage(attacker, target);
+                //target.stats.vitals.dealDamageRandomly(-primaryWeapon.value(), target);
                 target.notify("You're getting shot");
             }
             else

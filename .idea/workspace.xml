@@ -1,25 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="RogueOne:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="bc747c38-cb52-4caa-a5c5-4da97bdb7363" name="Changes" comment="PuzzleLike demo + improvements to rogueOne including vitals, damage, locked rooms, map contiguity and more.">
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/RogueOne_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/Inventory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Inventory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/ItemFactory.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/ItemFactory.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/LootTable.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/LootTable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/Weapon.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/Weapon.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/WeaponStats$WEAPON_STAT.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/WeaponStats$WEAPON_STAT.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/items/WeaponStats.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/items/WeaponStats.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/screens/GunModScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/GunModScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/screens/PlayScreen.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/screens/PlayScreen.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/saveFile" beforeDir="false" afterPath="$PROJECT_DIR$/resources/saveFile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/wolrdbuilding/World.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Managers/DamageMan.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Managers/DamageMan.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/entities/entityAI/PlayerAi.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Inventory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/items/ItemFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/ItemFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/LootTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/LootTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/Weapon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Weapon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/items/WeaponStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/WeaponStats.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/GunModScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/GunModScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/PlayScreen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/PlayScreen.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/items/Type.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/items/Type.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/structures/TileEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/structures/TileEngine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/wolrdbuilding/World.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/wolrdbuilding/World.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,10 +59,11 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/resources/structures" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.24703738" />
     <property name="settings.editor.selected.configurable" value="advanced.settings" />
   </component>
   <component name="RecentsManager">

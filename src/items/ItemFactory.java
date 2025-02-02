@@ -34,6 +34,11 @@ public class ItemFactory implements Serializable
 	{
 		itemList = new ArrayList<Item>();
 		//`
+		itemList.add(newPlateCarrier6());
+		itemList.add(newPlateCarrier5());
+		itemList.add(newPlateCarrier4());
+		itemList.add(newPlateCarrier3());
+		itemList.add(newPlateCarrier2());
 		itemList.add(newCompensator45());
 		itemList.add(newMags45());
 		itemList.add(newShotgunChoke());
@@ -2026,5 +2031,60 @@ public class ItemFactory implements Serializable
 		if(world != null)
 			world.spawnInside(r.nextInt(5), compensator45);
 		return compensator45;
+	}
+	public Item newPlateCarrier2()
+	{
+		Item plateCarrier2 = new Item((char)69, Palette.brown, Type.PLATE_CARRIER,
+				"Plate Carrier Infantry", 
+				"Good for holding armor plates and has some extra storage",
+				2,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), plateCarrier2);
+		return plateCarrier2;
+	}
+	public Item newPlateCarrier3()
+	{
+		Item plateCarrier3 = new Item((char)69, Palette.brown, Type.PLATE_CARRIER,
+				"Plate Carrier Spec", 
+				"Good for holding armor plates and has some extra storage",
+				3,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), plateCarrier3);
+		return plateCarrier3;
+	}
+	public Item newPlateCarrier4()
+	{
+		Item plateCarrier4 = new Item((char)69, Palette.brown, Type.PLATE_CARRIER,
+				"Plate Carrier Operations", 
+				"Good for holding armor plates and has some extra storage",
+				4,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), plateCarrier4);
+		return plateCarrier4;
+	}
+	public Item newPlateCarrier5()
+	{
+		Item plateCarrier5 = new Item((char)69, Palette.brown, Type.PLATE_CARRIER,
+				"Plate Carrier Heavy", 
+				"Good for holding armor plates and has some extra storage",
+				5,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), plateCarrier5);
+		return plateCarrier5;
+	}
+	public Item newPlateCarrier6()
+	{
+		Item plateCarrier6 = new Item((char)69, Palette.brown, Type.PLATE_CARRIER,
+				"Plate Carrier Bomb Squad", 
+				"Good for holding armor plates and has some extra storage",
+				6,
+				Item.Rarity.RARE);
+		if(world != null)
+			world.spawnInside(r.nextInt(5), plateCarrier6);
+		return plateCarrier6;
 	}
 }

@@ -468,15 +468,25 @@ public class TileEngine implements Serializable
 			TileEngine.renderDisplayPlate(terminal, 0, 11, 31, "Ammo : " + ammoValue, false, ammoColor, Palette.paleWhite);
 			Set<Item> gunAttachments = new HashSet<>(primWeap.getAllAttachments());
 
+			int count  = 0;
 			if(gunAttachments != null)
 			{
 				TileEngine.renderDisplayPlate(terminal, 0, 20, 31, "Attachments", false, Palette.darkestGray, Palette.paleWhite);
 
-				int count  = 0;
 				for(Item i : gunAttachments)
 				{
 					TileEngine.renderWeaponStatPlate(terminal, 1, 21 + count++, 29, i.name(), "", null, null);
 				}
+			}
+			TileEngine.renderDisplayPlate(terminal, 0, 21+count, 31, "Armor", false, Palette.darkestGray, Palette.paleWhite);
+			if(player.inventory().getArmor().getPlateCarrier() == null)
+			{
+				terminal.write("NO ARMOR", 1, 21+count++);
+			}
+			else
+			{ 	//
+				terminal.write(player.inventory().getArmor().getArmorPlateCount() + "/"+ player.inventory().getArmor().getPlateCarrier().value(), 7, 21+count);
+				terminal.write(player.inventory().getArmor().getPlateCoverage() +" %", 13, 21+count);
 			}
 			//System.out.println(primWeap.getAllAttachments().size() + "Number of attachments");
 
@@ -492,7 +502,6 @@ public class TileEngine implements Serializable
 			TileEngine.renderWeaponStatPlate(terminal, 1,17,29, "Fire Mode",wStats.getMode().toString(), null, null);
 			TileEngine.renderWeaponStatPlate(terminal, 1,18,29, "Bullets In Mag",Integer.toString(wStats.getBulletsInMagazine()), null, null);
 			TileEngine.renderWeaponStatPlate(terminal, 1,19,29, "Turns until ready",Integer.toString(primWeap.getTurnsUntilReloaded()), null, null);
-
 		}
 	}
 	public static void renderWeaponStatPlate(AsciiPanel terminal, int x, int y, int length, String statLabel, String statValue, Color fc, Color bc)

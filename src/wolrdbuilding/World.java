@@ -778,7 +778,6 @@ public class World implements Serializable
 				System.out.print(p.toString());
 		}
 	}
-
 	public Door getDoor(Point p)
 	{
 		for(Door d : doorPoints)

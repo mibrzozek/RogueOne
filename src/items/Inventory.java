@@ -9,6 +9,11 @@ public class Inventory implements Serializable
 {
 
 
+	public Armor getArmor()
+	{
+		return armor;
+	}
+
 	public enum EquipmentSlot {HEAD, TORSO, ARMS, LEGS, DEVICE, WEAPON_ONE, WEAPON_TWO, VISION};
 
 
@@ -37,6 +42,8 @@ public class Inventory implements Serializable
 	private Item SecondaryWeapon;
 	private Item sideWeapon;
 	private Item meleeWeapon;
+
+	private Armor armor;
 
 	private List<Item> utilitySlots;
 
@@ -75,6 +82,8 @@ public class Inventory implements Serializable
 		equippedMap = new HashMap<>();
 
 		gunAttachments = new HashSet<>();
+
+		this.armor = new Armor(null, null);
 	}
 	public void checkCapacity()
 	{
@@ -282,53 +291,74 @@ public class Inventory implements Serializable
 				((Weapon) primaryWeapon).removeAttachmentInSlot(AttachmentSlots.BARREL.getSlotForItem(i));
 				((Weapon) primaryWeapon).calculateStats();
 			}
+			if (i.type().equals(Type.PLATE_CARRIER))
+			{
+				System.out.println("Plate Carrier Equipping");
+				this.armor.replacePlateCarrier(i);
+				return;
+			}
+			if (i.type().equals(Type.PLATE_3))
+			{
+				System.out.println("Adding plate");
+				this.armor.addPlate(i);
+				return;
+			}
+
 			inventory.add(i);
 			equippedMap = getEquippedMap();
 			inventoryMap = getInventoryMap();
 		}
 	}
-    public void moveToEquiped(int index)
-    {
+    public void moveToEquiped(int index) {
 		System.out.println("Moving logic here");
-		if(equipped.size() + 1 <= maxEquip)
-		{
+		if (equipped.size() + 1 <= maxEquip) {
 			Item i = inventory.get(index);
 			System.out.println("Item retrieved : " + i.name());
 
-			if(i.type().equals(Type.ATTACHMENT))
-			{
-				if(getPrimaryWeapon() == null)
-				{
+			if (i.type().equals(Type.ATTACHMENT)) {
+				if (getPrimaryWeapon() == null) {
 					// can't equip attachment since no weapon
 					System.out.println("There is no primary weapon");
 					return;
 				}
-				if(getPrimaryWeapon().isAttachSlotEmpty(AttachmentSlots.BARREL.getSlotForItem(i)))
-				{
-					if(!AttachmentManager.attachmentBelongOnGun(i, (Weapon) primaryWeapon))
+				if (getPrimaryWeapon().isAttachSlotEmpty(AttachmentSlots.BARREL.getSlotForItem(i))) {
+					if (!AttachmentManager.attachmentBelongOnGun(i, (Weapon) primaryWeapon))
 						return;
 					getPrimaryWeapon().addAttachment(i);
 					equipped.add(i);
 
 					inventory.remove(index);
-				}
-				else
-				{
+				} else {
 					System.out.println("ATTACHMENT SLOT OCCUPIED");
 					//Slot full error -> message? New ui?
 				}
 				System.out.println("We're trying to attach attachment");
 				return;
 			}
+			if (i.type().equals(Type.PLATE_CARRIER))
+			{
+				System.out.println("Plate Carrier Equipping");
+				this.armor.replacePlateCarrier(i);
+				inventory.remove(index);
+				return;
+			}
+			if(i.type().equals(Type.PLATE_3))
+			{
+				System.out.println("Adding plate");
+				this.armor.addPlate(i);
+				inventory.remove(index);
+				return;
+			}
 
-			System.out.println("We're trying to move " + i.name() + " to equipped");
 
-			equipped.add(i);
-			inventory.remove(index);
-			equippedMap = getEquippedMap();
-			inventoryMap = getInventoryMap();
+				System.out.println("We're trying to move " + i.name() + " to equipped");
 
-			// Looks for attachments for primary weapon, and returns them in a list w/o duplicates
+				equipped.add(i);
+				inventory.remove(index);
+				equippedMap = getEquippedMap();
+				inventoryMap = getInventoryMap();
+
+				// Looks for attachments for primary weapon, and returns them in a list w/o duplicates
 			/*
 			if(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)) !=  null) {
 				gunAttachments = new HashSet(AttachmentManager.returnAttachmentsForEquippedWeapon(getPrimaryWeapon(), get(Type.ATTACHMENT)));
@@ -336,15 +366,12 @@ public class Inventory implements Serializable
 				((Weapon) getPrimaryWeapon()).addAllAttachments(new ArrayList<Item>(gunAttachments));
 				System.out.println(((Weapon) getPrimaryWeapon()).getAllAttachments());
 			}
-
 			 */
+			} else {
+				System.out.println("Not enough room. Equipped size : " + equipped.size() + " Max:" + maxEquip);
+			}
 		}
-		else
-		{
-			System.out.println("Not enough room. Equipped size : " + equipped.size() + " Max:" + maxEquip);
-		}
-    }
-    public void equipAll(Item ... toAdd)
+	public void equipAll(Item ... toAdd)
 	{
 		for(Item item : toAdd)
 		{
